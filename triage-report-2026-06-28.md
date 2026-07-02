@@ -1,0 +1,1955 @@
+# motionEye triage レポート (2026-06-30 update)
+
+対象: motioneye-project/motioneye の **現在openな issue 961件 + open PR 11件**
+方針: openな問題の解決に必要なレポートへ更新し、**closed/merged済みのissue/PR主項目は削除**。
+
+> 2026-06-28/29時点の既存調査(当時の新しいissue 300件 + PR)に、2026-06-30時点で未掲載だった open issue **670件** と新規open PRを追加。これで現在openな issue/PR は全件triage対象に含まれます。
+
+---
+
+## サマリ
+
+## 現在の全体カバレッジ
+
+| 対象 | 件数 | 状態 |
+|---|---:|---|
+| open issue | 959 | 主項目として全件掲載済み |
+| open PR | 11 | 主項目として全件掲載済み |
+| closed/merged済み主項目 | 2 | #41, #49, #59, #86, #96, #132, #2070, #2573, #2704, #2940, #3013, #3089, #3125, #3372, #3377, #3378, #2493(2026-07コメントを受けてclose済み), #3375(PR #3382 のマージで解決・close済み)は削除済み |
+
+既存の「初回99件」「追加198件」セクションは調査バッチ単位の記録として残し、末尾の「残り open issue 670件」で現在openな未掲載issueを補完しています。
+
+### Issue 99件の内訳
+
+| recommendation | 件数 | 意味 |
+|---|---:|---|
+| answer-and-close | 42 | 回答済み/回答すればclose可 |
+| keep-open-implement | 17 | コード/docで実装すべき |
+| request-info | 14 | 情報待ち→無反応ならclose |
+| keep-open-triage | 12 | 維持・要メンテナ判断 |
+| close-stale | 6 | 放置でclose |
+| close-duplicate | 3 | 重複でclose |
+| keep-open-watch | 3 | 上流/長期watch |
+| close-fixed | 1 | 解決済みでclose |
+
+**即close可能(closeable=true): 64 / 99件**  difficulty: reply-only 52, easy 8
+
+---
+
+## PR 全11件 (アクション別・2026-06-30時点)
+
+### close-stale
+
+- **#1616** FreeBSD support — _abandoned / hard_
+  - CONFLICTING/DIRTY, never approved, and untouched by the author since 2020; the maintainer stated it must be recreated against the current dev branch, and the author flagged incomplete disk code.
+  - 👉 Close as stale/abandoned; invite a fresh minimal FreeBSD-support PR against current dev if someone wants to own it.
+- **#2765** Implement libcamerify support for motion binary — _abandoned / hard_
+  - DIRTY/REVIEW_REQUIRED with long 2023-2024 testing history showing libcamerify remains unreliable; the author also reported crashes and has gone quiet.
+  - 👉 Close as stale/unviable; point libcamera-only RPi users to the libcamera tracking issue and MotionPlus/native-libcamera alternatives.
+- **#2698** Telegram optimizations — _needs-changes / hard_
+  - DIRTY/REVIEW_REQUIRED and large cross-cutting restructure; maintainer repeatedly asked for a smaller targeted fix, and the author has not followed up.
+  - 👉 Close as stale unless the author is ready to split a minimal Telegram-image fix into a current, conflict-free PR.
+
+### close-superseded
+
+- **#1570** allow multiple layout columns on mobile — _superseded / hard_
+  - DIRTY/CONFLICTING and never approved; maintainers rejected the CSS-only direction, and newer discussion points to localStorage/responsive-defaults work instead.
+  - 👉 Close as superseded; point to the responsive layout/localStorage plan and invite a fresh PR for that approach.
+- **#2595** Allow passing Accept and User-Agent headers in notification webhook — _superseded-by-simpler-fix / easy_
+  - APPROVED but BEHIND; merged #3378 covers the common failing case with a default User-Agent, and maintainer discussion favors the simpler default over adding GUI/header options.
+  - 👉 Close as superseded unless users still need configurable Accept/User-Agent headers.
+
+### keep-open / maintainer decision
+
+- **#2896** sendmail: Use actual TLS connection if enabled — _needs-decision / medium_
+  - BEHIND/REVIEW_REQUIRED; maintainer-authored and tested, but it can break existing STARTTLS-on-587 setups. Discussion already suggests a better plain/TLS/STARTTLS dropdown plus migration.
+  - 👉 Ask MichaIng to choose between the simple breaking change with release notes or the dropdown+migration design, then finish accordingly.
+
+### re-review / update-and-merge
+
+- **#2691** add eventstart and eventend actions — _approved / easy_
+  - APPROVED and BEHIND; feature remains absent in current handlers/action.py, so the PR is still relevant.
+  - 👉 Update branch to dev, smoke-test eventstart/eventend behavior, then merge; track dummy record_start/record_stop cleanup separately.
+- **#2590** Fit vertically 2x2 as expected — _approved-needs-conflict-resolution / easy_
+  - APPROVED but DIRTY due to bitrot in front-end layout files. Reviewers agreed the behavior is an improvement despite some remaining layout caveats.
+  - 👉 Resolve conflicts on current dev, smoke-test 2x2 and single-camera layouts, then merge.
+
+### sync-and-merge
+
+- **#3366** Translations update from Hosted Weblate — _generated / easy_
+  - BLOCKED/REVIEW_REQUIRED after further Weblate updates; enormous generated locale-only diff. These are routinely mergeable once current and conflict-free.
+  - 👉 Let Weblate refresh/rebase or update the branch, confirm it only touches locale/.json/.po/.mo translation artifacts, then merge.
+
+### ping-author
+
+- **#3346** Fix endless motion restart loop when motion is not a direct child (ECHILD) — _needs-response / medium_
+  - DIRTY/REVIEW_REQUIRED. Maintainer asked how the HA add-on launches motion as a non-child and whether the fix could mask an erroneously enabled motion.service.
+  - 👉 Ping the author for the s6/wrapper supervision details; refine the health check so unrelated stray motion processes are not treated as healthy.
+
+### review-and-merge
+
+- **#2877** Introduced Safer FTP Alternative: Added FTP_TLS — _needs-review / easy_
+  - BLOCKED/REVIEW_REQUIRED with a small uploadservices change and no real review yet. The idea is still relevant, but the config/UI exposure needs verification.
+  - 👉 Review whether FTP_TLS is opt-in and backward-compatible, check whether a config/UI toggle is missing, update/rebase if needed, then merge or request that wiring.
+
+---
+
+## A. 即close候補 (51件) — 回答してclose / 重複 / 解決済み
+
+- **#3369** [support/question] Question about authentication workaround for 0.44 and stills/snapshots
+  - 👉 Close as answered: the user found a working solution (enable per-camera streaming, reverse-proxy /current with basic auth). The HA-integration sub-thread is tracked separately in motioneye-client#183, so it does not need to keep this issue open.
+- **#3344** [not-our-problem] pi5 - motion not using hw acceleration to decode H264?
+  - 👉 Close as answered/not-our-problem: Pi5 lacks H.264 hardware codec so software encoding will be CPU-heavy; this is a motion/FFmpeg/hardware matter. Optionally note the open enhancement idea of exposing netcam_high_url in the GUI as a separate feature request if desired.
+- **#3320** [not-our-problem] Raspberry Pi NoIR Camera Module V2 not working on RPi 2 / Raspbian 13 (trixie 32-bit)
+  - 👉 Close as external/answered: 32-bit Trixie libcamerify regression is upstream; workaround is RPi OS Bookworm or 64-bit, and the NoIR tuning-file fix is documented in-thread. Nothing actionable in motionEye.
+- **#3295** [not-our-problem] Raspberry Pi cameras not configurable in MotionEye
+  - 👉 Close as answered/stale: point to the libcamerify instructions (issue #2683 comment) for V4L2 access on modern Pi OS; this is an OS/libcamera change, not a motionEye defect.
+- **#3288** [support/question] Needed network camera URL to add Trixie Pi-3B+ with Pi Camera Module 3 to MotionEye
+  - 👉 Close as answered/stale: recommend libcamerify+V4L2 on the same host, else add as MJPEG/network camera using the http:// URL that works in a browser. No motionEye change needed.
+- **#3270** [support/question] Old v0.42 install instructions
+  - 👉 Close as answered: old Python 2 instructions were removed deliberately; point to linux_init and motioneye.systemd in the repo. No action needed.
+- **#3269** [support/question] Docker image and Raspberry Pi 500
+  - 👉 Reply: official motioneyeproject/motioneye images already support arm64 (RPi 500); Sponsored OSS application is pending; README update is tracked in #3248. Close as answered/duplicate of #3248 for the docs part.
+- **#3267** [support/question] Local V4L2 Camera / Logitech Brio 100 webcam
+  - 👉 Close as resolved: user fixed it with snap connect; advise migrating off the unmaintained snap to official Docker image. Not a motionEye code issue.
+- **#3255** [not-our-problem] Unable to run motion eye on Raspberry Pi zero2w
+  - 👉 Close: upstream libcamera bug, not motionEye. Tell user to apt upgrade to libcamera0.7 and use libcamerify per the comments.
+- **#3251** [support/question] Activation/désactivation caméra (HA addon)
+  - 👉 Close as answered: use Motion webcontrol curl endpoints (detection/pause|start) from HA automations; can also drive via the HA MotionEye integration switches.
+- **#3243** [support/question] Restoring configuration failed on 0.43.1 Docker Image
+  - 👉 Close as stale/needs-info: no reply for 6+ months; ask reporter to verify whether /etc/localtime is a symlink in the backup and reopen with details if still occurring.
+- **#3233** [bug] SFTP file service fails, or does it?
+  - 👉 Close as stale/request-info: no logs provided since Dec 2025. If reproducible, needs a look at uploadservices.py SFTP test (~line 1066) for a misreported error after successful upload.
+- **#3223** [not-our-problem] Run a Command Parameters
+  - 👉 Reply: %f is only populated for the File Storage command hook (movie/picture events); the Motion Notification hook has no associated file, so %f is empty by design. This is motion-daemon behavior. Close as answered.
+- **#3209** [support/question] Cameras by hostname
+  - 👉 Close as stale: maintainer answered (use host DNS resolver, verify with getent hosts) with no follow-up. Not a motionEye bug.
+- **#3198** [support/question] change h264 to MJPEG
+  - 👉 Close as answered: motion's stream is MJPEG by definition; recording codec choices are a motion limitation, not configurable to MJPEG in motionEye.
+- **#3179** [not-our-problem] MotionEye with Anker PowerConf C200 on Raspberry5 (bookworm) stuck at 640x480 resolution
+  - 👉 Reply: set the camera's palette/input format to MJPEG (in motion this is via the V4L2 palette / netcam_userpass equivalent; in motionEye the camera works with MJPG) so the higher discrete resolutions become available, since YUYV maxes at 640x480 on this device. Then close as a motion/hardware capability question, not a motionEye defect.
+- **#3177** [support/question] Timelapse from still images taken with snapshot interval
+  - 👉 Confirm the maintainer's answer (GUI > browse pictures > create timelapse from the directory) and close as answered; no awaiting reply needed since the underlying need is met.
+- **#3175** [not-our-problem] Google Chrome refuses to playback HEVC videos [yes it still is in 2025]
+  - 👉 Reply: recommend recording in H.264 (broadly browser-compatible) rather than HEVC for in-browser playback, since HEVC-in-Chrome depends on OS/hardware codec support outside motionEye's control. Close as not-our-problem.
+- **#3171** [support/question] motionEye Android app
+  - 👉 Close as answered: the app is a separate third-party open-source project, not maintained here; usage is at the user's discretion. No further action for this repo.
+- **#3165** [feature] File encryption on the fly whenever utilizing remote storage backends
+  - 👉 Close: confirm no client-side media encryption feature exists and it is out of scope for now; suggest using a storage backend with server-side encryption or an encrypted filesystem/rclone-crypt remote. Could keep-open as a wishlist item, but low demand argues for answer-and-close.
+- **#3130** [support/question] Limitations
+  - 👉 Close as answered: no software camera limit; practical limits are CPU/network (especially for processed netcams); motionEye sends no configuration/usage data anywhere. 3000 cameras would need distributed/sharded deployments.
+- **#3123** [not-our-problem] Ubuntu 22.04 motioneye 0.42.1 SNAP not starting after reboot
+  - 👉 Reply that the snap package is maintained separately (not this repo) and suggest reporting to the snap maintainer / trying the pip or Docker install; close as stale/not-our-problem.
+- **#3104** [support/question] Privacy Mask only applied to video stream, not to motion-triggered movie
+  - 👉 Close as answered: the UI privacy mask maps to motion's mask_privacy; reporter confirmed setting it via Motion Settings works for recordings. Thank and close.
+- **#3103** [not-our-problem] Can't see cameras on DVR PC BOX (RTSP 451 error)
+  - 👉 Reply endorsing zagrim's note (use '?' to separate query params; the DVR's URL may be non-standard) and suggest testing the working VLC URL verbatim as the network-camera URL. Close as a camera/URL issue.
+- **#3098** [support/question] mosquitto-sub command doesn't exec
+  - 👉 Reply: use the absolute path to mosquitto_pub, ensure the motioneye service user can run it, and remember commands run under motionEye's limited environment/PATH (wrap in a script that sets env). Close as support, no response = stale.
+- **#3090** [not-our-problem] ME PC hangs
+  - 👉 Close as not-our-problem: diagnosed as kernel/Xorg/driver-level system hang unrelated to motionEye/Motion. Suggest trying a different kernel and moving ME to another box as OP planned.
+- **#3086** [not-our-problem] image pixeleted
+  - 👉 Close as not-our-problem: low-light pixelation is a camera/encoder bitrate/gain artifact. Suggest raising bitrate/quality, lowering framerate, or adjusting camera exposure; not a motionEye bug.
+- **#3081** [not-our-problem] pi camera module v2 not detected
+  - 👉 Close as stale/duplicate of the libcamera-vs-V4L2 thread (#2812). Point to the libcamera/rpicam pipeline guidance; 'start4.elf not compatible' is a motionEyeOS-image/firmware mismatch, separate from this repo.
+- **#3080** [duplicate] google drive work around to get authorization key
+  - 👉 Close as duplicate of #2625 (Google Drive OAuth broken). Note the workaround now suggested there is rclone; consolidate discussion in #2625.
+- **#3074** [support/question] Error in Motioneye Daemon
+  - 👉 Close as answered/stale: this is the well-known 'settings' module install issue; point to the #2812 install fix already linked. Close if no follow-up.
+- **#3072** [not-our-problem] Reolink camera works with 0.42.1 but not with 0.43.1b2
+  - 👉 Close as resolved: OP fixed it by using debian:bookworm instead of bookworm-slim. Optionally file a follow-up to add the missing ffmpeg/codec deps so the slim image works, but this report can be closed.
+- **#3064** [support/question] URL for a Webrtc stream
+  - 👉 Reply: motionEye does not support WebRTC output; it only provides MJPEG and JPEG snapshot streams. For WebRTC, use a dedicated gateway (e.g. go2rtc / MediaMTX / Frigate) in front of the camera. Close as answered.
+- **#3059** [support/question] Direct installation on ubuntu 22.04 (jammy)
+  - 👉 Close as answered: clone the repo and run 'pip install .' (venv recommended) to run/modify locally, or edit the installed .py files directly. The general venv/sudo-pip concern is tracked separately in #3066.
+- **#3056** [duplicate] libcamera works, but no video from unicam
+  - 👉 Close as duplicate of #2812: point reporter to the working libcamera setup steps (#2812 comment 2506840345). The grey-box-no-video case is the documented libcamera-pipe configuration issue, not a new bug.
+- **#3046** [not-our-problem] Add camera does not find the installed and working pi camera
+  - 👉 Close as OS/libcamera compatibility (not motionEye). Point to the Pi camera 3 / Bookworm workaround in #2683 and note the no-video-written errors are a motion-daemon config issue. Stale since 2024-09.
+- **#3045** [support/question] live view doesn't work
+  - 👉 Close as stale/insufficient-info: ask for motionEye/motion version and browser console + motion logs; no response since 2024 so close, reopen if details provided.
+- **#3043** [duplicate] Why it reloads cameras when we add a new camera??
+  - 👉 Close as duplicate of #3041 (same author, already explained that motion requires a restart to apply config changes).
+- **#3040** [support/question] Synchronize ipcam videos with a second remote NVR via rsync
+  - 👉 Reply: motionEyeOS is unmaintained; motionEye has no built-in rsync, but you can mirror the media directory with an external rsync cron job (or SFTP/network-share upload). Then close.
+- **#3035** [support/question] How to split file when continuous recording is activated
+  - 👉 Confirm zagrim's answer: set 'Maximum Movie Length' to 86400s under Movies to get ~one file per day; reduce bitrate/resolution to shrink size. Close as answered.
+- **#3029** [not-our-problem] [solution] won't start (collections.MutableMapping AttributeError)
+  - 👉 Close as resolved/not-our-problem: fix is to upgrade tornado (pip3 install -U tornado or distro python3-tornado); the bug is in the old tornado package, not motionEye.
+- **#3027** [support/question] How change directory in file storage (Docker)
+  - 👉 Confirm the answer: mount /media/usbdisk into the container via -v or docker-compose volumes (see Install-In-Docker wiki); then point storage path at the mounted location. Close as answered.
+- **#3026** [support/question] how setup android without port forwarding on router (e.g. ngrok?) and connect it to MotionEye cloud
+  - 👉 Close as answered: maintainer already recommended WireGuard VPN + DroidCam/IP Webcam added as a network camera. No code change needed.
+- **#3022** [not-our-problem] Unable to open Video Camera (V4L2 device failed to open)
+  - 👉 Close: motion does not support libcamera. Point to the existing answer (use legacy camera/MMAL or start via libcamerify). No motionEye change.
+- **#3015** [not-our-problem] YUV420P issue with decoder = vaapi
+  - 👉 Reply that this is motion/ffmpeg VA-API behavior (the netcam_params decoder option is handled by the motion daemon, not motionEye) and direct to the motion project; close as not-our-problem/answered.
+- **#2997** [support/question] Extra options for video device (contrast/saturation/B&W)
+  - 👉 Reply that contrast/saturation/grayscale are exposed via the camera's V4L2/MMAL controls and motion's options (some surfaced in advanced settings); close as answered/stale.
+- **#2984** [not-our-problem] Lovelace cards stay grey, however the web-interface of motioneye shows the cams.
+  - 👉 Reply: this is a Home Assistant Lovelace/camera-card issue (motionEye serves the streams correctly), ask there; close as not-our-problem. Stale since 2024-05.
+- **#2981** [support/question] Raspberry 3b: Use composite video and network stream at the same time
+  - 👉 Reply pointing to rpicam-vid/raspivid preview on the composite output running alongside the USB-camera stream that motionEye uses; close as not-our-problem/support. No activity since 2024-05.
+- **#2977** [support/question] Access the video overview directly
+  - 👉 Reply: the media browser is a modal in the SPA, not a standalone deep link, but media is exposed via the /picture and /movie API endpoints; close as answered. Untouched since the 2024-11 ping.
+- **#2969** [support/question] RTSP and V4L2 cameras Grey screen issues
+  - 👉 Close as resolved/not-our-problem: RTSP fixed by correct credentials, USB issue is V4L2 capability. Optionally spin off the 'accepts invalid camera password without validation' observation as a separate minor bug. Stale since 2024-04.
+- **#2957** [docs] Install on Raspbian 12?
+  - 👉 Reply pointing to README install steps and ensuring tornado>=6.4; close as answered/docs. Stale since 2024-12. Optionally file a docs task to mark the Wiki Bullseye/Python2 pages as deprecated.
+- **#2956** [not-our-problem] Probleme fonctionnel motioneye (OpenSSL X509_V_FLAG_CB_ISSUER_CHECK AttributeError)
+  - 👉 Reply: upgrade/reinstall pyOpenSSL and cryptography together (pip install -U pyopenssl cryptography); close as not-our-problem/environment. No activity since 2024-04-01.
+
+---
+
+## B. 情報待ち (14件) — 1回pingして無反応ならclose
+
+- **#3222** [not-our-problem] Tapo C325WB rtsp cam isn't working with me version 0.43.1b5
+  - 👉 Ask for the exact RTSP URL used and whether the password contains special characters; point to #3163 and the motion discussion. If no response, close as stale/not-our-problem (motion RTSP config).
+- **#3161** [bug] Microsoft Edge Freezes on Restore Choose File
+  - 👉 Request info (motionEye version old vs new, Edge version, size of the restore file/backup) and if no response close as stale; the maintainer's question has had no reply since 2025-06-10.
+- **#3137** [not-our-problem] RTSP camera not working
+  - 👉 Request info (does the 2nd cam show a picture when the 1st is removed? does lowering its resolution help?) and close as stale/not-our-problem if no reply; this is an HA-addon/motion resource matter, not a motionEye code bug.
+- **#3116** [not-our-problem] Rpi HQ camera not working - unable to choose the right resolution
+  - 👉 Reply that resolution padding is done by the motion daemon / V4L2 driver for this sensor; suggest picking one of the camera's native modes (e.g. 2028x1520) and, if needed, hand-editing the generated camera config. Close (or request-info then close) as a motion/hardware issue.
+- **#3096** [not-our-problem] USB camera resolution change has no effect (stuck at 640x480)
+  - 👉 Ask for the camera's supported formats (v4l2-ctl --list-formats-ext) and whether a non-default palette/MJPEG helps; explain motion negotiates resolution with the driver. Close as motion/driver issue if no response.
+- **#3088** [not-our-problem] Motion does not record images
+  - 👉 Request info / answer: ask for masks/threshold/frame_change settings and the motion log with detection events; point to Motion detection-tuning (threshold, noise level, despeckle). Close as stale if no response — it's Motion config, not motionEye.
+- **#3071** [not-our-problem] Issue with netcam_high_url option
+  - 👉 Request info / redirect: likely a Motion 4.7 netcam_high_url regression. Ask for the Motion log when the stream stops and suggest reporting upstream to Motion. Close as not-our-problem/stale if no response.
+- **#3070** [bug] frame per second wrong on 0.43.1b2 vs 0.42.1
+  - 👉 Ask reporter to confirm the fps regression on a plain pip install (not the HA addon) and provide the camera config + motion.conf; if it reproduces outside the addon, keep open as a regression to bisect against 0.42.1. Otherwise redirect to the HA addon tracker.
+- **#3053** [support/question] Why is x11 needed?
+  - 👉 Reply that motionEye itself needs no X11 - only motion/v4l-utils/ffmpeg/curl are installed - and any X dependency comes from the distro's packaging of those tools; ask which distro/'Lite' image. If no response, close as stale/answered.
+- **#3051** [support/question] Network Camera coming into motionEye at wrong resolution
+  - 👉 Ask for the camera's configured resolution in motionEye and the motion.conf netcam settings; the 360->480 change is likely a width/height mismatch or motion rescaling. Determine whether it's a config fix (reply-only) or a motion-backend limitation before deciding.
+- **#3050** [not-our-problem] Wrong colors when saving images
+  - 👉 Reply that motion (the backend) writes the motion-triggered images, so wrong colors point to a camera palette/pixel-format issue in motion; suggest changing the video palette/format. Redirect to motion project; close as not-our-problem if no motionEye-specific config repro.
+- **#2990** [bug] Cannot add camera with 0.43.1b1 (Tornado callback error)
+  - 👉 Request the missing stack trace / tornado version one more time; if no response, close as stale. Underlying ask (graceful handling of unavailable network camera) could be a separate easy hardening task.
+- **#2986** [support/question] Unable to play recorded videos from motioneye web
+  - 👉 Ask for browser, codec/movie_codec setting, and logs; note it is likely a browser codec limitation (try an mp4/H.264 codec). If no reply, close as stale/no-response.
+- **#2976** [feature] Feature request - Dummy camera option for remote motioneye instance
+  - 👉 Request info: ask what is actually reachable (storage vs UI) and how events would be pushed; if no response in a reasonable window, close as stale. Needs maintainer decision before any implementation.
+
+---
+
+## C. 低コスト実装 (7件) — easy/trivial。good first issue 級
+
+- **#3330** [easy][feature] A way to set motion to log to stdout
+  - Legitimate small feature for containerized setups: motionEye hard-codes motion's stdout/stderr to <log_path>/motion.log (motionctl.py ~line 101). Maintainer outlined a clear implementation path (a settings.py / motioneye.conf option, overridable by the existing undocumented --log-to-file CLI flag) to optionally log to stdout instead.
+  - 👉 Keep open as an accepted small enhancement. Implement an option to direct motion (and motionEye) logs to stdout instead of a hard-coded file, per the maintainer's outline.
+- **#3248** [easy][docs] Documentation Needed For Docker Installation
+  - Maintainer agrees the docker/README.md and main README are outdated and wants to merge a working Docker quick-start (a concrete docker run example is already drafted in-thread). Real, low-effort doc work that is still pending.
+  - 👉 Keep open: merge the agreed docker run snippet into main README, refresh docker/README.md, optionally note NVENC/GPU caveat. Good first-PR doc task.
+- **#3181** [easy][feature] Docker: add support for PUID/GUID
+  - Original question (use PUID/PGID) was answered (use RUN_UID/RUN_GID at build time), but maintainer explicitly agreed PUID/PGID is a reasonable convention to implement and replace RUN_UID/RUN_GID, turning this into a tracked enhancement.
+  - 👉 Keep open as implement: add runtime PUID/PGID env-var support in docker entrypoint/Dockerfile to replace build-time RUN_UID/RUN_GID.
+- **#3057** [easy][docs] Update Wiki for Raspbian
+  - Valid docs cleanup: the wiki's Install-on-Raspbian page is outdated vs the README; maintainer agrees most individual wiki pages should be removed/cleaned. Could also be closed in favor of pointing everyone at the README, but a small cleanup task remains.
+  - 👉 Either close pointing to the unified README install section (works for all systems) plus the up-to-date libcamera comment in #2812, or keep open as a low-effort wiki cleanup to delete/redirect stale per-OS pages.
+- **#3024** [easy][bug] Flashdrive not showing up under storage device
+  - Confirmed reproducible by a maintainer: a mounted USB drive is not offered as a storage device, only 'Custom Path'. diskctl._list_mounts() skips mounts without W_OK (line 44), so a drive not writable by the motion user is filtered out, matching the diagnosis. Real bug, not yet fixed.
+  - 👉 Keep open as a genuine bug. Fix: relax/adjust the write-access filtering in motioneye/controls/diskctl.py _list_mounts (line 44) and/or surface non-writable mounts with a permissions hint. Small but real implementation work.
+- **#3007** [easy][docs] Pull request for the Wiki: Updated the 'Install In Docker' page
+  - Legitimate docs contribution (updated Docker install instructions, GHCR instead of dead Docker Hub repo). Maintainers responded positively and even proposed moving the wiki into a versioned /docs folder, so there is actionable agreed work pending.
+  - 👉 Keep open as a docs task. Merge the wiki updates (drop the Python2/v0.42 method per maintainer, swap PHP tz link for the Wikipedia tz list) and optionally pursue the in-repo /docs + MkDocs migration.
+- **#2962** [easy][bug] Telegram notification test: error setting certificate verify locations (CAfile ca-bundle.crt)
+  - Confirmed real bug: pycurl falsely auto-detects /etc/pki/tls/certs/ca-bundle.crt; a maintainer diagnosed it and zagrim notes pycurl 7.45.4 fixed CA autodetection. Fix is pinning/bumping pycurl in the Docker image (or setting CAINFO), so it is actionable and impacts every Docker Telegram user.
+  - 👉 Keep open: bump/pin pycurl>=7.45.4 in docker/Dockerfile and pyproject, or set CAINFO explicitly in sendtelegram.py; then close. Well-diagnosed, ~easy fix.
+
+---
+
+## D. 実装keep (10件) — medium/hard。要メンテナ着手
+
+- **#3371** [medium][bug] Switching "Still images" to off and on again changes capture mode to manual
+  - 👉 Keep open as the bug to fix. Implement 'pause on|off' in the generated motion config for motion>=4.4 and reserve the startup API call only for motion<4.4, so detection is disabled before motion starts rather than racing it. The original still-images/capture-mode complaint is a separate by-design behavior already explained.
+- **#3364** [medium][bug] 0.44 "remember me" is not shown on login page
+  - 👉 Keep open as the tracking issue for the 0.44 session/PWA regression. Decision needed on approach: relax SameSite for PWA support and add a configurable session lifetime / passwordless-surveillance option for kiosk use. Could be retitled to reflect the actual scope.
+- **#3259** [medium][feature] Unable to send last video to Telegram BOT
+  - 👉 Keep open as accepted feature request; relabel enhancement. Starting point referenced (DaniW42/motioneye-telegram). Needs a contributor.
+- **#3244** [medium][feature] Documentation for configuration / send single photo to Telegram
+  - 👉 Keep open scoped to the 'single picture on motion' notification option; tooltip wording 'interval'->'timespan' is a trivial side-fix. The docs question itself is answered.
+- **#3211** [medium][feature] action buttons only for admin user(?) <enhancement>
+  - 👉 Keep open as a feature request awaiting maintainer decision on the naming/permission scheme (e.g. an _admin suffix convention).
+- **#3196** [medium][bug] Handle only CIFS mounts that were added via motionEye
+  - 👉 Keep open as implement: scope unmount/_unmount_all to only mounts created by motionEye (track its own mount points) in motioneye/controls/smbctl.py so external CIFS mounts are left alone.
+- **#3187** [hard][feature] Separate viewing settings for each viewing end-point (browser / Android app etc.)
+  - 👉 Keep open as a feature awaiting maintainer design decision; non-trivial since viewing settings are currently global server-side state.
+- **#3121** [medium][feature] Several hour slots for detection per day
+  - 👉 Keep open as a feature request; needs maintainer buy-in. Note workaround: detection can be toggled externally via the action-button / API on a cron schedule for now.
+- **#3093** [medium][feature] Idea: take pictures in intervals during an active event
+  - 👉 Keep open as a feature request; needs maintainer decision. Note that motion's snapshot_interval / picture-on-interval could partly cover this, but a UI-exposed per-event interval mode is the real ask.
+- **#3066** [medium][docs] Switch install instructions and systemd unit to venv
+  - 👉 Keep open as an accepted docs+packaging improvement; next step is a PR updating the README install section, motioneye/extra/linux_init, and the systemd unit to support a venv-based meyectl path. Needs no further triage decision.
+
+---
+
+## E. 要判断・watch (14件)
+
+- **#3323** [medium][feature] Idea: Mark video/picture as favorite; download-all-videos-from-a-day button
+  - 👉 Reply that bulk picture download already exists via the Zipped button. Keep open for the remaining requests (bulk video download + favorite/flag media); narrow scope and label as enhancement awaiting maintainer prioritization, or close as won't-implement if out of scope.
+- **#3299** [unknown][meta] Accepting donations
+  - 👉 Leave open as a maintainer tracking issue; close once the Open Collective / fiscal-host setup is finalized and the donation link is published. No engineering action.
+- **#3217** [easy][bug] switching language
+  - 👉 Keep open; ask reporter for server traceback/logs and confirm version. Likely a missing or malformed cs locale file in the translations; needs maintainer to reproduce and fix the l10n loader.
+- **#3183** [hard][not-our-problem] Cannot add ov5647 CSI camera - unable to open video device
+  - 👉 Keep open as a watch/tracking issue for libcamera support via motion v5; meanwhile the libcamerify workaround answers users. Could alternatively close and fold into a dedicated libcamera tracking issue.
+- **#3163** [unknown][not-our-problem] RTSP cameras only showing grey screen
+  - 👉 Keep open and watch the #2972 special-characters-in-credentials investigation; ask OP whether their Foscam username/password contains special characters (#, @, etc.) and whether URL-encoding them resolves it. Not yet closeable given the live cross-issue lead.
+- **#3153** [medium][bug] edge: switches to the most recent recording during playback
+  - 👉 Keep open; needs reproduction and triage of the playlist/next-video logic in the media player (static/js). Ask OP if it persists on the current edge image and request the camera's storage/file-naming setup.
+- **#3128** [medium][bug] dropbox - refreshing credentials failed
+  - 👉 Keep open. Ask reporter for the full (un-truncated) traceback and confirm whether the Dropbox app token was created with offline access; needs a maintainer to inspect the token-refresh request in uploadservices.py.
+- **#3120** [medium][bug] "motionEye Media" source in media browser doesn't show camera snapshot (incorrect URL)
+  - 👉 Keep open; ask reporter to confirm whether the wrong URL originates from motionEye's API response or the HA integration, then redirect to the home-assistant/core motioneye integration if it's there.
+- **#3063** [hard][feature] ONVIF trigger support
+  - 👉 Leave open as a feature request pending maintainer decision; note it requires new ONVIF event-handling code and integration with motion's external trigger, and is a sizeable effort. No quick close.
+- **#3047** [medium][feature] Enabling more than two types of Capture Mode
+  - 👉 Ask the requester to clarify the exact desired capture modes/combinations; flag for maintainer decision on whether to expose additional motion capture_mode options in the UI.
+- **#3044** [unknown][bug] mobotix S14 unable to open video device
+  - 👉 Keep open to triage whether the MJPEG/netcam regression is in motion 4.6+ or motionEye's URL handling; ask affected users for motion logs. Recent activity (2025-07) so not stale.
+- **#3037** [medium][bug] ssl peer certificate or ssh remote key was not okay on DietPi
+  - 👉 Keep open; investigate uploadservices SFTP host-key handling (pycurl CURLOPT_SSH_KNOWNHOSTS / host verification). Split out the separate storage-options question as not-our-problem.
+- **#3001** [medium][feature] Proposal: add telegram notification to 'when motion has ended'
+  - 👉 Keep open; needs maintainer decision on supporting a motion-ended notification hook. Implementation touches the notifications/actions config and event handling.
+- **#2973** [medium][bug] Refresh browser means sign on again why?
+  - 👉 Keep open for the persistent 'remember me' session regression; needs a real session/cookie persistence fix and maintainer triage.
+---
+
+# 追加調査: 次の open issue 198件 (#2438〜#3375) — 2026-06-29
+
+前回の新しい99件(#2956〜#3371)に続く198件。古いもの(2022〜2023年含む)が多く、staleが多数。triage済み99件とは重複なし。
+
+## サマリ (198件)
+
+| recommendation | 件数 |
+|---|---:|
+| close-stale | 69 |
+| answer-and-close | 64 |
+| keep-open-implement | 25 |
+| close-duplicate | 10 |
+| keep-open-triage | 10 |
+| close-fixed | 6 |
+| request-info | 6 |
+| keep-open-watch | 4 |
+
+**即close可能(closeable=true): 151 / 195件**  difficulty: reply-only 111, trivial 13, easy 12
+
+---
+
+## A2. 即close候補 (146件)
+
+### 回答してclose (answer-and-close, 63件)
+
+- **#2955** [not-our-problem] Slow preview and recording — 👉 Reply pointing to the palette/MJPEG extra-motion-option workaround and the motion docs, then close as stale/not-our-problem.
+- **#2949** [not-our-problem] Motion detection with RTSP cameras - doesn't work normally — 👉 Close as not-our-problem/answered, pointing to the motion motion-detection docs and the auto-threshold/noise-detection advice already given.
+- **#2936** [not-our-problem] Probleme enregistrement MotionEye (missing frames / choppy recording) — 👉 Close as answered (lower noise level, enable Show Frame Changes); no motionEye code change needed.
+- **#2935** [support/question] Docker on Synology — 👉 Reply pointing to the official Docker image / install docs and recommending the latest release, then close as answered/stale.
+- **#2934** [support/question] MotionEye with Libcamera on Raspberry Pi 4B and Debian 10/11 — 👉 Close as answered/duplicate of #2812; recommend starting fresh with current upstream motionEye and pip install --pre.
+- **#2933** [support/question] How can we stream from camera to Motion server itself? — 👉 Confirm motionEye only pulls/connects to camera sources by design and close the question.
+- **#2927** [not-our-problem] Automatic brightness Raspberry CAM — 👉 Close as a camera-driver/motion issue (out of scope); reference #2891 for the German useful-URL link bug which can be tracked separately if still open.
+- **#2923** [support/question] EZVIZ CS-C6N not working as RTSP-Camera — 👉 Close as resolved by reporter's own answer (upgrade to latest pre-release).
+- **#2917** [not-our-problem] Camera not working — 👉 Close pointing to the #2900 workaround and the 'camera in use by another process' / KMS explanation already provided.
+- **#2907** [not-our-problem] Smearing and green video — 👉 Reply confirming it is a motion/hardware decode issue, point to dev branch fix that already worked for them, and close.
+- **#2906** [support/question] Install on Raspi 5 — 👉 Point to the dev-branch install instructions confirmed working on RPi 5 and close as answered/stale.
+- **#2905** [support/question] How to fix this mistake (duplicate extra-index-url in pip.conf) — 👉 Confirm the dedupe fix, optionally spin off a tiny README idempotency improvement, and close this support question.
+- **#2875** [support/question] Latest image for command to run on motion — 👉 Close, confirming lastsnap.jpg is the per-camera symlink to the latest snapshot.
+- **#2869** [support/question] motioneye.service: Failed — 👉 Close with the documented fix: change log_path away from /var/log and ensure the motion user can write to the log/socket directories.
+- **#2868** [support/question] Unable to connect to IP camera Internec i6.4-C series — 👉 Close, instructing to remove user:password@ from the URL and use the separate username/password input fields.
+- **#2867** [not-our-problem] DEV - Port 80 not working — 👉 Close, explaining the <1024 privileged-port limitation and recommending the nginx reverse-proxy or setcap/CAP_NET_BIND_SERVICE workaround.
+- **#2860** [support/question] Inquiry about software compatibility with DVR Dahua HCVR5108HE-S3 and Raspberry Pi 3 — 👉 Reply that each DVR channel must be added as a separate network camera using the DVR's per-channel RTSP URL (e.g. .../cam/realmonitor?channel=N), point to Dahua RTSP URL docs, then close as a support question.
+- **#2858** [support/question] Multiple Camera view (fullscreen 2x2 kiosk) — 👉 Thank the author for sharing their apache2 2x2 iframe solution, confirm there is no native all-cameras-fullscreen mode, and close as answered/resolved.
+- **#2857** [feature] Ability to crop image — 👉 Reply that cropping/region-of-interest is handled by the camera or motion's masking, suggest a camera-side exposure/ROI setting, and close as out-of-scope/won't-implement.
+- **#2834** [support/question] Take picture with proximity sensor (GPIO trigger) — 👉 Confirm the documented action-snapshot URL approach driven by a GPIO Python script, thank the commenter for the answer, and close as answered.
+- **#2826** [support/question] Make stream template editable / change to fullsize — 👉 Reiterate the per-camera Embed URL (with basic auth user:pw@host for Wallpaper Engine), note the stream HTML is owned by motion, and close as answered.
+- **#2825** [support/question] Delay to generate the symbolic Link Lastsnap — 👉 Recommend setting Capture Mode to Motion Triggered (One picture) for near-immediate lastsnap, note it is a motion-side timing behavior, and close as answered/stale.
+- **#2814** [not-our-problem] Unable to see the stars and no way to adjust the exposure! — 👉 Reply endorsing the existing answer (exposure must be set via the camera stack / libcamera, motionEye only proxies what motion exposes) and close as not-our-problem.
+- **#2809** [support/question] Cannot find mass storage on the web gui — 👉 Reply confirming the 'Custom Path' approach (ensure the path is writable by the motionEye user) and close as answered/stale.
+- **#2802** [support/question] Still good in 2023? — 👉 Reply confirming the project is maintained — install the Python3 dev branch or use the current ghcr.io/motioneye-project/motioneye image (not pip2 0.42.1) — and close as answered.
+- **#2797** [support/question] How to save files to a network drive — 👉 Reply that the share must be mounted at the OS level (the 'Network Share' option needs a reachable SMB/NFS host) and point to the wiki, then close.
+- **#2792** [docs] Unable to install motioneye on RPi Zero W due to missing packages on lite bullseye armhf — 👉 Thank the reporter, add the listed build dependencies to the Raspbian install wiki page, and close.
+- **#2784** [not-our-problem] motioneye start error on debian 11 (DEFAULT_CIPHERS import) — 👉 Reply that this is a urllib3 2.x environment issue (pin urllib3<2 or upgrade the conflicting package) and close as not-our-problem/stale.
+- **#2778** [support/question] Python3 is required to install on Debian 12 bookworm — 👉 Close as answered (use the dev branch / Python3 version); maintainer already provided the link.
+- **#2776** [not-our-problem] Recent software upgrade lead to corrupted preview images — 👉 Reply pointing to the libmicrohttpd12 workaround in the dev branch and close as upstream library issue; redirect the lingering video-preview complaint to the corruption tracking issue if still relevant.
+- **#2773** [not-our-problem] Running Python-Script via Action Button Fails — 👉 Reply explaining action commands run without a controlling terminal so curses cannot init; advise running the focuser logic non-interactively, then close.
+- **#2764** [support/question] MotionEye does not work any more after reboot, only first setup working — 👉 Reply summarizing the slow-startup finding and version-conflict diagnosis, advise running a single up-to-date instance, and close as resolved/stale.
+- **#2763** [not-our-problem] Pi Zero W and Camera Module 3 — 👉 Reply pointing to the dev-branch install instructions and the existing CM3 tracking issues (#2683/#2425), then close as duplicate/not-our-problem.
+- **#2762** [not-our-problem] Impossible to add a new network camera — 👉 Confirm the wrong-package/invalid-stream-URL diagnosis, point to the dev-branch install, and close.
+- **#2759** [not-our-problem] Videos are not saved, neither with motion detection nor normal recording — 👉 Reply documenting the OMX-to-V4L/mp4 codec fix; close this issue and, if not already tracked, open/keep a separate focused issue to change the RPi default codec away from deprecated OpenMAX.
+- **#2756** [duplicate] Dropbox access key expires after 4 hours — 👉 Reply noting the fix landed in #2396 in the maintained motionEye and advise installing a current version (not legacy motionEyeOS), then close.
+- **#2751** [support/question] Failure to start when port is set to 80 — 👉 Confirm the provided systemd drop-in (CAP_NET_BIND_SERVICE) resolves it and close as answered; optionally spin off a wiki-doc task.
+- **#2714** [not-our-problem] Sunny days trigger motion — 👉 Answer-and-close as a known motion-backend limitation (suggest lightswitch_percent / noise tuning, masking); if the working-schedule bug is still live, confirm it is captured in its own issue before closing.
+- **#2692** [support/question] SMTP AUTH extension not supported by server! — 👉 Reply that Office365/Outlook requires modern auth (app password or OAuth2) and to try port 465 with SSL; close as answered/stale (no activity since 2023).
+- **#2689** [not-our-problem] "Run a Command" fails using discord_webhook in python script — 👉 Reply that the command runs in a restricted environment (use absolute interpreter path, correct user, ensure module is installed for that Python); request info or close as stale (no comments, 2023).
+- **#2670** [support/question] versions where motioneye runs — 👉 Reply that motionEye is architecture-independent Python and runs on both 32- and 64-bit PiOS across Pi devices; close as answered/stale.
+- **#2661** [support/question] Moviepasstrough - main stream/second stream — 👉 Confirm the netcam_highres answer resolves it and close.
+- **#2652** [support/question] Rights to write file (recordings or stills) — 👉 Confirm the chgrp/chmod fix and close.
+- **#2645** [support/question] Contribution — 👉 Close as answered (resolved in-thread).
+- **#2637** [feature] parallel video recording — 👉 Close: note the netcam workaround / user's own ffmpeg solution and reference #1954.
+- **#2631** [support/question] RTSP Stream Support? — 👉 Reply clarifying RTSP input works via Network Camera (the libcurl error is an OS/build issue), RTSP re-streaming is an OS-image feature; close.
+- **#2630** [support/question] VA-API supported? — 👉 Close as answered: HW decode via motion's netcam_decoder/video_params on a build with the codec; ME exposes it through extra options.
+- **#2606** [not-our-problem] CPU running at 300% with 3 cameras ? — 👉 Answer: CPU load is dominated by motion's stream decoding; reduce by using the camera's substream/lower res, fewer FPS, or 'Fast Network Camera' / passthrough. Then close as a support/tuning question.
+- **#2605** [support/question] Motioneye copied configuration — 👉 Answer: the two Pis are independent unless added to each other as remote/networked cameras; configure each instance separately. Close as answered (stale since 2022).
+- **#2579** [support/question] Motion detected push notification — 👉 Close as answered, pointing to the sendmail/webhook features as the supported notification mechanisms.
+- **#2569** [support/question] Webinterface — 👉 Close with a pointer to the static/ and templates/ directories (e.g. motioneye/static and motioneye/templates) where the UI assets are stored.
+- **#2559** [support/question] Very high load, low FPS with 6 cameras on Pi 4 — 👉 Close with a tuning summary (reduce resolution/movie quality/bitrate, fewer simultaneous live streams); note background-tab FPS throttling is browser behavior, not a bug.
+- **#2556** [support/question] Error: Format not supported - H265/HEVC RTSP playback in embedded player — 👉 Close as answered/resolved per the reporter's confirmation (disable passthrough / re-encode below 100%; browser HEVC decoder limitation).
+- **#2549** [support/question] FPS drop when accessing remotely (RTSP camera) — 👉 Close with the maintainer's explanation (re-streaming doubles bandwidth; reduce resolution/bitrate or use the camera's own remote stream) — environmental, not a motionEye defect.
+- **#2545** [not-our-problem] USB camera and the use of v4l2-ctl --set-ctrl horizontal_flip=1 — 👉 Close as resolved by the reporter (firmware upgrade); not a motionEye issue.
+- **#2533** [support/question] output_pictures center not supported / wiped on save — 👉 Close as answered; reiterate that manual extra config options are expected to be managed via the GUI and 'center' is invalid in Motion.
+- **#2525** [support/question] Real time movie (watch before fully recorded) — 👉 Answer: use the live stream for real-time viewing, or shorten max movie length; close as answered.
+- **#2522** [not-our-problem] Gmail issues (loss of 'less secure apps' auth) — 👉 Answer pointing to Gmail App Passwords (per the linked motioneyeos #2919 fix); close as answered.
+- **#2506** [support/question] raspberry with MotionEyeos and PIR Sensor — 👉 Close as answered/wrong-repo (motionEyeOS); point to existing PIR workaround threads.
+- **#2494** [support/question] How to record remote motionEye Camera in motionEye hub? — 👉 Close as answered; the maintainer's explanation of the three camera types resolves it.
+- **#2489** [support/question] "frame rate dimmer" and "resolution dimmer" — 👉 Reply confirming 'dimmer' = reduce/scale (percentage of original), note the tooltips already explain it, and close. Optionally spin off a tiny label-rename as a separate cosmetic issue.
+- **#2476** [not-our-problem] Unable to Open Video Device after Resolution Change — 👉 Reply summarizing the resolution (disable conflicting motion service; legacy camera-stack/V4L2 caveats on Bullseye) and close as resolved/not-our-problem.
+- **#2461** [not-our-problem] Timelapse creating problem — 👉 Reply explaining the libcurl-without-RTSP root cause (rebuild/replace pycurl against an RTSP-enabled libcurl, or use a distro build with it) and close.
+- **#2438** [not-our-problem] Camera compatibility with DFRobot low light camera — 👉 Reply summarizing the resolutions (V4L2 driver + correct movie format) and attribute the low FPS to the camera's driver/exposure settings; close as resolved/not-our-problem.
+
+### 放置でclose (close-stale, 68件)
+
+- **#2954** [support/question] No video thumbnails are being generated — 👉 Request whether it reproduces on current 0.43+; given the abandoned legacy Python2 install and 2+ years silence, close as stale.
+- **#2953** [support/question] Kein starten moglich (cannot start - log dir not writable) — 👉 Close as stale for no-response; the fix is to chown/chmod the log directory or fix install permissions.
+- **#2942** [support/question] Not seeing Motion version in Settings — 👉 Summarize resolution (use one capture device node per camera; reinstall fixed the version display) and close as stale/answered.
+- **#2926** [support/question] Wyze Cam V3 w/ wyze mini hacks go2rtc enabled authentication failure — 👉 Request whether it still reproduces on a current release; if no response close as stale (works in VLC/Frigate suggests a connection-test edge case rather than a core bug).
+- **#2904** [not-our-problem] Docker install on Buster — 👉 Close as stale/abandoned on an EOL OS; invite a fresh report against current motionEye if still reproducible.
+- **#2889** [not-our-problem] S3 upload to iDrive e2 now appears to be broken — 👉 Close as stale pending the requested retry on latest motionEye/boto3; reopen only if reproducible after upgrade.
+- **#2880** [feature] Tapo PTZ cameras — 👉 Close as stale, noting motionEye's PTZ relies on motion's actions; point to the pytapo/Shinobi-Tapo links as a possible community starting point.
+- **#2874** [feature] Request to merge the motioneye.eo library — 👉 Close, suggesting the fork author open targeted PRs for individual features (dual-stream, i18n) rather than a blanket merge request.
+- **#2861** [support/question] 502 Bad Gateway from home assistant plugin — 👉 Close as stale/request-info, directing the reporter to the Home Assistant motionEye add-on repo since the UI itself works; reopen with logs if reproducible.
+- **#2855** [not-our-problem] Videos Sometimes Have Blocky or Blurred Areas — 👉 Reply suggesting higher camera bitrate / lower FPS (15) / disable streaming, note it is a camera-encoding matter, and close as stale/not-our-problem.
+- **#2854** [feature] Encryption on zip archive (password-protected zip before Telegram send) — 👉 Reply that this is better done via a motion on-event external script (zip+encrypt then send) rather than core code, and close as won't-implement/stale unless others show interest.
+- **#2818** [support/question] Webhook does not seem to be executed despite motion detection. — 👉 Reply that this is a Tasmota URL-encoding quirk (the %20 space, per #1916), suggest the working shell-script workaround the user already found, and close as stale/not-our-problem.
+- **#2817** [support/question] Raspberry Pi Zero W2 — 👉 Reply that motionEyeOS images are maintained in the separate motioneyeos repo and the standalone motionEye runs fine on Pi Zero 2 W via Raspberry Pi OS; close as stale/out-of-scope.
+- **#2806** [support/question] USB storage - permission denied to write — 👉 Reply that this is a mount/ownership issue (ensure the mountpoint and new date subfolders are writable by the user running motion; fat32 doesn't carry Unix perms) and close as stale/not-our-problem.
+- **#2803** [not-our-problem] Deepstack and Motioneye camera in Home Assistant — 👉 Reply that this is a Home Assistant / Deepstack integration concern (likely the MJPEG stream format the HA motionEye camera exposes) and should be raised there; close as not-our-problem/stale.
+- **#2799** [support/question] MotionEye mit RPi Camera Modul3 — 👉 Reply pointing to the libcamera tracking issues (#2425/#2683) and close as stale; the underlying libcamera work is tracked elsewhere.
+- **#2798** [support/question] MMAL camera - An error occured. Refreshing is recommended. — 👉 Close as stale/duplicate of the libcamera tracking issues; the answer (use dev branch, libcamera WIP) is already in comments.
+- **#2791** [not-our-problem] BeaglePlay (use dedicated video processor) — 👉 Close as stale; the actionable guidance (rebuild ffmpeg with HW accel, set motion netcam_params decoder) is already in comments and lies in motion/ffmpeg, not motionEye.
+- **#2779** [support/question] Motioneye & Raspberry PI4B 8Gb high CPU — 👉 Close as stale/duplicate of the CPU-usage cluster; the tuning answer (lower resolution/fps, use GPU/hw decode) is already provided.
+- **#2754** [not-our-problem] Can't connect to composite camera — 👉 Reply that this is a V4L2/RPi device-detection issue (verify the AV-to-USB device appears in `v4l2-ctl --list-devices` and motion user has access), note the manual mknod steps are not the right approach, and close as stale.
+- **#2750** [not-our-problem] Grey screen — 👉 Ask reporter to retest on current dev and reduce stream resolution/use the camera's substream; close as stale (decode/bandwidth limitation, not a motionEye bug).
+- **#2747** [support/question] Motioneye using huge cpu — 👉 Confirm this is expected without GPU acceleration in a VM, suggest htop to identify the process and lowering resolution/fps, and close as stale.
+- **#2746** [docs] Request for change to installation doc: pillow on Bullseye — 👉 Reply that the Python 2 install path is deprecated in favor of the Python 3 dev install and close as obsolete/stale.
+- **#2725** [support/question] 4:3 no 16:9 in MJPEG? — 👉 Reply that resolution/aspect ratio is configurable per camera and pixelation is a bandwidth/decode issue; close as stale (no actionable defect).
+- **#2707** [not-our-problem] Motioneye can't open the Device .... — 👉 Close as stale, referencing the modern-camera-stack tracking issue #2425 and the UYVY palette issue #2476.
+- **#2703** [support/question] Triggering raw picture — 👉 Close as stale with a brief pointer to motion's on_picture_save / on_event_start hooks (no need to stop motion); note #2715 is the duplicate follow-up.
+- **#2701** [not-our-problem] FreeBSD 13.1 Meyectl fails in python 3.7 and 3.9, no module named 'settings' — 👉 Close as stale/resolved, referencing the FreeBSD iocage-plugin workaround and noting the Py3 fix is in the released versions now.
+- **#2685** [support/question] add camera with double / (rtsp trailing slash) — 👉 Close as stale; if reproduced on current dev branch, reopen as a URL-parsing/escaping bug.
+- **#2680** [support/question] MotionEye doesn't find USB pendrive — 👉 Close as stale; optionally reply that the drive must be auto-mounted/recognized by the OS first, or asks whether it persists on current version.
+- **#2677** [support/question] No filesystem created during installation — 👉 Close as stale, pointing to the current dev-branch install instructions; the old wiki guide is deprecated.
+- **#2673** [not-our-problem] Unable to open video device — 👉 Close as stale; suggest checking motion logs / device contention, and that the HA add-on is maintained separately.
+- **#2669** [support/question] Stranger video rendering — 👉 Close as stale/not-actionable; invite reopen with screenshots, version, and browser details if still relevant.
+- **#2668** [not-our-problem] Motioneye 0.42.1, motion fails to start error, no camera feed anymore — 👉 Close as stale; note the failure is a CIFS share mount error after the HAOS update and direct user to the HA add-on tracker.
+- **#2653** [not-our-problem] MotionEye on KDE Neon doesn't recognize camera — 👉 Close as stale/not-our-problem; note snap network/camera confinement and point to the snap packaging, inviting reopen with details.
+- **#2636** [support/question] motionEye does not capture RTSP stream anymore after some months of service running — 👉 Close as stale, noting v0.42.1 is the legacy python2 release; ask to reopen against the current python3 release with logs if it recurs.
+- **#2634** [not-our-problem] high usage of motioneye processor on raspberry pi 3 model b — 👉 Close as stale/not-our-problem; point to motion HW-decode options and note CPU decode load is inherent to the daemon/hardware.
+- **#2629** [not-our-problem] WARNING: Connect error on fd 16: ECONNREFUSED — 👉 Close as not-our-problem/stale; redirect to the hassio-addons/addon-motioneye repo where it was already addressed.
+- **#2628** [not-our-problem] Can't zoom the image — 👉 Close as stale/not-our-problem; explain zoom relies on the camera exposing a working V4L2 zoom control.
+- **#2626** [support/question] MotionEye setup issues — 👉 Close as stale; note the cause is local networking/port binding and to reopen with `ss -tlpn` output if still needed.
+- **#2624** [meta] Project dependencies may have API risk issues — 👉 Close as stale/meta; pin/bump dependencies opportunistically in setup.cfg if desired but no need to track this bot issue.
+- **#2622** [support/question] Motioneye on pi 3 uses 100% on one core with very poor framerates — 👉 Point to #930 for omx hardware accel; note motion is single-process per camera so 'multicore' isn't a motionEye toggle, and close as stale.
+- **#2618** [feature] Feature Request (Pi status logging script) — 👉 Thank for the script, explain it's out of scope for motionEye (would need UI integration to matter), close as wontfix/stale.
+- **#2617** [support/question] Interfacing with RaspiStill — 👉 Note motionEye uses motion as backend so it can't ingest static JPEGs directly (a local MJPG stream would be needed); close as stale support question.
+- **#2616** [support/question] Not clear how FPS mismatch b/w UI and (sub-)streams affect CPU usage — 👉 Explain UI Frame Rate maps to the detection (lowres) stream while netcam_highres records at its own rate, and before/after counts in detection frames; close as answered/stale.
+- **#2614** [feature] Matter Support — 👉 Close as out-of-scope/stale; suggest a dedicated bridge (e.g. mjpg-streamer or Matter-native devices) for Google Home integration.
+- **#2613** [support/question] docker documentation query — 👉 Confirm the recommended path is the prebuilt ghcr.io dev image, note the old manual instructions are legacy, and close as resolved/stale.
+- **#2607** [not-our-problem] Droped frames — 👉 Close as stale; note dropped frames are a motion-daemon/hardware tuning matter and the legacy 0.42.1 Py2 version is long superseded.
+- **#2603** [not-our-problem] WARNING: mjpg client connection for camera 3 on port 8083 is closed — 👉 Close as stale/not-our-problem; direct to the HA add-on and to retest on current motionEye, noting the lsb_release warning is harmless.
+- **#2601** [support/question] next release — 👉 Close as stale/answered; releases have happened since, PyPI and docker images are available.
+- **#2599** [not-our-problem] RPi Zero W + Docker - pillow build error — 👉 Close as stale/not-our-problem; recommend the prebuilt ghcr.io images instead of building Pillow on a Pi Zero W.
+- **#2585** [not-our-problem] After upgrade rasbian to bullseye motioneye won't start — 👉 Close as stale; the Python2 build is dead - reinstall the current Python3 motionEye (or rebuild pycurl) on Bullseye.
+- **#2582** [not-our-problem] Third version of wifi chip Rpi0 2 W using motioneye Jaspers image — 👉 Close as out-of-scope, directing users to the motioneyeos repo for OS/firmware image issues.
+- **#2571** [support/question] switch port 8765 to other — 👉 Close as stale/no-response, noting the web port is set via the 'port' setting in motioneye.conf.
+- **#2568** [support/question] Noob alert! - Motion Detection and File Sizes — 👉 Close as stale support request, directing the user to discussions/forum for setup help with movie length and storage settings.
+- **#2567** [bug] Save image on motion detection (image missing from Telegram notification) — 👉 Close as stale; invite reopen with motioneye.log showing the media-listing timeout error and a reproducible case if it still happens on a current version.
+- **#2565** [meta] motion_44 branch tools (Docker/PTZ/hwaccel patches contribution) — 👉 Close as stale; thank the author and note that contributions should come as a PR against the current dev branch if still relevant.
+- **#2558** [not-our-problem] MotioneyeOS on Pi Zero 2 W randomly connects/disconnects WiFi — 👉 Close as out of scope (motionEyeOS, separate repo, and a hardware/WiFi-firmware issue); redirect to the motionEyeOS forks for Zero 2 W.
+- **#2548** [not-our-problem] Cameras not showing anything — 👉 Close as stale; reaffirm the camera_auto_detect fix and recommend a current release. This is a Pi/OS camera-stack issue, not a motionEye bug.
+- **#2546** [not-our-problem] protocol rtsp not supported — 👉 Close as stale; direct user to the current maintained container image (ghcr) instead of the deprecated ccrisan armhf image.
+- **#2544** [not-our-problem] Adding Annke I51DM to motioneye — 👉 Close as stale; point to the corrected RTSP URL format provided in comments. This is camera configuration, not a motionEye bug.
+- **#2538** [support/question] Version 0.43.0 is wonkey af — 👉 Close as stale/insufficient information; invite a fresh report with logs against a current version if still reproducible.
+- **#2532** [bug] Remote Motioneye camera embed URL 404 — 👉 Close as stale; ask reporter to retest on a current version where the embed/frame routing was reworked, and reopen with logs if still 404ing.
+- **#2530** [not-our-problem] Adding Mjpeg camera as network one: Corrupted video — 👉 Close as stale; note it's a motion/netcam MJPEG decode issue and the working 'Simple JPEG camera' option is the recommended path for that model.
+- **#2526** [not-our-problem] E: Unable to correct problems, you have held broken packages — 👉 Close as stale; advise resolving the Volumio-specific ffmpeg library conflict via apt (it's an OS packaging issue, not motionEye).
+- **#2514** [not-our-problem] Python 3.10 seems to break this — 👉 Close as stale/not-our-problem; reference the upstream motion-packaging permission bug and the disable-global-motion advice.
+- **#2465** [support/question] Can't install Motioneye on Alpine linux — 👉 Reply pointing to the standard pip install docs (install Python 3 + pip via apk, then pip install motioneye) and close as stale/unsupported-distro.
+- **#2453** [not-our-problem] Exposure/Brightness with Raspberry Pi Camera Module V2.1 — 👉 Reply noting it's largely a camera-driver exposure concern, that the dev version improved it, and close as stale/not-our-problem (or request fresh details on current version if anyone still sees it).
+- **#2448** [not-our-problem] Raspbian 11 (Bullseye): Webcam detected by Linux but not by Motioneye — 👉 Reply explaining the duplicate-bcm2835-device-node issue on Bullseye (disable camera auto-detect / pick the correct /dev/video node) and close as stale; the device-path-as-identifier idea is a separate enhancement if still wanted.
+
+### 重複でclose (close-duplicate, 8件)
+
+- **#2914** Please support RTSPS Streams — 👉 Close as duplicate of #3292 (already actioned by maintainer); no separate work needed here.
+- **#2804** p0w not recognizing camera 2 — 👉 Reply pointing to the libcamera workaround thread #2812 (libcamerify + correct camera type) and close as duplicate/stale.
+- **#2715** triggering raw pictures — 👉 Close as duplicate of #2703, pointing the user to the discussion there (use motion's on_event_start / on_picture_save command hooks).
+- **#2706** raspberry pi camera v2 in motioneye container no image — 👉 Close as duplicate of #2425 (modern camera stack / libcamera support).
+- **#2684** working on a libcamera workaround — 👉 Close as duplicate of #2683 (libcamera support), pointing to the workarounds and PR #2765.
+- **#2650** Video recording action button(s) — 👉 Close as duplicate of #229 (manual recording control / indicator).
+- **#2563** How to install MotionEye correctly? (CSI OV5647 on Pi Zero 2 W) — 👉 Close as duplicate of #2560/#2425; point to MichaIng's answer (legacy stack + MMAL camera, vcgencmd get_camera) as the resolution.
+- **#2560** No auto exposure with OV5647 at high resolutions — 👉 Close as duplicate of #2425 (libcamera support); note the auto-exposure regression is in the Pi V4L2 stack, not motionEye, and is out of scope here.
+
+### 解決済みでclose (close-fixed, 6件)
+
+- **#2900** RPi camera modules | libcamerify causes motion sh childs to become zombies — 👉 Close pointing to the upstream motion fix; note it is resolved once a fixed motion build is used. Lock if further off-topic argument resumes.
+- **#2828** Dropbox - Service error — 👉 Close as fixed by merged PR #3376 (`fix(dropbox): encode test_access JSON body as bytes`). The issue itself is still open, but `upstream/dev` already has `body = json.dumps(body).encode()` in `Dropbox.test_access()`, matching the reporter's proposed fix.
+- **#2810** Unable to open video device — 👉 Reply that the conflicting motion.service is now disabled automatically by the install/init script and the device-busy case is resolved; direct camera-not-detected reporters to the libcamera thread #2812; close as fixed.
+- **#2623** Video flickers FIXED — 👉 Reply pointing to the libmicrohttpd downgrade / ME 0.43+ workaround (already in thread) and close as resolved/not-our-problem.
+- **#2600** Problem with language select — 👉 Verify selecting a non-English language no longer 404s, then close as fixed; if still reproducible on dev, keep open as trivial.
+- **#2553** pid directory "/run/motioneye" does not exist or is not writable — 👉 Close as fixed; point to the current motioneye.systemd unit's RuntimeDirectory=motioneye (or a tmpfiles.d entry for non-systemd installs).
+
+---
+
+## B2. 情報待ち (request-info, 6件)
+
+- **#2952** [bug] Can't start service: meyectl.py unsupported locale setting — 👉 Reply with the locale-gen / set LC_ALL in the systemd unit workaround; optionally wrap setlocale in try/except as a trivial hardening. Then close if no further info.
+- **#2925** [support/question] Backup Bug? — 👉 Ask for exact steps, the config backup/restore action used, and logs; close as stale/not-reproducible if no response.
+- **#2895** [support/question] Schermata Grigia anche con telecamera riconosciuta (gray screen, RTSP cam) — 👉 Ask for the exact RTSP URL form, codec, and motion logs (or close as stale); likely a camera/URL/motion config issue, not motionEye.
+- **#2782** [bug] Motioneye keeps starting more processes — 👉 Ask whether it reproduces on the current dev image and request meyectl/motion logs; link to #2747. If no response, close as stale.
+- **#2745** [bug] Motioneye freezes when adding a camera — 👉 Ask both reporters to reproduce on the current python3 dev image and provide full logs; keep open pending repro, then close if not reproducible.
+- **#2609** [support/question] What is the max password length allowed? — 👉 Ask reporter for the exact password pattern/characters that triggered lockout to repro; if no response, close as stale (it's been quiet since 2022).
+
+---
+
+## C2. 低コスト実装 (easy/trivial, 11件) — good first issue 級
+
+- **#2879** [easy][feature] [feature request] Turn off preview generation option
+  - Legitimate, well-scoped request: .thumb preview files are generated by motionEye itself (confirmed in mediafiles.py), and an option to disable them is feasible. No activity but the need is real and small.
+  - 👉 Keep open as a small enhancement: add a config flag to skip .thumb generation in mediafiles.py; or close-stale if backlog pressure favors it.
+- **#2794** [trivial][feature] How can I send telegram notifications to a specific topic?
+  - Confirmed genuine gap: motioneye/sendtelegram.py send_message() only posts chat_id with no message_thread_id, so notifications can't target a forum topic. Adding an optional thread-id field is a small enhancement.
+  - 👉 Keep open as a low-effort feature: add an optional message_thread_id to the Telegram config and pass it through in sendtelegram.py send_message().
+- **#2775** [easy][bug] Improve translation strings using placeholders
+  - Legitimate i18n issue: concatenated translation strings break word order in other languages and should use named placeholders, which the system already supports per the author's own follow-up. Real but low-priority cleanup work across translatable strings.
+  - 👉 Keep open; audit translatable strings for sentence concatenation and convert to %(name)s-style placeholders.
+- **#2766** [medium][feature] Thumbnail offset hardcoded weirdly? — _reassessed 2026-07-15; NOT a good-first-issue_
+  - ⚠️ The earlier assessment here (「remove the min/max + offs*2 and use pre_capture/framerate directly」, based on the 2023 MichaIng/ccrisan comments) is **superseded and was rejected in practice**: PR #3384 implemented exactly that and was closed after MichaIng requested changes (2026-07-15).
+  - Two reasons it fails: (1) the duration check + `2x → 1x → duration/2` fallback in mediafiles.py is **not** an empirical leftover — it is the v0.44.0 fix that keeps thumbnail generation working when a movie is shorter than the pre-capture time (pre_capture is user-changeable, and arbitrary short videos can land in the data dir), so it must stay; (2) 1x pre-capture puts the thumbnail exactly on the detection frame, which the reporter (suvis1) demonstrated with images shows only a sliver of the subject — they asked for detection **+ ~1s**, not the detection moment.
+  - Current maintainer position: MichaIng 「the current behaviour is fine」 and would only change it by making the offset user-selectable (free-form frames or seconds); zagrim agrees no single default works and suggests 2–3 preset modes (start of event / midpoint / other). The design is **undecided between them**.
+  - 👉 Keep open as maintainer-decision / low-priority. Do **not** re-attempt the naive constant-offset change. If implemented, it must be a new user setting (UI + config.py + mediafiles.py + locale) that keeps `get_movie_duration_seconds()` and the short-movie fallback as the safety net — and the design should be settled by the maintainers in the issue first.
+- **#2742** [easy][feature] Finetuning motiondetection settings on mobile device
+  - Reasonable, small UX request: allow typing a numeric value next to slider controls (e.g. noise/threshold) since sliders are hard to fine-tune on mobile. No activity but legitimately actionable.
+  - 👉 Keep open as a low-priority front-end enhancement to add numeric input alongside slider widgets.
+- **#2731** [trivial][feature] Disable/hide button "open pictures browser" possible
+  - Small UI request to hide the 'open pictures browser' button when still pictures are disabled. Plausible trivial front-end change; no discussion or activity since 2023-03.
+  - 👉 Keep open as a trivial UI tweak (conditionally hide the button when still pictures are off), or close if deemed out of scope.
+- **#2665** [easy][feature] Frame Change Threshold 0.1% is not enough
+  - Legitimate UX limitation: the threshold slider can't express values below 0.1% (relevant for 4K cameras). A maintainer (zagrim) agreed a finer slider/scale is worth solving. Underlying motion param supports finer values; ME just needs slider granularity.
+  - 👉 Keep open as a real enhancement; could allow finer/non-linear threshold slider or numeric entry in main.js. Workaround (Despeckle filter) already noted.
+- **#2625** [easy][bug] Google Drive is no longer functional (OOB OAuth flow deprecated)
+  - Real, still-relevant breakage: Google killed the OOB redirect (urn:ietf:wg:oauth:2.0:oob) that uploadservices.py uses, confirmed present in the code. A community workaround (replace OOB URI with https://localhost/ and copy the code) exists, making this a low-effort fix worth landing.
+  - 👉 Keep open; implement the OOB->loopback/localhost redirect change in motioneye/uploadservices.py per stefansundin's workaround.
+- **#2540** [easy][bug] Running motioneye docker as non-root user, can't access /var/run
+  - Real Docker/permissions issue (PID dir not writable for non-root UID); maintainer acknowledged in 2023 that allowing no PID file or a writable run dir is the fix, and it was still being commented on 2026-06. Fix is in container setup / conf default, not large.
+  - 👉 Keep open; ensure the Docker image creates a writable run dir for the runtime UID (or supports running without a PID file) and default the conf's run_path accordingly.
+- **#2504** [trivial][bug] Movies not recorded (ffmpeg encoder not found)
+  - Root cause identified: default H.264/OMX codec fails on modern KMS-driver RPis ('Encoder not found'); workaround is switching to H.264 (.mp4). Maintainer concluded the default codec should be changed for non-OMX RPi setups, so a small real fix remains.
+  - 👉 Keep open as the actionable item to change the default movie codec away from OMX (or document it); otherwise could be closed-as-answered with the H.264/.mp4 workaround.
+- **#2442** [easy][feature] Add GUI option to set log level
+  - Valid, self-filed maintainer enhancement: expose log level in the GUI so users can raise/lower verbosity without editing Python. Confirmed no GUI log-level control exists today (only config/CLI references).
+  - 👉 Keep open as an accepted small feature; implement a config setting + GUI dropdown wired to the existing logging level.
+
+---
+
+## D2. 実装keep (medium/hard/unknown, 14件)
+
+- **#2755** [medium][bug] motion detection mask changes over time — 👉 Keep open as a confirmed bug; rework mask build/parse to use resolutionFactor and real frame width/height instead of DOM element sizes to eliminate cumulative rounding drift.
+- **#2753** [medium][feature] Add header to the stream — 👉 Keep open as a feature request for configurable extra HTTP headers on network cameras; note that the underlying motion daemon must also support passing them. Could request-info to confirm whether a workaround (encoding creds in URL) suffices.
+- **#2710** [medium][feature] Enable SMB mounts in non-root mode — 👉 Keep open as a tracked enhancement; the user comments are an unrelated support tangent that was resolved and can be ignored.
+- **#2693** [medium][bug] MJPEG netcam is always shown in 640x480 — 👉 Keep open as enhancement: have motioneye set width/height (or netcam_high_url) for MJPEG/HTTP netcams, or document the Extra Options workaround prominently; consider auto-detecting source resolution on add.
+- **#2683** [hard][feature] RPi Camera 3 compatibility — 👉 Keep open as the libcamera tracking issue; consider pinning, summarizing the known-good workaround in the first post, and linking the relevant PR.
+- **#2635** [medium][bug] 'video_params palette' gets overridden — 👉 Keep open; implement merging of unknown user-provided video_params/netcam_params sub-options instead of overwriting in motioneye/config.py.
+- **#2610** [medium][feature] Add freebsd_init to extras please — 👉 Keep open as a real task: convert linux_init to POSIX sh and fold in the BSD service file; or ping for a PR against dev. Stale since 2022 so could request a refreshed PR first.
+- **#2592** [medium][feature] "Working Schedule" - Possible to add external gating signal? — 👉 Keep open as a feature request; could be partly satisfied today via the existing enable/disable HTTP API toggled by an external script - suggest that workaround.
+- **#2583** [medium][bug] Cameras previews don't fit to full browser window — 👉 Locate the reporter's PR, review the row-fitting CSS/JS change against the main grid layout, and merge if sound.
+- **#2543** [medium][bug] Telegram "Attached Images Time" affects when the webhook is called and the command is run — 👉 Keep open; verify in current code whether on_motion_detected dispatch awaits the Telegram delay, then make the webhook/command actions fire independently of the Telegram attach delay.
+- **#2541** [medium][bug] Changing movies recording mode to Continuous should not force Still Images to All Frames — 👉 Keep open; decouple the still-images capture-mode selector from the movies recording-mode change in main.js so continuous movies can pair with manual/none still images.
+- **#2516** [hard][bug] Google Drive upload - creates directories, but no files uploaded — 👉 Keep open as the canonical gdrive/OAuth tracking issue; needs migration to a web-application OAuth2 flow (per va1entin's 2024 comment).
+- **#2473** [medium][feature] [FEATURE REQUEST] Support Proxy Authentication — 👉 Keep open as an accepted feature request; tag as auth/SSO enhancement referencing the OctoPrint implementation link for whoever picks it up.
+- **#2441** [hard][feature] Add support for chunked MJPEG streams — 👉 Keep open as a tracked enhancement; tag Python/networking and note the tornado.IOStream replacement dependency.
+
+---
+
+## E2. 要判断・watch (keep-open-triage/watch, 14件)
+
+- **#2921** [medium][feature] Allow user to allow token/get/uri auth — 👉 Keep open as a feature request; note it must be strictly opt-in given the security implications, and check whether existing signed-query auth (meye_password_hash query) already partially satisfies the embed use case.
+- **#2911** [easy][bug] Fullscreen in user-mode not working correct. — 👉 Ask reporter for browser/version and check whether the fullscreen button/handler in main.js is gated by admin privileges; attempt repro in user mode.
+- **#2901** [easy][docs] Development environment / live reload — 👉 Capture the documented manual reload workflow into a dev-setup doc; consider exposing Tornado's debug/autoreload for dev. Keep open as a docs task.
+- **#2887** [hard][bug] All recorded videos have a 3 seconds freeze in the beginning — 👉 Keep open; needs a real regression investigation diffing 0.42->0.43 movie-recording handling. Ask hpicelli/TedBusto to confirm 'minimum motion frames'=1 result to narrow it.
+- **#2866** [medium][bug] DEV - No local Camera detection — 👉 Keep open and investigate the v4l2 device-listing path on dev (group/permission handling, list_devices in motionctl/v4l2); link the recent 0.43.1b4/b5 reports and the YunoHost cross-reference.
+- **#2824** [medium][feature] Expose video devices through docker — 👉 Keep open as accepted enhancement; scope a small helper script that lists /dev/video* on the host and emits a docker run / compose snippet, or document the manual --device pattern. Low priority.
+- **#2812** [hard][support/question] Motioneye and Libcamera — 👉 Keep open as the libcamera tracking/FAQ thread; consider distilling the consolidated working steps (Matthew1471's summary) into the wiki and linking, but do not close until native libcamera support lands.
+- **#2708** [medium][bug] Telegram motion notifications not working — 👉 Keep open; investigate the Telegram image-attachment logic (how saved images are matched within 'attached images time', and behavior when the media folder has many files) and improve the tooltip/validation as users suggested.
+- **#2678** [easy][bug] Cant deactivate Authentication for Streaming (embedded stream) — 👉 Keep open; verify embed-stream URL generation in main.js/main.html honors the streaming auth-disabled setting and add the auth token/flag to the Embed URL.
+- **#2659** [trivial][meta] Please remove or update Donation Link on Wiki Home Page — 👉 Decide on donation handling and edit the wiki Home page, then close; or close if the link has since been updated.
+- **#2598** [hard][feature] Feature Request: Calibration library — 👉 Keep open as a watch/wishlist feature with low priority; could be closed if pruning ambitious unowned feature requests.
+- **#2581** [medium][bug] no image on web page when Network Share (File Storage) is down — 👉 Request reproduction on the current release and verify whether a failed/unmounted storage device blocks the live stream before deciding to implement.
+- **#2578** [trivial][bug] First cleanup call scheduled earlier instead of later — 👉 Decide intended semantics (cap vs floor) for the initial cleanup delay; if a floor is wanted, change min to max in cleanup.py line 37, else close as wontfix.
+- **#2554** [easy][bug] Camera overview on iPad not detecting landscape mode (no multi-column) — 👉 Keep open; investigate the layout/columns logic in the front-end JS (window dimensions vs UA) to allow multi-column on landscape iPad. Low-cost CSS/JS fix if reproduced.
+
+---
+## 追加調査: 残り open issue 670件 (2026-06-30)
+対象: 既存レポート未掲載だった open issue **670件**。本文・先頭コメント・末尾コメント・ラベル・更新日時をGraphQLで取得し、現在もopenのものだけを分類。
+
+### サマリ (670件)
+
+| recommendation | 件数 | 意味 |
+|---|---:|---|
+| answer/close | 580 | stale support / external / duplicate / resolved としてclose候補 |
+| request-info | 18 | 現行版ログ・再現待ち。無反応ならclose |
+| keep-open-easy | 16 | 比較的小さい実装・docs・UI改善 |
+| keep-open-implement | 39 | 中〜大きめの実装/設計が必要 |
+| keep-open-triage/watch | 17 | maintainer判断・wishlist・scope確認 |
+
+### A3. 即close候補 / 回答してclose (580件)
+
+- **#2433** [not-our-problem] Realistic to have 4k security camera with Motioneye addon on a RPi 4B? — _reply-only; labels: Home Assistant addon, question; updated 2022-05-02_
+  - 👉 Close as stale Home Assistant add-on/support discussion unless it reproduces on current upstream motionEye.
+- **#2419** [not-our-problem] Slow streaming fps when connected remotely using dataplicity — _reply-only; labels: troubleshooting; updated 2022-04-20_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2378** [resolved] Ability to upload videos to google drive teamdrive (shareddrives) — _reply-only; labels: question, troubleshooting; updated 2022-03-24_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#2372** [not-our-problem] Movie starts too early for Doorbird with Movie Passthrough — _reply-only; labels: Home Assistant addon, question; updated 2022-03-20_
+  - 👉 Close as stale Home Assistant add-on/support discussion unless it reproduces on current upstream motionEye.
+- **#2365** [not-our-problem] Motioneye vs motioneyeOS — _reply-only; labels: motionEyeOS, question; updated 2022-03-16_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2306** [support/question] Google will turn off plain smtp login - possible impact on motioneye-generated emails? — _reply-only; labels: question; updated 2023-12-25_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2304** [not-our-problem] Performance rtsp — _reply-only; labels: help wanted, motion, question; updated 2022-03-17_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2300** [support/question] motioneye not applying v4l2 config settings — _reply-only; labels: help wanted, question; updated 2022-03-07_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2297** [not-our-problem] Update dockerfile (necessary add support pantilthat library) — _reply-only; labels: docker, help wanted, question; updated 2022-02-22_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2296** [duplicate] Request to set date and time — _reply-only; labels: duplicate, enhancement, feature, question; updated 2022-02-21_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#2291** [not-our-problem] Can't make my Raspberry Pi 4 2GB booting! — _reply-only; labels: motionEyeOS, question; updated 2025-03-26_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2283** [not-our-problem] Question: Performance on PI02W — _reply-only; labels: question; updated 2022-01-24_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2281** [not-our-problem] New build specifically for PiZero2W available. — _reply-only; labels: enhancement, motionEyeOS; updated 2022-01-27_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2277** [not-our-problem] IP Camera viewer for the Raspberry Pi — _reply-only; labels: Stale No Activity 60 Days, question; updated 2022-03-19_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2263** [not-our-problem] Can I install motioneye manually on a RPi zero 2 W? — _reply-only; labels: Stale No Activity 60 Days, motionEyeOS, question; updated 2022-03-19_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2247** [not-our-problem] Not possible to add an additional USB camera — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-12-14_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2244** [support/question] [INFO] Successfully installed on Linux Mint — _reply-only; labels: question, troubleshooting; updated 2021-12-06_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2239** [support/question] Want to use existing motion daemon — _reply-only; labels: question; updated 2021-11-28_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2236** [not-our-problem] MotionEye not sending commands on detection after a while — _reply-only; labels: Home Assistant addon, troubleshooting; updated 2021-11-22_
+  - 👉 Close as stale Home Assistant add-on/support discussion unless it reproduces on current upstream motionEye.
+- **#2232** [duplicate] Pull Request for Wiki — _reply-only; labels: question; updated 2021-11-19_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#2225** [support/question] Unable to make Zoom in / Zoom out work — _reply-only; labels: help wanted, question; updated 2021-11-10_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2224** [support/question] should pytz be listed as a dependency in configuration files? — _reply-only; labels: question, troubleshooting; updated 2021-11-30_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2213** [not-our-problem] adding python modules for MotionEyeOS — _reply-only; labels: invalid, motionEyeOS, question; updated 2021-10-31_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2207** [support/question] Multiple Motion Threads — _reply-only; labels: Stale No Activity 60 Days, motion, question; updated 2022-03-20_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2203** [support/question] Camera Always on? — _reply-only; labels: question; updated 2021-10-11_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2202** [resolved] Network Failed Panic Rebooting — _reply-only; labels: help wanted, motionEyeOS, question, troubleshooting; updated 2021-10-09_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#2201** [support/question] "hidden" camera — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-10-08_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2195** [support/question] Movement Detection Query — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-09-28_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2194** [not-our-problem] SMTP auth: special characters in password field — _reply-only; labels: Home Assistant addon, docker, question, troubleshooting; updated 2021-09-26_
+  - 👉 Close as stale Home Assistant add-on/support discussion unless it reproduces on current upstream motionEye.
+- **#2192** [not-our-problem] Maximum movie length - misleading behaviour — _reply-only; labels: motion, question; updated 2021-10-08_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2191** [resolved] Streaming Image Resizing — _reply-only; labels: question; updated 2021-09-17_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#2187** [support/question] Normal user timelapse not working — _reply-only; labels: help wanted, question; updated 2021-09-15_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2186** [not-our-problem] Bad gateway — _reply-only; labels: Home Assistant addon, docker; updated 2021-09-11_
+  - 👉 Close as stale Home Assistant add-on/support discussion unless it reproduces on current upstream motionEye.
+- **#2185** [support/question] Suggestion for daemon — _reply-only; labels: question; updated 2021-09-06_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2183** [not-our-problem] motioneye service fails to start properly after reboot with mjpg on raspbian buster — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-09-02_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2182** [resolved] Adding RTSP stream results in grey preview, errors in log — _reply-only; labels: help wanted, question; updated 2021-09-04_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#2175** [not-our-problem] Amcrest ASH26-W (Smart Home) Unable to Open Video Device, on both Home Assistant and Docker — _reply-only; labels: Home Assistant addon, docker, help wanted; updated 2021-08-18_
+  - 👉 Close as stale Home Assistant add-on/support discussion unless it reproduces on current upstream motionEye.
+- **#2166** [not-our-problem] on/off 'Motion Notification' via shell command — _reply-only; labels: enhancement, feature; updated 2021-07-31_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2164** [duplicate] Timing/sync on one camera — _reply-only; labels: help wanted, question, troubleshooting; updated 2022-09-02_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#2163** [support/question] MotionEye GUI overheats CPUs — _reply-only; labels: question, troubleshooting; updated 2023-07-17_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2162** [duplicate] Streaming resolution, no effect? — _reply-only; labels: question; updated 2021-08-29_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#2157** [not-our-problem] Playback from multiple cameras — _reply-only; labels: enhancement, feature; updated 2021-07-10_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2154** [not-our-problem] Chrome issue - no way to disable "lazy images" flag — _reply-only; labels: help wanted, motionEyeOS, question; updated 2021-08-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2153** [not-our-problem] Set On-Screen Font Type and Color — _reply-only; labels: motion, question; updated 2021-07-06_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2151** [not-our-problem] Motion Eye Screen white bar or full White Screen — _reply-only; labels: question, troubleshooting; updated 2021-07-04_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2148** [support/question] picture resolution — _reply-only; labels: question; updated 2021-07-02_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2147** [resolved] mjpg client fails to make connection (repeats connecting and disconnecting) — _reply-only; labels: question, troubleshooting; updated 2021-07-03_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#2146** [not-our-problem] MotionEye is flooding my /var/log/syslog file — _reply-only; labels: Home Assistant addon; updated 2021-06-29_
+  - 👉 Close as stale Home Assistant add-on/support discussion unless it reproduces on current upstream motionEye.
+- **#2145** [support/question] No recording when moving — _reply-only; labels: question, troubleshooting; updated 2021-06-25_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2131** [support/question] memory usage rises to 90% when recording — _reply-only; labels: help wanted, question; updated 2021-06-01_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2125** [support/question] manual install pillow issue.... — _reply-only; labels: question, troubleshooting; updated 2021-05-19_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2124** [support/stale] emulate motion not working correctly — _reply-only; labels: motion; updated 2021-05-21_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#2122** [resolved] Unable to load stream ERROR: mjpg client timed out receiving data for camera 1 on port 8081, — _reply-only; labels: Home Assistant addon, help wanted; updated 2022-12-09_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#2114** [not-our-problem] timelapse multiple days/timespan possible? — _reply-only; labels: enhancement, feature; updated 2021-12-31_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2108** [not-our-problem] webcam disconnected - deleted files — _reply-only; labels: motionEyeOS, question; updated 2021-04-23_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2107** [not-our-problem] Frame changes doesn't appears. — _reply-only; labels: Home Assistant addon, question; updated 2021-05-18_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2105** [support/question] Docker motioneye (pi2) works, but can't add to motionOS hub — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-04-21_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2102** [support/question] Connect Motion Eye camera in surveillance mode — _reply-only; labels: question; updated 2021-04-19_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2101** [support/question] Ajout caméra MotionEye RPI zero dans MotionEye Docker — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-04-18_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2100** [resolved] Cannot add MotionEye Camera as a Network Camera using MJPEG streaming url — _reply-only; labels: bug, help wanted, question, troubleshooting; updated 2023-06-22_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#2091** [not-our-problem] Transfering incomplete files due to cron job — _reply-only; labels: Home Assistant addon, help wanted, notourproblem, question, troubleshooting; updated 2021-04-07_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2090** [not-our-problem] Feature request: Define a timeframe for interval snapshots — _reply-only; labels: enhancement, feature, motionEyeOS; updated 2021-05-02_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2087** [support/question] Web interface files ? — _reply-only; labels: help wanted, question; updated 2021-04-05_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2084** [support/question] Call curl if no stream feed from camera is present — _reply-only; labels: help wanted, question; updated 2021-04-05_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2083** [support/question] raspberry pi os + motioneye, missing options in Camera Type menu — _reply-only; labels: help wanted, motion, question; updated 2021-04-01_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2081** [not-our-problem] How can I update sendmail.py and rebuild binaries? — _reply-only; labels: help wanted, question; updated 2021-03-30_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2080** [support/question] MotionEye Video Error ... randomly sometimes... — _reply-only; labels: help wanted, motion, question, troubleshooting; updated 2021-03-30_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2072** [not-our-problem] High temp with rpi3 — _reply-only; labels: help wanted, question; updated 2021-03-23_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2069** [support/question] Invalid Content-Length: value — _reply-only; labels: question, troubleshooting; updated 2021-03-21_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2065** [not-our-problem] Disable Lan, USB and HDMI — _reply-only; labels: question; updated 2021-03-14_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2063** [support/question] Eufy Cam — _reply-only; labels: question; updated 2021-08-20_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2062** [resolved] Raspberry motioneye and pi cam (strange color pink) — _reply-only; labels: help wanted, troubleshooting; updated 2021-08-11_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#2059** [not-our-problem] fast network camera feature request — _reply-only; labels: enhancement, feature; updated 2021-10-16_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2058** [support/question] AVCO M1060 — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-03-11_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2057** [not-our-problem] Credentials security issue — _reply-only; labels: enhancement, feature, motion; updated 2021-03-08_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2049** [support/question] Imou looc camera - not able to get stream — _reply-only; labels: question, troubleshooting; updated 2021-06-03_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2042** [not-our-problem] When will the privacy mask on motioneye debain 10 — _reply-only; labels: enhancement, question, troubleshooting; updated 2021-03-06_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2041** [not-our-problem] USB Webcam - Distortions, picture in picture overlay — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-02-28_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2040** [not-our-problem] Camera not found in docker container — _reply-only; labels: docker, question, troubleshooting; updated 2021-02-24_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2038** [stale] Unable to scale streams to smaller size — _reply-only; labels: no-label; updated 2021-02-20_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#2037** [not-our-problem] Freeze OrangePi MotionEye — _reply-only; labels: no-label; updated 2021-02-21_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2036** [duplicate] 4th added Cam shows preview of the 1st cam — _reply-only; labels: help wanted, troubleshooting; updated 2021-02-16_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#2035** [duplicate] Character Hight compared to Date/Timestamp — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-02-15_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#2033** [support/question] Uploading larger videos to Google Drive — _reply-only; labels: help wanted, question; updated 2021-02-12_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2031** [not-our-problem] Home Assistant on a hyper-v with motioneye - port 8081-8084 not open — _reply-only; labels: Home Assistant addon, help wanted, question, troubleshooting; updated 2021-02-15_
+  - 👉 Close as stale Home Assistant add-on/support discussion unless it reproduces on current upstream motionEye.
+- **#2029** [not-our-problem] Samba Foscam Docker — _reply-only; labels: docker, question; updated 2021-04-02_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2027** [support/question] API Access — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-02-09_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2025** [not-our-problem] MJPEG Stream Artifacts — _reply-only; labels: Home Assistant addon, question, troubleshooting; updated 2021-02-07_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#2024** [support/question] docker port 8083 not working — _reply-only; labels: docker, question, troubleshooting; updated 2021-02-11_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#2023** [not-our-problem] How can I setting the Mmal camera that is connected to the PI with a ribbon cable in the home assistant platform? ? — _reply-only; labels: Home Assistant addon, question, troubleshooting; updated 2021-02-08_
+  - 👉 Close as stale Home Assistant add-on/support discussion unless it reproduces on current upstream motionEye.
+- **#2022** [resolved] Grey camera from docker setup with netcam. — _reply-only; labels: docker, question, troubleshooting; updated 2021-04-25_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#2015** [support/question] Upload on google drive — _reply-only; labels: help wanted, question, troubleshooting; updated 2021-03-05_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#1938** [stale] Getting an Auto Focus Pi Camera to auto focus on Motioneye — _reply-only; labels: no-label; updated 2021-02-11_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1915** [resolved] Why is motionEye loading just "jpeg images" as the feed? Why not using mpeg stream? — _reply-only; labels: question; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1895** [support/question] Changing threshold reference — _reply-only; labels: question; updated 2022-09-14_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#1894** [not-our-problem] Feature request - Use mask filter to filter out parts of the capturing area — _reply-only; labels: enhancement, question; updated 2021-07-03_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1889** [not-our-problem] Motioneye os SSD — _reply-only; labels: motionEyeOS; updated 2020-11-04_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1867** [not-our-problem] Motion Notification End Command runs twice for no reason on config save — _reply-only; labels: motionEyeOS; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1864** [duplicate] motioneye not producing correct lastsnap.jpg symbolic link. — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1863** [stale] Surveillance user login shows a white page — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1859** [stale] Videos too heavy — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1857** [resolved] Motion 4.2.2 not recording pictures or video — _reply-only; labels: Stale No Activity 60 Days; updated 2021-11-25_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1856** [support/stale] "Run a command" on motion detection not working (installed motioneye on Ubuntu) — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1855** [resolved] Can't stream by IP address.  Only by localhost — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1852** [support/stale] Works in docker, not with arch install instructions — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1850** [not-our-problem] Option to send Google Drive link to video via email — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1849** [stale] MotionEye & Multicam Board — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1848** [not-our-problem] opacity value variation — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1846** [stale] Feature requests: [1]Add GUI view that will show output for [2]custom scripts — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1845** [not-our-problem] Get access to Action buttons from external application — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1842** [stale] Integration with motion api and status reflection on motioneye — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-10_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1834** [not-our-problem] MotioneyeOs + RPI 4 no camera logo — _reply-only; labels: motionEyeOS; updated 2022-03-19_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1829** [not-our-problem] MotioneyeOS cannot play its own files — _reply-only; labels: motionEyeOS; updated 2022-06-15_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1824** [duplicate] Media format unsupported or otherwise unavilable/unsuitable for playing. — _reply-only; labels: bug, help wanted, question; updated 2023-01-11_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1816** [stale] Delete files older than 1 hour — _reply-only; labels: no-label; updated 2021-02-07_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1808** [resolved] Ftp Upload / Weathercam / Weatherunderground / Help — _reply-only; labels: no-label; updated 2021-02-01_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1799** [support/question] Sequential filenames — _reply-only; labels: motion, question; updated 2021-03-04_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#1712** [stale] Working schedule — _reply-only; labels: no-label; updated 2021-01-18_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1658** [stale] Sometimes changing the framerate brings the camera back — _reply-only; labels: no-label; updated 2020-03-01_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1643** [resolved] Limited options on Ubuntu Server — _reply-only; labels: no-label; updated 2020-03-14_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1544** [support/question] Motioneye freezes with "mjpg client timed out" every few days — _reply-only; labels: help wanted, question, troubleshooting; updated 2023-08-14_
+  - 👉 Answer from the existing thread where possible and close as stale support; no current repo change is identifiable.
+- **#1532** [stale] Reverse proxy on Apache returns only text — _reply-only; labels: no-label; updated 2021-03-23_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1531** [support/stale] Ezviz C4s Dome Cam - grey screen Unable to open video device — _reply-only; labels: no-label; updated 2021-01-12_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1528** [stale] Motioneye: From VMWare under Debian 9 to Docker — _reply-only; labels: no-label; updated 2019-11-04_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1527** [stale] [Feature Request] Multiple frames shown in the video thumbnails — _reply-only; labels: no-label; updated 2019-11-02_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1524** [not-our-problem] lost mmal service 16.1 — _reply-only; labels: no-label; updated 2019-10-31_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1523** [stale] Motioneye Remote Camera, two issues. — _reply-only; labels: no-label; updated 2019-10-31_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1520** [stale] Multiple motion pi set up — _reply-only; labels: no-label; updated 2019-10-30_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1519** [support/stale] Enhancement Request: Support h264_mmal as the preferred RTSP decoder — _reply-only; labels: no-label; updated 2019-10-30_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1518** [not-our-problem] Implement HomeKit — _reply-only; labels: no-label; updated 2020-10-28_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1516** [resolved] Software Update Check Fails on Raspbian — _reply-only; labels: enhancement, feature; updated 2021-04-30_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1509** [stale] Segfault on Debian 9.11 — _reply-only; labels: no-label; updated 2019-10-21_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1505** [not-our-problem] permanent offline use? — _reply-only; labels: no-label; updated 2019-10-17_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1504** [stale] On_event_end command sometimes does not stop — _reply-only; labels: no-label; updated 2019-11-02_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1503** [support/stale] motioneye service will not start in Fedora 30: Error: pycurl: libcurl link-time ssl backend (openssl) is different from compile-time ssl backend (none/other) — _reply-only; labels: no-label; updated 2019-10-16_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1500** [support/stale] USB and Network camera not displaying image. — _reply-only; labels: no-label; updated 2019-10-16_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1499** [stale] Unable to access MotionEye stream from the Internet — _reply-only; labels: no-label; updated 2019-11-03_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1498** [not-our-problem] Pi 3A+ // PiCamera FullResultion - no Emails / no Videos playable....any format (?) — _reply-only; labels: no-label; updated 2019-10-15_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1497** [stale] Any reason why dots aren't allowed in filenames as of 0.41? — _reply-only; labels: no-label; updated 2019-10-21_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1496** [stale] No image nor video raspi 0 w — _reply-only; labels: no-label; updated 2019-10-16_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1493** [not-our-problem] File format not recognized... — _reply-only; labels: no-label; updated 2019-11-15_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1492** [not-our-problem] Use SMB for saving files o — _reply-only; labels: question; updated 2021-04-20_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1491** [stale] Try to downgrading Motioneye — _reply-only; labels: no-label; updated 2019-10-11_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1489** [stale] Dockerfile uses Ubuntu 18.10 as base, which is EoL — _reply-only; labels: no-label; updated 2019-10-10_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1487** [stale] Minor issue or bug: cannot scale text overlay for one cam only — _reply-only; labels: no-label; updated 2020-11-20_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1486** [stale] Firefox Display Issue — _reply-only; labels: no-label; updated 2019-10-08_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1485** [stale] Upload files to minio — _reply-only; labels: no-label; updated 2019-10-08_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1484** [support/stale] Motioneye on Rasberry pi - high CPU usage — _reply-only; labels: no-label; updated 2022-04-26_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1483** [resolved] Fedora 30 "Exit-code" / "ImportError: pycurl: libcurl link-time ssl backend (openssl) is different from compile-time ssl backend (none/other)" — _reply-only; labels: no-label; updated 2019-10-13_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1482** [support/stale] Nginx tutorial not working without base_path — _reply-only; labels: no-label; updated 2019-10-07_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1481** [support/stale] WebUI Rasbian install 8765 not reachable — _reply-only; labels: no-label; updated 2019-10-03_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1480** [stale] Motion detection occasionally stops in running docker container — _reply-only; labels: no-label; updated 2019-12-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1479** [not-our-problem] Home recognition for MotionEye(OS) with Fritz!Box using fritzconnection (python) — _reply-only; labels: enhancement, feature; updated 2021-04-27_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1477** [stale] Pycurl problems ? — _reply-only; labels: no-label; updated 2019-10-03_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1476** [stale] is it possible to make google home mini say a phrase when motion is detected (webhook) ? — _reply-only; labels: no-label; updated 2019-10-12_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1475** [stale] Preserve movies by size — _reply-only; labels: no-label; updated 2019-09-28_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1471** [not-our-problem] How to create a switch for shutting down motioneye OS — _reply-only; labels: no-label; updated 2019-09-27_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1467** [stale] Grabbing the pixel count deltas — _reply-only; labels: no-label; updated 2019-09-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1466** [stale] Feature Request - allow one motion daemon per camera — _reply-only; labels: no-label; updated 2019-09-24_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1465** [stale] Adding connector to OpenCV: Feasible ? — _reply-only; labels: no-label; updated 2019-09-23_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1461** [support/stale] Motion Detection not working with night vision — _reply-only; labels: no-label; updated 2019-09-23_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1460** [stale] Snapshot via Console — _reply-only; labels: no-label; updated 2019-09-19_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1459** [support/stale] Are instructions to install in ubuntu correct? — _reply-only; labels: no-label; updated 2020-12-14_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1457** [support/stale] Error loading web ui after logging in. — _reply-only; labels: no-label; updated 2019-09-16_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1456** [stale] V4L2 video controls — _reply-only; labels: no-label; updated 2019-09-16_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1454** [stale] script for add PTZ? — _reply-only; labels: no-label; updated 2019-10-12_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1451** [stale] Frame Rate — _reply-only; labels: no-label; updated 2020-01-15_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1449** [not-our-problem] Chrome issue but not Safari or Firefox — _reply-only; labels: no-label; updated 2020-04-10_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1447** [stale] Momentary action button ? — _reply-only; labels: no-label; updated 2019-09-07_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1445** [not-our-problem] Images are turning to colorful — _reply-only; labels: troubleshooting; updated 2021-04-26_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1444** [stale] Motion detected, but no snapshots/videos made anymore — _reply-only; labels: no-label; updated 2019-12-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1443** [resolved] Camera not displaying on MotionEyeOS — _reply-only; labels: no-label; updated 2019-10-08_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1442** [not-our-problem] [HELP] Turn FNC on/off via terminal/config — _reply-only; labels: no-label; updated 2019-09-11_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1441** [stale] Inconsistent units — _reply-only; labels: no-label; updated 2021-02-22_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1439** [not-our-problem] Raspberry Pi zero W fails to start motioneye — _reply-only; labels: no-label; updated 2019-09-02_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1435** [not-our-problem] Picture too bright with high resolution of Pi Camera — _reply-only; labels: no-label; updated 2022-09-09_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1433** [stale] motion.log being spammed in motioneye docker environment — _reply-only; labels: no-label; updated 2019-08-28_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1427** [not-our-problem] Unable to open video devices — _reply-only; labels: no-label; updated 2019-08-24_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1420** [stale] Doesn't work with slow camera's. — _reply-only; labels: no-label; updated 2019-08-29_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1419** [duplicate] Camera not showing in :8765 — _reply-only; labels: no-label; updated 2019-09-02_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1418** [support/stale] Did the API ever get implimented (how to change setting with get/post) — _reply-only; labels: no-label; updated 2019-08-19_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1417** [support/stale] Permission Denied in socket.py? — _reply-only; labels: no-label; updated 2019-08-16_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1416** [stale] Timelapse defaults — _reply-only; labels: no-label; updated 2019-08-16_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1414** [resolved] No camera image when a special character is inserted in text overlay section (custom text) — _reply-only; labels: no-label; updated 2020-07-04_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1408** [stale] MotionEye does not work with RasPi Cam — _reply-only; labels: no-label; updated 2019-08-13_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1400** [resolved] USB Webcam not supported? — _reply-only; labels: no-label; updated 2019-08-14_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1399** [stale] single quotation marks not allowed in mail notification password — _reply-only; labels: no-label; updated 2019-08-07_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1393** [stale] Upgrade results in camera no longer being configured — _reply-only; labels: no-label; updated 2019-10-27_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1392** [stale] usb&remote cameras no action on motion — _reply-only; labels: no-label; updated 2019-11-22_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1387** [not-our-problem] Action Button via URL from Server to the GPIO pin on network camera. — _reply-only; labels: no-label; updated 2019-11-26_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1386** [stale] Virtual Maschine - No image/stream from/to motioneye — _reply-only; labels: no-label; updated 2019-07-29_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1382** [stale] My method of Uploading to OneDrive using RCLone with MotionEye trigger — _reply-only; labels: no-label; updated 2021-08-02_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1381** [support/stale] Error adding motioneye camera — _reply-only; labels: no-label; updated 2019-08-01_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1379** [not-our-problem] Not able to select camera while adding a network camera — _reply-only; labels: no-label; updated 2024-10-20_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1375** [stale] Idea: add rsync together with ftp option — _reply-only; labels: no-label; updated 2019-07-22_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1374** [support/stale] Extremely high CPU usage — _reply-only; labels: no-label; updated 2019-07-19_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1364** [not-our-problem] Execute Script after detecting Motion — _reply-only; labels: no-label; updated 2019-07-09_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1359** [support/stale] Minor question about "Still images": "Capture mode"=manual should imply "Enable manual snapshots"=ON ? — _reply-only; labels: no-label; updated 2019-07-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1358** [stale] Enhancement: Add camera direct UI to "Useful URLs" — _reply-only; labels: no-label; updated 2019-07-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1356** [stale] Raspbian Wiki instructions — _reply-only; labels: no-label; updated 2019-07-25_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1355** [stale] "Minimum Motion Frames" unit of measure: frames or seconds? — _reply-only; labels: no-label; updated 2019-10-10_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1354** [stale] RFC: Loop recording idea — _reply-only; labels: no-label; updated 2019-07-03_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1353** [support/stale] Question on video streaming frame rate vs device frame rate — _reply-only; labels: no-label; updated 2019-07-03_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1352** [duplicate] Motioneye missing files thread0.conf in Pi Zero W — _reply-only; labels: no-label; updated 2019-07-03_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1350** [not-our-problem] motioneye setting date failed !! — _reply-only; labels: no-label; updated 2019-07-03_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1349** [stale] [cosmetic] Switch "Auto Threshold Tuning" should be before the two related thresholds — _reply-only; labels: no-label; updated 2019-07-01_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1347** [not-our-problem] Run a Command - nothing happens — _reply-only; labels: no-label; updated 2020-06-18_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1344** [not-our-problem] Re-connected but still "enabled" video devices require manual intervention to show in the MotionEye dashboard — _reply-only; labels: no-label; updated 2019-07-02_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1339** [stale] Enhancement: FTP upload testing by storing a screenshot — _reply-only; labels: no-label; updated 2019-06-27_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1338** [support/stale] Wiki contribute: Arch simple install using AUR helper — _reply-only; labels: no-label; updated 2019-06-27_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1336** [support/stale] What movie format in motioneye uses least cpu? — _reply-only; labels: no-label; updated 2019-06-26_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1334** [stale] Feature Request: log to journald — _reply-only; labels: no-label; updated 2019-06-25_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1333** [stale] Settings are disabled — _reply-only; labels: no-label; updated 2019-06-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1332** [stale] Feature to upload a snapshot as soon as movement is detected — _reply-only; labels: no-label; updated 2019-06-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1331** [not-our-problem] first 10sec of movie blank screen — _reply-only; labels: no-label; updated 2019-06-26_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1330** [stale] Wifi Off? — _reply-only; labels: no-label; updated 2019-06-27_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1328** [resolved] Enhancement: local loop recording — _reply-only; labels: no-label; updated 2019-06-22_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1326** [stale] Motioneye cannot access /media/username mounts — _reply-only; labels: no-label; updated 2019-06-21_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1322** [stale] Don't show APPLY button if nothing has been changed — _reply-only; labels: no-label; updated 2019-06-27_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1317** [stale] Motion detection doesn't work when continus recording mode is enable — _reply-only; labels: no-label; updated 2019-08-02_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1315** [stale] Feature request: Add option to working schedule - to notify of motion detection. — _reply-only; labels: no-label; updated 2019-06-15_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1312** [stale] Add Bearer token Autorization — _reply-only; labels: no-label; updated 2019-06-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1305** [not-our-problem] Network Camera not working — _reply-only; labels: no-label; updated 2019-06-11_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1304** [support/stale] Error on playback iOS — _reply-only; labels: no-label; updated 2022-06-15_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1302** [stale] Motion Detection doesnt seem to be working — _reply-only; labels: no-label; updated 2020-05-29_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1300** [support/stale] Frame rate running, but greyed image on the dashboard — _reply-only; labels: no-label; updated 2019-06-02_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1298** [support/stale] Change setting and get Exec format error — _reply-only; labels: no-label; updated 2019-06-12_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1291** [not-our-problem] Manual IP address (static IP), the displayed date is 1970-01-01 — _reply-only; labels: no-label; updated 2019-06-15_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1290** [stale] Add user type request to JSON Backend — _reply-only; labels: no-label; updated 2019-05-25_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1289** [stale] cifs-utils in docker — _reply-only; labels: no-label; updated 2019-09-08_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1287** [stale] [feature request] show images/video base on time range — _reply-only; labels: no-label; updated 2019-06-01_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1283** [duplicate] Saved movies in both .avi & .mp4 while set to HEVC (.mp4) — _reply-only; labels: no-label; updated 2019-06-19_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1282** [not-our-problem] Unable to add remote motioneyeos cameras — _reply-only; labels: no-label; updated 2019-06-12_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1281** [resolved] Question on frequent cameras lost connections — _reply-only; labels: no-label; updated 2019-06-02_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1277** [duplicate] When motion detection mask is enabled but empty, UI un-intuitively fails — _reply-only; labels: no-label; updated 2020-02-02_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1273** [stale] Suggestion: Change font from Maven Pro to "system font" — _reply-only; labels: no-label; updated 2019-05-12_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1270** [not-our-problem] After Upgrade: Setting current date using http: failed — _reply-only; labels: no-label; updated 2019-05-14_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1269** [support/stale] Migrate from RPi3 to RPi zero — _reply-only; labels: no-label; updated 2019-05-30_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1268** [resolved] No video streaming from Camera — _reply-only; labels: no-label; updated 2019-05-24_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1265** [resolved] Set Timezone in Docker installation — _reply-only; labels: docker, troubleshooting; updated 2022-08-19_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1261** [duplicate] Timestamp issues — _reply-only; labels: no-label; updated 2020-11-20_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1258** [stale] Memory Leak in 0.40 — _reply-only; labels: no-label; updated 2020-03-02_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1257** [not-our-problem] Multiple devices with a central server, grey screen — _reply-only; labels: no-label; updated 2019-05-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1256** [stale] BUG upgrade from 0.39 to 0.40 — _reply-only; labels: no-label; updated 2019-06-20_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1255** [stale] Is there a way to enable streaming only when needed ? — _reply-only; labels: no-label; updated 2020-02-21_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1254** [not-our-problem] SSL for streaming — _reply-only; labels: no-label; updated 2019-05-09_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1253** [stale] Set up an alert when a camera connection loss — _reply-only; labels: no-label; updated 2019-05-12_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1252** [duplicate] Straight Rip of RTSP Stream — _reply-only; labels: no-label; updated 2019-04-30_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1250** [stale] FTP upload stops after one (or a few) uploads — _reply-only; labels: no-label; updated 2019-05-13_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1248** [stale] 'manual_record' not implemented? — _reply-only; labels: no-label; updated 2019-04-20_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1244** [not-our-problem] Feature Request: Add robots.txt to static site files — _reply-only; labels: no-label; updated 2019-04-17_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1243** [support/stale] Failed to start on Debian Jessie — _reply-only; labels: no-label; updated 2019-04-19_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1242** [stale] feature request: Provide an option to change user-agent — _reply-only; labels: no-label; updated 2019-04-17_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1240** [not-our-problem] Manual Override of Working Schedule — _reply-only; labels: no-label; updated 2019-04-17_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1239** [stale] MotionEye stream not fluid — _reply-only; labels: no-label; updated 2019-04-16_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1236** [not-our-problem] Pimoroni pantilt hat integrated into Motioneye? — _reply-only; labels: no-label; updated 2019-07-24_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1233** [resolved] Still Cleanup does not work — _reply-only; labels: no-label; updated 2019-04-12_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1232** [not-our-problem] Cannot install on Raspberry PI Zero — _reply-only; labels: no-label; updated 2019-04-16_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1229** [resolved] Wrong path in %f variable when running a command — _reply-only; labels: no-label; updated 2019-05-23_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1223** [stale] URL to enable / disable Motion notifications ? — _reply-only; labels: no-label; updated 2019-09-03_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1217** [stale] When make_message::list_media times out, the sent email ambiguously lacks attachments for no apparent reason — _reply-only; labels: no-label; updated 2019-04-06_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1213** [stale] Overriding config values — _reply-only; labels: no-label; updated 2019-06-13_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1206** [not-our-problem] Error: Media decode error or unsupported media features — _reply-only; labels: no-label; updated 2020-12-31_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1203** [stale] lighttpd reverse proxy — _reply-only; labels: no-label; updated 2019-03-29_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1192** [not-our-problem] "Run a command" not working. — _reply-only; labels: no-label; updated 2019-09-02_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1189** [stale] Home Mode — _reply-only; labels: no-label; updated 2019-03-17_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1187** [stale] Latest Version - Still Getting Admin Password Change Issues — _reply-only; labels: no-label; updated 2019-03-20_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1183** [stale] MotionEye low framerate when streamed to Ubuntu VM ? — _reply-only; labels: no-label; updated 2019-03-15_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1181** [not-our-problem] ERROR: the maximum number of tasks (100) has been reached ( on a RPI3) — _reply-only; labels: no-label; updated 2019-03-14_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1180** [not-our-problem] Motion detection deactivated but still triggering alarms — _reply-only; labels: no-label; updated 2019-08-03_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1176** [support/stale] No camera image when service run as user- Permission issues otherwise — _reply-only; labels: no-label; updated 2019-03-11_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1174** [support/stale] "Segmentation fault " error on raspbian stretch — _reply-only; labels: no-label; updated 2019-03-11_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1169** [stale] MotionEye 0.39.4 not sending picture in motion notification mail — _reply-only; labels: no-label; updated 2020-04-25_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1162** [stale] Web Hook Stops working — _reply-only; labels: no-label; updated 2019-02-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1159** [stale] Running on FreeBSD 12.0 — _reply-only; labels: no-label; updated 2019-04-14_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1158** [stale] lastmovie.mp4? — _reply-only; labels: no-label; updated 2019-03-06_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1156** [resolved] pytz module missing from docker image — _reply-only; labels: no-label; updated 2019-04-12_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1155** [stale] Motion detection on night vision — _reply-only; labels: no-label; updated 2019-02-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1154** [stale] Green Screen from time to time — _reply-only; labels: no-label; updated 2019-02-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1152** [not-our-problem] Banana pi pro wifi — _reply-only; labels: motionEyeOS; updated 2019-02-18_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1146** [stale] Camera Does not Require a Password — _reply-only; labels: no-label; updated 2019-02-17_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1145** [stale] Support  usb capture card — _reply-only; labels: no-label; updated 2019-02-12_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1144** [not-our-problem] CPU 100% in browser viewing web interface of motioneye — _reply-only; labels: no-label; updated 2019-02-10_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1141** [support/stale] Question: Network camera problems. — _reply-only; labels: no-label; updated 2019-02-08_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1138** [not-our-problem] Feature request: PIR sensor — _reply-only; labels: enhancement, feature; updated 2021-04-02_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1137** [stale] Snapshot URL token persistance — _reply-only; labels: no-label; updated 2019-02-04_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1135** [support/stale] High CPU Utilisation since a few days — _reply-only; labels: no-label; updated 2019-01-30_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1133** [stale] Command to wake up Display — _reply-only; labels: no-label; updated 2019-01-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1131** [not-our-problem] FNC and then no web interface? — _reply-only; labels: no-label; updated 2019-01-26_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1128** [not-our-problem] unexpected keyword argument 'camera_id' — _reply-only; labels: no-label; updated 2019-01-26_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1125** [resolved] Support for 1 wire in MotionEyeOs / Buildroot — _reply-only; labels: no-label; updated 2019-11-02_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1124** [resolved] Email notification - character mapping must return integer, None or unicode — _reply-only; labels: no-label; updated 2019-03-09_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1123** [not-our-problem] Start/stop a single camera (to reduce the total CPU load) — _reply-only; labels: no-label; updated 2019-04-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1122** [resolved] Pi Zero w CPU constantly high — _reply-only; labels: no-label; updated 2020-11-13_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1121** [stale] Video Streaming — _reply-only; labels: no-label; updated 2019-01-18_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1117** [not-our-problem] NTP freezes startup — _reply-only; labels: no-label; updated 2019-07-28_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1116** [stale] FeatureRequest Video SpeedPlay — _reply-only; labels: no-label; updated 2019-04-21_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1114** [support/stale] Hikvison camera not fluid — _reply-only; labels: no-label; updated 2019-01-13_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1113** [stale] motionEYE: Actionbutton for Dlink DCS-5000L — _reply-only; labels: no-label; updated 2019-01-09_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1111** [support/stale] After reinstall rtsp capera gives green output — _reply-only; labels: no-label; updated 2019-01-10_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1107** [stale] Specify Separate Port for Embed URL — _reply-only; labels: no-label; updated 2019-09-01_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1103** [stale] Neither dropbox or google drive upload is working — _reply-only; labels: no-label; updated 2019-09-02_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1097** [stale] Streaming from webui works only after opening streaming port directly — _reply-only; labels: no-label; updated 2018-12-29_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1095** [not-our-problem] motioneyeos is cooking my raspberry — _reply-only; labels: no-label; updated 2018-12-28_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1094** [not-our-problem] [feature] removing old files on Google drive — _reply-only; labels: no-label; updated 2019-01-09_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1092** [stale] Stream in admin mode — _reply-only; labels: no-label; updated 2019-03-07_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1089** [stale] Motion Eye not saving Video — _reply-only; labels: no-label; updated 2020-01-19_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1085** [stale] Cannot access Embed URL of remote Motioneye Camera — _reply-only; labels: no-label; updated 2019-03-24_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1084** [not-our-problem] writeimage.sh does no run when i use the run command — _reply-only; labels: no-label; updated 2018-12-04_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1081** [not-our-problem] Timelapse generation stuck saying "A timelapse movie is already being created" — _reply-only; labels: no-label; updated 2020-12-16_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1079** [not-our-problem] Raspberry Pi 3 with Motioneye OS not Detecting Pi Camera — _reply-only; labels: no-label; updated 2018-12-08_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1076** [stale] Please Add Mosquitto Client to the Docker Image — _reply-only; labels: no-label; updated 2018-12-01_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1075** [stale] Motioneye crashes after a few hours on Raspi 3b+ — _reply-only; labels: no-label; updated 2018-12-11_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1074** [stale] Delete oldest media files before drive is full — _reply-only; labels: no-label; updated 2018-11-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1067** [stale] YUV444/mp4 aka "H.264 (.mp4)" codec unsupported in Firefox — _reply-only; labels: no-label; updated 2020-08-31_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1062** [stale] Webhook replaces Command — _reply-only; labels: no-label; updated 2019-02-28_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1061** [support/stale] openmediavault motioneye docker on the raspberry pi device? — _reply-only; labels: no-label; updated 2018-11-12_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1058** [stale] Feature Request: Movie / Picture Counts in the "Banner" — _reply-only; labels: no-label; updated 2018-11-09_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1057** [not-our-problem] Captured Before not working as expected? — _reply-only; labels: no-label; updated 2018-12-16_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1056** [not-our-problem] USB and menu problem — _reply-only; labels: motionEyeOS; updated 2018-11-09_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1054** [stale] Activity Log — _reply-only; labels: no-label; updated 2019-02-06_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1052** [stale] video download issue — _reply-only; labels: no-label; updated 2018-11-06_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1051** [support/stale] CPU Question — _reply-only; labels: no-label; updated 2020-01-13_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1050** [resolved] second ethernet port for IP cameras — _reply-only; labels: no-label; updated 2018-11-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1047** [support/stale] How to trigger a detect? — _reply-only; labels: no-label; updated 2018-11-03_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1046** [stale] No camera on dropdown — _reply-only; labels: no-label; updated 2019-09-29_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1045** [stale] Strange HTML output accessing my default cam page — _reply-only; labels: no-label; updated 2018-11-08_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1040** [stale] Feature request: Delete locally after successful upload te remote server. — _reply-only; labels: no-label; updated 2018-11-14_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1030** [stale] Motion commands only process when restarting — _reply-only; labels: no-label; updated 2020-08-24_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1029** [support/stale] High CPU Usage and Frame Rate in Hundreds Sometimes Thousands — _reply-only; labels: no-label; updated 2018-11-21_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1024** [duplicate] Scheduled captures — _reply-only; labels: duplicate, enhancement, feature; updated 2021-11-23_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1020** [stale] [Feature request] Multi select in movies browser — _reply-only; labels: no-label; updated 2018-10-07_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#1014** [not-our-problem] Video playback/download slow on motionEye+Raspbian compared to motionEyeOS — _reply-only; labels: no-label; updated 2019-11-23_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1013** [duplicate] Thumb — _reply-only; labels: no-label; updated 2018-11-02_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1012** [support/stale] USB cctv camera not working? — _reply-only; labels: no-label; updated 2018-10-01_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#1010** [not-our-problem] when making a MotionEye Server? — _reply-only; labels: no-label; updated 2018-09-30_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#1007** [resolved] SFTP using ssh key — _reply-only; labels: enhancement, feature; updated 2021-12-31_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1006** [duplicate] Motion Eye frezzing and locking up on Pi 3B+ — _reply-only; labels: duplicate, motionEyeOS; updated 2018-09-29_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#1003** [resolved] playback/timelapse by phone and windows unavailable for motioneye created files — _reply-only; labels: no-label; updated 2020-07-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#1002** [stale] Running Motioneye as normal user — _reply-only; labels: no-label; updated 2018-09-23_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#995** [stale] Streaming URL not available in docker. — _reply-only; labels: no-label; updated 2018-10-02_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#994** [not-our-problem] Feature Request - Access Point for configuring Wifi — _reply-only; labels: motionEyeOS; updated 2018-09-03_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#992** [stale] Stream issues — _reply-only; labels: no-label; updated 2018-08-30_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#991** [support/stale] Stream Freeze Loops every ~15 seconds — _reply-only; labels: no-label; updated 2018-08-30_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#988** [support/stale] CPU consumption — _reply-only; labels: no-label; updated 2018-08-28_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#987** [stale] Xiaofang (Fang-Hacks) — _reply-only; labels: no-label; updated 2018-08-28_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#985** [stale] Cannot save pictures nor movies. — _reply-only; labels: no-label; updated 2018-08-31_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#984** [stale] [BUG] motion recording movies but striked camera logo in the UI instead of live image — _reply-only; labels: no-label; updated 2018-08-29_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#982** [stale] Motioneye and VLC — _reply-only; labels: no-label; updated 2018-08-21_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#978** [stale] feature request:Prevent disk filling — _reply-only; labels: no-label; updated 2018-08-17_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#976** [not-our-problem] MotionEye on raspbian: no camera detected — _reply-only; labels: no-label; updated 2018-09-01_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#974** [stale] Change default time change — _reply-only; labels: no-label; updated 2018-08-13_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#972** [stale] When will there be an API? — _reply-only; labels: no-label; updated 2019-01-25_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#970** [not-our-problem] Connecting MotioneyeOS Camera to Motioneye Hub — _reply-only; labels: no-label; updated 2018-08-27_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#968** [support/stale] Unable to open video device — _reply-only; labels: no-label; updated 2018-08-03_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#967** [stale] [NOT ISSUE] Trigger video / image saving manually [NOT ISSUE] — _reply-only; labels: no-label; updated 2018-08-07_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#964** [not-our-problem] Number of locally saved images do not match the number of FTP images — _reply-only; labels: no-label; updated 2019-02-03_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#960** [stale] Use GPU on Odroid XU4 — _reply-only; labels: no-label; updated 2019-07-01_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#958** [stale] Extremely low framerate selecting HEVC — _reply-only; labels: no-label; updated 2018-07-24_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#957** [stale] Is full access to Dropbox necessary? — _reply-only; labels: no-label; updated 2018-07-27_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#956** [not-our-problem] Microsoft LifeCam Studio USB web cam not detected — _reply-only; labels: no-label; updated 2018-07-24_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#952** [stale] Admin page not accessible — _reply-only; labels: no-label; updated 2018-07-22_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#950** [not-our-problem] Motion Alarm Emails do not contain image attachments — _reply-only; labels: no-label; updated 2018-07-19_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#944** [stale] on_event_start is triggered even if motion detection is OFF — _reply-only; labels: no-label; updated 2018-07-15_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#943** [support/stale] On Raspbian during installation — _reply-only; labels: no-label; updated 2018-07-14_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#941** [not-our-problem] Shutter Speed — _reply-only; labels: no-label; updated 2020-06-26_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#936** [support/stale] Problem adding network camera - motioneye on Ubuntu Server 16.04 — _reply-only; labels: no-label; updated 2018-07-10_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#933** [stale] Los of video feed — _reply-only; labels: no-label; updated 2018-07-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#931** [stale] Dark movie compared to streaming — _reply-only; labels: no-label; updated 2018-07-04_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#927** [support/stale] systemctl status motioneye, returns: failed! Result: exit-code*****     Process: 2046 ExecStart=/usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf (code=exited, status=1/FAILURE) — _reply-only; labels: no-label; updated 2018-08-06_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#926** [stale] feature request: Add an invert mask option — _reply-only; labels: no-label; updated 2018-06-29_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#923** [stale] Jerky video after 1 second — _reply-only; labels: no-label; updated 2018-06-25_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#922** [not-our-problem] Can't add Panasonic webcam — _reply-only; labels: no-label; updated 2018-06-25_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#921** [support/stale] Question: HTTP API Available — _reply-only; labels: no-label; updated 2019-01-22_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#917** [stale] No red frame while recording — _reply-only; labels: no-label; updated 2018-06-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#916** [not-our-problem] Webpage not loading sometimes — _reply-only; labels: motionEyeOS; updated 2018-06-25_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#912** [support/stale] unable to open video device - invalid data found — _reply-only; labels: no-label; updated 2018-06-21_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#902** [stale] Raspbian - No USB Cameras — _reply-only; labels: no-label; updated 2018-06-09_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#901** [support/stale] RTSP stream losing connection to the camera in a loop — _reply-only; labels: no-label; updated 2018-07-31_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#900** [stale] motioneye does not start on startup (raspbian) — _reply-only; labels: no-label; updated 2018-12-10_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#899** [stale] recording size discrepancry between cameras — _reply-only; labels: no-label; updated 2018-06-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#897** [not-our-problem] Chance to limit file storage maximum — _reply-only; labels: enhancement; updated 2021-02-28_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#896** [resolved] Some issues with MotionEye — _reply-only; labels: no-label; updated 2018-12-10_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#892** [support/stale] Performance diference between OrangePi Zero H2+ and RPI Zero v1.3 — _reply-only; labels: no-label; updated 2018-06-02_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#888** [resolved] port 8081 doesn't stream — _reply-only; labels: no-label; updated 2018-07-09_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#885** [not-our-problem] RTMP Support — _reply-only; labels: enhancement, feature; updated 2021-07-19_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#884** [stale] Option to add a favicon — _reply-only; labels: no-label; updated 2018-05-24_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#883** [duplicate] Working schedule for still images — _reply-only; labels: duplicate, enhancement, feature; updated 2021-11-23_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#877** [stale] Package mosquitto-clients missing in Docker — _reply-only; labels: no-label; updated 2018-05-16_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#872** [stale] Ubuntu 18.04 LTS — _reply-only; labels: no-label; updated 2020-10-20_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#871** [stale] Docker container keeps restarting — _reply-only; labels: no-label; updated 2019-12-27_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#868** [not-our-problem] Possible to get MotionEye Loaded into BlueIris Surveillance Software — _reply-only; labels: no-label; updated 2020-06-04_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#867** [not-our-problem] Suddenly stoped recording — _reply-only; labels: no-label; updated 2018-04-24_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#866** [stale] Cameras stop recording, but I still see them — _reply-only; labels: no-label; updated 2018-04-24_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#859** [stale] 2nd camera upload to Google Drive and motion detection upload — _reply-only; labels: no-label; updated 2018-04-09_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#857** [resolved] Strange colours / flickering with my connected network cams — _reply-only; labels: no-label; updated 2023-02-06_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#852** [duplicate] Support HTTP PUT method for motion notifications — _reply-only; labels: no-label; updated 2018-04-02_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#850** [not-our-problem] [Feature Request] Support for multiple views — _reply-only; labels: no-label; updated 2020-01-31_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#843** [stale] not save image — _reply-only; labels: no-label; updated 2020-07-18_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#842** [support/stale] How can i capture on_camera_lost — _reply-only; labels: no-label; updated 2018-03-26_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#840** [stale] Extremely low FPS on Raspbian armhfp & Devuan ARM64. — _reply-only; labels: no-label; updated 2018-04-11_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#837** [stale] Motioneye on Ubuntu showing camera 1 image on 1 and 2 on main page — _reply-only; labels: no-label; updated 2018-03-19_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#834** [not-our-problem] Unable to open Video Device, when it's dark outside — _reply-only; labels: no-label; updated 2021-08-19_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#833** [stale] Google drive upload slows down — _reply-only; labels: no-label; updated 2018-06-24_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#826** [stale] reduce light "spot" — _reply-only; labels: no-label; updated 2018-03-21_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#825** [stale] Feature : Users and logs — _reply-only; labels: no-label; updated 2018-03-17_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#824** [stale] FTP problem — _reply-only; labels: no-label; updated 2018-03-14_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#823** [not-our-problem] Camera not usable - WARNING: Connect error on fd 15: ECONNREFUSED — _reply-only; labels: no-label; updated 2022-02-23_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#820** [not-our-problem] Cannot find mass storage — _reply-only; labels: no-label; updated 2020-08-21_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#818** [stale] External storage problem — _reply-only; labels: no-label; updated 2018-06-15_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#814** [stale] Thumbnail image for motion movies — _reply-only; labels: no-label; updated 2018-03-06_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#808** [stale] Add option to create blank .nomedia file for Google Drive uploads — _reply-only; labels: no-label; updated 2018-03-13_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#806** [stale] Problem with GDrive upload when MotionEye automatically start — _reply-only; labels: no-label; updated 2018-03-01_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#804** [stale] motioneye camera noir with ir - white screen — _reply-only; labels: no-label; updated 2018-04-27_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#803** [not-our-problem] Multiple devices with a central server — _reply-only; labels: no-label; updated 2018-02-26_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#794** [not-our-problem] Very Good Software, just one issue with pi cam locally — _reply-only; labels: no-label; updated 2018-02-17_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#790** [stale] Google Chrome - flickering scrollbar — _reply-only; labels: no-label; updated 2020-06-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#789** [stale] feature request: Auto-generate animated GIFs — _reply-only; labels: no-label; updated 2018-02-06_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#788** [stale] feature request: motioneye as brightness sensor for homeautomation — _reply-only; labels: no-label; updated 2019-05-27_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#787** [stale] Created Ansible role for easy deployment — _reply-only; labels: no-label; updated 2018-02-07_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#782** [stale] Unable to FTP images from Motioneye to FTP server — _reply-only; labels: docker, help wanted; updated 2020-11-26_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#778** [stale] Integrate with free machine learning based image analysis to reduce false positives — _reply-only; labels: no-label; updated 2018-01-29_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#773** [stale] Feature Request - Auto create timelapse movies — _reply-only; labels: no-label; updated 2020-05-08_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#772** [stale] Save image when motion is on the display center. — _reply-only; labels: no-label; updated 2018-01-22_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#771** [stale] Can't modify sliders from mobile (android chrome) browser - makes it hard to tune in the field — _reply-only; labels: no-label; updated 2018-01-21_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#768** [stale] Motioneye not start (status=1/failure) — _reply-only; labels: no-label; updated 2018-02-06_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#767** [stale] Motioneye stops after sometime — _reply-only; labels: no-label; updated 2018-02-18_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#766** [not-our-problem] Continuous Recording ignores Working Schedule — _reply-only; labels: no-label; updated 2019-09-19_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#756** [not-our-problem] WARNING: Connect error on fd 16: ECONNREFUS causing many false alarms — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#753** [not-our-problem] Problem connection — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#747** [resolved] Jessie to Stretch Upgrade, pip install motioneye fails due to lack of zlib headers — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#743** [not-our-problem] motion not detected — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#738** [resolved] Add new text overlay — _reply-only; labels: enhancement; updated 2021-05-18_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#736** [stale] Problem : Not possible to do continuous video recording with stills on motion detect — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#735** [not-our-problem] Randomly change video bitrate to very low [50~300 KiB] on Raspberry 3 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#728** [not-our-problem] fast network camera not working anymore — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#722** [stale] View movies stored on external disk — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#717** [support/stale] RTSP not reconnecting — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#716** [stale] Unable to Start Motion on Ubuntu — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#715** [stale] Add notification when a remote user connects to motioneye — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#708** [not-our-problem] Not all videos uploaded — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#706** [stale] The timelapse movie could not be created — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#704** [stale] Protect Admin Password Changes — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#700** [resolved] GPU OR CPU — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#698** [stale] Feature request: Add 'During Daylight' — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#697** [stale] Threshold percentage for motion detection — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#693** [not-our-problem] MotionEyeOs and V4L2 Camera on RaspBerry Pi3 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#692** [stale] Automatic Brightness — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#691** [stale] Output in two different folder places. — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#690** [stale] E: Unable to locate package libavresample2 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#686** [not-our-problem] no motion detected running in docker — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#679** [not-our-problem] Fullscreen not working when fit frames = on and layour rows > 1 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#678** [support/stale] Lag between stream from rtsp camera and stream from raspberry. — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#676** [resolved] FPS throttling (stream_motion on) is not affecting preview stream to motioneye web ui — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#675** [stale] Enable more stuff to be configured globally — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#671** [stale] saving files to usb-stick — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#670** [not-our-problem] Raspberry Pi 3 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#669** [not-our-problem] How to stream with motioneye trough a GSM proxy/ firewall? — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#666** [stale] USB Webcam not detected — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#664** [stale] MotionEye does not show camera images when I access from Internet! — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#660** [stale] ftp server saves also on SD CARD — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#659** [stale] Notification on / off via Command line? Bash script? — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#657** [stale] Allow user to override hostname — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#646** [stale] Backyard bird activity — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#645** [support/stale] Errors in log — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#642** [stale] Dont works notifications — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#641** [stale] bad image — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#640** [duplicate] 0.5 to 1 max FPS on raspian 8 + motioneye — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as duplicate/stale; consolidate the discussion into the canonical linked issue rather than keeping another open tracker.
+- **#639** [not-our-problem] When # images is large, hitting "zipped" never actually downloads them — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#638** [resolved] Camera type problem — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#637** [support/stale] Video on "wired PC" but not working on wireless — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#629** [not-our-problem] Capture long Videos — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#628** [stale] Digest Authentification — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#610** [stale] Upload media files to gdrive — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#609** [stale] movie problem. — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#608** [support/stale] Unit motioneye.service entered failed state. — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#603** [resolved] Impossible to send mails notifications — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#595** [stale] gdrive uploads — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#592** [stale] limit number of images during event - FTP upload — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#576** [stale] DCS-932LB camera — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#575** [resolved] green tinted images — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#572** [stale] Play video directly instead of needing to download — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#567** [stale] Continue recording and motion — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#565** [stale] Ability to use both mask_file and smart_mask_speed together — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#562** [stale] Video preview / animated recording video — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#558** [not-our-problem] Video flickers in latest WebKit-based development browsers — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#554** [stale] motion rapstill — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#546** [support/stale] Brightness of on RPI Zero W with PiCam NoIR 2? — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#540** [stale] Computer Build for MotionEye — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#539** [support/stale] Camera not adjusting to light conditions — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#538** [stale] Pixel change graph over time — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#536** [resolved] meyectl: ERROR: buffer is not large enough — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#535** [not-our-problem] how to run ? py script in motioneyeos ?? — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#529** [stale] Motion detection (Parking IOT) — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#526** [not-our-problem] Can't connect to wifi — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#521** [stale] intervalle 20-25 fps — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#516** [stale] issue: motioneye on Ubuntu with more than 1 Microsoft usb cams — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#514** [resolved] Amcrest IPM-741 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#511** [resolved] Button script — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#510** [stale] Unable to find lastsnap.jpg — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#501** [not-our-problem] Monitoring Commands from GPIO pins — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#495** [not-our-problem] Problem DIGOO rtsp Camera — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#492** [stale] Stream starts and stops on Debian every view seconds — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#487** [resolved] RPI 2 Camera quality — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#479** [support/stale] Failed to connect wifi cam RaspberryPi Zero W — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#477** [stale] multiple file storage — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#465** [not-our-problem] Rasbperry Pi Camera as a Network Camera in a Server — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#459** [stale] corrupted mp4 files — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-14_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#455** [stale] Cycling the videos of the cameras (full screen) - one per time — _reply-only; labels: Stale No Activity 60 Days; updated 2021-06-01_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#449** [support/stale] MemoryError gdrive uploading file > 300 MB — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#446** [resolved] MQTT (or other) Support? — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#445** [stale] Delay between email notifications — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#443** [stale] mask creation and rotation of picture is inconsistent 2 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#442** [support/stale] Picture misformed // what are best options to reduce cpu — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#439** [support/stale] How can I auto (re)connect to a camera stream? — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#433** [stale] Problem adding Remote motionEye Camera — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#428** [stale] Motion triggered movies. — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#423** [stale] Whitebalance and ISO shutter-time — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#419** [support/stale] upgrading motioneye gives following error — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#414** [not-our-problem] Archer T2UH usb — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#413** [stale] Overwrite option - uploaded files — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#411** [not-our-problem] Image motion detection works.....Video trigger not — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#406** [stale] Cant see csi local camera — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#405** [stale] MMAL Support in motioneye — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#401** [stale] MEye saves images locally but will not upload to either Dropbox or Google Drive — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#400** [stale] Allwinner H3 devices support — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#388** [not-our-problem] Hot Button — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#385** [stale] lost picture - pink — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#381** [not-our-problem] Email & webhook notifications have stopped — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#363** [support/stale] How to limit still images — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#358** [stale] Preserve Pictures and Dropbox — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#357** [resolved] Motioneye stopped reacting on motion — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#353** [support/stale] wrong installation guide for raspberry pi 2 raspian — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#347** [stale] ECONNREFUSED streaming higher resolutions — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#345** [not-our-problem] Motion mask rb2 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#340** [support/stale] Frame timing is off in all videos saved by Motioneye on raspberry pi 3 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#338** [stale] email content / notification on connection camera lost — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#335** [stale] Conflict between 2 USB webcam — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#334** [not-our-problem] ERROR: failed to set config for remote camera 1 — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#330** [resolved] no smoothly video recording — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#327** [not-our-problem] Raspberry Pi3 and 4x Logitech USB cameras — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#320** [support/stale] How to properly detect motion — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#319** [stale] Rotating video changes orientation from landscape to portrate — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#317** [not-our-problem] Noir Camera not working with motioneyeos — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#315** [stale] Provide ffplay — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#308** [stale] Start service. — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#306** [resolved] System Won't Update — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#302** [stale] Feature Request: File overwrite or delete when near full — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#294** [support/stale] Installation script — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#289** [stale] Token Revoked — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#287** [stale] No Timelapse movie — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#285** [stale] Admin password webui — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#284** [stale] wiki information misleading for mr-daves motion 3.4 with ffmpeg 3.0.2 on debian jessie — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#279** [stale] Feature request: download all button — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#277** [stale] Feature request: choose output_picture options — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#273** [stale] Feature request: automated (webhook) recording on/off — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#271** [not-our-problem] comands for actions - question — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#267** [support/stale] Motioneye fails to start on authorization failed error — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+- **#262** [not-our-problem] Frame Rate Hight - Slow picture — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#258** [stale] Changing IP Address — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#257** [stale] Action Buttons — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#256** [stale] sendmail is clogging up, email notification stops — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#255** [stale] cant add camera — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#251** [resolved] de/activate motion detection by Script - not start/stop service — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#236** [not-our-problem] Notifications w/o pictures attached — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#232** [stale] Selective bulk delete. — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#228** [stale] Brightness problem — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#214** [stale] Adjusting brightness from shell script — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#200** [stale] Feature request: Automatically delete older motion files in Google Drive folder — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#195** [stale] Feature request: wait for partition to be mounted on boot — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#192** [stale] Feature request: On-demand motion detection — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#190** [stale] feature-request: overlay image for active motion-detection — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#184** [stale] feature-request: bulk delete — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#179** [stale] Save a cropped image of the selected motion area ! — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#170** [resolved] Motion detection not working on rtsp-cams ? — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as resolved/stale based on the thread; ask for a fresh issue with current logs if it still reproduces.
+- **#165** [stale] Support HEAD HTTP request method — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#151** [not-our-problem] OmniVision OV519 not working on motioneye Debian Jessie - transfer drivers from MotionEyeOS — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as motionEyeOS/OS-image support, not a current motionEye application issue; redirect to maintained install/container docs.
+- **#144** [stale] Multiple working_schedule range — _reply-only; labels: Stale No Activity 60 Days; updated 2021-04-21_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#142** [stale] Using Motioneye for a while, what I miss — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale/unowned; no clear current actionable repo change is visible from the issue summary/comments.
+- **#122** [support/stale] Network camera PTZ control — _reply-only; labels: Stale No Activity 60 Days; updated 2021-03-05_
+  - 👉 Close as stale support/environment issue; request a fresh current-version report if still reproducible.
+
+### B3. 情報待ち (17件)
+
+- **#2417** [request-info] Too many false positives for motion detection after setting editable mask — _reply-only; labels: troubleshooting; updated 2022-04-17_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2394** [request-info] Config Wiederherstellen — _reply-only; labels: dev branch, troubleshooting; updated 2022-03-29_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2303** [request-info] error " docker: failed to register -sh: 15: layer" during installation of motioneye in docker on usb drive — _reply-only; labels: help wanted, troubleshooting; updated 2022-03-04_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2295** [request-info] Unable to open video device - RTSP stream works on other software — _reply-only; labels: docker, help wanted, question, troubleshooting; updated 2025-04-08_
+  - 👉 Ask for current-version logs/config and exact repro before deciding whether this is a repo bug.
+- **#2243** [request-info] IMPORTANT INFO: Bullseye CSI Camera Support & Raspberry Pi — _reply-only; labels: troubleshooting; updated 2022-01-17_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2216** [bug/question] Weird DNS requests via PiHole — _unknown; labels: bug, help wanted, question; updated 2021-12-03_
+  - 👉 Request fresh repro/logs; odd DNS traffic needs packet/log evidence on current motionEye before it is actionable.
+- **#2149** [request-info] Spinning lens icons — _reply-only; labels: troubleshooting; updated 2021-07-03_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2138** [request-info] Unable to login to RTSP stream with Motioneye — _reply-only; labels: help wanted, troubleshooting; updated 2021-08-26_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2137** [request-info] email not sending because SSL/TLS key too short — _reply-only; labels: help wanted, troubleshooting; updated 2021-06-09_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2130** [request-info] Milliseconds support for time overlay (recording and streaming) — _reply-only; labels: enhancement, help wanted, troubleshooting; updated 2021-07-30_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2077** [request-info] Running behind Apache proxy — _reply-only; labels: help wanted, troubleshooting; updated 2021-03-29_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2068** [request-info] UNABLE TO OPEN VIDEO DEVICE — _reply-only; labels: help wanted, troubleshooting; updated 2021-03-18_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2066** [request-info] ESP32-CAM with tasmota => no image .jpeg — _reply-only; labels: help wanted, troubleshooting; updated 2021-03-17_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2064** [request-info] USB Camera disappears, won't reattach after power cycles — _reply-only; labels: help wanted, troubleshooting; updated 2021-03-30_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#2048** [request-info] Artifacts on a video stream — _reply-only; labels: help wanted, troubleshooting; updated 2021-03-27_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#1630** [request-info] Working schedule starts - but recording won't stop at end time — _reply-only; labels: troubleshooting; updated 2022-06-05_
+  - 👉 Request reproduction on the current release with logs; otherwise close as stale troubleshooting/no-repro.
+- **#1025** [request-info] How to send Image/Movie or Filename via WEBHOOK — _reply-only; labels: no-label; updated 2025-09-02_
+  - 👉 Ask for current-version logs/config and exact repro before deciding whether this is a repo bug.
+
+### C3. 低コスト実装 (16件)
+
+- **#2414** [feature] Save video files as webm files — _easy; labels: feature; updated 2022-04-12_
+  - 👉 Keep open as a small enhancement/docs/UI option if maintainers want it; otherwise close during backlog pruning.
+- **#2411** [docker] Do not call fdisk for listing disks in container — _easy; labels: docker, enhancement; updated 2022-04-09_
+  - 👉 Keep open as a Docker hardening cleanup: avoid fdisk-based disk listing inside containers.
+- **#2404** [bug] Fix false remainder handling on privacy mask — _trivial; labels: bug; updated 2026-06-22_
+  - 👉 Keep open as a small privacy-mask math bug; fix false remainder handling and add a regression check.
+- **#2397** [bug] motion event relays fail if listen IP is not 0.0.0.0 or 127.0.0.1 — _easy; labels: bug; updated 2026-06-22_
+  - 👉 Keep open; event relay should handle non-0.0.0.0/127.0.0.1 listen IPs, likely a focused bind/URL fix.
+- **#2379** [feature] notifications but only on first event — _easy; labels: feature; updated 2022-10-11_
+  - 👉 Keep open as a notification throttle/dedup option: send only first notification per event/window.
+- **#2217** [feature] Setting up working hours on mobile — _easy; labels: enhancement, question; updated 2021-11-27_
+  - 👉 Keep open as mobile UX improvement for working-hours editing.
+- **#2169** [feature] [Feature request] Option to play sound in Web GUI — _easy; labels: enhancement, feature; updated 2021-08-15_
+  - 👉 Keep open as a small enhancement/docs/UI option if maintainers want it; otherwise close during backlog pruning.
+- **#2034** [feature] Action Button area is locked to a static width; hides more than 8 buttons — _easy; labels: enhancement, feature; updated 2021-08-26_
+  - 👉 Keep open as a small enhancement/docs/UI option if maintainers want it; otherwise close during backlog pruning.
+- **#1463** [bug] Clean Cloud - Deletes all previous day's folders if custom period used — _easy; labels: no-label; updated 2022-06-14_
+  - 👉 Keep open if still reproducible; cloud cleanup period deleting prior-day folders sounds like a focused cleanup boundary bug.
+- **#1440** [feature] Add temp overlay or feedback — _easy; labels: no-label; updated 2022-08-25_
+  - 👉 Keep open as optional temperature/text overlay enhancement if maintainers want overlay support.
+- **#1060** [bug] cannot backup config on FreeBSD — _easy; labels: feature; updated 2022-03-22_
+  - 👉 Keep open as FreeBSD config-backup portability fix if FreeBSD support remains in scope.
+- **#869** [feature] Send Notification To Pushover (Attachment Picture) — _easy; labels: feature; updated 2024-05-28_
+  - 👉 Keep open as a focused notification backend enhancement: allow Pushover messages with an attached picture.
+- **#779** [bug/docs] Example Config is IPv4-only, yet tornado supports IPv6 — _easy; labels: help wanted, question; updated 2025-07-23_
+  - 👉 Keep open; make example config and bind/listen documentation IPv6-aware, or document IPv4-only assumptions.
+- **#742** [feature] Purge files based on disk usage — _easy; labels: Stale No Activity 60 Days; updated 2025-07-26_
+  - 👉 Keep open as a manageable cleanup policy enhancement: purge by disk usage threshold, not only age.
+- **#307** [feature] Is there a way to see unsuccessful attempts to log in in logs? — _easy; labels: Stale No Activity 60 Days; updated 2024-07-02_
+  - 👉 Keep open as a small audit/logging enhancement: log failed login attempts with source details.
+- **#40** [feature] Add pagination to movies/pictures — _easy; labels: Stale No Activity 60 Days, feature; updated 2022-03-14_
+  - 👉 Keep open as media browser pagination task; directly addresses large media directories.
+
+### D3. 実装keep (39件)
+
+- **#2425** [feature] Add support for modern libcamera Raspberry Pi camera stack — _hard; labels: Raspberry Pi, feature, motion; updated 2026-06-22_
+  - 👉 Keep open as the canonical modern Raspberry Pi libcamera support tracker; still actively referenced in 2026 and not solved natively.
+- **#2407** [security/docker] Run Docker container as "motion" user — _medium; labels: docker, security; updated 2026-06-22_
+  - 👉 Keep open; running the Docker image as a non-root motion user is still a valid hardening/non-root-container task.
+- **#2400** [feature] Webhook and/or command if no video from (remote) camera — _medium; labels: feature; updated 2022-04-01_
+  - 👉 Keep open as camera-offline event hook request; needs reliable offline detection and command/webhook dispatch.
+- **#2387** [feature] Request to add sound to the video — _medium; labels: feature; updated 2023-07-08_
+  - 👉 Keep open if audio-in-recordings is in scope; otherwise close as motion/camera-stack dependent feature.
+- **#2241** [feature] on_picture_save action and on_movie_end not separated — _medium; labels: enhancement, feature, help wanted, question; updated 2021-12-13_
+  - 👉 Keep open; separating on_picture_save and on_movie_end actions is a real event-hook design request.
+- **#2227** [feature] Fit Frames Horizontally — _medium; labels: enhancement, feature; updated 2022-03-20_
+  - 👉 Keep open/consolidate with layout-fitting PRs; frame layout behavior still has active related work.
+- **#2215** [performance] Picture browser slow to open with too many pictures — _medium; labels: help wanted, question, troubleshooting; updated 2021-10-23_
+  - 👉 Keep open as media-browser scalability work; many files make picture browsing slow.
+- **#2214** [performance] Web interface slowing down when viewing lots of next pictures in picture browser — _medium; labels: help wanted, question; updated 2021-10-27_
+  - 👉 Keep open as media-browser performance issue when navigating many pictures; related to #2215.
+- **#2205** [feature] Add "Reboot" in the user account / Sticky note ❓ — _medium; labels: enhancement, feature; updated 2021-10-13_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#2172** [feature] Retain function for motion detection — _medium; labels: enhancement, feature; updated 2021-08-11_
+  - 👉 Keep open as a real enhancement, but scope it before implementation and consolidate duplicates.
+- **#2160** [feature] Handy python script for RPi heat/power issues — _medium; labels: enhancement, feature; updated 2021-07-20_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#2141** [feature] Password length — _medium; labels: enhancement, feature; updated 2021-06-17_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#2140** [feature] Make MotionEye docker multiplatform by default — _medium; labels: docker, enhancement, feature; updated 2021-06-15_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#2135** [feature] Movies / Recording Mode not saved after turning off Movies — _medium; labels: enhancement; updated 2021-06-07_
+  - 👉 Keep open as a real enhancement, but scope it before implementation and consolidate duplicates.
+- **#2129** [feature] Question: Future of motioneye? MotionPlus support? — _medium; labels: enhancement, feature; updated 2021-05-30_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#2115** [feature] Feature request: stream sequentially from different cams — _medium; labels: feature; updated 2021-04-30_
+  - 👉 Keep open as a real enhancement, but scope it before implementation and consolidate duplicates.
+- **#2098** [feature] Request - view for editing common settings across all cameras — _medium; labels: enhancement, feature; updated 2021-04-16_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#2020** [feature] ccrisan / motioneye  with balenaCloud — _medium; labels: enhancement, feature; updated 2021-02-03_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#2018** [feature] Follow movement PTZ — _medium; labels: enhancement, feature, question; updated 2021-02-23_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#2017** [feature] Store video files using AV1 — _medium; labels: enhancement, feature, question; updated 2021-02-03_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#1987** [feature] Feature request: ability to resize columns in media browse window — _medium; labels: enhancement, feature; updated 2021-01-04_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#1981** [feature] Feature request: per-camera storage quota — _medium; labels: enhancement, feature; updated 2022-02-26_
+  - 👉 Keep open as per-camera storage quota enhancement; overlaps cleanup/purge policy work.
+- **#1966** [feature] Watch movie while recording — _medium; labels: enhancement; updated 2021-01-29_
+  - 👉 Keep open as a real enhancement, but scope it before implementation and consolidate duplicates.
+- **#1965** [feature] Frequency of motion triggered still images. — _medium; labels: enhancement, help wanted, motion, question; updated 2021-02-14_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#1949** [feature] Add parameter "mfsymlinks" to SMB3 network share mounts — _medium; labels: enhancement; updated 2020-11-09_
+  - 👉 Keep open as a real enhancement, but scope it before implementation and consolidate duplicates.
+- **#1810** [bug] SMB: Cannot Delete Media Files via GUI — _medium; labels: troubleshooting; updated 2026-06-22_
+  - 👉 Keep open; SMB-backed media deletion from the GUI is a real file-storage behavior bug to verify and fix.
+- **#1671** [security/feature] Allow for an authenticated connection to the control port — _medium; labels: feature, security; updated 2026-05-21_
+  - 👉 Keep open; authenticated access to Motion control port is a real security enhancement, but needs careful default-safe design.
+- **#1214** [feature] ONVIF cam support — _hard; labels: question; updated 2024-09-03_
+  - 👉 Keep open as ONVIF support tracking, but scope it carefully because discovery/control/auth are larger than a small patch.
+- **#1129** [feature] Feature Request: Implement the Google Home Camera Guide — _hard; labels: enhancement, feature; updated 2025-12-28_
+  - 👉 Keep open as a broad Google Home / smart-display integration request if desired; likely needs a separate integration/gateway design.
+- **#880** [feature] Low Res Stream for motion detection - Hi Res Stream for recording ? — _medium; labels: feature; updated 2026-02-12_
+  - 👉 Keep open; low-res detection with high-res recording is still a useful stream/profile enhancement.
+- **#800** [feature] Feature Request: Toggle motion detection on/off via API or else — _medium; labels: no-label; updated 2023-02-03_
+  - 👉 Keep open/consolidate with API-control requests; toggling motion detection via API is still a practical automation feature.
+- **#541** [feature] Feature/Request: multiple Surveillance user accounts — _hard; labels: feature; updated 2026-01-31_
+  - 👉 Keep open only if maintainers want multi-user auth; otherwise close as too-broad. It is a large permissions/session model change.
+- **#452** [feature] flipping image — _medium; labels: feature, motion; updated 2022-06-12_
+  - 👉 Keep open as image-flip/camera transform request; likely depends on motion/camera controls.
+- **#421** [feature] Q: multiple motions + common storage + one gui? — _medium; labels: Stale No Activity 60 Days, feature; updated 2022-03-22_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#296** [feature] Sort cam order? — _medium; labels: feature; updated 2021-03-04_
+  - 👉 Keep open as an enhancement candidate; needs scope/owner before coding.
+- **#235** [feature] External motion trigger — _medium; labels: Stale No Activity 60 Days; updated 2024-03-02_
+  - 👉 Keep open as external trigger/PIR support; overlap with manual motion trigger/API work should be consolidated.
+- **#229** [feature] [Feature] Option to manually start and stop recording? — _medium; labels: feature; updated 2024-02-01_
+  - 👉 Keep open as the canonical manual recording start/stop request; several duplicates point here.
+- **#37** [feature] Allow to do timelapse recording and motion detection together — _medium; labels: feature; updated 2022-03-14_
+  - 👉 Keep open as combined timelapse + motion detection mode request; needs config/UI behavior design.
+- **#31** [feature] Allow to trigger motion via PIR sensor/manually — _medium; labels: Stale No Activity 60 Days, feature; updated 2022-03-14_
+  - 👉 Keep open/consolidate with external trigger/manual trigger requests; PIR/manual event trigger is still useful.
+
+### E3. 要判断・watch (17件)
+
+- **#2336** [triage] Cannot mount network share — _unknown; labels: no-label; updated 2022-03-11_
+  - 👉 Keep for maintainer triage; needs a human decision whether this is still in scope.
+- **#2210** [feature] Feature Request - QR code decoding — _medium; labels: feature, help wanted; updated 2021-10-18_
+  - 👉 Wishlist QR-code decoding; close unless someone wants to own a CV/integration feature.
+- **#2089** [triage] Sending notifications via Pushover — _unknown; labels: help wanted, question, troubleshooting; updated 2024-11-21_
+  - 👉 Keep for maintainer triage; needs a human decision whether this is still in scope.
+- **#1924** [feature] RFE: alive health check URI — _unknown; labels: enhancement; updated 2020-11-04_
+  - 👉 Old broad feature request; keep only if maintainers still want it, otherwise close as unowned wishlist.
+- **#1911** [feature] Frame change threshold and Show frame changes? — _unknown; labels: enhancement, question; updated 2020-11-04_
+  - 👉 Old broad feature request; keep only if maintainers still want it, otherwise close as unowned wishlist.
+- **#1909** [feature] Use relative paths for easier hosting — _unknown; labels: enhancement; updated 2020-11-04_
+  - 👉 Old broad feature request; keep only if maintainers still want it, otherwise close as unowned wishlist.
+- **#1902** [feature] CPU Limit for ffmpeg — _unknown; labels: enhancement; updated 2020-11-04_
+  - 👉 Old broad feature request; keep only if maintainers still want it, otherwise close as unowned wishlist.
+- **#1887** [feature] monitor_1 applying to wrong camera — _unknown; labels: enhancement; updated 2020-11-04_
+  - 👉 Old broad feature request; keep only if maintainers still want it, otherwise close as unowned wishlist.
+- **#1430** [triage] Camera resolution issue — _unknown; labels: no-label; updated 2024-11-26_
+  - 👉 Keep for maintainer triage; needs a human decision whether this is still in scope.
+- **#1378** [triage] Two usb cams with motioneye 0.4 do not work — _unknown; labels: no-label; updated 2023-01-11_
+  - 👉 Keep for maintainer triage; needs a human decision whether this is still in scope.
+- **#1276** [feature] Nice to have: "Camera description" — _unknown; labels: feature; updated 2019-05-14_
+  - 👉 Old broad feature request; keep only if maintainers still want it, otherwise close as unowned wishlist.
+- **#1251** [triage] Can't add xiaomi Xiaofang hacked camera — _unknown; labels: no-label; updated 2022-11-07_
+  - 👉 Keep for maintainer triage; needs a human decision whether this is still in scope.
+- **#1227** [feature] detect and report "modulo not being 8" when adding camera — _unknown; labels: enhancement; updated 2019-04-12_
+  - 👉 Old broad feature request; keep only if maintainers still want it, otherwise close as unowned wishlist.
+- **#951** [triage] motioneye service doesn't work — _unknown; labels: no-label; updated 2023-08-20_
+  - 👉 Keep for maintainer triage; needs a human decision whether this is still in scope.
+- **#627** [triage] Mask and Threshold — _unknown; labels: Stale No Activity 60 Days; updated 2023-11-19_
+  - 👉 Keep for maintainer triage; needs a human decision whether this is still in scope.
+- **#203** [feature] Feature requests/ideas: MotionEye activation by leaving home (using smartphone detection) — _hard; labels: no-label; updated 2023-01-30_
+  - 👉 Keep as broad automation/watch item only if maintainers want presence-based activation; otherwise close as too-broad/unowned.
+- **#177** [triage] feature-request: ordering of CAMs — _unknown; labels: Stale No Activity 60 Days; updated 2022-10-17_
+  - 👉 Keep for maintainer triage; needs a human decision whether this is still in scope.
