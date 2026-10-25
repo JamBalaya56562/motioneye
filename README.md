@@ -18,6 +18,12 @@
 - PR のレビューを待っている間は、**issue の triage 作業**をする
 - 着手中・準備中の PR は下の「PR 状況」に記録する
 
+## Issue close rules
+
+- Close at most **one issue per day**, always with a comment explaining why (a bulk close in 2021 drew backlash, see #1671)
+- Bugs: close only after confirming they no longer reproduce. Issues that are obviously resolved without a repro (feature exists, doc page gone) can be closed with the reason
+- Each close needs the user's OK on the comment first
+
 ## PR 状況
 
 | 状態 | ブランチ | issue | PR | メモ |
@@ -37,6 +43,7 @@
 | ファイル | 内容 |
 |---|---|
 | [milestone-v0.45.0.md](milestone-v0.45.0.md) | v0.45.0 未完了 issue の整理 (着手しやすさ・影響度・議論状況) |
+| [clearly-fixed.md](clearly-fixed.md) | Open issues that are clearly already resolved (close candidates, one per day) |
 
 ## 進捗ログ
 
@@ -48,3 +55,5 @@
 | 2026-10-25 | PR は常に 1 本だけ出し、レビュー待ちの間は triage をするルールを追加 |
 | 2026-10-25 | #1671 を `feat/motion-control-auth` で実装 (339 tests passed、実 motion 4.5.1 で 401/200 を確認) |
 | 2026-10-25 | #1671 の PR [#3474](https://github.com/motioneye-project/motioneye/pull/3474) を提出 → レビュー待ちの間は triage |
+| 2026-10-26 | #3474: Marijn0 review → restrict `motioneye.conf` to 0600 (commit `3351042f`, 342 tests passed), replied |
+| 2026-10-26 | Surveyed clearly-resolved open issues → 11 close candidates in clearly-fixed.md |
