@@ -22,7 +22,7 @@
 
 | 状態 | ブランチ | issue | PR | メモ |
 |---|---|---|---|---|
-| 準備中 (未提出) | `feat/motion-control-auth` | #1671 | — | 実装・テスト済み。提出前にユーザー確認待ち |
+| レビュー待ち | `feat/motion-control-auth` | #1671 | [#3474](https://github.com/motioneye-project/motioneye/pull/3474) | 2026-10-25 提出。closing 参照 = #1671 を確認済み |
 
 ## 前提 (2026-10-25 時点)
 
@@ -47,3 +47,4 @@
 | 2026-10-25 | #2828 をクローズ (#3376 で修正済み、closing 参照漏れ) |
 | 2026-10-25 | PR は常に 1 本だけ出し、レビュー待ちの間は triage をするルールを追加 |
 | 2026-10-25 | #1671 を `feat/motion-control-auth` で実装 (339 tests passed、実 motion 4.5.1 で 401/200 を確認) |
+| 2026-10-25 | #1671 の PR [#3474](https://github.com/motioneye-project/motioneye/pull/3474) を提出 → レビュー待ちの間は triage |
