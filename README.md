@@ -71,3 +71,4 @@
 | 2026-10-25 | #3474 merged by MichaIng (squash `5acdd519`), #1671 closed. Fork `dev` fast-forwarded to `5acdd519` |
 | 2026-10-26 | Prepared the `root:motion` 0640 follow-up on `enh/conf-root-owned` (348 tests passed, checked with real owners/modes in a container); PR not submitted yet |
 | 2026-10-26 | Submitted the follow-up as [#3475](https://github.com/motioneye-project/motioneye/pull/3475) |
+| 2026-10-26 | Closed #657 (implemented by #846 as `server_name`). Next candidate: #1094 |
