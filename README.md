@@ -31,6 +31,13 @@
 |---|---|---|---|---|
 | レビュー待ち | `feat/motion-control-auth` | #1671 | [#3474](https://github.com/motioneye-project/motioneye/pull/3474) | 2026-10-25 提出。closing 参照 = #1671 を確認済み |
 
+## Follow-up ideas (next PR candidates)
+
+| Idea | Source | Notes |
+|---|---|---|
+| `motioneye.conf` owned by `root:motion` with mode `0640`, so the motionEye server cannot lift its own restrictions (auth, `webcontrol_*`) | MichaIng on [#3474](https://github.com/motioneye-project/motioneye/pull/3474) (2026-10-25) | Needs a different mode check: warn if anyone but root and motionEye can read it, `chmod` only when writable, otherwise tell the admin to fix it. Dedicated PR |
+| motion's `config/write` still works with `webcontrol_parms 0` (writes the running config to disk) | Observed with motion 4.5.1 (2026-10-26) | Not reported anywhere yet; check whether it matters |
+
 ## 前提 (2026-10-25 時点)
 
 - upstream への権限: `push:true, triage:true` (admin/maintain は無し)。issue のクローズ・ラベル付けが可能
@@ -59,3 +66,4 @@
 | 2026-10-26 | #3474: Marijn0 review → restrict `motioneye.conf` to 0600 (commit `3351042f`, 342 tests passed), replied |
 | 2026-10-26 | Surveyed clearly-resolved open issues → 11 close candidates in clearly-fixed.md |
 | 2026-10-25 | Closed #1497 (fixed by #1502). Close pace relaxed to about two actions per day |
+| 2026-10-26 | #3474: MichaIng review → linux_init chmod 0600, sample note, `webcontrol_parms` default 0 (commit `1795f4b2`, 344 tests passed, verified with motion 4.5.1) |
