@@ -15,7 +15,7 @@
 
 | 順 | # | 理由 | 状態 |
 |---|---|---|---|
-| 1 | #2828 | dev で修正済み。クローズするだけ | 未着手 |
+| 1 | #2828 | dev で修正済み。クローズするだけ | 完了 (2026-10-25 クローズ) |
 | 2 | #1671 | MichaIng が実装手順を提示済み。小規模・セキュリティ | 未着手 |
 | 3 | #3196 | 原因特定済み。ユーザー影響大 | 未着手 |
 | 4 | #3248 + #3007 | Docker ドキュメント。コードリスクなし | 未着手 |
@@ -27,7 +27,7 @@
 
 | # | 内容 | 状況 | 次の一手 | 状態 |
 |---|---|---|---|---|
-| [#2828](https://github.com/motioneye-project/motioneye/issues/2828) | Dropbox - Service error | **dev で修正済み (検証済み)**: 自分の [#3376](https://github.com/motioneye-project/motioneye/pull/3376) が 2026-06-28 マージ。`motioneye/uploadservices.py:666` が `json.dumps(body).encode()` | #3376 を添えてクローズ | 未着手 |
+| [#2828](https://github.com/motioneye-project/motioneye/issues/2828) | Dropbox - Service error | **dev で修正済み (検証済み)**: 自分の [#3376](https://github.com/motioneye-project/motioneye/pull/3376) が 2026-06-28 マージ。`motioneye/uploadservices.py:666` が `json.dumps(body).encode()` | #3376 を添えてクローズ | 完了: 2026-10-25 クローズ ([コメント](https://github.com/motioneye-project/motioneye/issues/2828#issuecomment-6398775706))。#3376 の closing 参照が #2940 になっていたため自動クローズされなかった |
 | [#2755](https://github.com/motioneye-project/motioneye/issues/2755) | 検知マスクが時間とともにずれる | 一部修正: [#3470](https://github.com/motioneye-project/motioneye/pull/3470) が 2026-10-22 19:23 マージ → 直後 19:24 に MichaIng「resolution dimmer 使用時はまだ未解決」 | dimmer < 100% で再現 → 修正。Marijn0 の再現手順・ログ (`editable mask needs resizing from 819x614 to 1024x768`) あり。zagrim 案: DOM サイズでなく `resolutionFactor` と実フレームサイズでスケーリング | 未着手 |
 
 ## B. 方針合意済み・実装待ち

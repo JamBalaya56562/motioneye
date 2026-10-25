@@ -13,6 +13,8 @@
 ## 前提 (2026-10-25 時点)
 
 - upstream への権限: `push:true, triage:true` (admin/maintain は無し)。issue のクローズ・ラベル付けが可能
+- issue のクローズ時期: **PR が dev にマージされた時点** (リリース待ちではない)。既定ブランチが `dev` なので `Fixes #xxx` がマージ時に効く。
+  マイルストーンは「どのリリースに入るか」の目印 (v0.44.0 / v0.45.0 の closed issue のクローズ時刻で確認、検証済み)
 - GitHub Projects は org・repo とも無効。メンテナー (Marijn0) の指示は **v0.45.0 マイルストーンの open issue から着手**
   ([#3387 のコメント](https://github.com/motioneye-project/motioneye/pull/3387#issuecomment-6151590452))
 
@@ -28,3 +30,4 @@
 |---|---|
 | 2026-10-25 | jj で `upstream` を追加、`dev@upstream` を track、`trunk()` = `dev@upstream` |
 | 2026-10-25 | v0.45.0 マイルストーンの未完了 19 件を整理 → milestone-v0.45.0.md |
+| 2026-10-25 | #2828 をクローズ (#3376 で修正済み、closing 参照漏れ) |
