@@ -20,7 +20,8 @@
 
 ## Issue close rules
 
-- Close at most **one issue per day**, always with a comment explaining why (a bulk close in 2021 drew backlash, see #1671)
+- Pace: **about two actions per day** (closes and own PR activity combined), not a strict quota — the point is to go slowly enough that maintainers do not push back (a bulk close in 2021 drew backlash, see #1671)
+- Always close with a comment explaining why
 - Bugs: close only after confirming they no longer reproduce. Issues that are obviously resolved without a repro (feature exists, doc page gone) can be closed with the reason
 - Each close needs the user's OK on the comment first
 
@@ -57,3 +58,4 @@
 | 2026-10-25 | #1671 の PR [#3474](https://github.com/motioneye-project/motioneye/pull/3474) を提出 → レビュー待ちの間は triage |
 | 2026-10-26 | #3474: Marijn0 review → restrict `motioneye.conf` to 0600 (commit `3351042f`, 342 tests passed), replied |
 | 2026-10-26 | Surveyed clearly-resolved open issues → 11 close candidates in clearly-fixed.md |
+| 2026-10-25 | Closed #1497 (fixed by #1502). Close pace relaxed to about two actions per day |

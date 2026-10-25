@@ -7,13 +7,13 @@
   1. All 914 open issues: listed cross-references from merged PRs / commits (GraphQL) → 22 issues
   2. Doc-related issues: title keywords (wiki, readme, docs, install instructions, translation, ...) + `documentation` label → 17 issues
   3. Read each candidate thread and checked the current `dev` code / current wiki (`motioneye.wiki.git`, last commit `d9686a1` 2026-10-19)
-- Close pace: **one issue per day**, always with a comment explaining why (avoid the 2021 bulk-close backlash, see #1671)
+- Close pace: **about two actions per day** together with own PR activity (loose, not a quota), always with a comment explaining why (avoid the 2021 bulk-close backlash, see #1671)
 
 ## Close candidates
 
 | Order | # | Title | Why it is resolved (evidence) | Status |
 |---|---|---|---|---|
-| 1 | [#1497](https://github.com/motioneye-project/motioneye/issues/1497) | Dots not allowed in filenames as of 0.41 | Fixed by #1502 (merged 2019-10-21). `static/js/main.js:17-18` `filenameValidRegExp`/`dirnameValidRegExp` include `.`; `cam.1/snap` and `name.with.dots` match (checked with Python `re`) | candidate |
+| 1 | [#1497](https://github.com/motioneye-project/motioneye/issues/1497) | Dots not allowed in filenames as of 0.41 | Fixed by #1502 (merged 2019-10-21). `static/js/main.js:17-18` `filenameValidRegExp`/`dirnameValidRegExp` include `.`; `cam.1/snap` and `name.with.dots` match (checked with Python `re`) | **closed 2026-10-25** ([comment](https://github.com/motioneye-project/motioneye/issues/1497#issuecomment-6400082807)) |
 | 2 | [#657](https://github.com/motioneye-project/motioneye/issues/657) | Allow user to override hostname | Implemented by #846 (merged 2018-03-29) as the `server_name` setting: `settings.py:144`, `extra/motioneye.conf.sample` (`#server_name motionEye`), used in `handlers/main.py:36` | candidate |
 | 3 | [#1094](https://github.com/motioneye-project/motioneye/issues/1094) | Removing old files on Google Drive | Implemented by #1118 (merged 2019-02-07): `GoogleDrive.clean_cloud` (`uploadservices.py:469`), triggered from `mediafiles.py:245`, UI switch `cleanCloudEnabledSwitch` (`templates/main.html:445`) | candidate |
 | 4 | [#353](https://github.com/motioneye-project/motioneye/issues/353) | Wrong installation guide for Raspberry Pi 2 Raspbian | Wiki page `Install-On-Raspbian` deleted by MichaIng on 2025-12-16 (`d9f4147`); wiki sidebar "Installation" now links to the README instructions | candidate |
