@@ -1,6 +1,6 @@
-# PR drafts (prepared, not submitted)
+# PR drafts
 
-## `enh/conf-root-owned` — install motioneye.conf as root:motion 0640
+## `enh/conf-root-owned` — install motioneye.conf as root:motion 0640 (submitted as #3475, 2026-10-26)
 
 - Branch: `JamBalaya56562:enh/conf-root-owned` (`faf38179`), base `dev` (`5acdd519`)
 - Follow-up of #3474, suggested by MichaIng: https://github.com/motioneye-project/motioneye/pull/3474#issuecomment-6400316471 ("Side note")

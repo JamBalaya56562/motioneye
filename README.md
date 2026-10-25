@@ -30,13 +30,13 @@
 | 状態 | ブランチ | issue | PR | メモ |
 |---|---|---|---|---|
 | Merged 2026-10-25 (squash `5acdd519`, by MichaIng) | `feat/motion-control-auth` (deleted) | #1671 (closed) | [#3474](https://github.com/motioneye-project/motioneye/pull/3474) | Done |
-| Prepared, not submitted | `enh/conf-root-owned` (fork, `faf38179`) | — (follow-up of #3474) | — | Submit after some time has passed since #3474, to not rush maintainers. PR text: [pr-drafts.md](pr-drafts.md) |
+| Open, in review (submitted 2026-10-26) | `enh/conf-root-owned` (fork, `faf38179`) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Waiting for review; triage meanwhile |
 
 ## Follow-up ideas (next PR candidates)
 
 | Idea | Source | Notes |
 |---|---|---|
-| `motioneye.conf` owned by `root:motion` with mode `0640`, so the motionEye server cannot lift its own restrictions (auth, `webcontrol_*`) | MichaIng on [#3474](https://github.com/motioneye-project/motioneye/pull/3474) (2026-10-25) | Needs a different mode check: warn if anyone but root and motionEye can read it, `chmod` only when writable, otherwise tell the admin to fix it. Dedicated PR → **prepared on `enh/conf-root-owned`** |
+| `motioneye.conf` owned by `root:motion` with mode `0640`, so the motionEye server cannot lift its own restrictions (auth, `webcontrol_*`) | MichaIng on [#3474](https://github.com/motioneye-project/motioneye/pull/3474) (2026-10-25) | Needs a different mode check: warn if anyone but root and motionEye can read it, `chmod` only when writable, otherwise tell the admin to fix it. Dedicated PR → **submitted as [#3475](https://github.com/motioneye-project/motioneye/pull/3475)** |
 | motion's `config/write` still works with `webcontrol_parms 0` (writes the running config to disk) | Observed with motion 4.5.1 (2026-10-26) | Not reported anywhere yet; check whether it matters |
 
 ## 前提 (2026-10-25 時点)
@@ -70,3 +70,4 @@
 | 2026-10-26 | #3474: MichaIng review → linux_init chmod 0600, sample note, `webcontrol_parms` default 0 (commit `1795f4b2`, 344 tests passed, verified with motion 4.5.1) |
 | 2026-10-25 | #3474 merged by MichaIng (squash `5acdd519`), #1671 closed. Fork `dev` fast-forwarded to `5acdd519` |
 | 2026-10-26 | Prepared the `root:motion` 0640 follow-up on `enh/conf-root-owned` (348 tests passed, checked with real owners/modes in a container); PR not submitted yet |
+| 2026-10-26 | Submitted the follow-up as [#3475](https://github.com/motioneye-project/motioneye/pull/3475) |
