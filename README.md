@@ -31,7 +31,7 @@
 |---|---|---|---|---|
 | Merged 2026-10-25 (squash `5acdd519`, by MichaIng) | `feat/motion-control-auth` (deleted) | #1671 (closed) | [#3474](https://github.com/motioneye-project/motioneye/pull/3474) | Done |
 | Merged 2026-10-26 (`429bae74`, by MichaIng) | `enh/conf-root-owned` (deleted) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Done |
-| Open, in review (submitted 2026-10-27) | `enh/no-pid-file` (fork, `16d59197`) | #2540 (related, not closing) | [#3478](https://github.com/motioneye-project/motioneye/pull/3478) | Waiting for review; triage meanwhile |
+| Open, in review (submitted 2026-10-27) | `enh/no-pid-file` (fork, `d839e825`) | #2540 (related, not closing) | [#3478](https://github.com/motioneye-project/motioneye/pull/3478) | Waiting for review; triage meanwhile |
 
 ## Follow-up ideas (next PR candidates)
 
@@ -81,3 +81,4 @@
 | 2026-10-26 | Closed #353 (wiki `Install-On-Raspbian` deleted 2025-12-16, README is the single install method). Next candidate: #284 |
 | 2026-10-26 | #3475 merged by MichaIng (`429bae74`); #3476 (free-cup-holder-exe) merged (`f623690a`) |
 | 2026-10-27 | Rebased `enh/no-pid-file` onto `f623690a` (389 tests passed) and submitted it as [#3478](https://github.com/motioneye-project/motioneye/pull/3478) |
+| 2026-10-27 | #3478: pre-commit bandit B607 (`Popen(['sleep', ...])` in a test) → use `sys.executable` like the other tests; squashed into the single commit `d839e825` (bandit clean, motionctl tests passed) |
