@@ -78,3 +78,4 @@
 | 2026-10-26 | Closed #1094 (implemented by #1118 as Clean Cloud; follow-up bug #1463 stays open). Next candidates: wiki-page issues (#353 first) |
 | 2026-10-26 | #3196: verified with real CIFS mounts that foreign mounts are not unmounted; asked MichaIng whether a case is missing ([comment](https://github.com/motioneye-project/motioneye/issues/3196#issuecomment-6414866676)). Not closed |
 | 2026-10-26 | Prepared #2540 on `enh/no-pid-file`: motion tracked by its `Popen` handle, no `motion.pid`; `run_path` only checked with `-b` (353 tests passed, real motion as non-root without run_path). Not submitted |
+| 2026-10-26 | Closed #353 (wiki `Install-On-Raspbian` deleted 2025-12-16, README is the single install method). Next candidate: #284 |
