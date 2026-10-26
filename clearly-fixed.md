@@ -15,7 +15,7 @@
 |---|---|---|---|---|
 | 1 | [#1497](https://github.com/motioneye-project/motioneye/issues/1497) | Dots not allowed in filenames as of 0.41 | Fixed by #1502 (merged 2019-10-21). `static/js/main.js:17-18` `filenameValidRegExp`/`dirnameValidRegExp` include `.`; `cam.1/snap` and `name.with.dots` match (checked with Python `re`) | **closed 2026-10-25** ([comment](https://github.com/motioneye-project/motioneye/issues/1497#issuecomment-6400082807)) |
 | 2 | [#657](https://github.com/motioneye-project/motioneye/issues/657) | Allow user to override hostname | Implemented by #846 (merged 2018-03-29) as the `server_name` setting: `settings.py:148`, `extra/motioneye.conf.sample` (`#server_name motionEye`), used in `handlers/main.py:36`; `load_settings()` picks it up (checked in container) | **closed 2026-10-26** ([comment](https://github.com/motioneye-project/motioneye/issues/657#issuecomment-6405145004)) |
-| 3 | [#1094](https://github.com/motioneye-project/motioneye/issues/1094) | Removing old files on Google Drive | Implemented by #1118 (merged 2019-02-07): `GoogleDrive.clean_cloud` (`uploadservices.py:469`), triggered from `mediafiles.py:245`, UI switch `cleanCloudEnabledSwitch` (`templates/main.html:445`) | candidate |
+| 3 | [#1094](https://github.com/motioneye-project/motioneye/issues/1094) | Removing old files on Google Drive | Implemented by #1118 (merged 2019-02-07): `GoogleDrive.clean_cloud` (`uploadservices.py:469`), triggered from `mediafiles.py:245`, UI switch `cleanCloudEnabledSwitch` (`templates/main.html:445`); remaining custom-period bug tracked in #1463 | **closed 2026-10-26** ([comment](https://github.com/motioneye-project/motioneye/issues/1094#issuecomment-6414555492)) |
 | 4 | [#353](https://github.com/motioneye-project/motioneye/issues/353) | Wrong installation guide for Raspberry Pi 2 Raspbian | Wiki page `Install-On-Raspbian` deleted by MichaIng on 2025-12-16 (`d9f4147`); wiki sidebar "Installation" now links to the README instructions | candidate |
 | 5 | [#284](https://github.com/motioneye-project/motioneye/issues/284) | Wiki info misleading for motion 3.4 / ffmpeg 3.0.2 on Jessie | Same: per-distro wiki install pages deleted 2025-12-16; README is the single install method | candidate |
 | 6 | [#1356](https://github.com/motioneye-project/motioneye/issues/1356) | Raspbian wiki instructions (Buster deps) | Same: `Install-On-Raspbian*` pages deleted 2025-12-16 | candidate |
@@ -29,7 +29,7 @@
 
 - #1497: `This was fixed by #1502: dots are allowed in file and directory names since then (see filenameValidRegExp / dirnameValidRegExp in static/js/main.js). Closing as completed.`
 - #657 (posted): `This has been implemented by @hobbyquaker in #846 (merged in 2018) as the server_name option ... Closing as completed.`
-- #1094: `This was implemented by #1118: with "Clean Cloud" enabled in the upload settings, folders removed locally by the "Preserve" cleanup are removed from Google Drive as well. Closing as completed.`
+- #1094 (posted): `This has been implemented by @bob-lee in #1118 (merged in 2019) as the "Clean Cloud" option ... tracked in #1463. Closing as completed.`
 - Wiki-page issues (#353, #284, #1356, #1459, #2746, #3057, #2232, #1338):
   `The per-distribution installation pages have been removed from the wiki (December 2025). There is now a single install method for all distributions in the README: https://github.com/motioneye-project/motioneye#installation. Closing, as the page this refers to no longer exists. If the README instructions do not work for you, please open a new issue.`
 
