@@ -28,3 +28,31 @@ Tested:
 ```
 
 Before submitting: rebase onto the latest `dev`, re-run the tests, and re-check that no other open PR of ours exists.
+
+## `enh/no-pid-file` — track motion by its process instead of a pid file
+
+- Branch: `JamBalaya56562:enh/no-pid-file` (`26010af1`), base `dev` (`5acdd519`)
+- Related to #2540 (not closing it: the Docker entrypoint still needs root for `su motion`, see #3181 / #2407)
+- When: after #3475 is merged; one PR at a time
+
+**Title:** `enh: track motion by its process instead of a pid file`
+
+**Body:**
+
+```
+Related to #2540: motionEye no longer needs a writable pid directory unless it runs in the background (`-b`).
+
+- motionEye starts motion as its own child, so `motionctl` now keeps the `Popen` handle instead of writing `motion.pid` and reading it back. `running()` polls the process, `stop()` terminates it (TERM, then KILL, as before), and returns as soon as motion exited instead of always waiting 5 seconds.
+- This also removes a hazard of the pid file: a stale `motion.pid` holding the PID of an unrelated process made motionEye treat that process as motion, skip starting motion, and terminate it on stop.
+- `run_path` is only needed for `motioneye.pid` in background mode, so it is only checked there; the sample and settings comment say so.
+
+This does not make `docker run --user` work yet: the entrypoint still creates `/run/motioneye` and switches to the motion user with `su`, which needs root (#3181).
+
+Tested:
+- Test suite: 353 passed, including new tests for the process handling and a stale pid file.
+- With motion 4.5.1 as the motion user and a non-existent `run_path`: dev exits with "pid directory ... is not writable"; with this change motionEye starts, motion runs without any pid file, is restarted by the checker after `kill -9`, and is stopped with motionEye. With `-b`, the missing `run_path` is still reported.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+```
+
+Before submitting: rebase onto the latest `dev`, re-run the tests, and re-check that no other open PR of ours exists.

@@ -31,6 +31,7 @@
 |---|---|---|---|---|
 | Merged 2026-10-25 (squash `5acdd519`, by MichaIng) | `feat/motion-control-auth` (deleted) | #1671 (closed) | [#3474](https://github.com/motioneye-project/motioneye/pull/3474) | Done |
 | Open, in review (submitted 2026-10-26) | `enh/conf-root-owned` (fork, `c06c4319`) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Waiting for review; triage meanwhile |
+| Prepared, not submitted | `enh/no-pid-file` (fork, `26010af1`) | #2540 (related, not closing) | — | Submit after #3475 is merged (one PR at a time). PR text: [pr-drafts.md](pr-drafts.md) |
 
 ## Follow-up ideas (next PR candidates)
 
@@ -76,3 +77,4 @@
 | 2026-10-26 | Reviewed and approved #3476 (free-cup-holder-exe, per-camera certificate check; 380 tests passed together with #3475) |
 | 2026-10-26 | Closed #1094 (implemented by #1118 as Clean Cloud; follow-up bug #1463 stays open). Next candidates: wiki-page issues (#353 first) |
 | 2026-10-26 | #3196: verified with real CIFS mounts that foreign mounts are not unmounted; asked MichaIng whether a case is missing ([comment](https://github.com/motioneye-project/motioneye/issues/3196#issuecomment-6414866676)). Not closed |
+| 2026-10-26 | Prepared #2540 on `enh/no-pid-file`: motion tracked by its `Popen` handle, no `motion.pid`; `run_path` only checked with `-b` (353 tests passed, real motion as non-root without run_path). Not submitted |
