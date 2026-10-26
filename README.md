@@ -75,3 +75,4 @@
 | 2026-10-26 | #3475: MichaIng review → 0600 when motionEye owns the file, suggest `root:<GID>` 0640 otherwise. Applied with fixes for two bugs in the suggestions (`{guid}` NameError, `0x030` instead of `0o030`) and the group check for root-owned files kept (commit `c06c4319`, 349 tests passed, checked with the motion user); PR body updated |
 | 2026-10-26 | Reviewed and approved #3476 (free-cup-holder-exe, per-camera certificate check; 380 tests passed together with #3475) |
 | 2026-10-26 | Closed #1094 (implemented by #1118 as Clean Cloud; follow-up bug #1463 stays open). Next candidates: wiki-page issues (#353 first) |
+| 2026-10-26 | #3196: verified with real CIFS mounts that foreign mounts are not unmounted; asked MichaIng whether a case is missing ([comment](https://github.com/motioneye-project/motioneye/issues/3196#issuecomment-6414866676)). Not closed |

@@ -17,7 +17,7 @@
 |---|---|---|---|
 | 1 | #2828 | dev で修正済み。クローズするだけ | 完了 (2026-10-25 クローズ) |
 | 2 | #1671 | MichaIng が実装手順を提示済み。小規模・セキュリティ | 完了 (#3474 merged 2026-10-25) |
-| 3 | #3196 | 原因特定済み。ユーザー影響大 | 未着手 |
+| 3 | #3196 | 実マウントで検証した結果、外部 CIFS マウントは外されない → MichaIng に確認中 | 調査中 ([comment](https://github.com/motioneye-project/motioneye/issues/3196#issuecomment-6414866676)) |
 | 4 | #3248 + #3007 | Docker ドキュメント。コードリスクなし | 未着手 |
 | 5 | #2755 残り / #2540 | 余力があれば | 未着手 |
 
@@ -35,7 +35,7 @@
 | # | 内容 | 着手しやすさ | 影響度 | 議論状況 | 状態 |
 |---|---|---|---|---|---|
 | [#1671](https://github.com/motioneye-project/motioneye/issues/1671) | motion control port への認証付き接続 | ◎ | 中 (security) | 2026-05-21 MichaIng が実装手順を提示: `settings.py` に username/password 設定 (既定空)、`extra/motioneye.conf.sample` 追記、`config.py` で `webcontrol_auth_method`/`webcontrol_authentication` を出力、`motionctl.py` の control API リクエストに認証を付与。dev には `webcontrol_auth*` の出力なし (grep で確認) | 完了 (#3474 merged 2026-10-25) |
-| [#3196](https://github.com/motioneye-project/motioneye/issues/3196) | motionEye が追加した CIFS マウントだけを扱う | ○ | 中〜高 | 2025-12-13 MichaIng が原因特定: `controls/smbctl.py` の `update_mounts` が起動時にカメラ未使用の CIFS マウントを全部外す、`_umount_all` が停止時に全 CIFS を外す (`server.py` から呼ばれる)。方針: motionEye が付けたものだけ外す | 未着手 |
+| [#3196](https://github.com/motioneye-project/motioneye/issues/3196) | motionEye が追加した CIFS マウントだけを扱う | ○ | 中〜高 | 2025-12-13 MichaIng が原因特定: `controls/smbctl.py` の `update_mounts` が起動時にカメラ未使用の CIFS マウントを全部外す、`_umount_all` が停止時に全 CIFS を外す (`server.py` から呼ばれる)。方針: motionEye が付けたものだけ外す | 調査中: 2026-10-26 Samba + 実 CIFS マウントで検証 (dev)。`update_mounts()` (カメラ未使用) と `smbctl.stop()` で外れたのは `/media/motioneye_*` のみ、外部の `/mnt/nas-media`・`/media/backup` は残った。`list_mounts()` は `_is_motioneye_mount()` (2015〜) で絞り込み済み。MichaIng に見落としがないか確認するコメント投稿 ([comment](https://github.com/motioneye-project/motioneye/issues/3196#issuecomment-6414866676))、返答待ち |
 | [#2540](https://github.com/motioneye-project/motioneye/issues/2540) | Docker 非 root で PID ファイルを書けない | ○ | 中 | 2023-03 MichaIng「PID ファイル無しで動ける選択肢が最善」。dev は常に `RUN_PATH/motioneye.pid` を書く (`server.py:528`) | 未着手 |
 | [#3364](https://github.com/motioneye-project/motioneye/issues/3364) | 0.44 で「remember me」が消えた | △ | **高** (kiosk/PWA/HA の後退) | セッション期間は [#3410](https://github.com/motioneye-project/motioneye/pull/3410) (Marijn0, 2026-09-02 マージ) で設定可能に (`normal_session_expiry_hours`)。残り: ①PWA で `SameSite=Strict` cookie が送られない (`handlers/login.py:282`)、Lax にするなら別の CSRF 対策要検討 ②Tornado の cookie 機能 (`get_secure_cookie` の max age) で remember me を復活する案 (MichaIng)。セキュリティ設計判断が必要 | 未着手 |
 
