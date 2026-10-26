@@ -84,3 +84,4 @@
 | 2026-10-27 | #3478: pre-commit bandit B607 (`Popen(['sleep', ...])` in a test) → use `sys.executable` like the other tests; squashed into the single commit `d839e825` (bandit clean, motionctl tests passed) |
 | 2026-10-27 | Closed #284 (wiki `Install-On-Debian` deleted 2025-12-16; `motioneye_init` installs pre-built motion and distro ffmpeg). Next candidate: #1356 |
 | 2026-10-27 | Close pace raised to about five actions per day (no pushback so far) |
+| 2026-10-27 | Closed #1356 (wiki `Install-On-Raspbian*` deleted 2025-12-16). Next candidate: #1459 |
