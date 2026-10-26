@@ -30,8 +30,8 @@
 | 状態 | ブランチ | issue | PR | メモ |
 |---|---|---|---|---|
 | Merged 2026-10-25 (squash `5acdd519`, by MichaIng) | `feat/motion-control-auth` (deleted) | #1671 (closed) | [#3474](https://github.com/motioneye-project/motioneye/pull/3474) | Done |
-| Open, in review (submitted 2026-10-26) | `enh/conf-root-owned` (fork, `c06c4319`) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Waiting for review; triage meanwhile |
-| Prepared, not submitted | `enh/no-pid-file` (fork, `26010af1`) | #2540 (related, not closing) | — | Submit after #3475 is merged (one PR at a time). PR text: [pr-drafts.md](pr-drafts.md) |
+| Merged 2026-10-26 (`429bae74`, by MichaIng) | `enh/conf-root-owned` (deleted) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Done |
+| Open, in review (submitted 2026-10-27) | `enh/no-pid-file` (fork, `16d59197`) | #2540 (related, not closing) | [#3478](https://github.com/motioneye-project/motioneye/pull/3478) | Waiting for review; triage meanwhile |
 
 ## Follow-up ideas (next PR candidates)
 
@@ -79,3 +79,5 @@
 | 2026-10-26 | #3196: verified with real CIFS mounts that foreign mounts are not unmounted; asked MichaIng whether a case is missing ([comment](https://github.com/motioneye-project/motioneye/issues/3196#issuecomment-6414866676)). Not closed |
 | 2026-10-26 | Prepared #2540 on `enh/no-pid-file`: motion tracked by its `Popen` handle, no `motion.pid`; `run_path` only checked with `-b` (353 tests passed, real motion as non-root without run_path). Not submitted |
 | 2026-10-26 | Closed #353 (wiki `Install-On-Raspbian` deleted 2025-12-16, README is the single install method). Next candidate: #284 |
+| 2026-10-26 | #3475 merged by MichaIng (`429bae74`); #3476 (free-cup-holder-exe) merged (`f623690a`) |
+| 2026-10-27 | Rebased `enh/no-pid-file` onto `f623690a` (389 tests passed) and submitted it as [#3478](https://github.com/motioneye-project/motioneye/pull/3478) |

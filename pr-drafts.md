@@ -1,6 +1,6 @@
 # PR drafts
 
-## `enh/conf-root-owned` — install motioneye.conf as root:motion 0640 (submitted as #3475, 2026-10-26)
+## `enh/conf-root-owned` — install motioneye.conf as root:motion 0640 (submitted as #3475, merged 2026-10-26)
 
 - Branch: `JamBalaya56562:enh/conf-root-owned` (`faf38179`), base `dev` (`5acdd519`)
 - Follow-up of #3474, suggested by MichaIng: https://github.com/motioneye-project/motioneye/pull/3474#issuecomment-6400316471 ("Side note")
@@ -29,7 +29,7 @@ Tested:
 
 Before submitting: rebase onto the latest `dev`, re-run the tests, and re-check that no other open PR of ours exists.
 
-## `enh/no-pid-file` — track motion by its process instead of a pid file
+## `enh/no-pid-file` — track motion by its process instead of a pid file (submitted as #3478, 2026-10-27)
 
 - Branch: `JamBalaya56562:enh/no-pid-file` (`26010af1`), base `dev` (`5acdd519`)
 - Related to #2540 (not closing it: the Docker entrypoint still needs root for `su motion`, see #3181 / #2407)
