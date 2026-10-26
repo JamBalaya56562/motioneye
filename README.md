@@ -30,7 +30,7 @@
 | 状態 | ブランチ | issue | PR | メモ |
 |---|---|---|---|---|
 | Merged 2026-10-25 (squash `5acdd519`, by MichaIng) | `feat/motion-control-auth` (deleted) | #1671 (closed) | [#3474](https://github.com/motioneye-project/motioneye/pull/3474) | Done |
-| Open, in review (submitted 2026-10-26) | `enh/conf-root-owned` (fork, `faf38179`) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Waiting for review; triage meanwhile |
+| Open, in review (submitted 2026-10-26) | `enh/conf-root-owned` (fork, `c06c4319`) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Waiting for review; triage meanwhile |
 
 ## Follow-up ideas (next PR candidates)
 
@@ -72,3 +72,4 @@
 | 2026-10-26 | Prepared the `root:motion` 0640 follow-up on `enh/conf-root-owned` (348 tests passed, checked with real owners/modes in a container); PR not submitted yet |
 | 2026-10-26 | Submitted the follow-up as [#3475](https://github.com/motioneye-project/motioneye/pull/3475) |
 | 2026-10-26 | Closed #657 (implemented by #846 as `server_name`). Next candidate: #1094 |
+| 2026-10-26 | #3475: MichaIng review → 0600 when motionEye owns the file, suggest `root:<GID>` 0640 otherwise. Applied with fixes for two bugs in the suggestions (`{guid}` NameError, `0x030` instead of `0o030`) and the group check for root-owned files kept (commit `c06c4319`, 349 tests passed, checked with the motion user); PR body updated |
