@@ -20,7 +20,7 @@
 
 ## Issue close rules
 
-- Pace: **about two actions per day** (closes and own PR activity combined), not a strict quota — the point is to go slowly enough that maintainers do not push back (a bulk close in 2021 drew backlash, see #1671)
+- Pace: **about five actions per day** (closes and own PR activity combined; raised from two on 2026-10-27 as no pushback was seen), not a strict quota — the point is to go slowly enough that maintainers do not push back (a bulk close in 2021 drew backlash, see #1671)
 - Always close with a comment explaining why
 - Bugs: close only after confirming they no longer reproduce. Issues that are obviously resolved without a repro (feature exists, doc page gone) can be closed with the reason
 - Each close needs the user's OK on the comment first
@@ -53,7 +53,7 @@
 | ファイル | 内容 |
 |---|---|
 | [milestone-v0.45.0.md](milestone-v0.45.0.md) | v0.45.0 未完了 issue の整理 (着手しやすさ・影響度・議論状況) |
-| [clearly-fixed.md](clearly-fixed.md) | Open issues that are clearly already resolved (close candidates, one per day) |
+| [clearly-fixed.md](clearly-fixed.md) | Open issues that are clearly already resolved (close candidates) |
 
 ## 進捗ログ
 
@@ -83,3 +83,4 @@
 | 2026-10-27 | Rebased `enh/no-pid-file` onto `f623690a` (389 tests passed) and submitted it as [#3478](https://github.com/motioneye-project/motioneye/pull/3478) |
 | 2026-10-27 | #3478: pre-commit bandit B607 (`Popen(['sleep', ...])` in a test) → use `sys.executable` like the other tests; squashed into the single commit `d839e825` (bandit clean, motionctl tests passed) |
 | 2026-10-27 | Closed #284 (wiki `Install-On-Debian` deleted 2025-12-16; `motioneye_init` installs pre-built motion and distro ffmpeg). Next candidate: #1356 |
+| 2026-10-27 | Close pace raised to about five actions per day (no pushback so far) |
