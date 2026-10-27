@@ -56,3 +56,36 @@ Tested:
 ```
 
 Before submitting: rebase onto the latest `dev`, re-run the tests, and re-check that no other open PR of ours exists.
+
+## `enh/docker-puid` — run as PUID/PGID instead of the RUN_UID/RUN_GID build args
+
+- Branch: `JamBalaya56562:enh/docker-puid` (`23fd74f0`), stacked on `enh/no-pid-file` (#3478)
+- Fixes #3181; related #2407, #2540
+- When: after #3478 is merged; rebase onto dev first (one PR at a time)
+
+**Title:** `feat(docker): run as PUID/PGID instead of the RUN_UID/RUN_GID build args`
+
+**Body:**
+
+```
+Fixes #3181, as discussed there: the UID/GID motionEye runs as in the container can be chosen when the container starts, with the usual `PUID`/`PGID` environment variables, instead of only when building an image with `RUN_UID`/`RUN_GID`.
+
+- `PUID`/`PGID` default to 0, so nothing changes without them: motionEye runs as root, as with the official images today.
+- The entrypoint maps the `motion` user and group to them and hands the volumes over: `/etc/motioneye` on every start (it is small), `/var/lib/motioneye` only when its owner differs, as it may hold many recordings. Recordings made before, e.g. as root, are then owned by the new user, so the cleanup can remove them.
+- `motioneye.conf` stays owned by root, as `motioneye_init` installs it (#3475): mode 0640 with group `PGID`, or 0600 when running as root, matching the mode check in `meyectl`.
+- `RUN_UID`/`RUN_GID` are gone; a self-built image passes `-e PUID=... -e PGID=...` instead. `docker run --user` is still not supported, as the entrypoint needs root to do the above; the README says so.
+- The entrypoint no longer creates `/run/motioneye`, which motionEye in the foreground does not need since #3478.
+
+Tested with an image built from this branch, with named volumes:
+- No `PUID`/`PGID`: motionEye runs as uid 0, `motioneye.conf` is `0:0` 0600, no mode warning.
+- Same volumes with `PUID=1000 PGID=1000`: `motion` is 1000:1000 (still in `video`), motionEye runs as uid 1000, `motion.conf` is `1000:1000`, `motioneye.conf` is `0:1000` 0640, the media volume is handed over and a recording made as root can be deleted by the motion user.
+- Restart with the same values: the media volume is not walked again.
+- `PUID=abc`: the container exits with an error.
+- shellcheck with the CI flags: clean.
+
+**Release note:** the Docker image's `RUN_UID`/`RUN_GID` build arguments were replaced by the `PUID`/`PGID` environment variables, set when the container starts.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+```
+
+Before submitting: rebase onto the latest `dev` (after #3478), rebuild the image and re-run the checks, and re-check that no other open PR of ours exists.

@@ -50,7 +50,7 @@
 
 | # | 内容 | 議論状況 | 状態 |
 |---|---|---|---|
-| [#3181](https://github.com/motioneye-project/motioneye/issues/3181) | PUID/PGID 対応 | MichaIng 同意: `RUN_UID`/`RUN_GID` (build arg, `docker/Dockerfile:5`) を実行時の PUID/PGID に置き換え。既定は root のままでよいという立場 | 未着手 |
+| [#3181](https://github.com/motioneye-project/motioneye/issues/3181) | PUID/PGID 対応 | MichaIng 同意: `RUN_UID`/`RUN_GID` (build arg, `docker/Dockerfile:5`) を実行時の PUID/PGID に置き換え。既定は root のままでよいという立場 | 実装済み・未提出: `enh/docker-puid` (`23fd74f0`, #3478 の上に積んでいる)。#3478 マージ後に rebase して PR |
 | [#2407](https://github.com/motioneye-project/motioneye/issues/2407) | Docker を motion ユーザーで実行 | 本文はほぼ空。#2388 の議論参照 | 未着手 |
 | [#2710](https://github.com/motioneye-project/motioneye/issues/2710) | 非 root で SMB マウント | 本文はメモ程度 (グループ/capabilities で可能) | 未着手 |
 
