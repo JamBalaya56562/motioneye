@@ -31,7 +31,7 @@
 |---|---|---|---|---|
 | Merged 2026-10-25 (squash `5acdd519`, by MichaIng) | `feat/motion-control-auth` (deleted) | #1671 (closed) | [#3474](https://github.com/motioneye-project/motioneye/pull/3474) | Done |
 | Merged 2026-10-26 (`429bae74`, by MichaIng) | `enh/conf-root-owned` (deleted) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Done |
-| Open, in review (submitted 2026-10-27) | `enh/no-pid-file` (fork, `d839e825`) | #2540 (related, not closing) | [#3478](https://github.com/motioneye-project/motioneye/pull/3478) | Waiting for review; triage meanwhile |
+| Open, in review (submitted 2026-10-27) | `enh/no-pid-file` (fork, `5df7d585`) | #2540 (related, not closing) | [#3478](https://github.com/motioneye-project/motioneye/pull/3478) | Waiting for review; triage meanwhile |
 
 ## Follow-up ideas (next PR candidates)
 
@@ -85,3 +85,4 @@
 | 2026-10-27 | Closed #284 (wiki `Install-On-Debian` deleted 2025-12-16; `motioneye_init` installs pre-built motion and distro ffmpeg). Next candidate: #1356 |
 | 2026-10-27 | Close pace raised to about five actions per day (no pushback so far) |
 | 2026-10-27 | Closed #1356 (wiki `Install-On-Raspbian*` deleted 2025-12-16). Next candidate: #1459 |
+| 2026-10-27 | #3478: MichaIng review → dropped `RuntimeDirectory`/`LogsDirectory` from the systemd unit + inline `IOLoop.current().add_callback` nit (commit `5df7d585`, 389 tests passed, starts without `/run/motioneye` and `/var/log/motioneye`); replied "Thanks, done." inline |
