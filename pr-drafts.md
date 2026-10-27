@@ -166,3 +166,47 @@ Tests:
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ```
+
+## `fix/mask-grid` — build the mask editor grid at the capture size
+
+- Branch: `JamBalaya56562:fix/mask-grid` (`542624b2`), base `dev` (`a8390113`)
+- Fixes #2755 (the part left after #3470: drift with the resolution dimmer)
+- Screenshots: scratchpad `mask/before-mask.png` / `mask/after-mask.png` (dimmer 80 %, square mask, after three saves); upload as GitHub attachments in the in-app browser when submitting and replace the placeholders
+- When: when a PR slot is free (up to two open PRs)
+
+**Title:** `fix(ui): build the mask editor grid at the capture size`
+
+**Body:**
+
+````
+Fixes #2755. #3470 fixed the drift at sizes with a remainder; this fixes the drift left with the resolution dimmer below 100 %.
+
+The mask editor laid its grid out at the size of the preview picture, which the resolution dimmer scales down, while the server parses and builds the mask at the capture size. At 1024x768 with the dimmer at 80 %, the preview is 819x614: the editor makes 31 columns plus a remainder and 22 rows plus a remainder, while the server sends 32 × 24 lines. So the editor read the lines shifted, and each save sent 23 lines at 819x614, which the server drew at that size and stretched to 1024x768. The mask grew by a row on every save, even without editing it (the `editable mask needs resizing from 819x614 to 1024x768` in the report).
+
+`getMaskSize()` now picks the size of the grid:
+- the size at the start of the current mask lines, which the server sends at the capture size, so the lines and the grid always match;
+- for a new mask, the configured resolution (or the custom one), with width and height swapped for a rotation of 90 or 270°, as the server does;
+- the preview size only if the capture size is not known, as before.
+
+The cells are placed in percent, so they still cover the scaled preview. The server is unchanged; it no longer needs to resize, as the lines now come at the capture size. A mask that already drifted stays as it is; its original shape is not stored anywhere.
+
+**Before / after**, 1024x768 network camera, resolution dimmer at 80 %: a square mask drawn once, then the editor opened and saved three times without changes.
+
+| Before | After |
+|---|---|
+| BEFORE_IMAGE | AFTER_IMAGE |
+
+Measured with Playwright against current dev and this branch: bounding box of the masked area in `mask_1.pgm` after each save (drawn: x 25–50 %, y ⅓–⅔).
+
+| Case | Before | After |
+|---|---|---|
+| 1024x768, dimmer 80 % | bottom 541 → 575 → 609 → 642 | (256, 256, 512, 512) every time |
+| 1640x1232, dimmer 80 % | stable, but off by up to 11 px | (416, 424, 832, 848) every time |
+| 1024x768 rotated 90°, dimmer 80 % | stable, but off by about 20 px | stable, on the grid |
+| 1024x768, dimmer 50 %, 5 %, 100 % | — | (256, 256, 512, 512) every time |
+| privacy mask, dimmer 80 % | grows by a row per save | stable |
+
+No JavaScript errors in any case.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
