@@ -87,3 +87,4 @@
 | 2026-10-27 | Closed #1356 (wiki `Install-On-Raspbian*` deleted 2025-12-16). Next candidate: #1459 |
 | 2026-10-27 | #3478: MichaIng review → dropped `RuntimeDirectory`/`LogsDirectory` from the systemd unit + inline `IOLoop.current().add_callback` nit (commit `5df7d585`, 389 tests passed, starts without `/run/motioneye` and `/var/log/motioneye`); replied "Thanks, done." inline |
 | 2026-10-27 | Closed #1459 (wiki Ubuntu install pages deleted 2025-12-16; `motioneye_init` copies the config sample itself). Next candidate: #2746 |
+| 2026-10-27 | Closed #2746 (wiki `Install-on-Raspbian-Bullseye` deleted 2025-12-16; README is Python 3 and lists the ARMv6 Pillow build deps). Next candidate: #3057 |
