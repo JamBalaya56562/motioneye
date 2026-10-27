@@ -29,7 +29,7 @@ Tested:
 
 Before submitting: rebase onto the latest `dev`, re-run the tests, and re-check that no other open PR of ours exists.
 
-## `enh/no-pid-file` — track motion by its process instead of a pid file (submitted as #3478, 2026-10-27)
+## `enh/no-pid-file` — track motion by its process instead of a pid file (submitted as #3478, 2026-10-27, merged 2026-10-28)
 
 - Branch: `JamBalaya56562:enh/no-pid-file` (`26010af1`), base `dev` (`5acdd519`)
 - Related to #2540 (not closing it: the Docker entrypoint still needs root for `su motion`, see #3181 / #2407)
@@ -57,7 +57,7 @@ Tested:
 
 Before submitting: rebase onto the latest `dev`, re-run the tests, and re-check that no other open PR of ours exists.
 
-## `enh/docker-puid` — run as PUID/PGID instead of the RUN_UID/RUN_GID build args
+## `enh/docker-puid` — run as PUID/PGID instead of the RUN_UID/RUN_GID build args (submitted as #3484, 2026-10-28)
 
 - Branch: `JamBalaya56562:enh/docker-puid` (`23fd74f0`), stacked on `enh/no-pid-file` (#3478)
 - Fixes #3181; related #2407, #2540
@@ -95,7 +95,7 @@ Before submitting: rebase onto the latest `dev` (after #3478), rebuild the image
 - Branch: `JamBalaya56562:fix/layout-rows` (`f255e484`), base `dev` (`f623690a`)
 - Fixes #2583; supersedes #2590 (lowlyocean, idle since 2022)
 - Screenshots: fork branch `pr-assets-layout-rows` (raw URLs in the body)
-- When: after #3478 (one PR at a time)
+- When: after #3484 is merged (one PR at a time)
 
 **Title:** `fix(ui): fit the layout rows into the window again`
 

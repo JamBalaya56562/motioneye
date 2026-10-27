@@ -31,9 +31,9 @@
 |---|---|---|---|---|
 | Merged 2026-10-25 (squash `5acdd519`, by MichaIng) | `feat/motion-control-auth` (deleted) | #1671 (closed) | [#3474](https://github.com/motioneye-project/motioneye/pull/3474) | Done |
 | Merged 2026-10-26 (`429bae74`, by MichaIng) | `enh/conf-root-owned` (deleted) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Done |
-| Open, in review (submitted 2026-10-27) | `enh/no-pid-file` (fork, `5df7d585`) | #2540 (related, not closing) | [#3478](https://github.com/motioneye-project/motioneye/pull/3478) | Waiting for review; triage meanwhile |
-| Prepared, not submitted | `enh/docker-puid` (fork, `23fd74f0`, stacked on `enh/no-pid-file`) | #3181 | — | Submit after #3478 is merged (rebase onto dev first). PR text: [pr-drafts.md](pr-drafts.md) |
-| Prepared, not submitted | `fix/layout-rows` (fork, `f255e484`, on dev) | #2583 (supersedes #2590) | — | Submit after #3478 (queue: #3478 → #3181 → this; user decides the order). Screenshots on fork branch `pr-assets-layout-rows`. PR text: [pr-drafts.md](pr-drafts.md) |
+| Merged 2026-10-28 (`979cfac1`) | `enh/no-pid-file` | #2540 (related, not closing) | [#3478](https://github.com/motioneye-project/motioneye/pull/3478) | — |
+| Open, in review (submitted 2026-10-28) | `enh/docker-puid` (fork, `c7206c74`) | #3181 | [#3484](https://github.com/motioneye-project/motioneye/pull/3484) | Waiting for review; triage meanwhile |
+| Prepared, not submitted | `fix/layout-rows` (fork, `f255e484`, on dev) | #2583 (supersedes #2590) | — | Submit after #3484 is merged (rebase onto dev first). Screenshots on fork branch `pr-assets-layout-rows`. PR text: [pr-drafts.md](pr-drafts.md) |
 
 ## Follow-up ideas (next PR candidates)
 
@@ -95,3 +95,4 @@
 | 2026-10-27 | Prepared #3181 on `enh/docker-puid` (PUID/PGID at container start, RUN_UID/RUN_GID dropped; built the image and checked default root, switch to 1000, restart, invalid value; shellcheck with CI flags). Not submitted |
 | 2026-10-27 | Prepared #2583 on `fix/layout-rows`: rows dropped from the layout width in a25dec20 (2018); divide by rows again, count frame padding, record the picture ratio on load. Before/after screenshots + measurements (Playwright, 1920x1080 and 1366x768). Not submitted |
 | 2026-10-27 | Policy: an issue in the milestone counts even if someone else's PR exists; take over PRs idle for years without asking (credit + "Supersedes") |
+| 2026-10-28 | #3478 merged (`979cfac1`). Rebased `enh/docker-puid` onto dev `a8390113` (no conflicts), rebuilt the image and re-ran the checks (default root, switch to 1000 with meyectl as uid 1000, restart without chown -R, invalid PUID; shellcheck clean); submitted as [#3484](https://github.com/motioneye-project/motioneye/pull/3484) |
