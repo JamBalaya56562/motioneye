@@ -140,7 +140,7 @@ Before submitting: rebase onto the latest `dev`, re-run the screenshots/measurem
 
 ## `fix/mask-conf-path` — write mask files to the configured conf_path
 
-- Branch: `JamBalaya56562:fix/mask-conf-path` (`d40eaf3f`), base `dev` (`a8390113`)
+- Branch: `JamBalaya56562:fix/mask-conf-path` (`169bd99d`), base `dev` (`5dc324ed`)
 - Found while reproducing #2755; no issue reported yet
 - When: when a PR slot is free (up to two open PRs)
 
@@ -169,7 +169,7 @@ Tests:
 
 ## `fix/mask-grid` — build the mask editor grid at the capture size
 
-- Branch: `JamBalaya56562:fix/mask-grid` (`542624b2`), base `dev` (`a8390113`)
+- Branch: `JamBalaya56562:fix/mask-grid` (`eda341ae`), base `dev` (`5dc324ed`)
 - Fixes #2755 (the part left after #3470: drift with the resolution dimmer)
 - Screenshots: scratchpad `mask/before-mask.png` / `mask/after-mask.png` (dimmer 80 %, square mask, after three saves); upload as GitHub attachments in the in-app browser when submitting and replace the placeholders
 - When: when a PR slot is free (up to two open PRs)
