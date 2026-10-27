@@ -34,6 +34,7 @@
 | Merged 2026-10-28 (`979cfac1`) | `enh/no-pid-file` | #2540 (related, not closing) | [#3478](https://github.com/motioneye-project/motioneye/pull/3478) | — |
 | Open, in review (submitted 2026-10-28) | `enh/docker-puid` (fork, `c7206c74`) | #3181 | [#3484](https://github.com/motioneye-project/motioneye/pull/3484) | Waiting for review; triage meanwhile |
 | Open, in review (submitted 2026-10-28) | `fix/layout-rows` (fork, `60f79c52`) | #2583 (supersedes #2590) | [#3485](https://github.com/motioneye-project/motioneye/pull/3485) | Waiting for review. Screenshots are GitHub attachments (fork branch `pr-assets-layout-rows` no longer needed) |
+| Prepared, not submitted | `fix/mask-conf-path` (fork, `d40eaf3f`, on dev) | — (found while reproducing #2755) | — | Mask files written to the default CONF_PATH instead of the configured one since #3324 (0.44.0). Submit when a PR slot is free. PR text: [pr-drafts.md](pr-drafts.md) |
 
 ## Follow-up ideas (next PR candidates)
 

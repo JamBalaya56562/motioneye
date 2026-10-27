@@ -137,3 +137,32 @@ The page can still scroll by its bottom padding (about 50 px) below the frames; 
 ````
 
 Before submitting: rebase onto the latest `dev`, re-run the screenshots/measurements if `main.js` layout code changed, and re-check that no other open PR of ours exists.
+
+## `fix/mask-conf-path` — write mask files to the configured conf_path
+
+- Branch: `JamBalaya56562:fix/mask-conf-path` (`d40eaf3f`), base `dev` (`a8390113`)
+- Found while reproducing #2755; no issue reported yet
+- When: when a PR slot is free (up to two open PRs)
+
+**Title:** `fix(utils): write mask files to the configured conf_path`
+
+**Body:**
+
+```
+Since #3324, `motioneye/utils` imports `CONF_PATH` from `settings` at import time. `meyectl` imports `utils` (through `config`) before `load_settings()` reads `motioneye.conf`, so the mask files are written to the built-in default, `sys.prefix` + `/etc/motioneye`, instead of the configured `conf_path`.
+
+Where the two differ, saving a camera with an editable motion or privacy mask fails with a 500 error, e.g. with Python in `/usr/local`:
+
+    FileNotFoundError: [Errno 2] No such file or directory: '/usr/local/etc/motioneye/mask_1.pgm'
+
+That is the case in a venv (#3066) or with the python Docker images. With Debian's Python, `sys.prefix` is `/usr` and the default is `/etc/motioneye`, the same as `motioneye_init` configures, which is likely why it went unnoticed.
+
+This reads `settings.CONF_PATH` when the file name is built, as before #3324. `utils` is the only module imported before `load_settings()` that binds a setting this way; the handlers that do are imported after it.
+
+Tests:
+- `tests/test_utils/test_mask.py` now patches `settings.CONF_PATH`, as `load_settings()` sets it, instead of `utils.CONF_PATH`; a new test checks that both mask files are written there. Against `dev`, all three tests fail with the error above.
+- Full suite: 434 passed.
+- In a python:3.12 container with `conf_path /etc/motioneye`: an editable motion mask edited and applied in the web UI is saved as `/etc/motioneye/mask_1.pgm` (before: the 500 error above).
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+```
