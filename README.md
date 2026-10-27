@@ -33,7 +33,7 @@
 | Merged 2026-10-26 (`429bae74`, by MichaIng) | `enh/conf-root-owned` (deleted) | — (follow-up of #3474) | [#3475](https://github.com/motioneye-project/motioneye/pull/3475) | Done |
 | Merged 2026-10-28 (`979cfac1`) | `enh/no-pid-file` | #2540 (related, not closing) | [#3478](https://github.com/motioneye-project/motioneye/pull/3478) | — |
 | Open, in review (submitted 2026-10-28) | `enh/docker-puid` (fork, `c7206c74`) | #3181 | [#3484](https://github.com/motioneye-project/motioneye/pull/3484) | Waiting for review; triage meanwhile |
-| Prepared, not submitted | `fix/layout-rows` (fork, `f255e484`, on dev) | #2583 (supersedes #2590) | — | Submit after #3484 is merged (rebase onto dev first). Screenshots on fork branch `pr-assets-layout-rows`. PR text: [pr-drafts.md](pr-drafts.md) |
+| Open, in review (submitted 2026-10-28) | `fix/layout-rows` (fork, `60f79c52`) | #2583 (supersedes #2590) | [#3485](https://github.com/motioneye-project/motioneye/pull/3485) | Waiting for review. Screenshots are GitHub attachments (fork branch `pr-assets-layout-rows` no longer needed) |
 
 ## Follow-up ideas (next PR candidates)
 
@@ -96,3 +96,4 @@
 | 2026-10-27 | Prepared #2583 on `fix/layout-rows`: rows dropped from the layout width in a25dec20 (2018); divide by rows again, count frame padding, record the picture ratio on load. Before/after screenshots + measurements (Playwright, 1920x1080 and 1366x768). Not submitted |
 | 2026-10-27 | Policy: an issue in the milestone counts even if someone else's PR exists; take over PRs idle for years without asking (credit + "Supersedes") |
 | 2026-10-28 | #3478 merged (`979cfac1`). Rebased `enh/docker-puid` onto dev `a8390113` (no conflicts), rebuilt the image and re-ran the checks (default root, switch to 1000 with meyectl as uid 1000, restart without chown -R, invalid PUID; shellcheck clean); submitted as [#3484](https://github.com/motioneye-project/motioneye/pull/3484) |
+| 2026-10-28 | Up to two open PRs from now on (user). Rebased `fix/layout-rows` onto `a8390113` and submitted it as [#3485](https://github.com/motioneye-project/motioneye/pull/3485) (assignee, v0.45.0, `bug` + `JavaScript`). Replaced the raw fork image URLs with GitHub attachments uploaded by pasting in the in-app browser. test_install ubuntu-22.04-arm failed: meyectl logged nothing within 11 s (the passing jobs listen after ~3 s; the PR only changes `main.js`), so the failed jobs were re-run |

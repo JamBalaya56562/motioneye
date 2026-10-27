@@ -90,12 +90,12 @@ Tested with an image built from this branch, with named volumes:
 
 Before submitting: rebase onto the latest `dev` (after #3478), rebuild the image and re-run the checks, and re-check that no other open PR of ours exists.
 
-## `fix/layout-rows` — fit the layout rows into the window again
+## `fix/layout-rows` — fit the layout rows into the window again (submitted as #3485, 2026-10-28)
 
-- Branch: `JamBalaya56562:fix/layout-rows` (`f255e484`), base `dev` (`f623690a`)
+- Branch: `JamBalaya56562:fix/layout-rows` (`60f79c52`), base `dev` (`a8390113`)
 - Fixes #2583; supersedes #2590 (lowlyocean, idle since 2022)
 - Screenshots: fork branch `pr-assets-layout-rows` (raw URLs in the body)
-- When: after #3484 is merged (one PR at a time)
+- Submitted 2026-10-28; screenshots in the live PR body are GitHub attachments
 
 **Title:** `fix(ui): fit the layout rows into the window again`
 
