@@ -89,3 +89,51 @@ Tested with an image built from this branch, with named volumes:
 ```
 
 Before submitting: rebase onto the latest `dev` (after #3478), rebuild the image and re-run the checks, and re-check that no other open PR of ours exists.
+
+## `fix/layout-rows` — fit the layout rows into the window again
+
+- Branch: `JamBalaya56562:fix/layout-rows` (`f255e484`), base `dev` (`f623690a`)
+- Fixes #2583; supersedes #2590 (lowlyocean, idle since 2022)
+- Screenshots: fork branch `pr-assets-layout-rows` (raw URLs in the body)
+- When: after #3478 (one PR at a time)
+
+**Title:** `fix(ui): fit the layout rows into the window again`
+
+**Body:**
+
+````
+Fixes #2583. Supersedes #2590, which has been idle since 2022; thanks to @lowlyocean for reporting and digging into it.
+
+With "Fit frames vertically", the frames are meant to be sized so that "Layout rows" of them fit the window height. Since a25dec20 (2018, "improve updateLayout") the frame width is no longer divided by the rows, though the comment above still says so, and `layoutRows` has been an implicit global ever since. So a 2x2 layout always made each frame as tall as the whole window.
+
+- `updateLayout()` divides the available height by the layout rows again (1 in single camera view and full screen, as for the columns), and takes the border and padding of a frame around its image into account, measured from a visible frame, since they add up per row.
+- The ratio of a camera's picture was only recorded on its periodic refresh, so the first layout after the picture loaded could still use the placeholder ratio of 1. It is now recorded when the picture loads. With one row this hardly showed, as the page then usually takes the full width anyway.
+
+Unlike #2590, this keeps the existing width-based layout: no row CSS classes, so any number of rows works, and with more cameras than rows × columns the extra ones simply continue below, as they do with columns today.
+
+**Before / after**, four 640x480 network cameras, 2 columns × 2 rows, "Fit frames vertically" on:
+
+| | Before | After |
+|---|---|---|
+| 1920x1080 | ![before 1920x1080](https://raw.githubusercontent.com/JamBalaya56562/motioneye/pr-assets-layout-rows/before-1920x1080.png) | ![after 1920x1080](https://raw.githubusercontent.com/JamBalaya56562/motioneye/pr-assets-layout-rows/after-1920x1080.png) |
+| 1366x768 | ![before 1366x768](https://raw.githubusercontent.com/JamBalaya56562/motioneye/pr-assets-layout-rows/before-1366x768.png) | ![after 1366x768](https://raw.githubusercontent.com/JamBalaya56562/motioneye/pr-assets-layout-rows/after-1366x768.png) |
+
+Measured with Playwright against current dev and this branch (frame size, bottom of the lowest frame):
+
+| 1920x1080 | Before | After |
+|---|---|---|
+| 2 × 2 | 958x722, bottom 1493 | 679x512, bottom 1075 |
+| 2 × 1 | 958x722 | 958x722 (unchanged) |
+| 2 × 3 | 958x722 | 451x342 |
+| 1 × 2 | 1025x772 | 679x512 |
+| 2 × 2, settings panel open | 574x433 | 574x433 (the panel's width limit applies first) |
+| single camera view | 1433x1078 | 1429x1075 |
+
+At 1366x768 the 2 × 2 frames end at 763 (before: 1077), stable over repeated loads. No JavaScript errors, also when resizing the window.
+
+The page can still scroll by its bottom padding (about 50 px) below the frames; that is unchanged and unrelated to the rows.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
+
+Before submitting: rebase onto the latest `dev`, re-run the screenshots/measurements if `main.js` layout code changed, and re-check that no other open PR of ours exists.
