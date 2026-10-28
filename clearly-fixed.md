@@ -44,6 +44,6 @@
 | #2592 | External gating signal: #2594 (percent settings) is unrelated |
 | #2659 | Wiki Home still has the PayPal donation link (`Home.md:5-6`) |
 | #2775 | `main.js:716` still concatenates the Clean Cloud warning instead of using a placeholder |
-| #1852 | Arch: camera not working — a bug report, needs a repro |
+| #1852 | Arch: camera not working — a bug report, needs a repro (handle together with #1338) |
 | #2613, #3007 | Docker docs: `Install-In-Docker` deleted, but `docker/README.md` is still outdated → tracked by #3248 |
 | #3244 | Configuration docs are still incomplete (MichaIng 2025-12-16) |
