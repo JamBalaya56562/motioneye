@@ -104,3 +104,4 @@
 | 2026-10-28 | Closed #3057 (wiki Raspbian install pages deleted 2025-12-16, as MichaIng suggested in 2024). Next candidate: #2232 |
 | 2026-10-28 | Closed #2232 as not planned (wiki change proposal for pages deleted 2025-12-16). Pace of five a day is a loose guide (user). Next candidate: #1338 (weak) |
 | 2026-10-28 | #1338 kept open (user, option B): AUR install is a proposal that the wiki removal does not settle; Arch has no automatic deps in `motioneye_init`; later together with #1852 (neither in the milestone). The close candidate list is now done |
+| 2026-10-28 | Prepared #3066 on `enh/venv` (`f39efa29`, fork, not submitted): `linux_init --meyectl`, `motioneye_init` passes its environment's meyectl, README + test_install use a venv in /opt/motioneye. Checked 5 scenarios in a systemd container (venv, explicit path, invalid path, system-wide, migration); fork CI all green (test_install 6/6, pre-commit after a bandit B103 fix in the new test) |
