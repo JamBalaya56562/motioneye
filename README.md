@@ -36,13 +36,14 @@
 | Open, in review (submitted 2026-10-28) | `fix/layout-rows` (fork, `736eb924`) | #2583 (supersedes #2590) | [#3485](https://github.com/motioneye-project/motioneye/pull/3485) | Waiting for review (2nd round answered 2026-10-29). Screenshots are GitHub attachments (fork branch `pr-assets-layout-rows` no longer needed) |
 | Prepared, not submitted | `fix/mask-conf-path` (fork, `169bd99d`, on dev) | — (found while reproducing #2755) | — | Mask files written to the default CONF_PATH instead of the configured one since #3324 (0.44.0). Submit when a PR slot is free. PR text: [pr-drafts.md](pr-drafts.md) |
 | Prepared, not submitted | `fix/mask-grid` (fork, `eda341ae`, on dev) | #2755 | — | Mask editor grid at the capture size instead of the dimmed preview. Screenshots still to upload as GitHub attachments. PR text: [pr-drafts.md](pr-drafts.md) |
+| Prepared, not submitted | `fix/error-placeholder-ratio` (fork, `b9942192`, **on top of #3485**) | — (follow-up of #3485) | — | Placeholder keeps the last loaded aspect ratio (4:3 only if none), icon centered with flex. Playwright: 16:9 camera failing keeps 888x500 and the layout (before: 761x571, container 1802→1549); portrait keeps 427x759; never-loaded unchanged 4:3. Submit after #3485 is merged (it depends on it) |
 
 ## Follow-up ideas (next PR candidates)
 
 | Idea | Source | Notes |
 |---|---|---|
 | `motioneye.conf` owned by `root:motion` with mode `0640`, so the motionEye server cannot lift its own restrictions (auth, `webcontrol_*`) | MichaIng on [#3474](https://github.com/motioneye-project/motioneye/pull/3474) (2026-10-25) | Needs a different mode check: warn if anyone but root and motionEye can read it, `chmod` only when writable, otherwise tell the admin to fix it. Dedicated PR → **submitted as [#3475](https://github.com/motioneye-project/motioneye/pull/3475)** |
-| Error placeholder at the last known aspect ratio (`img._naturalWidth`/`_naturalHeight`), 0.75 only without one | MichaIng on [#3485](https://github.com/motioneye-project/motioneye/pull/3485#issuecomment-6478642823) (2026-10-28), "fine tackling this in a separate PR" | Separate PR after #3485 |
+| Error placeholder at the last known aspect ratio (`img._naturalWidth`/`_naturalHeight`), 0.75 only without one | MichaIng on [#3485](https://github.com/motioneye-project/motioneye/pull/3485#issuecomment-6478642823) (2026-10-28), "fine tackling this in a separate PR" | **Prepared** on `fix/error-placeholder-ratio` (`b9942192`, on top of #3485) |
 | motion's `config/write` still works with `webcontrol_parms 0` (writes the running config to disk) | Observed with motion 4.5.1 (2026-10-26) | Not reported anywhere yet; check whether it matters |
 
 ## 前提 (2026-10-25 時点)
@@ -111,3 +112,4 @@
 | 2026-10-28 | Real Pi check over SSH (Pi 5, trixie 64-bit, Camera Module 3): README install works but get-pip fails with externally-managed-environment (fixed by enh/venv); wiki libcamerify works; default 320x240 gives a green band (stride 384), 640x480 is fine (same as #3116) |
 | 2026-10-28 | Stride test on the Pi: only widths that are multiples of 128 are kept (640/1280/1920); 320, 800, 960, 1600 are padded (green band). Bootloader updated to 2026-09-25; Pi shut down |
 | 2026-10-29 | #3485 2nd review (MichaIng): average of the highest ratio per row (first rows × columns frames) instead of the overall max; `cameraFrameRatios` dropped, ratios read from the images in `updateLayout()`; single view uses only the shown camera (found while testing: frames get `single-cam-hidden` 10 ms after the layout update, a tall single camera overflowed to 3396 px). Playwright: portrait among 16:9 in 2×2 733→1075 px, error/recovery, single view, 6 and 2 cameras. Pushed `736eb924`, replied, body updated. Placeholder ratio → separate PR |
+| 2026-10-29 | Prepared the #3485 follow-up (placeholder at the last loaded aspect ratio, icon centered) on `fix/error-placeholder-ratio` (`b9942192`, fork). Not submitted: two PRs open and it depends on #3485 |
