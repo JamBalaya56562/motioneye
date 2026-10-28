@@ -36,7 +36,7 @@
 | Open, in review (submitted 2026-10-28) | `fix/layout-rows` (fork, `736eb924`) | #2583 (supersedes #2590) | [#3485](https://github.com/motioneye-project/motioneye/pull/3485) | Waiting for review (2nd round answered 2026-10-29). Screenshots are GitHub attachments (fork branch `pr-assets-layout-rows` no longer needed) |
 | Prepared, not submitted | `fix/mask-conf-path` (fork, `169bd99d`, on dev) | — (found while reproducing #2755) | — | Mask files written to the default CONF_PATH instead of the configured one since #3324 (0.44.0). Submit when a PR slot is free. PR text: [pr-drafts.md](pr-drafts.md) |
 | Prepared, not submitted | `fix/mask-grid` (fork, `eda341ae`, on dev) | #2755 | — | Mask editor grid at the capture size instead of the dimmed preview. Screenshots still to upload as GitHub attachments. PR text: [pr-drafts.md](pr-drafts.md) |
-| Prepared, not submitted | `fix/error-placeholder-ratio` (fork, `b9942192`, **on top of #3485**) | — (follow-up of #3485) | — | Placeholder keeps the last loaded aspect ratio (4:3 only if none), icon centered with flex. Playwright: 16:9 camera failing keeps 888x500 and the layout (before: 761x571, container 1802→1549); portrait keeps 427x759; never-loaded unchanged 4:3. Submit after #3485 is merged (it depends on it) |
+| Prepared, not submitted | `fix/error-placeholder-ratio` (fork, `b9942192`, **on top of #3485**) | — (follow-up of #3485) | — | Placeholder keeps the last loaded aspect ratio (4:3 only if none), icon centered with flex. Playwright: 16:9 camera failing keeps 888x500 and the layout (before: 761x571, container 1802→1549); portrait keeps 427x759; never-loaded unchanged 4:3. Submit after #3485 is merged (user, 2026-10-29); rebase onto dev first |
 
 ## Follow-up ideas (next PR candidates)
 
