@@ -57,3 +57,21 @@ known to work (**not verified yet**).
 | #3116 | HQ camera resolution padding, a separate problem; needs a repro with an HQ camera |
 | #2425, #2683, #2812, #2900 | Tracking issues (milestone) / libcamerify zombie bug |
 | #2453, #2927 | Auto exposure at high resolutions; could be checked on the Pi later |
+
+## Real Pi check (2026-10-28)
+
+Setup (**verified** over SSH): Raspberry Pi 5 Model B 4 GB, Raspberry Pi OS (Debian 13 trixie, 64-bit, desktop image),
+kernel `6.12.47+rpt-rpi-2712`, Camera Module 3 (`imx708`), libcamera 0.7.2, rpicam-apps 1.14.0.
+
+| Step | Result |
+|---|---|
+| `rpicam-hello --list-cameras`, `rpicam-still` | imx708 listed, still captured |
+| README install (as written) | motionEye 0.44.0 + motion 4.7.1 installed, service `active`, HTTP 200 on :8765. **But step 2 fails**: `sudo python3 get-pip.py` → `error: externally-managed-environment` (exit 1), because the README sets `break-system-packages` only after it. It only worked because the desktop image ships `python3-pip`. Lite image not checked. `enh/venv` (#3066) removes get-pip, so it fixes this |
+| Wiki libcamerify steps | `ExecStart=/usr/bin/libcamerify /usr/local/bin/meyectl ...`, service `active`; the camera is listed as `/dev/video0` (plus ~28 other `/dev/video*`/`media*` nodes in the add dialog) |
+| Add as Local V4L2 camera | Picture shown, but at the **default 320x240 the right part is a green band**: motion `v4l2_pixfmt_adj: 320x240 → 384x240` (stride 384). At **640x480** (width multiple of 64) the frame is complete, no stride warning. Same symptom as #3116 (resolution padding) |
+| Side notes | Applying the resolution in the UI was refused ("Make sure all configuration options are valid!") with empty admin/user passwords marked invalid (cause **guessed**, not checked); set via `camera-1.conf` instead. Login was lost after `systemctl restart motioneye` |
+
+Consequences for the candidates:
+- B (libcamera duplicates): the wiki steps work on Pi 5 + Camera Module 3 + trixie, **with a resolution whose width is a multiple of 64** — worth adding to the wiki before pointing users to it
+- #3116: no longer "needs an HQ camera" — the padding problem reproduces with Camera Module 3 on Pi 5; candidate for a fix (default/allowed resolutions) rather than a close
+- C (#2906, #2957): install on Pi 5 trixie works, except the get-pip step; close after `enh/venv` is merged, or now with a note
