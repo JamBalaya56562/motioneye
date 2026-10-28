@@ -12,7 +12,7 @@
 
 | # | Title | Why (evidence) | Status |
 |---|---|---|---|
-| [#405](https://github.com/motioneye-project/motioneye/issues/405) | MMAL Support in motioneye | Implemented: `controls/mmalctl.py`, `mmalcam_name` in `config.py:98,860`, "Local MMAL camera" in the UI (grep on `dev`) | candidate |
+| [#405](https://github.com/motioneye-project/motioneye/issues/405) | MMAL Support in motioneye | Implemented: `controls/mmalctl.py`, `mmalcam_name` in `config.py:98,860`, "Local MMAL camera" in the UI (grep on `dev`) | **closed 2026-10-29** ([comment](https://github.com/motioneye-project/motioneye/issues/405#issuecomment-6480391718)) |
 | [#2778](https://github.com/motioneye-project/motioneye/issues/2778) | Python3 is required to install on Debian 12 bookworm | motionEye is Python 3 since 0.43: `pyproject.toml` `requires-python = ">=3.9"`; MichaIng pointed to it in 2023 | candidate |
 | [#2792](https://github.com/motioneye-project/motioneye/issues/2792) | Missing packages on lite bullseye armhf (wiki instructions) | Refers to wiki `Install-on-Raspbian-Bullseye`, deleted 2025-12-16 (same as the round-1 wiki closes) | candidate |
 | [#2934](https://github.com/motioneye-project/motioneye/issues/2934) | MotionEye with Libcamera on Pi 4B and Debian 10/11 | Reporter runs jmichault's fork `motioneye.eo` (zagrim, 2024-03-12), not this project | candidate |
