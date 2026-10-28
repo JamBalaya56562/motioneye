@@ -24,6 +24,7 @@
 - Always close with a comment explaining why
 - Bugs: close only after confirming they no longer reproduce. Issues that are obviously resolved without a repro (feature exists, doc page gone) can be closed with the reason
 - Each close needs the user's OK on the comment first
+- After closing, add the type label if missing (`documentation`, `feature`, `bug`, `question`) and remove `Stale No Activity 60 Days`, as MichaIng does; keep labels set by maintainers
 
 ## PR 状況
 
@@ -120,3 +121,4 @@
 | 2026-10-29 | Reviewed #3468 (MichaIng draft, manual recording removal): dead feature confirmed, no leftovers, 433 passed, actions checked on motion 4.7.1. Found: snapshot sent to motion without `get_action_commands()`, and motion 4.7.1 crashes on snapshot with empty `snapshot_filename` (all cameras restart; any logged-in user) → [comment](https://github.com/motioneye-project/motioneye/pull/3468#issuecomment-6480170804). #1248 linked to the PR by the user |
 | 2026-10-29 | Closed #405 (MMAL support implemented by #631 in 2017; legacy stack gone since Bookworm, libcamera in #2683/#2812). Next candidate: #2778 |
 | 2026-10-29 | Closed #2778 (Python 3 since 0.43; README install checked on Debian 13 / Python 3.13 on the Pi). Next candidate: #2792 |
+| 2026-10-29 | Labelled the issues closed so far (13 checked): `documentation` on #284, #1356, #1459, #2746; `feature` on #405 and its Stale label removed. Labelling added to the close rules |
