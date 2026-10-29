@@ -210,3 +210,25 @@ No JavaScript errors in any case.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
+
+## enh/layout-columns-per-browser (takes over #1570)
+
+Title: `enh(ui): keep the layout columns per browser, from the window width by default`
+
+> Takes over #1570 from @digiltd (credited as co-author), along the way discussed there: below 1200px the layout was always a single column with the slider hidden, because the columns were a per-user server preference shared by a desktop and a phone.
+>
+> - The layout columns are kept in the browser's local storage, so each device keeps its own. They are no longer sent to or read from `prefs.json`.
+> - Until they are chosen in a browser, they follow the window width with about 500px per frame: 1 below 1000px, 2 below 1500px, 3 below 2000px, 4 from there.
+> - The 1200px rule (single column, hidden slider) is gone; full screen and single view stay at one column.
+>
+> Columns chosen before are not carried over, as the stored value cannot be told from the old default of 3: each browser starts at the width-based value once.
+>
+> Not in here, for a later step: the other display preferences (rows, fit vertically, dimmers) in local storage too, a column limit by the number of cameras, an explicit "auto" in the slider.
+>
+> Checked with Playwright on 4 cameras (a `prefs.json` holding `layout_columns: 2` from before):
+> - auto: 2200px → 4, 1920px → 3, 1400px → 2, 900px and 400px → 1 column, slider visible and following
+> - 2 chosen at 400px: stored, kept after resizing to 1920px and after a reload; a fresh browser context still gets 3
+> - saving another preference drops `layout_columns` from `prefs.json`
+> - local storage blocked: auto columns, the slider still works for the page, no errors
+>
+> Supersedes #1570
