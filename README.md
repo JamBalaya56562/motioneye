@@ -135,3 +135,4 @@
 | 2026-10-30 | Submitted the `docker/README.md` build section fix as [#3489](https://github.com/motioneye-project/motioneye/pull/3489) (user). Two PRs open again (#3488, #3489) |
 | 2026-10-30 | Submitted `test/admin-only-omitted` as [#3490](https://github.com/motioneye-project/motioneye/pull/3490): three open PRs, allowed by the user since #3488/#3489 are light docs PRs |
 | 2026-10-30 | Prepared the #1570 takeover on `enh/layout-columns-per-browser` (`8c0f0cf8`) following MichaIng's 2026-05 direction (localStorage, ~500px per frame). Not submitted |
+| 2026-10-30 | Closed #2083 (incomplete install, solved by the reporter; README installs motion via `motioneye_init`) and #1496 (i2c problem solved by the reporter; pointed to the libcamera wiki section), added `question` to #1496. Next candidate: #1408 |
