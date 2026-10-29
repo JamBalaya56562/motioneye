@@ -125,3 +125,4 @@
 | 2026-10-29 | #3484 also approved by Marijn0 (on `43926e8a`); he suggested linking `docker/README.md` and adding a compose example with Docker Hub/GHCR links. Checked: neither the README nor the wiki mentions Docker. [Replied](https://github.com/motioneye-project/motioneye/pull/3484#issuecomment-6481258860) that this comes with #3248/#3007 after #3484 |
 | 2026-10-30 | Closed #2792 (wiki Bullseye page removed; README ARMv6/7 build deps cover the 4 packages) and labelled it `documentation`. Next candidate: #2934 |
 | 2026-10-30 | Closed #2934 (motioneye.eo fork, answered by zagrim; pointed to 0.44.0, libcamerify and #2812), labelled `question`. Next candidate: #2062 |
+| 2026-10-30 | Closed #2062 (NoIR colours: awb_auto_is_greyworld on the legacy stack, wiki NoIR tuning file with libcamera), added `question`. Next candidate: #2083 |
