@@ -155,3 +155,4 @@
 | 2026-10-31 | Closed #2540 (completed, verified with the dev image as `--user 1003:1003`) and #406 (not planned, legacy camera stack), both OKed by the user |
 | 2026-10-31 | #3496: applied the 3 review suggestions and answered the `VIRTUAL_ENV` question with a Trixie check; rebased onto upstream dev `58c5f6cf` (#3497, #3468 merged; first checked the fork dev by mistake) → `e78a2908`, 459 passed; fork dev updated |
 | 2026-10-31 | Rebased the unsubmitted branches onto upstream dev `58c5f6cf` and pushed: layout-columns `8782826f`, smb-keep-file `9212ad3a`, remember-me `e1b06094`, session-cookie-max-age `1100ca3c`, movie-cache-dir `59e5fc3b` (all tests passed). detection-action conflicts with the merged #3468 and stays on `1f81bcae` |
+| 2026-10-31 | Reworked `enh/detection-action` after #3468 as `fix/wsswitch-manual-detection` (`9021b7b9`, fork, not submitted): wsswitch cache per MichaIng's design; 463 passed, E2E pause lasts with a working schedule |
