@@ -235,10 +235,10 @@ Title: `enh(ui): keep the layout columns per browser, from the window width by d
 
 ## `enh/venv` — install into a venv (#3066)
 
-- Branch: `JamBalaya56562:enh/venv` (`699081c1`), base `dev` (`7093e67d`)
+- Branch: `JamBalaya56562:enh/venv` (`a9d501c9`, was `699081c1`), base `dev` (`7093e67d`)
 - Fixes #3066; follows MichaIng's plan there (2024-10-19, 2026-02-22: `--meyectl`-like option for `linux_init`, passed by `motioneye_init`)
 - Verified: 5 scenarios in a systemd Debian 13 container (2026-10-28), fork CI green on `f39efa29` (test_install 6/6, pre-commit); 439 passed on `699081c1`
-- Pi (2026-10-30, Pi 5, trixie, Python 3.13.5, motion 4.7.1): switched the system-wide 0.44.0 install to a venv as in the README. `pip uninstall` worked (the Pi has `break-system-packages` in pip.conf), `ExecStart=/opt/motioneye/bin/meyectl`, `motioneye.conf` kept as `root:motion 0640`. **Found**: `motioneye_init` ends with `systemctl enable --now`, which does not restart a running service, so the old 0.44.0 process (from the removed `/usr/local/bin/meyectl`) kept running until `systemctl restart motioneye`; then 0.45.0a1 from the venv ran. To decide: add the restart to the README switch paragraph, or restart in `linux_init`
+- Pi (2026-10-30, Pi 5, trixie, Python 3.13.5, motion 4.7.1): switched the system-wide 0.44.0 install to a venv as in the README. `pip uninstall` worked (the Pi has `break-system-packages` in pip.conf), `ExecStart=/opt/motioneye/bin/meyectl`, `motioneye.conf` kept as `root:motion 0640`. **Found**: `motioneye_init` ends with `systemctl enable --now`, which does not restart a running service, so the old 0.44.0 process (from the removed `/usr/local/bin/meyectl`) kept running until `systemctl restart motioneye`; then 0.45.0a1 from the venv ran. Fixed in `a9d501c9` (user's choice, 2026-10-30): `linux_init` ends with `systemctl enable` + `systemctl restart`. Re-checked on the Pi: the running 0.44.0 (pid 7177) was replaced by 0.45.0a1 from the venv (pid 7630) without a manual restart; a stopped service is started and enabled. shellcheck as in CI clean, 439 passed; fork CI started on `a9d501c9`, not checked yet
 - Pi: `motioneye_init` rewrites the unit, so a hand-edited `ExecStart=/usr/bin/libcamerify …` is lost (as on `dev`); a drop-in `/etc/systemd/system/motioneye.service.d/libcamerify.conf` (`ExecStart=` + `ExecStart=/usr/bin/libcamerify /opt/motioneye/bin/meyectl …`) survives a second `motioneye_init`, and the imx708 stream gave frames. Not part of this PR
 - Labels to set: `documentation`, `Python`, `CI/CD`
 
@@ -253,6 +253,7 @@ Recent Debian and Ubuntu versions do not allow `pip` to install outside of a ven
 
 As suggested in https://github.com/motioneye-project/motioneye/issues/3066#issuecomment-3940839716:
 - `linux_init` gets a `--meyectl PATH` option, used for `ExecStart` in place of the detection. A missing path, a directory or a missing argument aborts before anything is installed.
+- `linux_init` restarts the service instead of `enable --now`, which left a running service on its old `ExecStart`, e.g. on the removed `/usr/local/bin/meyectl` after switching to a venv.
 - `motioneye_init` passes the `meyectl` of its own Python environment (`sysconfig.get_path('scripts')`) if it is there, so it works from a venv without activating it. It is passed first, so `--meyectl` given on the command line takes precedence. Installed system-wide, this is `/usr/local/bin/meyectl`, as before.
 - The README creates a venv in `/opt/motioneye` and installs, upgrades and sets up motionEye with its `pip` and `motioneye_init`. The `get-pip.py` and `break-system-packages` steps are gone. It also explains how to switch an install outside of a venv.
 - `test_install` installs the same way, on all six runners.
@@ -270,6 +271,8 @@ In a Debian 13 (Python 3.13) container with systemd:
 | missing path, a directory, no argument after `--meyectl` | error message, nothing installed |
 | installed system-wide, as before | `/usr/local/bin/meyectl`, service active |
 | system-wide install switched to a venv as in the README | `ExecStart` updated to the venv, service active; `motioneye.conf` (`root:motion` 0640) and lines added to it kept |
+
+On a Raspberry Pi 5 (Raspberry Pi OS trixie, Python 3.13, motion 4.7.1), switching a running system-wide 0.44.0 to a venv as in the README: before the restart in `linux_init`, the old server from the removed `/usr/local/bin/meyectl` kept running until the service was restarted by hand; now `motioneye_init` replaces it with the one from the venv. A stopped service is started and enabled, as before.
 
 - `tests/test_motioneye_init.py` (new): `--meyectl` is passed when the environment has `meyectl`, and nothing otherwise.
 - `test_install` on my fork: all six jobs passed.
