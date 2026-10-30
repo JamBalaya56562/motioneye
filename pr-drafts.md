@@ -467,3 +467,11 @@ New tests in `tests/test_handlers/test_action_detection.py`: 5 of the 7 fail on 
 - Not included, as MichaIng wants them separately or not now: admin-only actions (he keeps them open to normal users), starting the loop only with a working schedule / `PeriodicCallback`
 - Tests: new `tests/test_wsswitch.py` (5) + `test_the_working_schedule_checks_the_state_again` in `test_motionctl.py`; full suite 463 passed; ruff clean
 - E2E (me-e2e, motion 4.5.1): schedule "during" all day, `detectionpause` → after 25 s still PAUSE (dev `58c5f6cf`: ACTIVE again). Schedule "outside" all day, `detectionstart` → stays ACTIVE; after `pkill motion` the checker restarts it and wsswitch pauses it again (cache cleared)
+
+## `fix/action-buttons-rows` — arrange the action buttons when the camera overlay is shown
+
+- Branch: `JamBalaya56562:fix/action-buttons-rows` (`9eab8065`), base `dev` (`58c5f6cf`). Pushed 2026-10-31, **not submitted**: candidate once a PR slot is free (user)
+- Reported in #3468 by Marijn0 (review 2026-10-30 19:42) and MichaIng (issuecomment-6534459865): with 2+ action buttons they stack until the layout is updated, the lower one outside the frame
+- Cause (verified, Playwright on me-e2e): `updateActionButtons()` in `main.js` runs from `updateLayout()` while `div.camera-overlay` is `display: none`, so `camera-overlay-bottom` width is 0 → `cameraWidth <= actionsWidth` → `flex: 1 0 100%` for 2 buttons, one per row. `showCameraOverlay()` did not recompute
+- Fix: skip when the width is 0, and call `updateActionButtons()` for all frames in `showCameraOverlay()` right after `display` is reset
+- Checked at 1366x768, 2x2 layout: dev = 2 buttons stacked (bar 80 px high), fix = one row (40 px); a camera with 13 buttons still gets two rows (7 + 6) on both, also at 1920x1080. Merges cleanly with `enh/layout-columns-per-browser` and `fix/mask-grid`. Screenshots: scratchpad `btn/dev-load.png`, `btn/fix-load.png`
