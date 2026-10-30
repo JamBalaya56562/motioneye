@@ -178,6 +178,32 @@ def _list_media_files(
     return media_files
 
 
+def _remove_empty_dirs(dir_path: str, target_dir: str) -> bool:
+    # removes the directory, then its parents as long as they are empty, but unlike
+    # os.removedirs() never the target dir itself or anything above it
+    dir_path = os.path.normpath(dir_path)
+    target_dir = os.path.normpath(target_dir)
+    if (
+        dir_path == target_dir
+        or os.path.commonpath([dir_path, target_dir]) != target_dir
+    ):
+        return False
+
+    os.rmdir(dir_path)
+
+    dir_path = os.path.dirname(dir_path)
+    while dir_path != target_dir:
+        try:
+            os.rmdir(dir_path)
+
+        except OSError:
+            break  # not empty
+
+        dir_path = os.path.dirname(dir_path)
+
+    return True
+
+
 def _remove_older_files(
     directory: str,
     moment: datetime,
@@ -236,8 +262,8 @@ def _remove_older_files(
         if not listing or len(listing) == len(thumbs):
             logging.debug(f'removing empty directory {dir_path}...')
             try:
-                os.removedirs(dir_path)
-                removed_folder_count += 1
+                if _remove_empty_dirs(dir_path, directory):
+                    removed_folder_count += 1
 
             except Exception as e:
                 logging.error(f'failed to remove {dir_path}: {e}')
@@ -463,10 +489,6 @@ def cleanup_media(media_type: str) -> None:
                 'service_name': service_name,
                 'cloud_dir': cloud_dir,
             }
-        if os.path.exists(target_dir):
-            # create a sentinel file to make sure the target dir is never removed
-            open(os.path.join(target_dir, '.keep'), 'w').close()
-
         logging.debug(
             f'calling _remove_older_files: {cloud_enabled} {clean_cloud_enabled} {clean_cloud_info}'
         )
@@ -1073,9 +1095,6 @@ def del_media_content(camera_config: dict, path: str):
     utils.validate_paths(path, target_dir=target_dir)
     full_path: str = os.path.join(target_dir, path)
 
-    # create a sentinel file to make sure the target dir is never removed
-    open(os.path.join(target_dir, '.keep'), 'w').close()
-
     try:
         # remove the file itself
         os.remove(full_path)
@@ -1098,7 +1117,7 @@ def del_media_content(camera_config: dict, path: str):
 
         if not listing or len(listing) == len(thumbs):
             logging.debug(f'removing empty directory {dir_path}...')
-            os.removedirs(dir_path)
+            _remove_empty_dirs(dir_path, target_dir)
 
     except Exception as e:
         logging.error(f'failed to remove file {full_path}: {e}')
@@ -1116,9 +1135,6 @@ def del_media_group(camera_config: dict, group: str, media_type: str):
 
     else:  # media_type == 'movie'
         exts = _MOVIE_EXTS + ['.thumb']
-
-    # create a sentinel file to make sure the target dir is never removed
-    open(os.path.join(target_dir, '.keep'), 'w').close()
 
     mf = _list_media_files(target_dir, exts, sub_path=group, with_stat=False)
     for path, st in mf:  # st will be None when with_stat=False
@@ -1139,7 +1155,7 @@ def del_media_group(camera_config: dict, group: str, media_type: str):
 
     if not listing or len(listing) == len(thumbs):
         logging.debug(f'removing empty directory {full_path}...')
-        os.removedirs(full_path)
+        _remove_empty_dirs(full_path, target_dir)
 
 
 def get_current_picture(camera_config, width, height):
