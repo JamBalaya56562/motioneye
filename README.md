@@ -152,3 +152,4 @@
 | 2026-10-30 | Implemented the remember-me part of #3364 on `enh/remember-me` (`a806e6b2`, fork), default off (user). Side finding to check later: `get_signed_cookie` default max_age_days=31 may cap `normal_session_expiry_hours` |
 | 2026-10-30 | Verified the side finding: with `normal_session_expiry_hours 1000`, the surveillance login stops at 31 days (Tornado `max_age_days=31` default) although the session is still valid. Added to follow-up ideas |
 | 2026-10-30 | Prepared the 31-day cookie fix on `fix/session-cookie-max-age` (`5ea72cbc`, fork); not submitted |
+| 2026-10-31 | Closed #2540 (completed, verified with the dev image as `--user 1003:1003`) and #406 (not planned, legacy camera stack), both OKed by the user |
