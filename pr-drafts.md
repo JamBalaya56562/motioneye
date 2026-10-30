@@ -278,3 +278,43 @@ Side note, not changed here: `motioneye_init` exits with 0 even when `linux_init
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
+
+## `fix/smb-keep-file` — stop at the target dir when removing empty folders, without .keep (#1810)
+
+- Branch: `JamBalaya56562:fix/smb-keep-file` (`e8e44128`), base `dev` (`7093e67d`)
+- Fixes #1810; answers MichaIng's question there (2024-07-31) on why `.keep` was needed
+- Verified: repro as `nobody` in a container (dev: target dir and its parent removed without `.keep`; read-only `.keep` → `[Errno 13] Permission denied: '…/.keep'`, file kept; branch: both fine). New tests fail on dev, each run alone; 443 passed; ruff OK
+- **Not verified**: a real SMB share (the hidden `.keep` was imitated with `chmod 444`)
+- Labels to set: `bug`, `Python`
+
+**Title:** `fix(media): stop at the target dir when removing empty folders, without .keep`
+
+**Body:**
+
+````
+Fixes #1810
+
+To answer the question in https://github.com/motioneye-project/motioneye/issues/1810#issuecomment-2260579449: removing a media file or group in the UI, and the media cleanup, remove the emptied folders with `os.removedirs()`. That goes on with every parent that becomes empty, so without the `.keep` file it removes the camera's target dir as well, and further up whatever is left empty. The `.keep` file, written into the target dir before each removal, stopped it there.
+
+On some SMB shares, that file becomes hidden and cannot be written again, so every removal after the first one fails with `[Errno 13] Permission denied: '…/.keep'`, as in the report.
+
+This removes the emptied folders with a small helper instead, which stops before the target dir, and never removes it nor anything outside of it. So the `.keep` file is no longer needed and is no longer written. An existing one is left alone.
+
+## Testing
+
+As a non-root user in a container, with the target dir in a parent folder:
+
+| Case | `dev` | This branch |
+|---|---|---|
+| cleanup of an old file in a subfolder, without `.keep` | the target dir and its parent are removed | only the subfolder is removed |
+| removal in the UI, with a `.keep` that cannot be written (`chmod 444`) | `[Errno 13] Permission denied: '…/Camera1/.keep'`, the file is kept | removed |
+
+On `dev`, running the tests without a `.keep` even removed the then empty `/tmp` of the container.
+
+- `tests/test_mediafiles.py`: the cleanup tests no longer create a `.keep`, and check that the target dir and its parent are kept. New tests for `del_media_content()` and `del_media_group()`: emptied folders are removed up to the target dir, also for files directly in it and for the ungrouped files; folders with other files are kept; no `.keep` is written. Each new test fails on `dev`, except the one for folders with other files.
+- Full suite: 443 passed.
+
+Not checked on a real SMB share; the hidden `.keep` was imitated with a read-only one.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
