@@ -60,7 +60,7 @@
 
 | # | 内容 | 状態 |
 |---|---|---|
-| [#800](https://github.com/motioneye-project/motioneye/issues/800) | API で動体検知をオン/オフ (motionEye と同期、通知も) | 未着手 |
+| [#800](https://github.com/motioneye-project/motioneye/issues/800) | API で動体検知をオン/オフ (motionEye と同期、通知も) | 実装済み・未提出: `enh/detection-action` (`f7c312c4`)。`detection_start`/`detection_pause` action、admin のみ |
 | [#1047](https://github.com/motioneye-project/motioneye/issues/1047) | 検知・録画を外部から発火 (eventstart/eventend action は #2691 でマージ済み) | 未着手 |
 
 ## E. 重い / ハードウェア必要 / 原因不明

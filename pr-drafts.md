@@ -395,3 +395,47 @@ The two new tests fail on `dev` and pass here. `pytest`: 439 passed.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
+
+## `enh/detection-action` — switch motion detection on and off with an action (#800)
+
+- Branch: `JamBalaya56562:enh/detection-action` (`f7c312c4`), base `dev` (`7093e67d`)
+- Fixes #800 (MichaIng put it on v0.45.0 on 2026-10-26). Admin only, decided by the user on 2026-10-30
+- #1047 (trigger a detection or a recording) is already covered on `dev` by the `eventstart`/`eventend` and `record_start`/`record_stop` actions: possible close with this PR
+- When: when a PR slot is free (up to two open PRs)
+
+**Title:** `feat(action): switch motion detection on and off`
+
+**Body:**
+
+````
+Fixes #800.
+
+So far, the way to switch motion detection from a script was motion's own webcontrol (`/<id>/detection/pause`), which motionEye does not know about: the working schedule turns detection back on within 10 seconds, a motion restart brings back the saved state (`pause` is written from the motion detection switch), and the switch in the camera settings shows the old state.
+
+Two new actions do what the motion detection switch in the camera settings does, without restarting motion:
+
+```
+POST /action/<camera_id>/detection_pause
+POST /action/<camera_id>/detection_start
+```
+
+They save the switch in the camera config and apply it to the running motion at once. While paused, the working schedule leaves the camera alone, as with the switch turned off; `detection_start` hands it back to the schedule. As they change the camera config, they need the admin user (or a hub, for a remote camera, where the action is passed on to the remote). Cameras that motion does not handle (simple MJPEG) answer 400, as for other unknown actions.
+
+## Testing
+
+In a container with motion 4.5.1 and a network camera:
+
+| Step | motion `detection/status` | camera-1.conf |
+|---|---|---|
+| `detection_pause` | PAUSE | `@motion_detection off`, `pause on` |
+| `detection_start` | ACTIVE | `@motion_detection on`, `pause off` |
+| paused, then motion killed and restarted by motionEye | PAUSE | unchanged |
+| working schedule set, pause via motion's webcontrol, 25 s later | ACTIVE again | unchanged |
+| working schedule set, `detection_pause`, 25 s later | PAUSE | `pause on` |
+
+`/config/1/get` reports `motion_detection` false after `detection_pause` and true after `detection_start`, so the settings switch follows.
+
+New tests in `tests/test_handlers/test_action_detection.py`: 5 of the 7 fail on `dev` (the other two, the 400 for an MJPEG camera and passing the action on to a remote, hold on `dev` too). `pytest`: 444 passed.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
