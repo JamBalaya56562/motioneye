@@ -157,3 +157,4 @@
 | 2026-10-31 | Rebased the unsubmitted branches onto upstream dev `58c5f6cf` and pushed: layout-columns `8782826f`, smb-keep-file `9212ad3a`, remember-me `e1b06094`, session-cookie-max-age `1100ca3c`, movie-cache-dir `59e5fc3b` (all tests passed). detection-action conflicts with the merged #3468 and stays on `1f81bcae` |
 | 2026-10-31 | Reworked `enh/detection-action` after #3468 as `fix/wsswitch-manual-detection` (`9021b7b9`, fork, not submitted): wsswitch cache per MichaIng's design; 463 passed, E2E pause lasts with a working schedule |
 | 2026-10-31 | Fixed the stacked action buttons reported in #3468 on `fix/action-buttons-rows` (`9eab8065`, fork, not submitted): rows computed while the overlay was hidden (width 0) |
+| 2026-10-31 | Closed #1334 (log to journald, done by #3394) and #2034 (action buttons fixed width, removed by #2903), both OKed by the user; found by checking recent merges against open issues |
