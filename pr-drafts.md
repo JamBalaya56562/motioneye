@@ -407,6 +407,7 @@ The two new tests fail on `dev` and pass here. `pytest`: 439 passed.
 - Branch: `JamBalaya56562:enh/detection-action` (`f7c312c4`), base `dev` (`7093e67d`)
 - Fixes #800 (MichaIng put it on v0.45.0 on 2026-10-26). Admin only, decided by the user on 2026-10-30
 - #1047 (trigger a detection or a recording) is already covered on `dev` by the `eventstart`/`eventend` and `record_start`/`record_stop` actions: possible close with this PR
+- Pi (2026-10-30, motion 4.7.1, imx708 via libcamerify): pause/start/pause, and a motion restart while paused, gave the same results as in Docker (motion 4.5.1); stream still gave frames
 - When: when a PR slot is free (up to two open PRs)
 
 **Title:** `feat(action): switch motion detection on and off`
@@ -438,6 +439,8 @@ In a container with motion 4.5.1 and a network camera:
 | paused, then motion killed and restarted by motionEye | PAUSE | unchanged |
 | working schedule set, pause via motion's webcontrol, 25 s later | ACTIVE again | unchanged |
 | working schedule set, `detection_pause`, 25 s later | PAUSE | `pause on` |
+
+The same on a Raspberry Pi 5 with motion 4.7.1 and a Camera Module 3 (pause, start, and a motion restart while paused).
 
 `/config/1/get` reports `motion_detection` false after `detection_pause` and true after `detection_start`, so the settings switch follows.
 
