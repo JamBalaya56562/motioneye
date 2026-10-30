@@ -171,7 +171,7 @@ Tests:
 
 - Branch: `JamBalaya56562:fix/mask-grid` (`eda341ae`), base `dev` (`5dc324ed`)
 - Fixes #2755 (the part left after #3470: drift with the resolution dimmer)
-- Screenshots: scratchpad `mask/before-mask.png` / `mask/after-mask.png` (dimmer 80 %, square mask, after three saves); upload as GitHub attachments in the in-app browser when submitting and replace the placeholders
+- Screenshots: uploaded as GitHub attachments on 2026-10-30 (pasted into the #2755 comment box, not posted); already in the body below
 - When: when a PR slot is free (up to two open PRs)
 
 **Title:** `fix(ui): build the mask editor grid at the capture size`
@@ -194,7 +194,7 @@ The cells are placed in percent, so they still cover the scaled preview. The ser
 
 | Before | After |
 |---|---|
-| BEFORE_IMAGE | AFTER_IMAGE |
+| <img src="https://github.com/user-attachments/assets/f88a5e5e-91fe-4042-aea6-31369c8803a4" width="480"> | <img src="https://github.com/user-attachments/assets/8afc4228-e7f6-4479-8ff8-6391b35e907a" width="480"> |
 
 Measured with Playwright against current dev and this branch: bounding box of the masked area in `mask_1.pgm` after each save (drawn: x 25–50 %, y ⅓–⅔).
 
@@ -232,3 +232,49 @@ Title: `enh(ui): keep the layout columns per browser, from the window width by d
 > - local storage blocked: auto columns, the slider still works for the page, no errors
 >
 > Supersedes #1570
+
+## `enh/venv` — install into a venv (#3066)
+
+- Branch: `JamBalaya56562:enh/venv` (`699081c1`), base `dev` (`7093e67d`)
+- Fixes #3066; follows MichaIng's plan there (2024-10-19, 2026-02-22: `--meyectl`-like option for `linux_init`, passed by `motioneye_init`)
+- Verified: 5 scenarios in a systemd Debian 13 container (2026-10-28), fork CI green on `f39efa29` (test_install 6/6, pre-commit); 439 passed on `699081c1`
+- **Not verified**: the venv install on the real Pi (Pi 5, trixie). Can be run over `ssh raspi` before submitting (disposable)
+- Labels to set: `documentation`, `Python`, `CI/CD`
+
+**Title:** `feat(install): install into a venv, with the meyectl path passed by motioneye_init`
+
+**Body:**
+
+````
+Fixes #3066
+
+Recent Debian and Ubuntu versions do not allow `pip` to install outside of a venv, so the README worked around it with `break-system-packages` and `get-pip.py`. Simply installing into a venv was not enough: `linux_init` looks for `meyectl` in `/usr/local/bin` and `PATH`, where a venv's `bin` is not, so the systemd service failed to start (`ERROR: meyectl executable has not been found`, `status=203/EXEC`).
+
+As suggested in https://github.com/motioneye-project/motioneye/issues/3066#issuecomment-3940839716:
+- `linux_init` gets a `--meyectl PATH` option, used for `ExecStart` in place of the detection. A missing path, a directory or a missing argument aborts before anything is installed.
+- `motioneye_init` passes the `meyectl` of its own Python environment (`sysconfig.get_path('scripts')`) if it is there, so it works from a venv without activating it. It is passed first, so `--meyectl` given on the command line takes precedence. Installed system-wide, this is `/usr/local/bin/meyectl`, as before.
+- The README creates a venv in `/opt/motioneye` and installs, upgrades and sets up motionEye with its `pip` and `motioneye_init`. The `get-pip.py` and `break-system-packages` steps are gone. It also explains how to switch an install outside of a venv.
+- `test_install` installs the same way, on all six runners.
+
+Not changed: the Docker image (pip in the container) and the SysV init script.
+
+## Testing
+
+In a Debian 13 (Python 3.13) container with systemd:
+
+| Case | Result |
+|---|---|
+| venv, `/opt/motioneye/bin/motioneye_init`, not activated | `ExecStart=/opt/motioneye/bin/meyectl`, service active, listening on 8765 |
+| `--meyectl /usr/local/sbin/my-meyectl` | the given path is used, service active |
+| missing path, a directory, no argument after `--meyectl` | error message, nothing installed |
+| installed system-wide, as before | `/usr/local/bin/meyectl`, service active |
+| system-wide install switched to a venv as in the README | `ExecStart` updated to the venv, service active; `motioneye.conf` (`root:motion` 0640) and lines added to it kept |
+
+- `tests/test_motioneye_init.py` (new): `--meyectl` is passed when the environment has `meyectl`, and nothing otherwise.
+- `test_install` on my fork: all six jobs passed.
+- shellcheck as in CI: no warnings. `pytest`: 439 passed.
+
+Side note, not changed here: `motioneye_init` exits with 0 even when `linux_init` fails, as on `dev`.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
