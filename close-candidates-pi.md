@@ -29,6 +29,8 @@ Point to the wiki libcamerify steps and #2683 / #2812, as the maintainers do. Wi
 first run the wiki `Troubleshooting#libcamera-camera-stack` steps on current Raspberry Pi OS so the pointer is
 known to work (**not verified yet**).
 
+Flow (user, 2026-10-30): we can edit the wiki (push access, Edit shown), but ask MichaIng first, in the B issue that is about to be closed. Once he agrees: add the "width a multiple of 128" note to `Troubleshooting#libcamera-camera-stack`, then close that issue (and the other B ones) pointing to it.
+
 | # | Title | Notes | Status |
 |---|---|---|---|
 | [#2684](https://github.com/motioneye-project/motioneye/issues/2684) | working on a libcamera workaround | zagrim pointed to #2425 / #2683 (2023) | candidate |
