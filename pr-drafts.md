@@ -213,7 +213,7 @@ No JavaScript errors in any case.
 
 ## enh/layout-columns-per-browser (takes over #1570)
 
-- Branch: `JamBalaya56562:enh/layout-columns-per-browser` (`68975b00`), base `dev` (`1f81bcae`, rebased 2026-10-31; conflict in `main.js` with `getCameraImageRatio()` from #3491, both kept)
+- Branch: `JamBalaya56562:enh/layout-columns-per-browser` (`8782826f`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 457 passed; earlier conflict in `main.js` with `getCameraImageRatio()` from #3491, both kept)
 
 Title: `enh(ui): keep the layout columns per browser, from the window width by default`
 
@@ -288,7 +288,7 @@ Side note, not changed here: `motioneye_init` exits with 0 even when `linux_init
 
 ## `fix/smb-keep-file` — stop at the target dir when removing empty folders, without .keep (#1810)
 
-- Branch: `JamBalaya56562:fix/smb-keep-file` (`35519c59`), base `dev` (`1f81bcae`, rebased 2026-10-31)
+- Branch: `JamBalaya56562:fix/smb-keep-file` (`9212ad3a`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 463 passed)
 - Fixes #1810; answers MichaIng's question there (2024-07-31) on why `.keep` was needed
 - Verified: repro as `nobody` in a container (dev: target dir and its parent removed without `.keep`; read-only `.keep` → `[Errno 13] Permission denied: '…/.keep'`, file kept; branch: both fine). New tests fail on dev, each run alone; 443 passed; ruff OK
 - Real SMB (2026-10-30, Docker: Samba 4.17.12 server, Linux 7.0 linuxkit CIFS client, mounted as motionEye does, target dir = mount root): **#1810 did not reproduce on dev** over SMB 2.1, 3.0, 3.1.1 with default Samba (`hide dot files = yes`, `.keep` gets attributes HA), `map hidden`/no `store dos attributes`, `hide files = /.*/`, or read-only create mode — overwriting the hidden `.keep` worked. The branch works on all of them (subfolders removed, mount root kept, an existing `.keep` left alone)
@@ -331,7 +331,7 @@ Over SMB 1.0 (Samba 4.22, `server min protocol = NT1`, on a Raspberry Pi 5 whose
 
 ## `enh/remember-me` — bring back "remember me" (#3364)
 
-- Branch: `JamBalaya56562:enh/remember-me` (`b0e5841e`), base `dev` (`1f81bcae`, rebased 2026-10-31); test fix: the session expiry is checked between the `Date` header and the request end, as the old `delta=1` failed once under load
+- Branch: `JamBalaya56562:enh/remember-me` (`e1b06094`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 459 passed); test fix: the session expiry is checked between the `Date` header and the request end, as the old `delta=1` failed once under load
 - Related to #3364 (not Fixes: the PWA `SameSite` part stays open); follows MichaIng's idea of 2026-09-02 (no cookie lifetime → a true session cookie)
 - Default off (user's choice, 2026-10-30), as in 0.43
 - Verified: Tornado 6.5.10 drops `expires` with `expires_days=None`; Playwright: dialog shows the switch off, posts `remember=0/1`, cookie session (`expires -1`) vs 1 day; persistent profile closed and reopened → login dialog without, still logged in with; no JS errors. New test fails on dev (form and JSON), 439 passed, ruff, node --check
@@ -372,7 +372,7 @@ The label uses the source string "Memoru min", which is no longer in the transla
 
 ## `fix/session-cookie-max-age` — accept session cookies as long as the longest session lasts
 
-- Branch: `JamBalaya56562:fix/session-cookie-max-age` (`81174580`), base `dev` (`1f81bcae`, rebased 2026-10-31)
+- Branch: `JamBalaya56562:fix/session-cookie-max-age` (`1100ca3c`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 459 passed)
 - Found while preparing `enh/remember-me` (#3364); follow-up of #3410. No issue
 - Verified: probe on dev (1000 h: 200 at +30 days, 403 at +31.5/+40 while the session is still valid); new tests fail on dev (403 at +40 days; logout at +40 days leaves the session), pass on the branch; 439 passed; ruff
 - Conflicts with `enh/remember-me` in `tests/test_handlers/test_login.py` (both add tests at the same place): rebase whichever goes second
@@ -407,7 +407,7 @@ The two new tests fail on `dev` and pass here. `pytest`: 439 passed.
 
 ## `enh/detection-action` — switch motion detection on and off with an action (#800)
 
-- Branch: `JamBalaya56562:enh/detection-action` (`d8ddeb56`), base `dev` (`1f81bcae`, rebased 2026-10-31). **Overlaps #3468** (MichaIng: temporary detection toggle, not saved); hold until #3468 settles. Review comment posted 2026-10-31 (issuecomment-6526802944): working schedule undoes the pause, normal user can pause, OSError not caught, cache kept over a motion crash
+- Branch: `JamBalaya56562:enh/detection-action` (`d8ddeb56`), base `dev` (`1f81bcae`, rebased 2026-10-31). **Overlaps #3468** (MichaIng: temporary detection toggle, not saved); **#3468 merged 2026-10-31: rebase conflicts in `action.py` (its `detectionstart`/`detectionpause` vs our `detection_start`/`detection_pause`), left on `1f81bcae`.** What is left of it (saving `@motion_detection`, admin only) belongs to the follow-ups MichaIng wants as separate PRs; rework on top of #3468, not a rebase. Review comment posted 2026-10-31 (issuecomment-6526802944): working schedule undoes the pause, normal user can pause, OSError not caught, cache kept over a motion crash
 - Fixes #800 (MichaIng put it on v0.45.0 on 2026-10-26). Admin only, decided by the user on 2026-10-30
 - #1047 (trigger a detection or a recording) is already covered on `dev` by the `eventstart`/`eventend` and `record_start`/`record_stop` actions: possible close with this PR
 - Pi (2026-10-30, motion 4.7.1, imx708 via libcamerify): pause/start/pause, and a motion restart while paused, gave the same results as in Docker (motion 4.5.1); stream still gave frames
@@ -454,7 +454,7 @@ New tests in `tests/test_handlers/test_action_detection.py`: 5 of the 7 fail on 
 
 ## `fix/movie-cache-dir` — create the movie cache dir when caching, not on import
 
-- Branch: `JamBalaya56562:fix/movie-cache-dir` (`1f489a3b`), base `dev` (`f06fd23a`). Pushed 2026-10-31, **not submitted** (user's call)
+- Branch: `JamBalaya56562:fix/movie-cache-dir` (`59e5fc3b`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 458 passed). Pushed 2026-10-31, **not submitted** (user's call)
 - Found while reviewing #3497 (Marijn0: separate `TMPDIR` per server in `hub_remote_compat.py`, as the 0.44.0 hub cannot be changed). This is the source side and stands on its own
 - Why it matters outside CI (verified): Debian 13 has `q /tmp 1777 root root 10d`; with the age set to 2 s, `systemd-tmpfiles --clean` removed `/tmp/MotionEye` itself along with its old file. The unit has no `PrivateTmp`. On `dev`, a remote movie then fails with 500 (`FileNotFoundError` on `….part`) and `on_finish` logs `could not delete temp file`, until a restart
 - Change: `os.makedirs(..., exist_ok=True)` in `_write_cache_file()`; no mkdir on import (so no race); `on_finish` returns while the dir does not exist
