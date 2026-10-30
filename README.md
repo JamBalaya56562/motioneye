@@ -153,3 +153,4 @@
 | 2026-10-30 | Verified the side finding: with `normal_session_expiry_hours 1000`, the surveillance login stops at 31 days (Tornado `max_age_days=31` default) although the session is still valid. Added to follow-up ideas |
 | 2026-10-30 | Prepared the 31-day cookie fix on `fix/session-cookie-max-age` (`5ea72cbc`, fork); not submitted |
 | 2026-10-31 | Closed #2540 (completed, verified with the dev image as `--user 1003:1003`) and #406 (not planned, legacy camera stack), both OKed by the user |
+| 2026-10-31 | #3496: applied the 3 review suggestions (`4d9990cd`) and answered the `VIRTUAL_ENV` question with a Trixie check; dev unchanged, no rebase needed |
