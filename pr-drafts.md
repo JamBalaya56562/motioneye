@@ -319,3 +319,44 @@ On a real SMB share (Samba 4.17 server, Linux CIFS client mounted as motionEye d
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
+
+## `enh/remember-me` — bring back "remember me" (#3364)
+
+- Branch: `JamBalaya56562:enh/remember-me` (`a806e6b2`), base `dev` (`7093e67d`)
+- Related to #3364 (not Fixes: the PWA `SameSite` part stays open); follows MichaIng's idea of 2026-09-02 (no cookie lifetime → a true session cookie)
+- Default off (user's choice, 2026-10-30), as in 0.43
+- Verified: Tornado 6.5.10 drops `expires` with `expires_days=None`; Playwright: dialog shows the switch off, posts `remember=0/1`, cookie session (`expires -1`) vs 1 day; persistent profile closed and reopened → login dialog without, still logged in with; no JS errors. New test fails on dev (form and JSON), 439 passed, ruff, node --check
+- Screenshot: scratchpad `remshots/dialog.png` (label shows "Memoru min" until translated)
+- Labels to set: `feature`, `JavaScript`, `Python`
+- Side finding, separate: `get_signed_cookie('user')` uses Tornado's default `max_age_days=31`, so `normal_session_expiry_hours` above 744 may still end after 31 days (documentation-based, not verified)
+
+**Title:** `feat(login): bring back "remember me"`
+
+**Body:**
+
+````
+Related to #3364
+
+As suggested in https://github.com/motioneye-project/motioneye/issues/3364#issuecomment-5514972264: the login dialog has a "remember me" switch again, off by default as in 0.43.
+
+- Off: the session cookie has no expiry date, so the browser drops it when it is closed. Since 0.44.0 it always had one, so a login was kept after closing the browser, also on shared devices.
+- On: the cookie lasts as long as the session, as now (24 hours for the admin, `normal_session_expiry_hours` for the surveillance user).
+
+The session itself expires on the server as before either way, and the session store is kept, so logging out and changing a password still end the session on the server. API clients which do not send `remember` keep getting the lasting cookie, so e.g. the Home Assistant integration is not affected.
+
+Not changed: the `SameSite=Strict` problem with PWAs, sessions surviving a restart (the cookie secret and the sessions live in memory), and renewing sessions.
+
+The label uses the source string "Memoru min", which is no longer in the translations, so it shows untranslated until it is translated on Weblate.
+
+## Testing
+
+- New tests: with `remember=0` (form) or `false` (JSON) the cookie has no expiry date, while the session still expires after 24 hours on the server; with `1`/`true` it lasts 24 hours. The first fails on `dev`. Without `remember`, the existing lifetime tests still pass.
+- Playwright against this branch: the dialog shows the switch off and posts `remember=0`, which gives a session cookie; switched on, `remember=1` and a cookie for 1 day. With a persistent browser profile closed and opened again: without "remember me" the login dialog comes up, with it the cameras show. No JavaScript errors.
+- `pytest`: 439 passed.
+
+| Login dialog |
+|---|
+| SCREENSHOT |
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
