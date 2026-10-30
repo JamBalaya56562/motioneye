@@ -238,7 +238,8 @@ Title: `enh(ui): keep the layout columns per browser, from the window width by d
 - Branch: `JamBalaya56562:enh/venv` (`699081c1`), base `dev` (`7093e67d`)
 - Fixes #3066; follows MichaIng's plan there (2024-10-19, 2026-02-22: `--meyectl`-like option for `linux_init`, passed by `motioneye_init`)
 - Verified: 5 scenarios in a systemd Debian 13 container (2026-10-28), fork CI green on `f39efa29` (test_install 6/6, pre-commit); 439 passed on `699081c1`
-- **Not verified**: the venv install on the real Pi (Pi 5, trixie). Can be run over `ssh raspi` before submitting (disposable)
+- Pi (2026-10-30, Pi 5, trixie, Python 3.13.5, motion 4.7.1): switched the system-wide 0.44.0 install to a venv as in the README. `pip uninstall` worked (the Pi has `break-system-packages` in pip.conf), `ExecStart=/opt/motioneye/bin/meyectl`, `motioneye.conf` kept as `root:motion 0640`. **Found**: `motioneye_init` ends with `systemctl enable --now`, which does not restart a running service, so the old 0.44.0 process (from the removed `/usr/local/bin/meyectl`) kept running until `systemctl restart motioneye`; then 0.45.0a1 from the venv ran. To decide: add the restart to the README switch paragraph, or restart in `linux_init`
+- Pi: `motioneye_init` rewrites the unit, so a hand-edited `ExecStart=/usr/bin/libcamerify …` is lost (as on `dev`); a drop-in `/etc/systemd/system/motioneye.service.d/libcamerify.conf` (`ExecStart=` + `ExecStart=/usr/bin/libcamerify /opt/motioneye/bin/meyectl …`) survives a second `motioneye_init`, and the imx708 stream gave frames. Not part of this PR
 - Labels to set: `documentation`, `Python`, `CI/CD`
 
 **Title:** `feat(install): install into a venv, with the meyectl path passed by motioneye_init`
@@ -285,7 +286,7 @@ Side note, not changed here: `motioneye_init` exits with 0 even when `linux_init
 - Fixes #1810; answers MichaIng's question there (2024-07-31) on why `.keep` was needed
 - Verified: repro as `nobody` in a container (dev: target dir and its parent removed without `.keep`; read-only `.keep` → `[Errno 13] Permission denied: '…/.keep'`, file kept; branch: both fine). New tests fail on dev, each run alone; 443 passed; ruff OK
 - Real SMB (2026-10-30, Docker: Samba 4.17.12 server, Linux 7.0 linuxkit CIFS client, mounted as motionEye does, target dir = mount root): **#1810 did not reproduce on dev** over SMB 2.1, 3.0, 3.1.1 with default Samba (`hide dot files = yes`, `.keep` gets attributes HA), `map hidden`/no `store dos attributes`, `hide files = /.*/`, or read-only create mode — overwriting the hidden `.keep` worked. The branch works on all of them (subfolders removed, mount root kept, an existing `.keep` left alone)
-- **Not verified**: SMB 1.0 and 2.0 — the Docker Desktop kernel refuses them (`vers=2.0 mount not permitted when legacy dialects disabled`). The report (motionEyeOS 2020) and dariodoc's fix (switching from SMB1 to 3.x) point to SMB1. Next: try SMB 1.0 from the Pi (`ssh raspi`), whose kernel may allow it, against a Samba container or the Pi itself
+- SMB 1.0 and 2.0 on the Pi (2026-10-30, kernel 6.18 with `CIFS_ALLOW_INSECURE_LEGACY`, Samba 4.22.11 on the Pi itself with `server min protocol = NT1`, mounted as motionEye does): with default Samba, `map hidden`, `hide files`, **no repro on dev over 1.0, 2.0, 2.1, 3.1.1**. With `create mask = 0444` (new files read-only) over **SMB 1.0, dev shows the report exactly**: the first removal works, every later one fails with `[Errno 13] Permission denied: '…/.keep'`; the branch removes everything and keeps the mount root. Over 2.0+ that share could not be tested (setting the times of a new read-only file fails in the test script itself)
 - Labels to set: `bug`, `Python`
 
 **Title:** `fix(media): stop at the target dir when removing empty folders, without .keep`
@@ -315,7 +316,9 @@ On `dev`, running the tests without a `.keep` even removed the then empty `/tmp`
 - `tests/test_mediafiles.py`: the cleanup tests no longer create a `.keep`, and check that the target dir and its parent are kept. New tests for `del_media_content()` and `del_media_group()`: emptied folders are removed up to the target dir, also for files directly in it and for the ungrouped files; folders with other files are kept; no `.keep` is written. Each new test fails on `dev`, except the one for folders with other files.
 - Full suite: 443 passed.
 
-On a real SMB share (Samba 4.17 server, Linux CIFS client mounted as motionEye does it, the target dir being the mount point), over SMB 2.1, 3.0 and 3.1.1: this branch removes the emptied folders and keeps the mount point, and leaves an existing `.keep` alone. With these dialects I could not reproduce the error itself: overwriting the hidden `.keep` worked, also with `map hidden` or `hide files`. The report (2020) and the comment that switching from SMB1 to 3.x helped point to SMB1, which my test kernel does not allow; the error above was imitated with a read-only `.keep`.
+On a real SMB share (Samba 4.17 server, Linux CIFS client mounted as motionEye does it, the target dir being the mount point), over SMB 2.1, 3.0 and 3.1.1: this branch removes the emptied folders and keeps the mount point, and leaves an existing `.keep` alone. With these dialects I could not reproduce the error itself: overwriting the hidden `.keep` worked, also with `map hidden` or `hide files`.
+
+Over SMB 1.0 (Samba 4.22, `server min protocol = NT1`, on a Raspberry Pi 5 whose kernel allows it), the same holds with these settings. With a share that creates files read-only (`create mask = 0444`), `dev` shows the report exactly: the first removal works, as the `.keep` file does not exist yet, and every later one fails with `[Errno 13] Permission denied: '…/.keep'`. This branch removes everything there and keeps the mount point.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
