@@ -169,7 +169,7 @@ Tests:
 
 ## `fix/mask-grid` — build the mask editor grid at the capture size (submitted as #3495, 2026-10-31)
 
-- Branch: `JamBalaya56562:fix/mask-grid` (`1ae33cca`), base `dev` (`1f81bcae`, rebased 2026-10-31)
+- Branch: `JamBalaya56562:fix/mask-grid` (`09931ee4`), base `dev` (`f06fd23a`, rebased 2026-10-31 after #3493; 438 passed)
 - Fixes #2755 (the part left after #3470: drift with the resolution dimmer)
 - Screenshots: uploaded as GitHub attachments on 2026-10-30 (pasted into the #2755 comment box, not posted); already in the body below
 - When: when a PR slot is free (up to two open PRs)
@@ -237,7 +237,7 @@ Title: `enh(ui): keep the layout columns per browser, from the window width by d
 
 ## `enh/venv` — install into a venv (#3066) (submitted as #3496, 2026-10-31)
 
-- Branch: `JamBalaya56562:enh/venv` (`3e9eaad8`, was `a9d501c9`), base `dev` (`1f81bcae`, rebased 2026-10-31). Body: test_install noted as passed before the restart change (fork CI did not run on `a9d501c9`/`3e9eaad8`); pytest 440
+- Branch: `JamBalaya56562:enh/venv` (`533e7c8b`, was `3e9eaad8`), base `dev` (`f06fd23a`, rebased 2026-10-31 after #3493; 440 passed). Body: test_install noted as passed before the restart change (fork CI did not run on `a9d501c9`/`3e9eaad8`); pytest 440
 - Fixes #3066; follows MichaIng's plan there (2024-10-19, 2026-02-22: `--meyectl`-like option for `linux_init`, passed by `motioneye_init`)
 - Verified: 5 scenarios in a systemd Debian 13 container (2026-10-28), fork CI green on `f39efa29` (test_install 6/6, pre-commit); 439 passed on `699081c1`
 - Pi (2026-10-30, Pi 5, trixie, Python 3.13.5, motion 4.7.1): switched the system-wide 0.44.0 install to a venv as in the README. `pip uninstall` worked (the Pi has `break-system-packages` in pip.conf), `ExecStart=/opt/motioneye/bin/meyectl`, `motioneye.conf` kept as `root:motion 0640`. **Found**: `motioneye_init` ends with `systemctl enable --now`, which does not restart a running service, so the old 0.44.0 process (from the removed `/usr/local/bin/meyectl`) kept running until `systemctl restart motioneye`; then 0.45.0a1 from the venv ran. Fixed in `a9d501c9` (user's choice, 2026-10-30): `linux_init` ends with `systemctl enable` + `systemctl restart`. Re-checked on the Pi: the running 0.44.0 (pid 7177) was replaced by 0.45.0a1 from the venv (pid 7630) without a manual restart; a stopped service is started and enabled. shellcheck as in CI clean, 439 passed; fork CI started on `a9d501c9`, not checked yet
@@ -450,3 +450,11 @@ New tests in `tests/test_handlers/test_action_detection.py`: 5 of the 7 fail on 
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
+
+## `fix/movie-cache-dir` — create the movie cache dir when caching, not on import
+
+- Branch: `JamBalaya56562:fix/movie-cache-dir` (`1f489a3b`), base `dev` (`f06fd23a`). Pushed 2026-10-31, **not submitted** (user's call)
+- Found while reviewing #3497 (Marijn0: separate `TMPDIR` per server in `hub_remote_compat.py`, as the 0.44.0 hub cannot be changed). This is the source side and stands on its own
+- Why it matters outside CI (verified): Debian 13 has `q /tmp 1777 root root 10d`; with the age set to 2 s, `systemd-tmpfiles --clean` removed `/tmp/MotionEye` itself along with its old file. The unit has no `PrivateTmp`. On `dev`, a remote movie then fails with 500 (`FileNotFoundError` on `….part`) and `on_finish` logs `could not delete temp file`, until a restart
+- Change: `os.makedirs(..., exist_ok=True)` in `_write_cache_file()`; no mkdir on import (so no race); `on_finish` returns while the dir does not exist
+- Tests: new `test_the_cache_dir_is_created_again_when_removed` (fails on `dev` with the 500 above, passes here); 439 passed; importing the module leaves `/tmp/MotionEye` absent. Not run end to end: `hub_remote_compat.py` lists movies but does not play one
