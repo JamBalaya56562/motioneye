@@ -328,7 +328,7 @@ On a real SMB share (Samba 4.17 server, Linux CIFS client mounted as motionEye d
 - Verified: Tornado 6.5.10 drops `expires` with `expires_days=None`; Playwright: dialog shows the switch off, posts `remember=0/1`, cookie session (`expires -1`) vs 1 day; persistent profile closed and reopened → login dialog without, still logged in with; no JS errors. New test fails on dev (form and JSON), 439 passed, ruff, node --check
 - Screenshot: scratchpad `remshots/dialog.png` (label shows "Memoru min" until translated)
 - Labels to set: `feature`, `JavaScript`, `Python`
-- Side finding, separate: `get_signed_cookie('user')` uses Tornado's default `max_age_days=31`, so `normal_session_expiry_hours` above 744 may still end after 31 days (documentation-based, not verified)
+- Side finding, separate: `get_signed_cookie('user')` uses Tornado's default `max_age_days=31`, so `normal_session_expiry_hours` above 744 ends after 31 days (verified 2026-10-30, see README follow-up ideas)
 
 **Title:** `feat(login): bring back "remember me"`
 
