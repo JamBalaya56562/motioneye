@@ -28,7 +28,7 @@
 | # | 内容 | 状況 | 次の一手 | 状態 |
 |---|---|---|---|---|
 | [#2828](https://github.com/motioneye-project/motioneye/issues/2828) | Dropbox - Service error | **dev で修正済み (検証済み)**: 自分の [#3376](https://github.com/motioneye-project/motioneye/pull/3376) が 2026-06-28 マージ。`motioneye/uploadservices.py:666` が `json.dumps(body).encode()` | #3376 を添えてクローズ | 完了: 2026-10-25 クローズ ([コメント](https://github.com/motioneye-project/motioneye/issues/2828#issuecomment-6398775706))。#3376 の closing 参照が #2940 になっていたため自動クローズされなかった |
-| [#2755](https://github.com/motioneye-project/motioneye/issues/2755) | 検知マスクが時間とともにずれる | 一部修正: [#3470](https://github.com/motioneye-project/motioneye/pull/3470) が 2026-10-22 19:23 マージ → 直後 19:24 に MichaIng「resolution dimmer 使用時はまだ未解決」 | dimmer < 100% で再現 → 修正。Marijn0 の再現手順・ログ (`editable mask needs resizing from 819x614 to 1024x768`) あり。zagrim 案: DOM サイズでなく `resolutionFactor` と実フレームサイズでスケーリング | 実装済み・未提出: `fix/mask-grid` (`eda341ae`) |
+| [#2755](https://github.com/motioneye-project/motioneye/issues/2755) | 検知マスクが時間とともにずれる | 一部修正: [#3470](https://github.com/motioneye-project/motioneye/pull/3470) が 2026-10-22 19:23 マージ → 直後 19:24 に MichaIng「resolution dimmer 使用時はまだ未解決」 | dimmer < 100% で再現 → 修正。Marijn0 の再現手順・ログ (`editable mask needs resizing from 819x614 to 1024x768`) あり。zagrim 案: DOM サイズでなく `resolutionFactor` と実フレームサイズでスケーリング | 提出済み: [#3495](https://github.com/motioneye-project/motioneye/pull/3495) (2026-10-31) |
 
 ## B. 方針合意済み・実装待ち
 
@@ -44,7 +44,7 @@
 | # | 内容 | 議論状況 | 状態 |
 |---|---|---|---|
 | [#3248](https://github.com/motioneye-project/motioneye/issues/3248) + [#3007](https://github.com/motioneye-project/motioneye/issues/3007) | Docker インストール手順 | ほぼ重複。`docker/README.md` に `ccrisan/motioneye:master-amd64` が残存 (確認済み)。MichaIng の推奨 `docker run` 例 (2026-02-11, `motioneyeproject/motioneye`, `/etc/motioneye` と `/var/lib/motioneye` を volume, `--restart unless-stopped`)。Docker Hub と GHCR はどちらでも可。main README に Docker 手順を統合する方針。NVENC は host に NVIDIA container toolkit + motion 側の preset 問題 (motion v5 で修正)。MarcelCoding 案: wiki を repo の `docs/` に移して MkDocs 化 | 未着手 |
-| [#3066](https://github.com/motioneye-project/motioneye/issues/3066) | install 手順と systemd unit を venv へ | README だけでなく `extra/linux_init` で `meyectl` パスを自動検出 (PATH or `motioneye_init` と同じディレクトリ、または引数で渡す) + install テスト更新が必要。MichaIng の DietPi 手順 (2026-02-22): `python3 -m venv /opt/motioneye` → `pip install motioneye` → `motioneye_init` → service の `ExecStart` を書換 | 未着手 |
+| [#3066](https://github.com/motioneye-project/motioneye/issues/3066) | install 手順と systemd unit を venv へ | README だけでなく `extra/linux_init` で `meyectl` パスを自動検出 (PATH or `motioneye_init` と同じディレクトリ、または引数で渡す) + install テスト更新が必要。MichaIng の DietPi 手順 (2026-02-22): `python3 -m venv /opt/motioneye` → `pip install motioneye` → `motioneye_init` → service の `ExecStart` を書換 | 提出済み: [#3496](https://github.com/motioneye-project/motioneye/pull/3496) (2026-10-31)。MichaIng が #3493 で「venv サポートを近く実装」と発言したため前倒し |
 
 ## D. Docker / 非 root (まとめて設計)
 

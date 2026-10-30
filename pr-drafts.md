@@ -138,7 +138,7 @@ The page can still scroll by its bottom padding (about 50 px) below the frames; 
 
 Before submitting: rebase onto the latest `dev`, re-run the screenshots/measurements if `main.js` layout code changed, and re-check that no other open PR of ours exists.
 
-## `fix/mask-conf-path` — write mask files to the configured conf_path
+## `fix/mask-conf-path` — write mask files to the configured conf_path (submitted as #3492, merged 2026-10-30)
 
 - Branch: `JamBalaya56562:fix/mask-conf-path` (`169bd99d`), base `dev` (`5dc324ed`)
 - Found while reproducing #2755; no issue reported yet
@@ -167,9 +167,9 @@ Tests:
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ```
 
-## `fix/mask-grid` — build the mask editor grid at the capture size
+## `fix/mask-grid` — build the mask editor grid at the capture size (submitted as #3495, 2026-10-31)
 
-- Branch: `JamBalaya56562:fix/mask-grid` (`eda341ae`), base `dev` (`5dc324ed`)
+- Branch: `JamBalaya56562:fix/mask-grid` (`1ae33cca`), base `dev` (`1f81bcae`, rebased 2026-10-31)
 - Fixes #2755 (the part left after #3470: drift with the resolution dimmer)
 - Screenshots: uploaded as GitHub attachments on 2026-10-30 (pasted into the #2755 comment box, not posted); already in the body below
 - When: when a PR slot is free (up to two open PRs)
@@ -213,6 +213,8 @@ No JavaScript errors in any case.
 
 ## enh/layout-columns-per-browser (takes over #1570)
 
+- Branch: `JamBalaya56562:enh/layout-columns-per-browser` (`68975b00`), base `dev` (`1f81bcae`, rebased 2026-10-31; conflict in `main.js` with `getCameraImageRatio()` from #3491, both kept)
+
 Title: `enh(ui): keep the layout columns per browser, from the window width by default`
 
 > Takes over #1570 from @digiltd (credited as co-author), along the way discussed there: below 1200px the layout was always a single column with the slider hidden, because the columns were a per-user server preference shared by a desktop and a phone.
@@ -233,9 +235,9 @@ Title: `enh(ui): keep the layout columns per browser, from the window width by d
 >
 > Supersedes #1570
 
-## `enh/venv` — install into a venv (#3066)
+## `enh/venv` — install into a venv (#3066) (submitted as #3496, 2026-10-31)
 
-- Branch: `JamBalaya56562:enh/venv` (`a9d501c9`, was `699081c1`), base `dev` (`7093e67d`)
+- Branch: `JamBalaya56562:enh/venv` (`3e9eaad8`, was `a9d501c9`), base `dev` (`1f81bcae`, rebased 2026-10-31). Body: test_install noted as passed before the restart change (fork CI did not run on `a9d501c9`/`3e9eaad8`); pytest 440
 - Fixes #3066; follows MichaIng's plan there (2024-10-19, 2026-02-22: `--meyectl`-like option for `linux_init`, passed by `motioneye_init`)
 - Verified: 5 scenarios in a systemd Debian 13 container (2026-10-28), fork CI green on `f39efa29` (test_install 6/6, pre-commit); 439 passed on `699081c1`
 - Pi (2026-10-30, Pi 5, trixie, Python 3.13.5, motion 4.7.1): switched the system-wide 0.44.0 install to a venv as in the README. `pip uninstall` worked (the Pi has `break-system-packages` in pip.conf), `ExecStart=/opt/motioneye/bin/meyectl`, `motioneye.conf` kept as `root:motion 0640`. **Found**: `motioneye_init` ends with `systemctl enable --now`, which does not restart a running service, so the old 0.44.0 process (from the removed `/usr/local/bin/meyectl`) kept running until `systemctl restart motioneye`; then 0.45.0a1 from the venv ran. Fixed in `a9d501c9` (user's choice, 2026-10-30): `linux_init` ends with `systemctl enable` + `systemctl restart`. Re-checked on the Pi: the running 0.44.0 (pid 7177) was replaced by 0.45.0a1 from the venv (pid 7630) without a manual restart; a stopped service is started and enabled. shellcheck as in CI clean, 439 passed; fork CI started on `a9d501c9`, not checked yet
@@ -285,7 +287,7 @@ Side note, not changed here: `motioneye_init` exits with 0 even when `linux_init
 
 ## `fix/smb-keep-file` — stop at the target dir when removing empty folders, without .keep (#1810)
 
-- Branch: `JamBalaya56562:fix/smb-keep-file` (`e8e44128`), base `dev` (`7093e67d`)
+- Branch: `JamBalaya56562:fix/smb-keep-file` (`35519c59`), base `dev` (`1f81bcae`, rebased 2026-10-31)
 - Fixes #1810; answers MichaIng's question there (2024-07-31) on why `.keep` was needed
 - Verified: repro as `nobody` in a container (dev: target dir and its parent removed without `.keep`; read-only `.keep` → `[Errno 13] Permission denied: '…/.keep'`, file kept; branch: both fine). New tests fail on dev, each run alone; 443 passed; ruff OK
 - Real SMB (2026-10-30, Docker: Samba 4.17.12 server, Linux 7.0 linuxkit CIFS client, mounted as motionEye does, target dir = mount root): **#1810 did not reproduce on dev** over SMB 2.1, 3.0, 3.1.1 with default Samba (`hide dot files = yes`, `.keep` gets attributes HA), `map hidden`/no `store dos attributes`, `hide files = /.*/`, or read-only create mode — overwriting the hidden `.keep` worked. The branch works on all of them (subfolders removed, mount root kept, an existing `.keep` left alone)
@@ -328,7 +330,7 @@ Over SMB 1.0 (Samba 4.22, `server min protocol = NT1`, on a Raspberry Pi 5 whose
 
 ## `enh/remember-me` — bring back "remember me" (#3364)
 
-- Branch: `JamBalaya56562:enh/remember-me` (`a806e6b2`), base `dev` (`7093e67d`)
+- Branch: `JamBalaya56562:enh/remember-me` (`b0e5841e`), base `dev` (`1f81bcae`, rebased 2026-10-31); test fix: the session expiry is checked between the `Date` header and the request end, as the old `delta=1` failed once under load
 - Related to #3364 (not Fixes: the PWA `SameSite` part stays open); follows MichaIng's idea of 2026-09-02 (no cookie lifetime → a true session cookie)
 - Default off (user's choice, 2026-10-30), as in 0.43
 - Verified: Tornado 6.5.10 drops `expires` with `expires_days=None`; Playwright: dialog shows the switch off, posts `remember=0/1`, cookie session (`expires -1`) vs 1 day; persistent profile closed and reopened → login dialog without, still logged in with; no JS errors. New test fails on dev (form and JSON), 439 passed, ruff, node --check
@@ -369,7 +371,7 @@ The label uses the source string "Memoru min", which is no longer in the transla
 
 ## `fix/session-cookie-max-age` — accept session cookies as long as the longest session lasts
 
-- Branch: `JamBalaya56562:fix/session-cookie-max-age` (`5ea72cbc`), base `dev` (`7093e67d`)
+- Branch: `JamBalaya56562:fix/session-cookie-max-age` (`81174580`), base `dev` (`1f81bcae`, rebased 2026-10-31)
 - Found while preparing `enh/remember-me` (#3364); follow-up of #3410. No issue
 - Verified: probe on dev (1000 h: 200 at +30 days, 403 at +31.5/+40 while the session is still valid); new tests fail on dev (403 at +40 days; logout at +40 days leaves the session), pass on the branch; 439 passed; ruff
 - Conflicts with `enh/remember-me` in `tests/test_handlers/test_login.py` (both add tests at the same place): rebase whichever goes second
@@ -404,7 +406,7 @@ The two new tests fail on `dev` and pass here. `pytest`: 439 passed.
 
 ## `enh/detection-action` — switch motion detection on and off with an action (#800)
 
-- Branch: `JamBalaya56562:enh/detection-action` (`f7c312c4`), base `dev` (`7093e67d`)
+- Branch: `JamBalaya56562:enh/detection-action` (`d8ddeb56`), base `dev` (`1f81bcae`, rebased 2026-10-31). **Overlaps #3468** (MichaIng: temporary detection toggle, not saved); hold until #3468 settles. Review comment posted 2026-10-31 (issuecomment-6526802944): working schedule undoes the pause, normal user can pause, OSError not caught, cache kept over a motion crash
 - Fixes #800 (MichaIng put it on v0.45.0 on 2026-10-26). Admin only, decided by the user on 2026-10-30
 - #1047 (trigger a detection or a recording) is already covered on `dev` by the `eventstart`/`eventend` and `record_start`/`record_stop` actions: possible close with this PR
 - Pi (2026-10-30, motion 4.7.1, imx708 via libcamerify): pause/start/pause, and a motion restart while paused, gave the same results as in Docker (motion 4.5.1); stream still gave frames
