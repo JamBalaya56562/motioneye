@@ -284,7 +284,8 @@ Side note, not changed here: `motioneye_init` exits with 0 even when `linux_init
 - Branch: `JamBalaya56562:fix/smb-keep-file` (`e8e44128`), base `dev` (`7093e67d`)
 - Fixes #1810; answers MichaIng's question there (2024-07-31) on why `.keep` was needed
 - Verified: repro as `nobody` in a container (dev: target dir and its parent removed without `.keep`; read-only `.keep` → `[Errno 13] Permission denied: '…/.keep'`, file kept; branch: both fine). New tests fail on dev, each run alone; 443 passed; ruff OK
-- **Not verified**: a real SMB share (the hidden `.keep` was imitated with `chmod 444`)
+- Real SMB (2026-10-30, Docker: Samba 4.17.12 server, Linux 7.0 linuxkit CIFS client, mounted as motionEye does, target dir = mount root): **#1810 did not reproduce on dev** over SMB 2.1, 3.0, 3.1.1 with default Samba (`hide dot files = yes`, `.keep` gets attributes HA), `map hidden`/no `store dos attributes`, `hide files = /.*/`, or read-only create mode — overwriting the hidden `.keep` worked. The branch works on all of them (subfolders removed, mount root kept, an existing `.keep` left alone)
+- **Not verified**: SMB 1.0 and 2.0 — the Docker Desktop kernel refuses them (`vers=2.0 mount not permitted when legacy dialects disabled`). The report (motionEyeOS 2020) and dariodoc's fix (switching from SMB1 to 3.x) point to SMB1. Next: try SMB 1.0 from the Pi (`ssh raspi`), whose kernel may allow it, against a Samba container or the Pi itself
 - Labels to set: `bug`, `Python`
 
 **Title:** `fix(media): stop at the target dir when removing empty folders, without .keep`
@@ -314,7 +315,7 @@ On `dev`, running the tests without a `.keep` even removed the then empty `/tmp`
 - `tests/test_mediafiles.py`: the cleanup tests no longer create a `.keep`, and check that the target dir and its parent are kept. New tests for `del_media_content()` and `del_media_group()`: emptied folders are removed up to the target dir, also for files directly in it and for the ungrouped files; folders with other files are kept; no `.keep` is written. Each new test fails on `dev`, except the one for folders with other files.
 - Full suite: 443 passed.
 
-Not checked on a real SMB share; the hidden `.keep` was imitated with a read-only one.
+On a real SMB share (Samba 4.17 server, Linux CIFS client mounted as motionEye does it, the target dir being the mount point), over SMB 2.1, 3.0 and 3.1.1: this branch removes the emptied folders and keeps the mount point, and leaves an existing `.keep` alone. With these dialects I could not reproduce the error itself: overwriting the hidden `.keep` worked, also with `map hidden` or `hide files`. The report (2020) and the comment that switching from SMB1 to 3.x helped point to SMB1, which my test kernel does not allow; the error above was imitated with a read-only `.keep`.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
