@@ -360,3 +360,38 @@ The label uses the source string "Memoru min", which is no longer in the transla
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
+
+## `fix/session-cookie-max-age` — accept session cookies as long as the longest session lasts
+
+- Branch: `JamBalaya56562:fix/session-cookie-max-age` (`5ea72cbc`), base `dev` (`7093e67d`)
+- Found while preparing `enh/remember-me` (#3364); follow-up of #3410. No issue
+- Verified: probe on dev (1000 h: 200 at +30 days, 403 at +31.5/+40 while the session is still valid); new tests fail on dev (403 at +40 days; logout at +40 days leaves the session), pass on the branch; 439 passed; ruff
+- Conflicts with `enh/remember-me` in `tests/test_handlers/test_login.py` (both add tests at the same place): rebase whichever goes second
+- Labels to set: `bug`, `Python`
+
+**Title:** `fix(login): accept session cookies as long as the longest session lasts`
+
+**Body:**
+
+````
+Follow-up of #3410: Tornado rejects signed cookies older than 31 days, unless `get_signed_cookie()` is given another `max_age_days`. So a surveillance user session set to last longer with `normal_session_expiry_hours` (above 744) still ended after 31 days, although the browser kept the cookie and the session was still valid on the server. Logging out then did not end the session on the server either, as the logout reads the same cookie.
+
+Both now read the session cookie with the longest session lifetime as maximum age. The session store keeps checking the lifetime of each user type, so the admin session still ends after 24 hours.
+
+This only shows when motionEye runs for more than 31 days without a restart, as the sessions are kept in memory, e.g. for a kiosk display.
+
+## Testing
+
+With `normal_session_expiry_hours` at 1000 (41.7 days) and the clocks moved forward:
+
+| Days after login | `dev` | This branch |
+|---|---|---|
+| 30 | 200 | 200 |
+| 40 | 403, session still valid on the server | 200 |
+| 42 | 403 | 403 (session expired) |
+| logout at 40 | session kept on the server | session removed |
+
+The two new tests fail on `dev` and pass here. `pytest`: 439 passed.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
