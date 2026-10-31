@@ -37,10 +37,10 @@ Flow (user, 2026-10-30): we can edit the wiki (push access, Edit shown), but ask
 | [#2706](https://github.com/motioneye-project/motioneye/issues/2706) | Pi camera v2 in motioneye container no image | libcamera in Docker; libcamerify inside the container is not in the wiki → check on the Pi, or leave | needs check |
 | [#2763](https://github.com/motioneye-project/motioneye/issues/2763) | Pi Zero W and Camera Module 3 | strips/MichaIng pointed to #2683 / #2425 | candidate |
 | [#2798](https://github.com/motioneye-project/motioneye/issues/2798) | MMAL camera: "An error occured" (Camera Module 3) | Module 3 is libcamera only; MMAL removed since Bookworm | candidate |
-| [#2799](https://github.com/motioneye-project/motioneye/issues/2799) | MotionEye mit RPi Camera Modul3 | zagrim pointed to #2425 / #2683 | candidate |
+| [#2799](https://github.com/motioneye-project/motioneye/issues/2799) | MotionEye mit RPi Camera Modul3 | zagrim pointed to #2425 / #2683 | **closed 2026-11-01** as duplicate of #2812 ([comment](https://github.com/motioneye-project/motioneye/issues/2799#issuecomment-6549754027)): Module 3 works via libcamerify (Pi 5 check 2026-10-30), `question` + `Raspberry Pi` added |
 | [#3046](https://github.com/motioneye-project/motioneye/issues/3046) | Add camera does not find the pi camera | Reporter got it working via #2683; a remaining "nothing written" problem was not followed up | candidate |
 | [#3056](https://github.com/motioneye-project/motioneye/issues/3056) | libcamera works, but no video from unicam | Marijn0 pointed to the #2812 steps (2024-09-30) | candidate |
-| [#3255](https://github.com/motioneye-project/motioneye/issues/3255) | Unable to run on Pi Zero 2W (Camera 3 NoIR) | Fixed by the libcamera 0.7 packages (frepkovsky, MichaIng 2026-02-07) | candidate |
+| [#3255](https://github.com/motioneye-project/motioneye/issues/3255) | Unable to run on Pi Zero 2W (Camera 3 NoIR) | Fixed by the libcamera 0.7 packages (frepkovsky, MichaIng 2026-02-07) | **closed 2026-11-01** not planned, `external bug` ([comment](https://github.com/motioneye-project/motioneye/issues/3255#issuecomment-6549752812)): fix is upstream commit b9b5384 via the mailing list, no PR exists (raspberrypi/libcamera#321 closed by a commit), so nothing under Development |
 
 ## C. Install on Pi — check with the README on the real Pi
 
