@@ -211,7 +211,7 @@ No JavaScript errors in any case.
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
 
-## `enh/layout-columns-per-browser` — keep the layout columns per browser (takes over #1570) (submitted as #3502, 2026-10-31)
+## `enh/layout-columns-per-browser` — keep the layout columns per browser (takes over #1570) (submitted as #3502, 2026-10-31, merged 2026-11-01)
 
 - Branch: `JamBalaya56562:enh/layout-columns-per-browser` (`9fd0c0ce`), base `dev` (`dd1f79d4`, rebased 2026-10-31 after #3496; 459 passed; since `58c5f6cf` only translation JSON changed in the UI; earlier conflict in `main.js` with `getCameraImageRatio()` from #3491, both kept)
 
@@ -286,7 +286,7 @@ Side note, not changed here: `motioneye_init` exits with 0 even when `linux_init
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
 
-## `fix/smb-keep-file` — stop at the target dir when removing empty folders, without .keep (#1810)
+## `fix/smb-keep-file` — stop at the target dir when removing empty folders, without .keep (#1810) (submitted as #3507, 2026-11-01)
 
 - Branch: `JamBalaya56562:fix/smb-keep-file` (`9212ad3a`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 463 passed)
 - Fixes #1810; answers MichaIng's question there (2024-07-31) on why `.keep` was needed
@@ -460,7 +460,7 @@ New tests in `tests/test_handlers/test_action_detection.py`: 5 of the 7 fail on 
 - Change: `os.makedirs(..., exist_ok=True)` in `_write_cache_file()`; no mkdir on import (so no race); `on_finish` returns while the dir does not exist
 - Tests: new `test_the_cache_dir_is_created_again_when_removed` (fails on `dev` with the 500 above, passes here); 439 passed; importing the module leaves `/tmp/MotionEye` absent. Not run end to end: `hub_remote_compat.py` lists movies but does not play one
 
-## `fix/wsswitch-manual-detection` — keep a manual detection change until the schedule changes (rework of `enh/detection-action`)
+## `fix/wsswitch-manual-detection` — keep a manual detection change until the schedule changes (rework of `enh/detection-action`) (submitted as #3506, 2026-11-01, Closes #800)
 
 - Branch: `JamBalaya56562:fix/wsswitch-manual-detection` (`9021b7b9`), base `dev` (`58c5f6cf`, after #3468). Pushed 2026-10-31, **not submitted**
 - Replaces `enh/detection-action`, whose actions #3468 now provides. Follows MichaIng's wsswitch design in #3468 (issuecomment-6527827318): wsswitch caches the state it set per camera, checks and enforces again only when the intended state changes (schedule transition), after an error or a failed switch, or after `motionctl.start()`, which calls `wsswitch.clear_cache()` (imported inside `start()`, no circular import)
@@ -468,7 +468,7 @@ New tests in `tests/test_handlers/test_action_detection.py`: 5 of the 7 fail on 
 - Tests: new `tests/test_wsswitch.py` (5) + `test_the_working_schedule_checks_the_state_again` in `test_motionctl.py`; full suite 463 passed; ruff clean
 - E2E (me-e2e, motion 4.5.1): schedule "during" all day, `detectionpause` → after 25 s still PAUSE (dev `58c5f6cf`: ACTIVE again). Schedule "outside" all day, `detectionstart` → stays ACTIVE; after `pkill motion` the checker restarts it and wsswitch pauses it again (cache cleared)
 
-## `fix/action-buttons-rows` — arrange the action buttons when the camera overlay is shown (submitted as #3504, 2026-10-31)
+## `fix/action-buttons-rows` — arrange the action buttons when the camera overlay is shown (submitted as #3504, 2026-10-31, merged 2026-11-01)
 
 - Branch: `JamBalaya56562:fix/action-buttons-rows` (`9eab8065`), base `dev` (`58c5f6cf`). Pushed 2026-10-31, **not submitted**: candidate once a PR slot is free (user)
 - Reported in #3468 by Marijn0 (review 2026-10-30 19:42) and MichaIng (issuecomment-6534459865): with 2+ action buttons they stack until the layout is updated, the lower one outside the frame
