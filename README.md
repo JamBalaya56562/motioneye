@@ -159,3 +159,4 @@
 | 2026-10-31 | Fixed the stacked action buttons reported in #3468 on `fix/action-buttons-rows` (`9eab8065`, fork, not submitted): rows computed while the overlay was hidden (width 0) |
 | 2026-10-31 | Closed #1334 (log to journald, done by #3394) and #2034 (action buttons fixed width, removed by #2903), both OKed by the user; found by checking recent merges against open issues |
 | 2026-10-31 | Closed #3269 (Docker: Sponsored OSS, arm64, README all done) and #1156 (pytz error with local_time_file, reproduced on 0.44.0, gone with #3466), both OKed by the user |
+| 2026-10-31 | Milestone check of all issues we closed (26) and of those closed by our merged PRs: added v0.45.0 to #1334 and #3330 (both fixed by #3394, only on dev). #1156, #2540, #2828 had it already; the rest are released fixes, wiki, user-side or not planned. Rule (user): an issue resolved by the v0.45.0 release gets the milestone |
