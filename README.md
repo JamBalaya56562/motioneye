@@ -158,3 +158,4 @@
 | 2026-10-31 | Reworked `enh/detection-action` after #3468 as `fix/wsswitch-manual-detection` (`9021b7b9`, fork, not submitted): wsswitch cache per MichaIng's design; 463 passed, E2E pause lasts with a working schedule |
 | 2026-10-31 | Fixed the stacked action buttons reported in #3468 on `fix/action-buttons-rows` (`9eab8065`, fork, not submitted): rows computed while the overlay was hidden (width 0) |
 | 2026-10-31 | Closed #1334 (log to journald, done by #3394) and #2034 (action buttons fixed width, removed by #2903), both OKed by the user; found by checking recent merges against open issues |
+| 2026-10-31 | Closed #3269 (Docker: Sponsored OSS, arm64, README all done) and #1156 (pytz error with local_time_file, reproduced on 0.44.0, gone with #3466), both OKed by the user |

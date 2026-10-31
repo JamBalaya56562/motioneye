@@ -26,6 +26,8 @@
 | 11 | [#1338](https://github.com/motioneye-project/motioneye/issues/1338) | Wiki contribute: Arch install via AUR | `Install-On-Arch` deleted 2025-12-16 (`5024bf3`); per-distro install pages are no longer kept. Weaker than the others (a request, not a fix) — close last or skip | **kept open** (2026-10-28, user): a proposal, not a fix, so it survives the page removal; `motioneye_init` installs no deps on pacman, AUR is community-maintained, related #1852 open. Not in the milestone → later, together with #1852 |
 | 12 | [#1334](https://github.com/motioneye-project/motioneye/issues/1334) | Feature Request: log to journald | #3394 (ours, 2026-10-06): `log_to_file false` by default; container check: no log files, motionEye and motion both on stderr | **closed 2026-10-31** ([comment](https://github.com/motioneye-project/motioneye/issues/1334#issuecomment-6536053416)), `enhancement` added |
 | 13 | [#2034](https://github.com/motioneye-project/motioneye/issues/2034) | Action Button area is locked to a static width; hides more than 8 buttons | Fixed width removed by #2903 (sevimuelli, 2024-05-28, in 0.43.1; it closed #613/#844/#1766 but not this). Playwright on dev: 17 buttons all shown in 2 rows at 1366x768, 1920x1080, 375x812 | **closed 2026-10-31** ([comment](https://github.com/motioneye-project/motioneye/issues/2034#issuecomment-6536054656)) |
+| 14 | [#3269](https://github.com/motioneye-project/motioneye/issues/3269) | Docker image and Raspberry Pi 500 | Docker Hub org `motioneyeproject` has `badge: open_source` (Sponsored OSS); `latest`/0.44.0 is amd64/arm64/armv7/riscv64 (Hub tag API); docker/README.md updated by #3484/#3489, linked since #3488 | **closed 2026-10-31** ([comment](https://github.com/motioneye-project/motioneye/issues/3269#issuecomment-6536214937)), `docker` added |
+| 15 | [#1156](https://github.com/motioneye-project/motioneye/issues/1156) | pytz module missing from docker image | Reproduced on the 0.44.0 image: `local_time_file` set → `GET /` 500, `No module named 'pytz'` (`tzctl.py:127`). Removed with tzctl in #3466: `edge` warns "unknown configuration option" and answers 200. `-e TZ=` works in both images | **closed 2026-10-31** ([comment](https://github.com/motioneye-project/motioneye/issues/1156#issuecomment-6536216235)), `bug` + `docker` added |
 
 ### Close comment drafts
 
@@ -34,6 +36,8 @@
 - #1094 (posted): `This has been implemented by @bob-lee in #1118 (merged in 2019) as the "Clean Cloud" option ... tracked in #1463. Closing as completed.`
 - Wiki-page issues (#353, #284, #1356, #1459, #2746, #3057, #2232, #1338):
   `The per-distribution installation pages have been removed from the wiki (December 2025). There is now a single install method for all distributions in the README: https://github.com/motioneye-project/motioneye#installation. Closing, as the page this refers to no longer exists. If the README instructions do not work for you, please open a new issue.`
+
+Next candidate: #1265 (Set Timezone in Docker): `-e TZ=` works in `latest` and `edge`; not read in detail yet
 
 ## Checked and NOT resolved (keep open)
 
