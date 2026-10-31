@@ -508,3 +508,45 @@ Supersedes #2896
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
+
+## `chore/ruff-lint-format` — replace black, flake8, isort and pyupgrade with ruff (stage 1)
+
+- Branch: `JamBalaya56562:chore/ruff-lint-format` (`72006c2d`), base `dev` (`dd1f79d4`). Not submitted; the user picks the time (2026-10-31)
+- Only `pyproject.toml` and `.pre-commit-config.yaml`. pre-commit on dev and on the branch: all hooks pass (hooks on Python 3.12 in the container instead of 3.14). New rules fire on a probe file: I001, UP035/UP006, E501 (133 > 125), C901 (71 > 68)
+
+**Title:** `ci: replace black, flake8, isort and pyupgrade with ruff`
+
+````
+ruff already checks and formats the code in pre-commit. This lets it cover what four other hooks did, so that one tool and one config section remain:
+
+- flake8: its `select` (`E9`, `F63`, `F7`, `F82`) is in ruff's defaults; `C901` and `E501` are added with flake8's limits (complexity 68, lines 125, the latter only for the check, the formatter keeps its own width).
+- isort: ruff's `I` rules.
+- pyupgrade: ruff's `UP` rules with `target-version = "py39"`.
+- black: `ruff format` does this already. The black hook ran with `--diff`, so it only printed and never failed; with black 26.10.1 it differs from `ruff format` in three files (`sendtelegram.py`, `uploadservices.py`, `tests/test_notifications.py`).
+
+On dev, flake8, isort and pyupgrade report nothing, and so do the ruff rules that replace them. The flake8 plugins (bugbear, comprehensions, 2020) did not run, as `select` limited flake8 to the codes listed; enabling the matching ruff rules (7 findings of B007, B027, B042) and the flake8-return rules noted in the config (`RET`) is left for later, as they need code changes.
+
+bandit is replaced in a follow-up, as it needs comment changes in the code.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
+
+## `chore/ruff-bandit` — replace bandit with the S rules of ruff (stage 2, on top of stage 1)
+
+- Branch: `JamBalaya56562:chore/ruff-bandit` (`8137cc67`), base `chore/ruff-lint-format`. Not submitted; after stage 1 is merged (rebase then)
+- 15 files: 34 `# nosec` → `# noqa: S…` or dropped; `per-file-ignores` S310 for `uploadservices.py` and `webhook.py`; one `ruff format` reflow in `uploadservices.py` (a line got short enough). pre-commit all pass, 459 passed. Probe: S602, S310, S301, S110 fire on new code
+- Not covered by ruff (checked): B402 `ftplib` import (S402 is preview-only), B602 on `utils.call_subprocess(shell=shell)` (the real `shell=True` caller in `v4l2ctl.py` is S604)
+
+**Title:** `ci: replace bandit with the S rules of ruff`
+
+````
+Follow-up to #NNNN. ruff has the bandit checks as its `S` rules, so the bandit hook can go as well:
+
+- The rules bandit skipped are ignored in ruff too: `S105`, `S324`, `S404`, `S603`.
+- ruff does not read `# nosec`. The 34 of them become `# noqa: S…`, or are dropped where the rule is ignored anyway (`S105`, `S324`) or where ruff does not report it (the `ftplib` imports, `call_subprocess(shell=shell)`).
+- ruff's `S310` also reports building a `Request` with a variable URL, which bandit did not. `uploadservices.py` and `webhook.py` only build requests and open them with `utils.urlopen()`, which allows only http and https, so `S310` is ignored in these two files.
+
+Not covered by ruff: the `ftplib` import warning (`S402` is a preview rule) and `shell=` passed on as a variable in `utils.call_subprocess()`; the `shell=True` call in `v4l2ctl.py` is still reported (`S604`).
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
