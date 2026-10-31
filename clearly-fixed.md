@@ -28,6 +28,7 @@
 | 13 | [#2034](https://github.com/motioneye-project/motioneye/issues/2034) | Action Button area is locked to a static width; hides more than 8 buttons | Fixed width removed by #2903 (sevimuelli, 2024-05-28, in 0.43.1; it closed #613/#844/#1766 but not this). Playwright on dev: 17 buttons all shown in 2 rows at 1366x768, 1920x1080, 375x812 | **closed 2026-10-31** ([comment](https://github.com/motioneye-project/motioneye/issues/2034#issuecomment-6536054656)) |
 | 14 | [#3269](https://github.com/motioneye-project/motioneye/issues/3269) | Docker image and Raspberry Pi 500 | Docker Hub org `motioneyeproject` has `badge: open_source` (Sponsored OSS); `latest`/0.44.0 is amd64/arm64/armv7/riscv64 (Hub tag API); docker/README.md updated by #3484/#3489, linked since #3488 | **closed 2026-10-31** ([comment](https://github.com/motioneye-project/motioneye/issues/3269#issuecomment-6536214937)), `docker` added |
 | 15 | [#1156](https://github.com/motioneye-project/motioneye/issues/1156) | pytz module missing from docker image | Reproduced on the 0.44.0 image: `local_time_file` set → `GET /` 500, `No module named 'pytz'` (`tzctl.py:127`). Removed with tzctl in #3466: `edge` warns "unknown configuration option" and answers 200. `-e TZ=` works in both images | **closed 2026-10-31** ([comment](https://github.com/motioneye-project/motioneye/issues/1156#issuecomment-6536216235)), `bug` + `docker` added |
+| 16 | [#1265](https://github.com/motioneye-project/motioneye/issues/1265) | Set Timezone in Docker installation | Old ccrisan image had only UTC zoneinfo. Project images (first released with 0.43.1; 0.42.1 has no Dockerfile) ship tzdata: `-e TZ=Europe/Berlin` gives CET in `latest` (0.44.0, tzdata 2026b) and `edge` (2026e); `/etc/localtime` mount documented in docker/README.md | **closed 2026-10-31** ([comment](https://github.com/motioneye-project/motioneye/issues/1265#issuecomment-6542307801)), milestone v0.43.1 |
 
 ### Close comment drafts
 
@@ -37,7 +38,7 @@
 - Wiki-page issues (#353, #284, #1356, #1459, #2746, #3057, #2232, #1338):
   `The per-distribution installation pages have been removed from the wiki (December 2025). There is now a single install method for all distributions in the README: https://github.com/motioneye-project/motioneye#installation. Closing, as the page this refers to no longer exists. If the README instructions do not work for you, please open a new issue.`
 
-Next candidate: #1265 (Set Timezone in Docker): `-e TZ=` works in `latest` and `edge`; not read in detail yet
+Next candidate: #800 (toggle motion detection via API): kept open by the user until our `fix/wsswitch-manual-detection` PR, which will close it (MichaIng set v0.45.0 on 2026-10-26; #3468 did not close it)
 
 ## Checked and NOT resolved (keep open)
 

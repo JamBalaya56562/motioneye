@@ -211,9 +211,9 @@ No JavaScript errors in any case.
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
 
-## enh/layout-columns-per-browser (takes over #1570)
+## `enh/layout-columns-per-browser` — keep the layout columns per browser (takes over #1570) (submitted as #3502, 2026-10-31)
 
-- Branch: `JamBalaya56562:enh/layout-columns-per-browser` (`8782826f`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 457 passed; earlier conflict in `main.js` with `getCameraImageRatio()` from #3491, both kept)
+- Branch: `JamBalaya56562:enh/layout-columns-per-browser` (`9fd0c0ce`), base `dev` (`dd1f79d4`, rebased 2026-10-31 after #3496; 459 passed; since `58c5f6cf` only translation JSON changed in the UI; earlier conflict in `main.js` with `getCameraImageRatio()` from #3491, both kept)
 
 Title: `enh(ui): keep the layout columns per browser, from the window width by default`
 
@@ -235,7 +235,7 @@ Title: `enh(ui): keep the layout columns per browser, from the window width by d
 >
 > Supersedes #1570
 
-## `enh/venv` — install into a venv (#3066) (submitted as #3496, 2026-10-31)
+## `enh/venv` — install into a venv (#3066) (submitted as #3496, 2026-10-31, merged 2026-10-31)
 
 - Branch: `JamBalaya56562:enh/venv` (`e78a2908`, was `533e7c8b`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 459 passed). Body: test_install noted as passed before the restart change (fork CI did not run on `a9d501c9`/`3e9eaad8`); pytest 440
 - Review 2026-10-30 (MichaIng, COMMENTED): 3 inline suggestions (python3-venv into step 1 APT line, drop the step 2 APT line, drop the restart comment in linux_init) applied in `e78a2908` (first pushed as `4d9990cd` on the old base, replies edited), each replied "Done". Asked whether `VIRTUAL_ENV` could be used implicitly: replied it is unset when called via sudo or without activate (checked on Trixie), and motioneye_init already passes its own meyectl (issuecomment-6535141969)
