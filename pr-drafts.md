@@ -167,7 +167,7 @@ Tests:
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ```
 
-## `fix/mask-grid` — build the mask editor grid at the capture size (submitted as #3495, 2026-10-31)
+## `fix/mask-grid` — build the mask editor grid at the capture size (submitted as #3495, 2026-10-31, merged 2026-10-31)
 
 - Branch: `JamBalaya56562:fix/mask-grid` (`09931ee4`), base `dev` (`f06fd23a`, rebased 2026-10-31 after #3493; 438 passed)
 - Fixes #2755 (the part left after #3470: drift with the resolution dimmer)
@@ -468,7 +468,7 @@ New tests in `tests/test_handlers/test_action_detection.py`: 5 of the 7 fail on 
 - Tests: new `tests/test_wsswitch.py` (5) + `test_the_working_schedule_checks_the_state_again` in `test_motionctl.py`; full suite 463 passed; ruff clean
 - E2E (me-e2e, motion 4.5.1): schedule "during" all day, `detectionpause` → after 25 s still PAUSE (dev `58c5f6cf`: ACTIVE again). Schedule "outside" all day, `detectionstart` → stays ACTIVE; after `pkill motion` the checker restarts it and wsswitch pauses it again (cache cleared)
 
-## `fix/action-buttons-rows` — arrange the action buttons when the camera overlay is shown
+## `fix/action-buttons-rows` — arrange the action buttons when the camera overlay is shown (submitted as #3504, 2026-10-31)
 
 - Branch: `JamBalaya56562:fix/action-buttons-rows` (`9eab8065`), base `dev` (`58c5f6cf`). Pushed 2026-10-31, **not submitted**: candidate once a PR slot is free (user)
 - Reported in #3468 by Marijn0 (review 2026-10-30 19:42) and MichaIng (issuecomment-6534459865): with 2+ action buttons they stack until the layout is updated, the lower one outside the frame
