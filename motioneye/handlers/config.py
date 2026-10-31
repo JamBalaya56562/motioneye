@@ -802,6 +802,7 @@ class ConfigHandler(BaseHandler):
                             message=message,
                             files=[],
                             verify=utils.verify_setting(data.get('smtp_verify')),
+                            implicit_tls=bool(data.get('smtp_implicit_tls')),
                         )
 
                     finally:
