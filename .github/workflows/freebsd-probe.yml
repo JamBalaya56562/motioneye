@@ -1,0 +1,37 @@
+name: freebsd-probe
+
+on:
+  push:
+    branches: [repro/freebsd]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        release: ['14.3', '15.1']
+    runs-on: ubuntu-latest
+    name: FreeBSD ${{ matrix.release }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: vmactions/freebsd-vm@v1
+        with:
+          release: ${{ matrix.release }}
+          usesh: true
+          prepare: |
+            pkg install -y python3 motion curl
+            V=$(python3 -c 'import sys; print("%d%d" % sys.version_info[:2])')
+            pkg install -y py$V-pycurl py$V-pillow
+          run: |
+            set -x
+            freebsd-version; uname -a
+            pkg info -x '^(motion|python3|py3[0-9]+-(pycurl|pillow))' | sort
+            python3 -m venv --system-site-packages /tmp/venv
+            /tmp/venv/bin/pip install -q . || exit 1
+            ls -l /tmp/venv/lib/python3*/site-packages/motioneye/scripts/
+            /tmp/venv/bin/python .github/freebsd/probe.py /tmp/venv /tmp/probe || true
+            /tmp/venv/bin/motioneye_init; echo "motioneye_init exit $?"
