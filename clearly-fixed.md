@@ -55,3 +55,4 @@ Next candidate: #800 (toggle motion detection via API): kept open by the user un
 | #1852 | Arch: camera not working — a bug report, needs a repro (handle together with #1338) |
 | #2613, #3007 | Docker docs: `Install-In-Docker` deleted, but `docker/README.md` is still outdated → tracked by #3248 |
 | #3244 | Configuration docs are still incomplete (MichaIng 2025-12-16) |
+| #2751, #2867 | Port 80 (below 1024) does not start: `sock.bind` → `PermissionError: [Errno 13]` (also the second error in #2869). Reproduced on dev (2026-10-31, Docker with `ip_unprivileged_port_start=1024`): non-root + port 80 fails, non-root + 8765 and root + 80 start. By design: the service runs as `User=motion`; MichaIng in #2751: drop-in `AmbientCapabilities=CAP_NET_BIND_SERVICE`, wiki page wanted. Possible work: a clear error message instead of the traceback, the wiki page. #2867 is a duplicate of #2751. User: handle once #2751 gets a milestone |
