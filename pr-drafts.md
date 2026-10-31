@@ -475,3 +475,36 @@ New tests in `tests/test_handlers/test_action_detection.py`: 5 of the 7 fail on 
 - Cause (verified, Playwright on me-e2e): `updateActionButtons()` in `main.js` runs from `updateLayout()` while `div.camera-overlay` is `display: none`, so `camera-overlay-bottom` width is 0 → `cameraWidth <= actionsWidth` → `flex: 1 0 100%` for 2 buttons, one per row. `showCameraOverlay()` did not recompute
 - Fix: skip when the width is 0, and call `updateActionButtons()` for all frames in `showCameraOverlay()` right after `display` is reset
 - Checked at 1366x768, 2x2 layout: dev = 2 buttons stacked (bar 80 px high), fix = one row (40 px); a camera with 13 buttons still gets two rows (7 + 6) on both, also at 1920x1080. Merges cleanly with `enh/layout-columns-per-browser` and `fix/mask-grid`. Screenshots: scratchpad `btn/dev-load.png`, `btn/fix-load.png`
+
+## `enh/smtp-implicit-tls` — choose none / STARTTLS / TLS for SMTP (takes over #2896)
+
+- Branch: `JamBalaya56562:enh/smtp-implicit-tls` (`d89a0af0`), base `dev` (`58c5f6cf`). Pushed 2026-10-31, **not submitted**
+- **Order (user, 2026-10-31):** after the #1570 takeover (`enh/layout-columns-per-browser`) and the other small branches. Meant as a prototype for MichaIng to try and take into #2896 or use as a base, not mainly to get merged
+- #2896 (MichaIng, 2023-12) swaps STARTTLS for `SMTP_SSL`: breaking for 587 users (zagrim: Gmail 587 → `WRONG_VERSION_NUMBER`). Agreed there (MichaIng + zagrim, 2023-12-26): a plain/TLS/STARTTLS drop-down, old boolean → STARTTLS, port hints in the tooltip. Not done since; #2896 now conflicts with #3479
+- Design: UI select `#smtpTlsSelect` (none/STARTTLS/TLS). Stored as the existing `@email_notifications_smtp_tls` + new optional `@email_notifications_smtp_implicit_tls` (TLS = both true). So old camera files, 0.44 hubs (key kept when absent, listed in `_NOT_FORWARDED`) and 0.44 remotes (ignore the new key → STARTTLS) all keep the old behaviour; no migration step. Old command lines migrate with implicit = False. Port tooltip rewritten (the old one said "465 for non-TLS")
+- Checks (verified): pytest 464 passed (+7); ruff clean. Real SMTP (aiosmtpd, self-signed cert trusted by the system, verify on): TLS on an implicit-TLS port → sent; STARTTLS on a STARTTLS port → sent; STARTTLS against the TLS port → timeout; TLS against the STARTTLS port → `WRONG_VERSION_NUMBER`; none where STARTTLS is required → 530. UI (Playwright): verify row hidden for none, shown for STARTTLS/TLS; save → `tls True` + `implicit_tls True` in camera-1.conf, reload shows TLS; older answers (implicit absent) show STARTTLS / none. Screenshots: scratchpad `smtp/ui-{none,starttls,tls}.png`
+- Related open issues: #2306 (Gmail), #2692 (Outlook "SMTP AUTH extension not supported")
+
+### PR body draft
+
+````markdown
+Takes over #2896 from @MichaIng (credited as co-author), along the way agreed there with @zagrim: instead of turning "Use TLS" from STARTTLS into TLS, which would break the setups that work on port 587 today, the switch becomes a choice:
+
+- **none**: a plain connection, as with the switch off
+- **STARTTLS**: as "Use TLS" did so far, usually port 587
+- **TLS**: encrypted from the start, usually port 465, as Gmail documents it
+
+Meant as something to try out: feel free to take it into #2896 or change it, the UI wording in particular.
+
+**Compatibility:** the existing `email_notifications_smtp_tls` setting stays, and TLS adds `email_notifications_smtp_implicit_tls`. Existing camera files, a 0.44 hub saving the camera, and a 0.44 remote all keep STARTTLS, so nothing changes until TLS is chosen. The "Verify certificate" switch from #3479 applies to both.
+
+The port tooltip now names the usual ports (the old one said 465 for non-TLS).
+
+**Tested:**
+- pytest; and sending to a local SMTP server with a self-signed certificate trusted by the system: TLS on an implicit-TLS port and STARTTLS on a STARTTLS port both deliver; the wrong combinations fail as before (`WRONG_VERSION_NUMBER`, timeout)
+- in the UI: the choice is saved, shown again after a reload, and the certificate switch shows only with STARTTLS or TLS
+
+Supersedes #2896
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
