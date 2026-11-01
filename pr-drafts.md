@@ -509,6 +509,53 @@ Supersedes #2896
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
 
+## `enh/freebsd` — support FreeBSD: list the disks with geom, add an rc.d script (takes over #1616, closes #2610)
+
+- Branch: `JamBalaya56562:enh/freebsd` (`299fa7aa`), base `dev` (`f75a18aa`). Not submitted: after #3506 or #3507 merges (two-PR limit)
+- Investigation, verification runs and **answers to expected review questions**: [freebsd-support.md](freebsd-support.md)
+- After submitting: assignee, v0.45.0, labels
+
+**Title:** `enh: support FreeBSD: list the disks with geom, add an rc.d script`
+
+````
+Takes over #1616 for current FreeBSD (14.3 and 15.1), and adds the rc.d script asked for in #2610.
+
+Supersedes #1616
+Closes #2610
+
+## What was still broken
+
+I ran motionEye from `dev` on FreeBSD 14.3 and 15.1 VMs (packages: motion 4.7.1, python 3.12, py312-pycurl, py312-pillow). The server, a network camera, motion events relayed via `relayevent.sh`, the current picture and the config backup (#1060) all work as they are. Since #1616, the relay no longer uses `sha1sum`, and `update.get_os_version()` falls back to `uname` without `lsb_release`. What remained:
+
+- **No local storage device could be chosen**: there is no `/proc/mounts`, no `/dev/disk/by-id`, and `fdisk` has no `-l` (and is removed in FreeBSD 16), so `diskctl` listed no disks.
+- **`motioneye_init` ran `linux_init`**: it warned "neither APT nor YUM", failed at `chown motion:motion` (no such group), and installed no service.
+
+## Changes
+
+- `diskctl`
+  - reads the mounts with `mount -p` where `/proc/mounts` does not exist. It prints the same columns (target, mount point, type, options).
+  - lists the disks and their partitions with `geom disk list` and `geom part list` on FreeBSD. Disks without media (an empty optical drive) are skipped; memory disks, which are no disk geoms, are listed by their partition table.
+  - finds partitions mounted by a label, like `/dev/msdosfs/CAMS` or `/dev/gpt/cams`, with `glabel status`, so the storage device stays the partition however it is mounted.
+- `motioneye_init` runs the new `extra/freebsd_init` on FreeBSD. Like `linux_init`, it installs the dependencies (`pkg install motion v4l-utils ffmpeg curl`), creates a `motioneye` user (added to `webcamd` if present, for USB cameras), creates the config and data directories at the FreeBSD locations (`/usr/local/etc/motioneye`, `/var/run/motioneye`, `/var/log/motioneye`, `/var/db/motioneye`), installs the sample config with those paths, and installs and starts the rc.d service. It takes `--meyectl` like `linux_init`, and `--skip-rc` in place of `--skip-systemd`.
+- `extra/motioneye.rc`: the rc.d script. `daemon(8)` runs `meyectl startserver` as `motioneye_user`, restarts it when it dies (like `Restart=on-abort`), and sends its output to syslog. The meyectl path, user and config path can be set in `rc.conf`; `freebsd_init` sets `motioneye_meyectl` to the meyectl of its Python environment, e.g. a venv.
+
+SMB shares (`mount_smbfs` in place of `mount.cifs`) are left for a later PR.
+
+## Tests
+
+- `tests/test_diskctl.py`: mounts are read with `mount -p` when `/proc/mounts` is missing; disks are listed with `geom` (samples from FreeBSD 15.1, and the `(null)` description FreeBSD 14.3 prints for a virtual disk); a partition mounted by its label is found as the partition.
+- `tests/test_motioneye_init.py`: `freebsd_init` is run on FreeBSD.
+- 470 passed.
+
+On FreeBSD 14.3 and 15.1 VMs (vmactions/freebsd-vm), from a venv with `motioneye_init`:
+
+- the packages, the user, the directories and `motioneye_enable=YES` are in place, and `service motioneye status` reports it running; GET `/` returns 200, and syslog has the motionEye log, without warnings about motion or v4l-utils.
+- after `kill -9` of meyectl, `daemon(8)` starts it again; `service motioneye restart` and `stop` work; running `motioneye_init --skip-rc` again keeps the config.
+- a GPT memory disk with a FAT partition labelled `CAMS`, mounted as `/dev/msdosfs/CAMS` on `/media/cams`, is offered as `/dev/md0p1 at /media/cams`. Choosing it with root directory `/cams` saves `storage_device local-disk-dev-md0p1` and writes `target_dir /media/cams/cams` to the camera config.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
+
 ## `chore/ruff-lint-format` — replace black, flake8, isort and pyupgrade with ruff (stage 1)
 
 - Branch: `JamBalaya56562:chore/ruff-lint-format` (`72006c2d`), base `dev` (`dd1f79d4`). Not submitted; the user picks the time (2026-10-31)
