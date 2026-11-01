@@ -1,0 +1,47 @@
+name: freebsd-geom
+
+on:
+  push:
+    branches: [repro/freebsd-geom]
+
+permissions:
+  contents: read
+
+jobs:
+  geom:
+    strategy:
+      fail-fast: false
+      matrix:
+        release: ['14.3', '15.1']
+    runs-on: ubuntu-latest
+    name: FreeBSD ${{ matrix.release }}
+    steps:
+      - uses: vmactions/freebsd-vm@v1
+        with:
+          release: ${{ matrix.release }}
+          usesh: true
+          run: |
+            set +e -x
+            # a GPT disk with a labelled FAT partition, mounted by its label
+            md1=$(mdconfig -a -t swap -s 64m)
+            gpart create -s gpt $md1; gpart add -t ms-basic-data -l camdata $md1
+            newfs_msdos -L CAMS /dev/${md1}p1
+            # an MBR disk with a UFS slice, mounted by device
+            md2=$(mdconfig -a -t swap -s 64m)
+            gpart create -s mbr $md2; gpart add -t freebsd $md2
+            newfs -U /dev/${md2}s1
+            # an unpartitioned disk with UFS
+            md3=$(mdconfig -a -t swap -s 64m); newfs -U /dev/$md3
+            sleep 2
+            mkdir -p /media/a /media/b /media/c
+            mount -t msdosfs /dev/msdosfs/CAMS /media/a
+            mount /dev/${md2}s1 /media/b
+            mount /dev/$md3 /media/c
+            mount -p
+            geom disk list
+            geom part list
+            glabel status
+            glabel status -s
+            gpart show -p
+            ls /dev/gpt /dev/msdosfs /dev/diskid /dev/gptid /dev/ufsid 2>&1
+            sysctl -n kern.disks
