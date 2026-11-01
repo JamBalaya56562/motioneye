@@ -1,0 +1,60 @@
+name: freebsd-probe
+
+on:
+  push:
+    branches: [repro/freebsd-init]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        release: ['14.3', '15.1']
+    runs-on: ubuntu-latest
+    name: FreeBSD ${{ matrix.release }}
+    steps:
+      - uses: actions/checkout@v7
+      - run: shellcheck -s sh motioneye/extra/freebsd_init motioneye/extra/motioneye.rc
+        continue-on-error: true
+      - uses: vmactions/freebsd-vm@v1
+        with:
+          release: ${{ matrix.release }}
+          usesh: true
+          prepare: |
+            pkg install -y python3
+            V=$(python3 -c 'import sys; print("%d%d" % sys.version_info[:2])')
+            pkg install -y py$V-pycurl py$V-pillow
+          run: |
+            set +e -x
+            freebsd-version
+            python3 -m venv --system-site-packages /opt/motioneye
+            /opt/motioneye/bin/pip install -q . || exit 1
+            /opt/motioneye/bin/motioneye_init; echo "motioneye_init exit $?"
+            pkg info -x '^(motion|v4l-utils|ffmpeg|curl)-' | sort
+            id motion; ls -ld /usr/local/etc/motioneye /usr/local/etc/motioneye/* /var/run/motioneye /var/log/motioneye /var/db/motioneye
+            grep '^motioneye' /etc/rc.conf
+            grep -E '^(conf|run|log|media)_path' /usr/local/etc/motioneye/motioneye.conf
+            for i in $(seq 60); do curl -s -o /dev/null http://127.0.0.1:8765/ && break; sleep 1; done
+            curl -sS -o /dev/null -w 'GET / -> %{http_code}\n' http://127.0.0.1:8765/
+            service motioneye status
+            ps -axo user,pid,ppid,command | grep -E '[d]aemon:|[m]eyectl|[m]otion -n'
+            sleep 10; ls -la /usr/local/etc/motioneye
+            grep -E 'motioneye' /var/log/messages | tail -20
+            # a crash is restarted by daemon(8)
+            pkill -9 -f 'meyectl startserver' ; sleep 8
+            ps -axo user,pid,ppid,command | grep -E '[d]aemon:|[m]eyectl'
+            service motioneye restart; sleep 8; service motioneye status
+            service motioneye stop; sleep 5; service motioneye status; echo "status exit $?"
+            ps -axo user,pid,command | grep -E '[d]aemon:|[m]eyectl|[m]otion -n' || echo 'no processes left'
+            # motioneye_init again keeps the existing settings
+            echo '# kept' >> /usr/local/etc/motioneye/motioneye.conf
+            /opt/motioneye/bin/motioneye_init --skip-rc > /dev/null; tail -1 /usr/local/etc/motioneye/motioneye.conf
+            service motioneye stop || true
+            # a GPT disk with a labelled FAT partition, mounted by its label, like a USB stick
+            md=$(mdconfig -a -t swap -s 64m); gpart create -s gpt $md; gpart add -t ms-basic-data $md
+            newfs_msdos -L CAMS /dev/${md}p1; sleep 2; mkdir -p /media/cams; mount -t msdosfs /dev/msdosfs/CAMS /media/cams
+            /opt/motioneye/bin/python .github/freebsd/probe.py /opt/motioneye /tmp/probe || true
