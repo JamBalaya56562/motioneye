@@ -329,7 +329,7 @@ Over SMB 1.0 (Samba 4.22, `server min protocol = NT1`, on a Raspberry Pi 5 whose
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
 
-## `enh/remember-me` — bring back "remember me" (#3364)
+## `enh/remember-me` — bring back "remember me" (#3364) (submitted as #3515, 2026-11-02)
 
 - Branch: `JamBalaya56562:enh/remember-me` (`e1b06094`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 459 passed); test fix: the session expiry is checked between the `Date` header and the request end, as the old `delta=1` failed once under load
 - Related to #3364 (not Fixes: the PWA `SameSite` part stays open); follows MichaIng's idea of 2026-09-02 (no cookie lifetime → a true session cookie)
