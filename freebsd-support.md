@@ -134,6 +134,15 @@ Reply drafts are in English (5 lines or fewer). **A reply that disputes the revi
 - Upstream CI has no FreeBSD. Unit tests use the real output (captured from the VMs) as fixtures, so they run on Linux CI
 - Full suite: 470 passed (検証済み: Docker `python:3.12-slim`, `git archive 299fa7aa`)
 
+## Review replies posted (#3508)
+
+| Comment from MichaIng | Reply | Evidence |
+|---|---|---|
+| [r4435398269](https://github.com/motioneye-project/motioneye/pull/3508#discussion_r4435398269) import future annotations | "Done in 623538e9" (resolved) | 3.9 mypy passes |
+| [r4435713987](https://github.com/motioneye-project/motioneye/pull/3508#discussion_r4435713987) What about `gpart`, as in the earlier PR? | [r4435783894](https://github.com/motioneye-project/motioneye/pull/3508#discussion_r4435783894): `gpart` is `geom part` (`/sbin/gpart` links to `/sbin/geom`), so we already use it. #1616 never parsed `gpart status` (it returned `[]`). The partition class only knows partitioned disks; the disk class has no `g…` utility → `geom disk list`. Offered to switch to `gpart list` | src `sbin/geom/Makefile` (`LINKS`), `lib/geom/Makefile.classes` (no `disk`), `gpart show -p` in run 41275336079 (ドキュメント根拠 + 検証済み) |
+| [r4435718232](https://github.com/motioneye-project/motioneye/pull/3508#discussion_r4435718232) Doesn't the FreeBSD `motion` package create a reusable `motion` user? | [r4435784003](https://github.com/motioneye-project/motioneye/pull/3508#discussion_r4435784003): no. The port has no `USERS`/`GROUPS`, and its rc script runs motion as root (no `motion_user`). On dev, `chown: motion: illegal group name`. Named `motioneye` as in #2610's script. Offered to rename to `motion` | ports `multimedia/motion/Makefile` and `files/motion.in`, run 41252232495 (検証済み) |
+| [r4435732058](https://github.com/motioneye-project/motioneye/pull/3508#discussion_r4435732058) Is `/etc` instead of `/usr/local/etc` uncommon on FreeBSD? | [r4435784150](https://github.com/motioneye-project/motioneye/pull/3508#discussion_r4435784150): yes. hier(7): `/etc` is the base system, `/usr/local/etc` is pkg/ports. motion's config is `/usr/local/etc/motion/motion.conf`; #2610's script uses the same | hier.7, `ETCDIR?= ${PREFIX}/etc/${PORTNAME}` in bsd.port.mk, motion pkg-plist (ドキュメント根拠) |
+
 ## Things that cost time (for next time)
 
 - **vmactions/freebsd-vm takes about an hour** (installing from pip; PyPI ReadTimeout retries). The run script needs `set +e`, or the first failure (e.g. curl exit 7) aborts the rest
