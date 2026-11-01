@@ -142,6 +142,7 @@ Reply drafts are in English (5 lines or fewer). **A reply that disputes the revi
 - **smbctl fix pulled back**: `smb_shares` exits earlier on the cifs-utils check, so the `/proc/mounts` fix in smbctl had no visible effect. I had first claimed it was a fix
 - **Line endings**: on Windows, Python `write_text` gives CRLF. Shell scripts are fixed to LF in `.gitattributes` (`freebsd_init`, `motioneye.rc`). Executable bit: `jj file chmod x`
 - **Local tests**: wslc failed with E_FAIL even after 3 `wsl --shutdown`s → switched to Docker Desktop. A `cp -r` of the repo over a bind mount did not finish in 9 minutes (it includes `.jj` and more); `git archive <rev> | docker run -i ... tar x` finished in about 1.5 minutes. On Windows itself `fcntl` is missing, so only `tests/test_diskctl.py` and `test_motioneye_init.py` run (via `uv run --with ...`)
+- **CI for upstream (#3508 failed twice)**: CI runs `mypy` (including on 3.9) and `shellcheck -xC -o all -e SC2244,SC2250,SC2312` on every shell file. The fork probe only ran shellcheck with continue-on-error, so neither was caught before submitting. Before pushing, check locally in Docker: `koalaman/shellcheck-alpine:stable` with the CI options, and `mypy --install-types --non-interactive --enable-error-code import-untyped .` on `python:3.9-slim` (with `boto3-stubs`; remove `build/` after `pip install .`). The rc script needs `# shellcheck disable=SC1091,SC2034` (rc.subr reads the variables)
 - **Cancelling a run**: `gh run cancel` hung past 2 minutes but did go through in the background
 
 ## Leftovers
