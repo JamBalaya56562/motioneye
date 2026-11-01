@@ -452,7 +452,7 @@ New tests in `tests/test_handlers/test_action_detection.py`: 5 of the 7 fail on 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
 
-## `fix/movie-cache-dir` — create the movie cache dir when caching, not on import
+## `fix/movie-cache-dir` — create the movie cache dir when caching, not on import (submitted as #3509, 2026-11-01)
 
 - Branch: `JamBalaya56562:fix/movie-cache-dir` (`59e5fc3b`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 458 passed). Pushed 2026-10-31, **not submitted** (user's call)
 - Found while reviewing #3497 (Marijn0: separate `TMPDIR` per server in `hub_remote_compat.py`, as the 0.44.0 hub cannot be changed). This is the source side and stands on its own
