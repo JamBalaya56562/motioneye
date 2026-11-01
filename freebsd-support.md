@@ -2,7 +2,7 @@
 
 This note keeps the investigation results so review questions can be answered right away. **Checking anything again on a VM takes about an hour per run** (vmactions/freebsd-vm; installing from pip is slow, and PyPI timed out more than once), so record what is already settled here.
 
-- Branch: `JamBalaya56562:enh/freebsd` (`299fa7aa`, on dev `f75a18aa`). Not submitted (we already have two open PRs, #3506 and #3507)
+- Branch: `JamBalaya56562:enh/freebsd` (`0983600f`, on dev `5b492e1c`). Not submitted (can be submitted now that #3506 is merged)
 - PR body: [pr-drafts.md](pr-drafts.md)
 - Co-authors: ascl00 (author of #1616), paulprocacci (#2610, who asked for the rc script)
 - Each claim is labelled with the kind of evidence: **検証済み / ドキュメント根拠 / コード根拠 / 推測 / 未検証**

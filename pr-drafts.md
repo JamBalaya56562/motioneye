@@ -511,7 +511,7 @@ Supersedes #2896
 
 ## `enh/freebsd` — support FreeBSD: list the disks with geom, add an rc.d script (takes over #1616, closes #2610)
 
-- Branch: `JamBalaya56562:enh/freebsd` (`299fa7aa`), base `dev` (`f75a18aa`). Not submitted: after #3506 or #3507 merges (two-PR limit)
+- Branch: `JamBalaya56562:enh/freebsd` (`0983600f`), base `dev` (`5b492e1c`). Not submitted; can be submitted now that #3506 is merged
 - Investigation, verification runs and **answers to expected review questions**: [freebsd-support.md](freebsd-support.md)
 - After submitting: assignee, v0.45.0, labels
 
