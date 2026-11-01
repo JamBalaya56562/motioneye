@@ -370,7 +370,7 @@ The label uses the source string "Memoru min", which is no longer in the transla
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
 
-## `fix/session-cookie-max-age` — accept session cookies as long as the longest session lasts
+## `fix/session-cookie-max-age` — accept session cookies as long as the longest session lasts (submitted as #3510, 2026-11-01)
 
 - Branch: `JamBalaya56562:fix/session-cookie-max-age` (`1100ca3c`), base `dev` (`58c5f6cf`, rebased 2026-10-31 after #3497 and #3468; 459 passed)
 - Found while preparing `enh/remember-me` (#3364); follow-up of #3410. No issue
