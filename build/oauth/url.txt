@@ -1,1 +1,0 @@
-https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&redirect_uri=http%3A%2F%2F127.0.0.1&response_type=code&client_id=349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com&access_type=offline&code_challenge=wOnV9GV2FdgwmsX5cCCABgWBVteUtjsYHGhhwim4340&code_challenge_method=S256
