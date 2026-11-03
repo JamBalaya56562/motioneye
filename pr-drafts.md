@@ -597,3 +597,62 @@ Not covered by ruff: the `ftplib` import warning (`S402` is a preview rule) and 
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
+
+## `fix/sftp-test-lowercase` — remove the SFTP test file with lower case commands (not submitted)
+
+- Branch: `JamBalaya56562:fix/sftp-test-lowercase` (`b826859a`), base `dev` (`9bd19a00`). Labels: `bug`, `Python`
+- Review Q&A: "Did it ever work?" → yes with libcurl 7 (bookworm 7.88.1: `RM`/`RMDIR` OK); libcurl 8.14.1 (trixie) and the pycurl 7.49.0 wheel (libcurl 8.23.0) refuse them. Which libcurl release changed it was not looked up (未検証)
+
+Title: `fix(upload): remove the SFTP test file with lower case commands, as libcurl 8 needs`
+
+````markdown
+The SFTP "Test service" button uploads a file, then removes it and its folder with `RM` and `RMDIR` as `CURLOPT_POSTQUOTE` commands. libcurl 8 takes only the lower case commands its documentation lists, so the test always fails with `(21, 'Unknown SFTP command')`, and `motioneye_test/<time>` stays on the server. Uploads themselves are not affected.
+
+The commands are now `rm` and `rmdir`.
+
+Checked against a real OpenSSH server in a container, with password login:
+
+| libcurl | `RM`/`RMDIR` (dev) | `rm`/`rmdir` (this PR) |
+|---|---|---|
+| 7.88.1 (Debian bookworm, python3-pycurl) | test passes, nothing left | test passes, nothing left |
+| 8.14.1 (Debian trixie, python3-pycurl) | `Unknown SFTP command`, file left | test passes, nothing left |
+| 8.23.0 (pycurl 7.49.0 wheel from PyPI) | `Unknown SFTP command`, file left | test passes, nothing left |
+
+A wrong password still fails the test with `Authentication failure`.
+
+**Tests:** `TestSFTPTestAccess` checks the upload URL and the two commands; it fails with the upper case ones. 504 passed on Python 3.9 and 3.12.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
+
+## `enh/upload-optional-modules` — import boto3 and pycurl only for S3 and SFTP (not submitted)
+
+- Branch: `JamBalaya56562:enh/upload-optional-modules` (`3ec263a8`), base `dev` (`9bd19a00`). Labels: `enhancement`, `Python`. Rebase after `fix/sftp-test-lowercase` (both touch `SFTP.test_access`)
+- Step 2 of dropping pycurl (MichaIng on #3511: "making the modules needed for particular upload services optional, gracefully handling their absence"); #3516 body: "the upload services come next"
+- Decisions to confirm with the user before submitting:
+  1. boto3 dropped from `dependencies` (fresh installs lack it; `pip install --upgrade` keeps an installed one). Alternative: keep it required, only import lazily
+  2. No `[project.optional-dependencies]` extra (`motioneye[s3]`): the error message and README name the module directly
+  3. Docker image installs boto3 (images have no easy way to add it)
+- Review Q&A: CI (`test_python.yml`) still installs boto3 and boto3-stubs explicitly, for the S3 tests and mypy; the missing-module case is simulated with `sys.modules[...] = None`
+
+Title: `enh(upload): import boto3 and pycurl only for S3 and SFTP uploads, boto3 no longer required`
+
+````markdown
+Next step of dropping pycurl, as discussed in #3511: the modules of single upload services are optional now.
+
+- `boto3` and `pycurl` are imported when an S3 or SFTP upload or test runs, no longer when motionEye starts. Without the module, only that service fails, and its test (and the log for uploads) says what to install, e.g.
+  `S3 uploads need the Python module boto3, install it with: /opt/motioneye/bin/python -m pip install boto3`
+- `boto3` is no longer installed with motionEye. The README tells S3 users to add it; the Docker image keeps installing it. An existing installation keeps it on upgrade, as pip does not remove it.
+- `pycurl` stays required until Telegram (#3514) and the Tornado client (#3516) no longer use it.
+
+boto3 is the largest dependency: botocore alone is 31 MB in the venv, and importing boto3 took 0.43 s and 27 MB of memory (Python 3.12, x86_64), which every motionEye paid without using S3.
+
+**Checked** in a container with a venv installed from this branch:
+- boto3 is not installed; after importing the upload services and the server, neither boto3 nor pycurl is loaded
+- SFTP to a real OpenSSH server: upload works, a wrong password fails the test with `Authentication failure`
+- S3 test without boto3: the message above; after `pip install boto3`, the test reaches the endpoint (`Could not connect to the endpoint URL`)
+
+**Tests:** `TestOptionalModules`: the module import loads neither, the test says what to install, an upload fails and keeps the local file (also with "remove after upload" on), the services are still offered, and the SFTP options exist on a real `pycurl.Curl`. The S3 tests patch `boto3.client` instead of the module attribute. 508 passed on Python 3.9 and 3.12, mypy clean.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+````
