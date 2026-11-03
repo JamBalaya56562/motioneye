@@ -629,7 +629,7 @@ A wrong password still fails the test with `Authentication failure`.
 
 - Branch: `JamBalaya56562:enh/upload-optional-modules` (`3ec263a8`), base `dev` (`9bd19a00`). Labels: `enhancement`, `Python`. Rebase after `fix/sftp-test-lowercase` (both touch `SFTP.test_access`)
 - Step 2 of dropping pycurl (MichaIng on #3511: "making the modules needed for particular upload services optional, gracefully handling their absence"); #3516 body: "the upload services come next"
-- Decisions to confirm with the user before submitting:
+- Decisions (1 and 2 confirmed by the user on 2026-11-03):
   1. boto3 dropped from `dependencies` (fresh installs lack it; `pip install --upgrade` keeps an installed one). Alternative: keep it required, only import lazily
   2. No `[project.optional-dependencies]` extra (`motioneye[s3]`): the error message and README name the module directly
   3. Docker image installs boto3 (images have no easy way to add it)
