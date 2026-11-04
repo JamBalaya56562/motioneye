@@ -277,23 +277,14 @@ def build_digest_header(method, url, username, password, state):
     else:
         _algorithm = algorithm.upper()
 
-    if _algorithm == 'MD5' or _algorithm == 'MD5-SESS':
+    # this is only used for motion's own stream, which asks for MD5
+    if _algorithm not in ('MD5', 'MD5-SESS'):
+        return None
 
-        def md5_utf8(x):
-            if isinstance(x, str):
-                x = x.encode('utf-8')
-            return hashlib.md5(x).hexdigest()  # nosec: B324
-
-        hash_utf8 = md5_utf8
-
-    else:  # _algorithm == 'SHA'
-
-        def sha_utf8(x):
-            if isinstance(x, str):
-                x = x.encode('utf-8')
-            return hashlib.sha1(x).hexdigest()  # nosec: B324
-
-        hash_utf8 = sha_utf8
+    def hash_utf8(x):
+        if isinstance(x, str):
+            x = x.encode('utf-8')
+        return hashlib.md5(x).hexdigest()  # nosec: B324
 
     def KD(s, d):
         return hash_utf8(f"{s}:{d}")

@@ -248,6 +248,12 @@ class MjpgClient(IOStream):
             auth_header = utils.build_digest_header(
                 'GET', '/', self._username, self._password, self._auth_digest_state
             )
+            if auth_header is None:
+                logging.error(f'mjpg client unsupported digest authentication: {data}')
+                self._seek_content_length()
+
+                return
+
             w_data = f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\n\r\n'.encode()
             w_future = utils.cast_future(self.write(w_data))
             w_future.add_done_callback(self._seek_http)
