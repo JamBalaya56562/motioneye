@@ -264,3 +264,4 @@
 | 2026-11-07 | `Stale No Activity 60 Days` label deleted (user): 177 issues, 171 unlabelled now (148 open, 23 closed). 28 labels now |
 | 2026-11-07 | `help wanted` (user): removed from all 71 closed issues and 48 open ones where it meant user support; kept on #2130, #1965, #2210, #2241, #779. Also removed from merged PR #2462 |
 | 2026-11-07 | `troubleshooting` added to #782, #2122, #2175 (user), left with only an area label after the `help wanted` cleanup |
+| 2026-11-07 | Home Assistant labels kept separate (user), descriptions now say where the fix belongs. 28 labels. Next: closed unlabelled issues |
