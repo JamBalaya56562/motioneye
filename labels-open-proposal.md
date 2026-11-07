@@ -1,6 +1,6 @@
 # Open unlabelled issues, proposal
 
-518 open issues (#2907 to #122), classified by 6 agents on 2026-11-07 from the body and the last 3 comments. Nothing applied yet.
+518 open issues (#2907 to #122), classified by 6 agents on 2026-11-07 from the body and the last 3 comments. Applied in full on 2026-11-07 (user), verified with no mismatch.
 
 Sample check: 40 random issues judged without seeing the proposal: 25 of 25 high confidence agree, 10 of 15 low confidence agree. The check was made by the same model, so it is not an independent review.
 
