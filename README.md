@@ -276,3 +276,4 @@
 | 2026-11-07 | Closed (user, no daily limit today): #2875, #1269, #428, #308, #306, all `question`, the reporter confirmed each as solved, from [close-candidates-2026-11.md](close-candidates-2026-11.md) group A. Evidence is the issue comments, nothing reproduced |
 | 2026-11-07 | Closed (user): #554, #2556, #2858, #1859, #1257, all `question`, group A, same evidence as the five above |
 | 2026-11-07 | Closed (user): #669, #358, #794, #690 (`question`), #1400 (`troubleshooting`), group A. #358: the 2016 answer is out of date, Clean Cloud exists for Google Drive only (`uploadservices.py:495`, `main.html:448`, read, not run) |
+| 2026-11-07 | Closed (user, no comment): #3527, the reporter gave a thumbs up to the `--pre` reply |
