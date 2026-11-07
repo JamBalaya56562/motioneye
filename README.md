@@ -271,3 +271,4 @@
 | 2026-11-07 | Closed unlabelled issues, batch 2 (user reviewed): next 100 labelled. Remaining 932 closed, 568 open |
 | 2026-11-07 | Closed unlabelled issues, batch 3: proposal for the last 932 by workflow (9 agents, 868k tokens), not applied. Sample of 40 agrees 38 |
 | 2026-11-07 | Closed unlabelled issues, batch 3 applied (user): all 932, verified with no mismatch. 0 closed issues without a label, 568 open left |
+| 2026-11-07 | Open unlabelled issues, batch 1 (user reviewed): newest 50 labelled. 518 left |
