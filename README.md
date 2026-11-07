@@ -277,3 +277,4 @@
 | 2026-11-07 | Closed (user): #554, #2556, #2858, #1859, #1257, all `question`, group A, same evidence as the five above |
 | 2026-11-07 | Closed (user): #669, #358, #794, #690 (`question`), #1400 (`troubleshooting`), group A. #358: the 2016 answer is out of date, Clean Cloud exists for Google Drive only (`uploadservices.py:495`, `main.html:448`, read, not run) |
 | 2026-11-07 | Closed (user, no comment): #3527, the reporter gave a thumbs up to the `--pre` reply |
+| 2026-11-07 | Closed (user): #1025, #743, #1352, #952, #1052, all `question`. #952 checked on the Pi 5 with 0.45.0a1: with `@admin_password` set, empty password 401 and correct 200; value removed and restarted, empty password 200. #319 left open: `rotate 90` at 640x480 still gives a 480x640 stream on motion 4.7.1, against the reporter's "implemented" |
