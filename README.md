@@ -263,3 +263,4 @@
 | 2026-11-07 | `invalid` merged into `question` (user): 150 issues read and given a type (137 `question`, 13 others), PR #1151 `question`, re-read all 157 before deleting. 29 labels now, `question` 517 issues + 1 PR |
 | 2026-11-07 | `Stale No Activity 60 Days` label deleted (user): 177 issues, 171 unlabelled now (148 open, 23 closed). 28 labels now |
 | 2026-11-07 | `help wanted` (user): removed from all 71 closed issues and 48 open ones where it meant user support; kept on #2130, #1965, #2210, #2241, #779. Also removed from merged PR #2462 |
+| 2026-11-07 | `troubleshooting` added to #782, #2122, #2175 (user), left with only an area label after the `help wanted` cleanup |
