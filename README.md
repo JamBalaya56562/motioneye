@@ -302,5 +302,6 @@
 | 2026-11-07 | PR #3529 opened (user): stop the timelapse chain on a plain play, closes #3153; see PR 状況 |
 | 2026-11-07 | Stale old-environment issues (no activity before 2022, 190 in the pool), comments written per issue (user: no template, five at a time), closed as not planned (user): #170, #345, #381, #411, #414 |
 | 2026-11-08 | Stale old-environment issues, batch 2, comments written per issue (user): closed as completed (answered) #327, #449, #526; as not planned #317, #487 |
+| 2026-11-08 | Stale old-environment issues, batch 3, comments written per issue (user): closed as not planned #521, #465, #558, #546 (points to #575, left open), #262 |
 | 2026-11-08 | #3529 merged (`2377fbc7`, Marijn0); #3153 closed by it, milestone v0.45.0. Local bookmark deleted, working copy on dev `2377fbc7`; fork branch deleted and fork dev pushed to `2377fbc7` (user OK) |
 | 2026-11-08 | All 10 fork branches rebased onto dev `2377fbc7` without conflicts and pushed (user): ruff-bandit `96bbf6d9`, hash-usedforsecurity (#3522) `ea523419`, smtp-implicit-tls (#3518) `3618b433`, suppress-cleanup-errors `349bead9`, upload-optional-modules `02335cf5`, digest-md5-only `9bfc214d`, samesite-lax (#3523) `355701ba`, repro/freebsd* (not tested). 3.12 pytest (with boto3) and ruff 0.17.4 clean on the 7 others |
