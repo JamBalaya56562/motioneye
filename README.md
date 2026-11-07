@@ -273,3 +273,4 @@
 | 2026-11-07 | Closed unlabelled issues, batch 3 applied (user): all 932, verified with no mismatch. 0 closed issues without a label, 568 open left |
 | 2026-11-07 | Open unlabelled issues, batch 1 (user reviewed): newest 50 labelled. 518 left |
 | 2026-11-07 | Open unlabelled issues, batch 2 (user, without reviewing the table): the last 518 labelled by a workflow (6 agents, 532k tokens), verified with no mismatch. 0 issues without a label now: 1,880 closed, 839 open. 158 low confidence ones not reviewed, list in [labels-open-proposal.md](labels-open-proposal.md) |
+| 2026-11-07 | Closed (user, no daily limit today): #2875, #1269, #428, #308, #306, all `question`, the reporter confirmed each as solved, from [close-candidates-2026-11.md](close-candidates-2026-11.md) group A. Evidence is the issue comments, nothing reproduced |
