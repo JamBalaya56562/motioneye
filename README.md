@@ -265,3 +265,4 @@
 | 2026-11-07 | `help wanted` (user): removed from all 71 closed issues and 48 open ones where it meant user support; kept on #2130, #1965, #2210, #2241, #779. Also removed from merged PR #2462 |
 | 2026-11-07 | `troubleshooting` added to #782, #2122, #2175 (user), left with only an area label after the `help wanted` cleanup |
 | 2026-11-07 | Home Assistant labels kept separate (user), descriptions now say where the fix belongs. 28 labels. Next: closed unlabelled issues |
+| 2026-11-07 | Closed unlabelled issues, batch 1 (user reviewed): 45 of the newest 50 labelled, 5 with no content left without a label. Remaining 1,032, the rest needs an OK for a workflow |
