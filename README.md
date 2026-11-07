@@ -261,3 +261,4 @@
 | 2026-11-07 | Closed (user): #3171 (third-party Android app, answered by MichaIng, works for the reporter; `question`). `Android app` label deleted after checking 0 uses, 31 labels now |
 | 2026-11-07 | `Arch Linux` label deleted (user): only #3005 and PR #3011, both keep `bug`. 30 labels now |
 | 2026-11-07 | `invalid` merged into `question` (user): 150 issues read and given a type (137 `question`, 13 others), PR #1151 `question`, re-read all 157 before deleting. 29 labels now, `question` 517 issues + 1 PR |
+| 2026-11-07 | `Stale No Activity 60 Days` label deleted (user): 177 issues, 171 unlabelled now (148 open, 23 closed). 28 labels now |
