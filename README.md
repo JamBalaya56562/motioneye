@@ -267,3 +267,4 @@
 | 2026-11-07 | Home Assistant labels kept separate (user), descriptions now say where the fix belongs. 28 labels. Next: closed unlabelled issues |
 | 2026-11-07 | Closed unlabelled issues, batch 1 (user reviewed): 45 of the newest 50 labelled, 5 with no content left without a label. Remaining 1,032, the rest needs an OK for a workflow |
 | 2026-11-07 | `invalid` recreated (user), only for issues that are not real reports; on #3094, #3002, #2998, #2960, #2902. No label now means not checked yet. 29 labels |
+| 2026-11-07 | Closed unlabelled issues, batch 2 (user reviewed): next 100 labelled. Remaining 932 closed, 568 open |
