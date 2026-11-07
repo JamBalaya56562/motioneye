@@ -100,6 +100,7 @@
 | [clearly-fixed.md](clearly-fixed.md) | Open issues that are clearly already resolved (close candidates) |
 | [close-candidates-pi.md](close-candidates-pi.md) | Close candidates, round 2: Raspberry Pi issues (some need a check on the real Pi) |
 | [labels-2026-11.md](labels-2026-11.md) | Label cleanup of 2026-11-07: removed labels, what replaced them, definitions, open points |
+| [labels-batch3-proposal.md](labels-batch3-proposal.md) | Proposed labels for the last 932 closed unlabelled issues, for review |
 
 ## 進捗ログ
 
@@ -268,3 +269,4 @@
 | 2026-11-07 | Closed unlabelled issues, batch 1 (user reviewed): 45 of the newest 50 labelled, 5 with no content left without a label. Remaining 1,032, the rest needs an OK for a workflow |
 | 2026-11-07 | `invalid` recreated (user), only for issues that are not real reports; on #3094, #3002, #2998, #2960, #2902. No label now means not checked yet. 29 labels |
 | 2026-11-07 | Closed unlabelled issues, batch 2 (user reviewed): next 100 labelled. Remaining 932 closed, 568 open |
+| 2026-11-07 | Closed unlabelled issues, batch 3: proposal for the last 932 by workflow (9 agents, 868k tokens), not applied. Sample of 40 agrees 38 |
