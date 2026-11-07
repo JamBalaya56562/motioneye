@@ -1,6 +1,6 @@
-# Closed unlabelled issues, batch 3 proposal
+# Closed unlabelled issues, batch 3
 
-932 issues (#1941 to #2), classified by 9 agents on 2026-11-07 from the body and the last 3 comments. Nothing applied yet.
+932 issues (#1941 to #2), classified by 9 agents on 2026-11-07 from the body and the last 3 comments. Applied on 2026-11-07, all of it (user).
 
 Sample check: 40 random issues judged without seeing the proposal: 25 of 25 high confidence agree, 13 of 15 low confidence agree.
 
