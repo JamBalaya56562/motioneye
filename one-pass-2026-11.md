@@ -464,3 +464,19 @@ Unchanged: #1010, #1025, #1052, #1067, #1089, #1092, #1232, #1236, #1256, #1257,
 
 Unchanged: #1480, #1487, #1503, #1532, #1855, #1859, #2556, #2623, #2630, #2834, #2858,
 #2867, #2875, #3171, #3177, #3198, #3267, #3344, #575, #753.
+
+### Review 8 (closes of 2026-11-08, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #871 | -troubleshooting, +bug | old ARM image base broken; fixed by a Raspbian base |
+| #927 | -troubleshooting | Pillow built against libjpeg8 |
+| #964 | -troubleshooting, -motionEyeOS, +enhancement | failed uploads are not retried (still so), a motionEye limit |
+| #970 | -troubleshooting, +question | solved with Fast Network Camera + streaming URL |
+| #976 | -troubleshooting, +question | camera interface not enabled in the OS |
+| #985 | -troubleshooting, +question | `VIDIOC_S_INPUT: Device or resource busy` |
+| #1002 | -legacy motionEye | done by PR #2353 (`User=motion`), in 0.43.1 |
+| #1095 | -motionEyeOS | load of decoding five cameras, not motionEyeOS |
+
+Unchanged: #820, #834, #868, #896, #900, #991, #992, #1006, #1012, #1014, #1050, #1056,
+#1062, #1079, #1084, #1085, #1097.
