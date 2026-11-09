@@ -155,13 +155,18 @@ All 25 read in full by me on 2026-11-09.
 | #700 | not planned: question answered | Raspberry Pi, legacy motionEye |
 | #722 | not planned: no details | legacy motionEye |
 
+### Closed 2026-11-09, batch 3 third set (user OK)
+
+| # | Reason | Added |
+|---|---|---|
+| #294 | not planned: Python 2 install script, obsolete | legacy motionEye |
+| #772 | not planned: Motion decides; mask / best image | motion, legacy motionEye |
+| #787 | not planned: Ansible role shared, nothing to do | legacy motionEye |
+| #767 | not planned: internet path, no follow-up | legacy motionEye |
+| #806 | not planned: GDrive at service start, no news | legacy motionEye |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #294 | Raspbian install script for Python 2, obsolete | legacy motionEye |
-| #772 | save only when motion is centred, Motion cannot | motion, legacy motionEye |
-| #787 | Ansible role shared (Ubuntu 16.04), nothing to do | legacy motionEye |
-| #767 | unreachable from the internet, no follow-up | legacy motionEye |
-| #806 | GDrive upload at service start, 2018 | legacy motionEye |
 | #808 | .nomedia: script workaround given | legacy motionEye |
