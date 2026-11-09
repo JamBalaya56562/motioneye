@@ -539,3 +539,19 @@ Unchanged: #1505, #1524, #1528, #1799, #1808, #1834, #1842, #1848, #1857, #1863,
 
 Unchanged: #2041, #2065, #2072, #2080, #2081, #2084, #2105, #2107, #2108, #2131, #2138,
 #2145, #2151, #2153, #2175, #2068.
+
+### Review 13 (closes of 2026-11-08 to 2026-11-09 batch 1, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #2183 | -troubleshooting | fixed by `After=network-online.target`, checked |
+| #2185 | -question, +enhancement | install suggestion, done in 0.43.1 (PR #2980) |
+| #2186 | -troubleshooting | the 502 came from the add-on proxy (28765) |
+| #2195 | -troubleshooting | settings question, answered |
+| #2202 | -troubleshooting | motionEyeOS kernel sees no link |
+| #228 | -troubleshooting, +bug | old slider snapping, sliders rebuilt |
+| #273 | -legacy motionEye | duplicate of the open #251, as the #302 cluster |
+| #330 | -troubleshooting | Motion bug, fixed in Motion-Project/motion#431 |
+
+Unchanged: #2187, #2192, #2194, #2207, #2213, #2239, #2247, #184, #195, #200, #214, #271,
+#315, #320, #335, #340, #363.
