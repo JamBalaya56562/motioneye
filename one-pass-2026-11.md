@@ -480,3 +480,17 @@ Unchanged: #1480, #1487, #1503, #1532, #1855, #1859, #2556, #2623, #2630, #2834,
 
 Unchanged: #820, #834, #868, #896, #900, #991, #992, #1006, #1012, #1014, #1050, #1056,
 #1062, #1079, #1084, #1085, #1097.
+
+### Review 9 (closes of 2026-11-08, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #1124 | -troubleshooting | Python 2 `smtplib`, CRAM-MD5 with a non-ASCII password |
+| #1144 | -troubleshooting, +question | works as designed: JPEG per frame at the streaming rate |
+| #1176 | -troubleshooting, -legacy motionEye, +enhancement | done by PR #2353 (`User=motion`), as #1002 |
+| #1180 | -motionEyeOS | motionEye problem, fixed by #3468/#3506 |
+| #1181 | -motionEyeOS | message is motionEye's upload queue limit |
+| #1261 | -troubleshooting | fixed by Motion 4.3.2 |
+
+Unchanged: #1111, #1117, #1122, #1123, #1128, #1131, #1141, #1146, #1169, #1174, #1183,
+#1192, #1243, #1250, #1252, #1253, #1258, #1270, #1282.
