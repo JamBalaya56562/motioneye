@@ -127,15 +127,20 @@ All 25 read in full by me on 2026-11-09.
 | #789 | feature | animated GIF previews |
 | #814 | enhancement | movie preview is taken at a pre_capture offset (`mediafiles.py:524`), not the best frame |
 
+### Closed 2026-11-09, batch 3 first set (user OK)
+
+| # | Reason | Added |
+|---|---|---|
+| #319 | completed: rotated frame takes rotated size (`main.js:1206`) | none |
+| #778 | completed (S3 part) | PR #1063 linked, milestone v0.43.1 |
+| #671 | not planned: needs automount | legacy motionEye |
+| #660 | not planned: local first; `smb_shares` for a network share | legacy motionEye |
+| #646 | not planned: power supply | Raspberry Pi, legacy motionEye |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #319 | completed: reporter says rotation keeps the aspect now (`main.js:1206`) | none |
-| #778 | completed for the S3 part: PR #1063 (`bc54c5d6`, first in 0.43.1) | link PR, milestone v0.43.1 |
-| #671 | answered: USB stick needs automount | legacy motionEye |
-| #660 | answered; local storage always, network share with `smb_shares` | legacy motionEye |
-| #646 | solar/battery hardware, not motionEye | Raspberry Pi, legacy motionEye |
 | #678 | RTSP 3 min lag over the internet, no reply | legacy motionEye |
 | #692 | Motion auto brightness cycling, no reply | motion, legacy motionEye |
 | #691 | two folders, answered, no follow-up | legacy motionEye |
