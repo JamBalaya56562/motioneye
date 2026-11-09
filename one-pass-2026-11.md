@@ -213,15 +213,20 @@ Batch 3 close candidates done; #302 kept open as the canonical issue.
 | #842 | not planned: `on_camera_lost` via Extra Motion Options (`config.py:2144`) | motion, legacy motionEye |
 | #859 | not planned: GDrive second camera, no reply | legacy motionEye |
 
+### Closed 2026-11-09, batch 4 second set (user OK)
+
+| # | Reason | Added |
+|---|---|---|
+| #840 | not planned: low FPS, hints helped (8-12 fps) | Raspberry Pi, legacy motionEye |
+| #804 | not planned: power (IR, PIR, GSM modem) | Raspberry Pi, legacy motionEye |
+| #892 | not planned: board comparison question, 2018 | Raspberry Pi, legacy motionEye |
+| #899 | not planned: size from scene / Movie Quality / passthrough | legacy motionEye |
+| #923 | not planned: Pi Zero software encoding; V4L2M2M | Raspberry Pi, legacy motionEye |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #840 | low FPS on Pi 3, tips given, 8-12 fps | Raspberry Pi, legacy motionEye |
-| #804 | NoIR white screen, power (user removed PIR) | Raspberry Pi, legacy motionEye |
-| #892 | OrangePi vs Pi Zero question, no reply | legacy motionEye |
-| #899 | file size differs between cameras | legacy motionEye |
-| #923 | jerky video on Pi Zero | Raspberry Pi, legacy motionEye |
 | #917 | no red frame: "Show Frame Changes" | legacy motionEye |
 | #936 | network camera not added, Ubuntu 16.04 | legacy motionEye |
 | #958 | HEVC slow on Pi 3 (no hardware encoder) | Raspberry Pi, legacy motionEye |
