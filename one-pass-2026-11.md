@@ -43,3 +43,44 @@ Also adopted: duplicate clusters under one canonical issue, an issue-template PR
 - #277 feature → enhancement, +motion; #179 +motion; #258 +Raspberry Pi; #190 +motion (no overlay in recordings, so kept)
 
 Clusters: bulk delete (#232 ← #184), pause all cameras (#192 ← #388), bulk download (#279). Unverified: whether the "One Picture" still is attached to the notification email (#363/#277).
+
+## Batch 2 (last human comment 2017-02 .. 2017-09, dev `71c81138`)
+
+Type and topic labels applied 2026-11-09 (user asked for the labelling). `legacy motionEye` and `duplicate` are added only on close.
+
+### Keep
+
+| # | Labels now | Note |
+|---|---|---|
+| #338 | feature, motion | no camera-lost notification; email text fixed in `sendmail.py:38` |
+| #287 | feature, motion | Motion timelapse movies only via Extra Motion Options |
+| #302 | feature | canonical: delete oldest media when the disk fills; cleanup is age-based (`mediafiles.py:448`). Duplicate candidates #1074, #897, #1981 (titles only, read before closing) |
+| #446 | feature | MQTT: no `mqtt` in the code |
+| #562 | feature | hover preview of movies |
+
+### To close (proposed, not OKed)
+
+| # | Reason | Add on close |
+|---|---|---|
+| #529 | completed: one-picture mode, PR #616 (`252fe4f2`, 0.37), link PR | legacy? no (implemented) |
+| #592 | completed: same, PR #616, link PR | — |
+| #445 | duplicate of #2379 (notify only on first event) | duplicate, legacy motionEye |
+| #659 | duplicate of #1223 (URL to switch notifications) | duplicate, legacy motionEye |
+| #273 | duplicate of #251 (toggle detection by script) | duplicate, legacy motionEye |
+| #330 | Motion 4.0 fast playback, fixed in Motion (motion#431) | legacy motionEye |
+| #567 | same cause as #330 | legacy motionEye |
+| #419 | Python 2 Jinja2 byte-compile warnings, upgrade worked; Python ≥ 3.9 now | legacy motionEye |
+| #516 | USB bandwidth with 3 cameras (Motion error, lower resolution fixed it) | legacy motionEye |
+| #538 | Motion cannot do it (ccrisan 2017) | legacy motionEye |
+| #576 | D-Link connection lost, no logs, no follow-up | legacy motionEye |
+| #609 | movies do not play, Pi Zero W, no details | legacy motionEye |
+| #642 | notifications never fire, no details | legacy motionEye |
+| #640 | low fps on Pi Zero, Raspbian 8 | legacy motionEye |
+| #443 | mask with rotation (follow-up of #437); rotation handled in `config.py:1271` | legacy motionEye |
+| #479 | answered; remaining problem was the motionEyeOS image | legacy motionEye |
+| #400 | answered: hardware encoding through ffmpeg | legacy motionEye |
+| #610 | uploads happen per new file (`relay_event.py:105`) | legacy motionEye |
+| #666 | USB camera in a VM, worked on a Pi | legacy motionEye |
+| #195 | wait for a USB mount at boot: solved with systemd by the reporter | legacy motionEye |
+
+Pi needed: none for closing (#609, #640 only to reproduce).
