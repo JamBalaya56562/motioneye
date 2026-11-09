@@ -367,3 +367,21 @@ Order: `lbl_todo` = issues closed by JamBalaya56562, by close date, batch 3-5 of
 
 Unchanged: #1497, #2828, #284, #353, #1094, #1356, #2746, #405, #3057, #1496, #2062,
 #2083, #2792, #2934, #406, #1334, #2243, #2540, #1156.
+
+### Review 2 (closes of 2026-10-31 to 2026-11-06, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #1265 | -troubleshooting, -Raspberry Pi, +bug | image lacked tzdata, fixed; reporter on a Proxmox VM |
+| #3255 | -question | libcamera bug (fixed in 0.7) |
+| #3269 | -question, +enhancement | arm64 image, Sponsored OSS, README: requests, all done |
+| #3364 | -question, -documentation, +enhancement | "remember me" replacement via #3410/#3515 |
+| #2625 | -docker | reporter not on Docker (a commenter was) |
+| #2802 | -docker | reporter used pip2 |
+| #3233 | -troubleshooting | cause found, fixed by #3520 |
+| #2125 | -troubleshooting | reporter said it works |
+| #2585 | -bug, +Raspberry Pi | old Python 2 install vs Bullseye libcurl; Raspbian |
+| #2784 | -bug | botocore + urllib3 2, outside motionEye |
+
+Unchanged: #2799, #2869, #2798, #3056, #1240, #2763, #3080, #3029, #3053, #3369, #2957,
+#3026, #3059, #2465, #2684.
