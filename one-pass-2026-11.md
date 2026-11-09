@@ -145,15 +145,20 @@ All 25 read in full by me on 2026-11-09.
 | #660 | not planned: local first; `smb_shares` for a network share | legacy motionEye |
 | #646 | not planned: power supply | Raspberry Pi, legacy motionEye |
 
+### Closed 2026-11-09, batch 3 second set (user OK)
+
+| # | Reason | Added |
+|---|---|---|
+| #678 | not planned: RTSP lag over the internet, no reply | legacy motionEye |
+| #692 | not planned: Motion's `auto_brightness`, no reply | motion, legacy motionEye |
+| #691 | not planned: answered, no follow-up | legacy motionEye |
+| #700 | not planned: question answered | Raspberry Pi, legacy motionEye |
+| #722 | not planned: no details | legacy motionEye |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #678 | RTSP 3 min lag over the internet, no reply | legacy motionEye |
-| #692 | Motion auto brightness cycling, no reply | motion, legacy motionEye |
-| #691 | two folders, answered, no follow-up | legacy motionEye |
-| #700 | GPU memory question, answered | Raspberry Pi, legacy motionEye |
-| #722 | movie list spins, no details | legacy motionEye |
 | #294 | Raspbian install script for Python 2, obsolete | legacy motionEye |
 | #772 | save only when motion is centred, Motion cannot | motion, legacy motionEye |
 | #787 | Ansible role shared (Ubuntu 16.04), nothing to do | legacy motionEye |
