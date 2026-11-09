@@ -95,6 +95,14 @@ All not planned, `legacy motionEye` added, no PR to link.
 ### Pi check (deferred until the user is home)
 
 - #443: mask with 90/270 rotation is not applied to detection (follow-up of #437, after 43288b2). Rotate the camera, draw a mask, check that motion ignores the masked part on dev. Kept open until then.
+  - Checked 2026-11-09 on the Pi 5 (Camera Module 3, Motion 4.7.1) with dev `71c81138` (0.45.0b1), set through `motion_camera_dict_to_ui` → `motion_camera_ui_to_dict` → `set_camera` (what `/config/1/set/` calls), as no session login was used. 640x480, left half of the shown picture masked, threshold 30 px and noise level 3 so that camera noise starts events, debug pictures on, 40 s per case. Bright pixels per half (every 2nd px):
+    - 90°, no mask: left 38400 / right 38400
+    - 90°, mask: left 0 / right 38400; `mask_1.pgm` is 480x640; no size warning in motion.log
+    - 270°, mask: left 0 / right 38400
+    - 0°, mask: left 0 / right 38400 (640x480)
+    - Read back for the editor at 90°: `[480, 640]`, 42 rows, all `0xffff0000`
+  - Works on dev. Close candidate (completed, no PR known). Pi restored: config from `~/meye-backup-20261109`, motionEye fork `ef1c1440` (0.45.0a1) reinstalled.
+- #319 closed by mistake on 2026-11-09 as completed: README log 2026-11-07 says `rotate 90` at 640x480 still gives a 480x640 stream on Motion 4.7.1, against the reporter's "implemented". Reopen asked to the user.
 
 ### Closed 2026-11-09, seventh set (user OK, read in full by me)
 
