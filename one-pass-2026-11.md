@@ -507,3 +507,18 @@ Unchanged: #1111, #1117, #1122, #1123, #1128, #1131, #1141, #1146, #1169, #1174,
 Unchanged: #1291, #1305, #1331, #1344, #1347, #1350, #1387, #1420, #1427, #1433, #1439,
 #1442, #1445, #1471, #1477, #1483, #1486, #1491, #1493, #1498, #1499 (`external bug` kept on
 pycurl / Tornado build problems: label-scheme counts Python packages as external).
+
+### Review 11 (closes of 2026-11-08, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #1504 | -troubleshooting, +question | setup found; commands run as Motion's user |
+| #1643 | -motionEyeOS | reporter on Ubuntu Server; answer is `motioneye.conf` |
+| #1894 | -question | feature request, privacy mask #1247 in 0.43.1 |
+| #2015 | -troubleshooting | answered: movie length settings |
+| #2017 | -enhancement, -question | new codec: feature only |
+| #2022 | -troubleshooting | both solved on the camera side |
+| #2038 | -troubleshooting, +question | Layout Columns hidden by the screen width |
+
+Unchanged: #1505, #1524, #1528, #1799, #1808, #1834, #1842, #1848, #1857, #1863, #1867,
+#1889, #2023, #2024, #2025, #2029, #2031, #2037.
