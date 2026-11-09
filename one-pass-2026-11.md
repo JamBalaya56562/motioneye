@@ -328,3 +328,26 @@ ffprobe frames / seconds of the triggered movie:
 
 About 30 more frames with Captured Before in both ways, so Motion 4.7.1 honours it.
 Closed 2026-11-09 (user OK): completed, no motionEye PR, no milestone. Labels: +motion.
+
+## Label corrections (since 2026-11-09)
+
+The user's rule: remove wrong labels too, on every closed issue; never leave zero labels
+(placeholder `troubleshooting` was added only to avoid that). `troubleshooting` stays where the
+cause was never found; it goes where the close established it.
+
+Batch 3-5 closes of 2026-11-09:
+
+| # | Change | Why |
+|---|---|---|
+| #691 | -troubleshooting, +question | answered: separate folders for movies/pictures |
+| #692 | -troubleshooting, +question | answered: switch is Motion's `auto_brightness` |
+| #899 | -troubleshooting, +question | answered: size from scene / quality / passthrough |
+| #958 | -troubleshooting, +question | cause: no HEVC hardware encoder on Pi 3 |
+| #1114 | -troubleshooting, +question | answered: sub-stream on a Pi 1 |
+| #1121 | -troubleshooting, +question | works as intended (`stream_localhost`) |
+| #921 | -feature, +question | answered: action URL exists; API request is #972 |
+| #944 | -troubleshooting, +bug | cause found and fixed by #3372 |
+| #1057 | +motion | Motion behaviour |
+
+Still to review: 312 issues closed by JamBalaya56562 before 2026-11-09 and the 2026-11-09
+batch 1-2 closes (list from the closed-issue search, closer = JamBalaya56562: 406 in all).
