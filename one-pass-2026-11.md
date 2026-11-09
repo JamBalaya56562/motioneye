@@ -188,3 +188,44 @@ and the migration check), no PR. Related: #897, #978, #1074, #1981 closed here;
 | #1354 | not planned: duplicate of #302; UI move left for a new issue | duplicate |
 
 Batch 3 close candidates done; #302 kept open as the canonical issue.
+
+## Batch 4 (open.json rows 75-99; #978 already closed in batch 3)
+
+### Keep
+
+| # | Why | Labels |
+|---|---|---|
+| #825 | multiple users + login log; still admin + normal only (`config.py:349`) | feature |
+| #852 | webhook HTTP PUT; only GET/POST (`main.html:526`); fix-PR candidate | enhancement |
+| #877 | `mosquitto-clients` not in the Docker image (`docker/Dockerfile:19`) | enhancement, +docker |
+| #884 | custom favicon | feature |
+| #833 | Google Drive upload falls behind; tasks still one thread (`tasks.py:29`) | troubleshooting |
+| #926 | invert mask, not there | feature |
+| #944 | `on_event_start` with detection off; `pause` set from `@motion_detection` (`config.py:656`), Pi check | troubleshooting |
+
+### Closed 2026-11-09, batch 4 first set (user OK)
+
+| # | Reason | Added |
+|---|---|---|
+| #824 | not planned: FTP stops, no log, no reply | legacy motionEye |
+| #837 | not planned: same picture on two cameras, no details | legacy motionEye |
+| #826 | not planned: lens hood, answered | legacy motionEye |
+| #842 | not planned: `on_camera_lost` via Extra Motion Options (`config.py:2144`) | motion, legacy motionEye |
+| #859 | not planned: GDrive second camera, no reply | legacy motionEye |
+
+### To close (proposed, not OKed)
+
+| # | Reason | Add on close |
+|---|---|---|
+| #840 | low FPS on Pi 3, tips given, 8-12 fps | Raspberry Pi, legacy motionEye |
+| #804 | NoIR white screen, power (user removed PIR) | Raspberry Pi, legacy motionEye |
+| #892 | OrangePi vs Pi Zero question, no reply | legacy motionEye |
+| #899 | file size differs between cameras | legacy motionEye |
+| #923 | jerky video on Pi Zero | Raspberry Pi, legacy motionEye |
+| #917 | no red frame: "Show Frame Changes" | legacy motionEye |
+| #936 | network camera not added, Ubuntu 16.04 | legacy motionEye |
+| #958 | HEVC slow on Pi 3 (no hardware encoder) | Raspberry Pi, legacy motionEye |
+| #933 | feed lost every 18 h, client side for #946 | legacy motionEye |
+| #968 | 16 RTSP cameras on a Pi 3B+ | Raspberry Pi, legacy motionEye |
+| #967 | completed: eventstart action, PR #2691 (v0.45.0) | PR link, milestone v0.45.0 |
+| #974 | clock without internet (no RTC) | Raspberry Pi, legacy motionEye |
