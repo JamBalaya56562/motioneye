@@ -101,7 +101,7 @@ All not planned, `legacy motionEye` added, no PR to link.
     - 270°, mask: left 0 / right 38400
     - 0°, mask: left 0 / right 38400 (640x480)
     - Read back for the editor at 90°: `[480, 640]`, 42 rows, all `0xffff0000`
-  - Works on dev. Close candidate (completed, no PR known). Pi restored: config from `~/meye-backup-20261109`, motionEye fork `ef1c1440` (0.45.0a1) reinstalled.
+  - Works on dev. Closed 2026-11-09 as completed (user OK), no PR or milestone, labels unchanged. Pi restored: config from `~/meye-backup-20261109`, motionEye fork `ef1c1440` (0.45.0a1) reinstalled.
 - #319 closed by mistake on 2026-11-09 as completed: README log 2026-11-07 says `rotate 90` at 640x480 still gives a 480x640 stream on Motion 4.7.1, against the reporter's "implemented". Reopened 2026-11-09 without a comment (user); the user deletes the wrong close comment.
 
 ### Closed 2026-11-09, seventh set (user OK, read in full by me)
@@ -115,7 +115,7 @@ All not planned, `legacy motionEye` added, no PR to link. Batch 2 close list is 
 | #666 | USB camera in a VM, same camera worked on a Pi |
 | #195 | systemd `RequiresMountsFor=<path>`; missing mount only logs an error now (`config.py:1912`, boot behaviour unverified) |
 
-Batch 2 result: 5 kept, 19 closed, #443 waits for the Pi check.
+Batch 2 result: 5 kept, 20 closed (#443 after the Pi check).
 
 ## Batch 3 (open.json rows 50-74, last human comment 2017-09 .. 2018-03, dev `71c81138`)
 
