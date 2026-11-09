@@ -26,15 +26,15 @@ Also adopted: duplicate clusters under one canonical issue, an issue-template PR
 | #363 | not planned | motion, legacy motionEye |
 | #401 | not planned | Raspberry Pi, legacy motionEye (no motionEyeOS: cause not shown to be there) |
 
-### To close next (proposed, not OKed yet)
+### Closed 2026-11-09, third set (user OK, read in full by me)
 
-| # | Reason | Labels to add |
+| # | Reason | Labels added |
 |---|---|---|
-| #385 | pink picture, likely hardware | external bug, Raspberry Pi, legacy motionEye |
-| #335 | two identical USB cams, no replies | Raspberry Pi, legacy motionEye |
-| #228 | brightness slider steps of 5; sliders now snapMode 0, `main.js:1009` | legacy motionEye |
-| #439 | stream reconnect: UI re-polls at 1 fps on error, `main.js:5660` (not for simple MJPEG, `main.js:5641`) | motion |
-| #315 | ship ffplay: out of scope | Raspberry Pi, legacy motionEye |
+| #385 | not planned | external bug, Raspberry Pi, legacy motionEye |
+| #335 | not planned | Raspberry Pi, legacy motionEye |
+| #228 | not planned | legacy motionEye |
+| #439 | not planned (answered by the current UI) | none (motion dropped from the proposal; no legacy, answered on current UI) |
+| #315 | not planned | Raspberry Pi, legacy motionEye |
 
 ### Keep (label changes applied 2026-11-09, user OK)
 
