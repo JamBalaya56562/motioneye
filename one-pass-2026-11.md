@@ -555,3 +555,21 @@ Unchanged: #2041, #2065, #2072, #2080, #2081, #2084, #2105, #2107, #2108, #2131,
 
 Unchanged: #2187, #2192, #2194, #2207, #2213, #2239, #2247, #184, #195, #200, #214, #271,
 #315, #320, #335, #340, #363.
+
+### Review 14 (closes of 2026-11-09 batch 1-2, last 21 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #385 | -external bug | failing USB camera or hub power: hardware |
+| #419 | -troubleshooting, +question | only Jinja2 byte-compile warnings, upgrade worked |
+| #439 | +legacy motionEye | 2017 report |
+| #445 | -legacy motionEye | duplicate of the open #2379 |
+| #516 | -troubleshooting, -external bug, +question | USB bandwidth, a hardware limit |
+| #567 | -troubleshooting | Motion 4.0 fast playback, fixed in Motion-Project/motion#431 |
+| #659 | -question, -legacy motionEye, +feature | duplicate of the open request #1223 |
+| #666 | -troubleshooting, +question | VM USB passthrough; same camera worked on a Pi |
+
+Unchanged: #388, #400, #401, #423, #479, #529, #538, #576, #592, #609, #610, #640, #642.
+
+Label review of all 346 closes by JamBalaya56562 done (with the batch 3-5 corrections:
+all 406 closes since 2026-06).
