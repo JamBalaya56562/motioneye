@@ -10,8 +10,8 @@ Also adopted: duplicate clusters under one canonical issue, an issue-template PR
 
 | # | Reason | Labels added | Evidence |
 |---|---|---|---|
-| #200 | completed | — | Clean Cloud switch, `main.html:450`, since 0.40 (`98403243`) |
-| #271 | completed | — | `POST /action/<id>/snapshot`, `eventstart`/`eventend`: `server.py:219`, `action.py:64` |
+| #200 | completed | — | Clean Cloud switch, `main.html:450`, since 0.40 (PR #1118, linked under Development; no milestone, older than 0.43.1) |
+| #271 | completed | — | `POST /action/<id>/snapshot`, `eventstart`/`eventend`: `server.py:219`, `action.py:64`. snapshot action since 2015 (`0dd3b683`, no PR); eventstart/eventend by PR #3468, linked, milestone v0.45.0 |
 | #184 | not planned, duplicate of #232 | duplicate | Delete all exists; selective delete is #232 |
 | #214 | completed | motion, Raspberry Pi, legacy motionEye | cron answer, reporter would try it, no follow-up since 2016 |
 | #340 | completed | motion, Raspberry Pi, legacy motionEye | Motion-side (Motion-Project/motion#246), fixed with newer Motion |
