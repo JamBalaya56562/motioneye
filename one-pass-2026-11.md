@@ -494,3 +494,16 @@ Unchanged: #820, #834, #868, #896, #900, #991, #992, #1006, #1012, #1014, #1050,
 
 Unchanged: #1111, #1117, #1122, #1123, #1128, #1131, #1141, #1146, #1169, #1174, #1183,
 #1192, #1243, #1250, #1252, #1253, #1258, #1270, #1282.
+
+### Review 10 (closes of 2026-11-08, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #1386 | -troubleshooting, +question | Motion 3.2.12 too old for motionEye 0.40's config |
+| #1417 | -troubleshooting, +question | normal user cannot bind the port |
+| #1481 | -troubleshooting, +question | log was Motion run alone with its defaults |
+| #1492 | -motionEyeOS | reporter on Raspbian; answer is an OS mount |
+
+Unchanged: #1291, #1305, #1331, #1344, #1347, #1350, #1387, #1420, #1427, #1433, #1439,
+#1442, #1445, #1471, #1477, #1483, #1486, #1491, #1493, #1498, #1499 (`external bug` kept on
+pycurl / Tornado build problems: label-scheme counts Python packages as external).
