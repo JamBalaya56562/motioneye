@@ -264,15 +264,20 @@ Batch 4 done: 7 kept, 17 closed.
 | #994 | not planned: motionEyeOS feature, covered there | legacy motionEye |
 | #995 | not planned: publish 8081 (`docker/docker-compose.yml:11`) | docker, legacy motionEye |
 
+### Closed 2026-11-09, batch 5 second set (user OK)
+
+| # | Reason | Added |
+|---|---|---|
+| #1040 | completed: "Remove Files After Upload" (`@clean_uploaded`) | PR #3374 linked, milestone v0.45.0 |
+| #1013 | not planned: duplicate of #814 | (duplicate already) |
+| #1076 | not planned: duplicate of #877 | duplicate, docker |
+| #1045 | not planned: page without stylesheet on one phone | legacy motionEye |
+| #1061 | not planned: image built for arm64/armv7 (`.github/workflows/docker.yml:63`) | docker, Raspberry Pi, legacy motionEye |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #1040 | completed: "remove files after upload", PR #3374 (v0.45.0) | PR link, milestone v0.45.0 |
-| #1013 | duplicate of #814 (thumbnail) | duplicate (already) |
-| #1076 | duplicate of #877 (mosquitto in Docker) | duplicate, docker |
-| #1045 | settings page without styles on one iPhone | legacy motionEye |
-| #1061 | OMV Docker on a Pi question | docker, Raspberry Pi, legacy motionEye |
 | #1029 | high CPU / odd fps, diagnosis asked, no report | legacy motionEye |
 | #540 | PC build question, answered | legacy motionEye |
 | #664 | no picture from the internet, answered (8081) | legacy motionEye |
