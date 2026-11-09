@@ -351,3 +351,19 @@ Batch 3-5 closes of 2026-11-09:
 
 Still to review: 312 issues closed by JamBalaya56562 before 2026-11-09 and the 2026-11-09
 batch 1-2 closes (list from the closed-issue search, closer = JamBalaya56562: 406 in all).
+
+### Review 1 (closes of 2026-10-25 to 2026-10-31, 25 issues; user OK)
+
+Order: `lbl_todo` = issues closed by JamBalaya56562, by close date, batch 3-5 of 2026-11-09 left out.
+
+| # | Change | Why |
+|---|---|---|
+| #657 | -Raspberry Pi | reporter's server is behind nginx, no Pi |
+| #1459 | -Raspberry Pi | reporter on Ubuntu Server |
+| #2232 | -question | wiki change proposal, documentation only |
+| #2778 | -question, -legacy motionEye, +feature | Python 3 support, shipped in 0.43.1 (PR #3242) |
+| #1408 | -question | Chrome 76 broke UI streaming: external bug |
+| #2034 | -feature | limit of existing action buttons: enhancement |
+
+Unchanged: #1497, #2828, #284, #353, #1094, #1356, #2746, #405, #3057, #1496, #2062,
+#2083, #2792, #2934, #406, #1334, #2243, #2540, #1156.
