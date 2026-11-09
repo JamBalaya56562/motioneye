@@ -108,3 +108,42 @@ All not planned, `legacy motionEye` added, no PR to link. Batch 2 close list is 
 | #195 | systemd `RequiresMountsFor=<path>`; missing mount only logs an error now (`config.py:1912`, boot behaviour unverified) |
 
 Batch 2 result: 5 kept, 19 closed, #443 waits for the Pi check.
+
+## Batch 3 (open.json rows 50-74, last human comment 2017-09 .. 2018-03, dev `71c81138`)
+
+All 25 read in full by me on 2026-11-09.
+
+### Keep
+
+| # | Labels | Note |
+|---|---|---|
+| #675 | enhancement | global defaults for all cameras |
+| #679 | bug | fullscreen with fit frames + rows > 1; not rechecked on dev UI yet |
+| #676 | enhancement | lower stream rate to the browser without motion |
+| #704 | enhancement | no current / retype password fields in `templates/main.html` |
+| #708 | enhancement | canonical: upload retries; `uploadservices.py` retries only auth (401) |
+| #715 | feature | notify on login |
+| #771 | enhancement | sliders use mouse events only (`static/js/ui.js:158`); fix-PR candidate with pointer events (dragging on touch inferred, not run) |
+| #789 | feature | animated GIF previews |
+| #814 | enhancement | movie preview is taken at a pre_capture offset (`mediafiles.py:524`), not the best frame |
+
+### To close (proposed, not OKed)
+
+| # | Reason | Add on close |
+|---|---|---|
+| #319 | completed: reporter says rotation keeps the aspect now (`main.js:1206`) | none |
+| #778 | completed for the S3 part: PR #1063 (`bc54c5d6`, first in 0.43.1) | link PR, milestone v0.43.1 |
+| #671 | answered: USB stick needs automount | legacy motionEye |
+| #660 | answered; local storage always, network share with `smb_shares` | legacy motionEye |
+| #646 | solar/battery hardware, not motionEye | Raspberry Pi, legacy motionEye |
+| #678 | RTSP 3 min lag over the internet, no reply | legacy motionEye |
+| #692 | Motion auto brightness cycling, no reply | motion, legacy motionEye |
+| #691 | two folders, answered, no follow-up | legacy motionEye |
+| #700 | GPU memory question, answered | Raspberry Pi, legacy motionEye |
+| #722 | movie list spins, no details | legacy motionEye |
+| #294 | Raspbian install script for Python 2, obsolete | legacy motionEye |
+| #772 | save only when motion is centred, Motion cannot | motion, legacy motionEye |
+| #787 | Ansible role shared (Ubuntu 16.04), nothing to do | legacy motionEye |
+| #767 | unreachable from the internet, no follow-up | legacy motionEye |
+| #806 | GDrive upload at service start, 2018 | legacy motionEye |
+| #808 | .nomedia: script workaround given | legacy motionEye |
