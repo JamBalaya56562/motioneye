@@ -284,11 +284,13 @@ Batch 4 done: 7 kept, 17 closed.
 | #1075 | not planned: Pi 3B+ load, no log | Raspberry Pi, legacy motionEye |
 | #1113 | not planned: action button files `<action>_<camera_id>` (`config.py:2200`) | legacy motionEye |
 
-### To close (proposed, not OKed)
+### Closed 2026-11-09, batch 5 fourth set (user OK)
 
-| # | Reason | Add on close |
+| # | Reason | Added |
 |---|---|---|
-| #1114 | Hikvision not fluid on Pi 1, answered (sub-stream) | Raspberry Pi, legacy motionEye |
-| #1121 | streaming off still shows pictures: `stream_localhost` (`config.py:1126`), motionEye pictures need login | legacy motionEye |
-| #921 | run scripts over HTTP: action buttons `POST /action/<id>/<name>` since 2015 | legacy motionEye |
-| #1133 | xset from a command, answered (.Xauthority) | Raspberry Pi, legacy motionEye |
+| #1114 | not planned: Pi 1, use the sub-stream (answered) | Raspberry Pi, legacy motionEye |
+| #1121 | not planned: `stream_localhost` (`config.py:1126`); picture URL needs login (`handlers/picture.py:185`) | legacy motionEye |
+| #921 | not planned: `POST /action/<camera_id>/<action>` (`server.py:219`); full API in #972 | legacy motionEye |
+| #1133 | not planned: DISPLAY/XAUTHORITY for root (answered) | Raspberry Pi, legacy motionEye |
+
+Batch 5 done: 5 kept, 19 closed.
