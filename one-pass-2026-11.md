@@ -385,3 +385,20 @@ Unchanged: #1497, #2828, #284, #353, #1094, #1356, #2746, #405, #3057, #1496, #2
 
 Unchanged: #2799, #2869, #2798, #3056, #1240, #2763, #3080, #3029, #3053, #3369, #2957,
 #3026, #3059, #2465, #2684.
+
+### Review 3 (closes of 2026-11-06 to 2026-11-07, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #256 | +Raspberry Pi | reporter on a Pi (`pi@webcam01`) |
+| #308 | -external bug | ffmpeg not installed right, a setup answer |
+| #327 | -troubleshooting, +question | cause found: USB 2.0 bandwidth |
+| #345 | -troubleshooting, +question | mask worked as set; later a corrupted data partition |
+| #411 | -troubleshooting | cause found: ffmpeg build without the mp4 codec |
+| #459 | -troubleshooting, -docker, -motionEyeOS | Motion 4.0.1, fixed in 4.1; reporter used pip |
+| #487 | -external bug | cause never found |
+| #495 | -Home Assistant addon | reporter on motionEyeOS; HA ffmpeg component was a commenter |
+| #514 | -docker | Docker was a later commenter |
+
+Unchanged: #2906, #170, #262, #289, #306, #307, #317, #357, #358, #381, #414, #428, #442,
+#449, #465, #501.
