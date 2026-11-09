@@ -313,7 +313,7 @@ Threshold 0.01 %, noise level 1, 45 s run, `on_event_start` command appends to a
 
 Fixed by PR #3372 (0.45.0b1): motion starts with `pause on` instead of a webcontrol request
 at startup that could come before motion was ready. Closed 2026-11-09 (user OK): completed,
-PR #3372 linked, milestone v0.45.0.
+PR #3372 linked, milestone v0.45.0. Labels: +bug, -troubleshooting (cause found).
 
 ### #1057: Captured Before with emulate_motion / eventstart
 
@@ -327,4 +327,4 @@ ffprobe frames / seconds of the triggered movie:
 | `/1/config/set?emulate_motion=1` | 50 / 4.9 s | 81 / 8.1 s |
 
 About 30 more frames with Captured Before in both ways, so Motion 4.7.1 honours it.
-Closed 2026-11-09 (user OK): completed, no motionEye PR, no milestone.
+Closed 2026-11-09 (user OK): completed, no motionEye PR, no milestone. Labels: +motion.
