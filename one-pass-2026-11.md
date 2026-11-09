@@ -241,3 +241,44 @@ Batch 3 close candidates done; #302 kept open as the canonical issue.
 | #974 | not planned: no RTC, system clock | Raspberry Pi, legacy motionEye |
 
 Batch 4 done: 7 kept, 17 closed.
+
+## Batch 5 (open.json rows 100-124; #1074 already closed in batch 3)
+
+### Keep
+
+| # | Why | Labels |
+|---|---|---|
+| #565 | mask file + smart mask together; still one type (`config.py:1420` if/elif) | enhancement |
+| #1020 | multi-select in the media browser, not there | feature |
+| #1058 | picture/movie counts in the camera bar | feature |
+| #972 | API; ccrisan would take PRs | feature |
+| #1057 | Captured Before with emulate_motion; Pi check whether `eventstart` keeps pre_capture | external bug |
+
+### Closed 2026-11-09, batch 5 first set (user OK)
+
+| # | Reason | Added |
+|---|---|---|
+| #982 | not planned: streams decoded twice (VLC + Motion) | legacy motionEye |
+| #987 | not planned: details not given | legacy motionEye |
+| #988 | not planned: answered, Motion analyses frames | Raspberry Pi, legacy motionEye |
+| #994 | not planned: motionEyeOS feature, covered there | legacy motionEye |
+| #995 | not planned: publish 8081 (`docker/docker-compose.yml:11`) | docker, legacy motionEye |
+
+### To close (proposed, not OKed)
+
+| # | Reason | Add on close |
+|---|---|---|
+| #1040 | completed: "remove files after upload", PR #3374 (v0.45.0) | PR link, milestone v0.45.0 |
+| #1013 | duplicate of #814 (thumbnail) | duplicate (already) |
+| #1076 | duplicate of #877 (mosquitto in Docker) | duplicate, docker |
+| #1045 | settings page without styles on one iPhone | legacy motionEye |
+| #1061 | OMV Docker on a Pi question | docker, Raspberry Pi, legacy motionEye |
+| #1029 | high CPU / odd fps, diagnosis asked, no report | legacy motionEye |
+| #540 | PC build question, answered | legacy motionEye |
+| #664 | no picture from the internet, answered (8081) | legacy motionEye |
+| #1075 | crash after hours on Pi 3B+, no log | Raspberry Pi, legacy motionEye |
+| #1113 | D-Link action buttons question | legacy motionEye |
+| #1114 | Hikvision not fluid on Pi 1, answered (sub-stream) | Raspberry Pi, legacy motionEye |
+| #1121 | streaming off still shows pictures: `stream_localhost` (`config.py:1126`), motionEye pictures need login | legacy motionEye |
+| #921 | run scripts over HTTP: action buttons `POST /action/<id>/<name>` since 2015 | legacy motionEye |
+| #1133 | xset from a command, answered (.Xauthority) | Raspberry Pi, legacy motionEye |
