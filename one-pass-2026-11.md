@@ -16,15 +16,20 @@ Also adopted: duplicate clusters under one canonical issue, an issue-template PR
 | #214 | completed | motion, Raspberry Pi, legacy motionEye | cron answer, reporter would try it, no follow-up since 2016 |
 | #340 | completed | motion, Raspberry Pi, legacy motionEye | Motion-side (Motion-Project/motion#246), fixed with newer Motion |
 
+### Closed 2026-11-09, second set (user OK, read in full by me)
+
+| # | Reason | Labels added |
+|---|---|---|
+| #388 | not planned, duplicate of #192 | duplicate |
+| #423 | not planned | motion, Raspberry Pi, legacy motionEye |
+| #320 | not planned | motion, legacy motionEye |
+| #363 | not planned | motion, legacy motionEye |
+| #401 | not planned | Raspberry Pi, legacy motionEye (no motionEyeOS: cause not shown to be there) |
+
 ### To close next (proposed, not OKed yet)
 
 | # | Reason | Labels to add |
 |---|---|---|
-| #388 | duplicate of #192 (pause detection on all cameras) | duplicate |
-| #423 | legacy camera stack question, answered, reporter thanked | motion, Raspberry Pi, legacy motionEye |
-| #320 | sensitivity question answered (threshold is % of pixels) | motion, legacy motionEye |
-| #363 | limit stills: point to "Motion Triggered (One Picture)", `config.py:1383` | motion, legacy motionEye |
-| #401 | motionEyeOS uploads, cause never found, no follow-up | motionEyeOS, Raspberry Pi, legacy motionEye |
 | #385 | pink picture, likely hardware | external bug, Raspberry Pi, legacy motionEye |
 | #335 | two identical USB cams, no replies | Raspberry Pi, legacy motionEye |
 | #228 | brightness slider steps of 5; sliders now snapMode 0, `main.js:1009` | legacy motionEye |
