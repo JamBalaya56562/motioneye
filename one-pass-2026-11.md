@@ -522,3 +522,20 @@ pycurl / Tornado build problems: label-scheme counts Python packages as external
 
 Unchanged: #1505, #1524, #1528, #1799, #1808, #1834, #1842, #1848, #1857, #1863, #1867,
 #1889, #2023, #2024, #2025, #2029, #2031, #2037.
+
+### Review 12 (closes of 2026-11-08, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #2040 | -troubleshooting | solved with `--device /dev/vchiq` |
+| #2042 | -troubleshooting, -question, -legacy motionEye | privacy mask #1247, in 0.43.1 |
+| #2048 | -troubleshooting | the camera's RTSP stream (UDP smearing, TCP delay) |
+| #2064 | -troubleshooting, +question | camera sleeping; new camera fixed it |
+| #2069 | -troubleshooting | KC100 sends its own HTTPS stream, Motion cannot read it |
+| #2091 | -troubleshooting | rsync from cron picks up files being written |
+| #2146 | -troubleshooting | the lines do not come from motionEye |
+| #2147 | -troubleshooting | permissions fixed via "Running As Normal User" |
+| #2182 | -motionEyeOS | camera URL format, not motionEyeOS |
+
+Unchanged: #2041, #2065, #2072, #2080, #2081, #2084, #2105, #2107, #2108, #2131, #2138,
+#2145, #2151, #2153, #2175, #2068.
