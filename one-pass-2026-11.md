@@ -68,15 +68,22 @@ Type and topic labels applied 2026-11-09 (user asked for the labelling). `legacy
 | #659 | not planned, duplicate of #1223 | duplicate, legacy motionEye |
 | #273 | not planned, duplicate of #251 (mentions `detectionstart` / `detectionpause` from #3468, auth needed) | duplicate, legacy motionEye |
 
+### Closed 2026-11-09, fifth set (user OK, read in full by me)
+
+All not planned, `legacy motionEye` added, no PR to link.
+
+| # | Reason |
+|---|---|
+| #330 | Motion 4.0 fast playback, fixed by Motion-Project/motion#431 (merged 2017-07-30, checked via API) |
+| #567 | same cause as #330 |
+| #419 | Python 2 Jinja2 byte-compile warnings, upgrade worked; `requires-python >= 3.9` now |
+| #516 | USB bandwidth (lower resolution fixed it for another user) |
+| #538 | Motion gives no per-frame changes; only "Show Frame Changes" (`text_changes`) |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #330 | Motion 4.0 fast playback, fixed in Motion (motion#431) | legacy motionEye |
-| #567 | same cause as #330 | legacy motionEye |
-| #419 | Python 2 Jinja2 byte-compile warnings, upgrade worked; Python ≥ 3.9 now | legacy motionEye |
-| #516 | USB bandwidth with 3 cameras (Motion error, lower resolution fixed it) | legacy motionEye |
-| #538 | Motion cannot do it (ccrisan 2017) | legacy motionEye |
 | #576 | D-Link connection lost, no logs, no follow-up | legacy motionEye |
 | #609 | movies do not play, Pi Zero W, no details | legacy motionEye |
 | #642 | notifications never fire, no details | legacy motionEye |
