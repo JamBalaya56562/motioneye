@@ -402,3 +402,22 @@ Unchanged: #2799, #2869, #2798, #3056, #1240, #2763, #3080, #3029, #3053, #3369,
 
 Unchanged: #2906, #170, #262, #289, #306, #307, #317, #357, #358, #381, #414, #428, #442,
 #449, #465, #501.
+
+### Review 4 (closes of 2026-11-07, 25 issues; user OK)
+
+From here on, labels that are only uncertain (e.g. `external bug` where Motion, ffmpeg or the
+kernel is the likely cause) stay, as label-scheme says to label more when unsure; only clearly
+wrong ones go.
+
+| # | Change | Why |
+|---|---|---|
+| #539 | -troubleshooting, +question, +motion | solved via streameye; Motion's Pi camera handling |
+| #595 | -troubleshooting, +question | answered: upload queue and folder |
+| #608 | -troubleshooting, -Raspberry Pi | cause found (old MarkupSafe); reporter on OMV / Debian 8 |
+| #637 | -external bug | router settings, not a bug |
+| #669 | +Raspberry Pi | motionEyeOS on a Pi on a boat |
+| #686 | -Raspberry Pi | problem on a headless server in Docker |
+| #706 | -troubleshooting, +question | log showed ffmpeg could not be started |
+
+Unchanged: #521, #526, #535, #546, #554, #558, #638, #639, #641, #645, #670, #690, #693,
+#716, #717, #728, #735, #743.
