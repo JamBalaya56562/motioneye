@@ -58,15 +58,20 @@ Type and topic labels applied 2026-11-09 (user asked for the labelling). `legacy
 | #446 | feature | MQTT: no `mqtt` in the code |
 | #562 | feature | hover preview of movies |
 
+### Closed 2026-11-09, fourth set (user OK, read in full by me)
+
+| # | Reason | Labels added / Development |
+|---|---|---|
+| #529 | completed: one-picture mode (0.37) | none; PR #616 linked, no milestone (pre-0.43.1) |
+| #592 | completed: same | none; PR #616 linked |
+| #445 | not planned, duplicate of #2379 | duplicate, legacy motionEye |
+| #659 | not planned, duplicate of #1223 | duplicate, legacy motionEye |
+| #273 | not planned, duplicate of #251 (mentions `detectionstart` / `detectionpause` from #3468, auth needed) | duplicate, legacy motionEye |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #529 | completed: one-picture mode, PR #616 (`252fe4f2`, 0.37), link PR | legacy? no (implemented) |
-| #592 | completed: same, PR #616, link PR | — |
-| #445 | duplicate of #2379 (notify only on first event) | duplicate, legacy motionEye |
-| #659 | duplicate of #1223 (URL to switch notifications) | duplicate, legacy motionEye |
-| #273 | duplicate of #251 (toggle detection by script) | duplicate, legacy motionEye |
 | #330 | Motion 4.0 fast playback, fixed in Motion (motion#431) | legacy motionEye |
 | #567 | same cause as #330 | legacy motionEye |
 | #419 | Python 2 Jinja2 byte-compile warnings, upgrade worked; Python ≥ 3.9 now | legacy motionEye |
