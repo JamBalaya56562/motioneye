@@ -80,16 +80,26 @@ All not planned, `legacy motionEye` added, no PR to link.
 | #516 | USB bandwidth (lower resolution fixed it for another user) |
 | #538 | Motion gives no per-frame changes; only "Show Frame Changes" (`text_changes`) |
 
+### Closed 2026-11-09, sixth set (user OK, read in full by me)
+
+All not planned, `legacy motionEye` added, no PR to link.
+
+| # | Reason |
+|---|---|
+| #576 | D-Link connection lost, no logs, no follow-up |
+| #609 | movies do not play, Pi Zero W, no details |
+| #642 | notifications never fire, no details |
+| #640 | low fps on Pi Zero, Raspbian 8, logs expired |
+| #479 | answered; remaining problem was the 2017 motionEyeOS image (motionEyeOS label kept) |
+
+### Pi check (deferred until the user is home)
+
+- #443: mask with 90/270 rotation is not applied to detection (follow-up of #437, after 43288b2). Rotate the camera, draw a mask, check that motion ignores the masked part on dev. Kept open until then.
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #576 | D-Link connection lost, no logs, no follow-up | legacy motionEye |
-| #609 | movies do not play, Pi Zero W, no details | legacy motionEye |
-| #642 | notifications never fire, no details | legacy motionEye |
-| #640 | low fps on Pi Zero, Raspbian 8 | legacy motionEye |
-| #443 | mask with rotation (follow-up of #437); rotation handled in `config.py:1271` | legacy motionEye |
-| #479 | answered; remaining problem was the motionEyeOS image | legacy motionEye |
 | #400 | answered: hardware encoding through ffmpeg | legacy motionEye |
 | #610 | uploads happen per new file (`relay_event.py:105`) | legacy motionEye |
 | #666 | USB camera in a VM, worked on a Pi | legacy motionEye |
