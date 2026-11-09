@@ -440,3 +440,14 @@ Unchanged: #521, #526, #535, #546, #554, #558, #638, #639, #641, #645, #670, #69
 | #1003 | -troubleshooting, -Raspberry Pi | cause found (4:4:4 profile); reporter on Lubuntu |
 
 Unchanged: #747, #756, #768, #794, #803, #901, #902, #912, #916, #931, #952, #956, #957.
+
+### Review 6 (closes of 2026-11-07, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #1046 | -troubleshooting, +question | workaround known: enter `rtsp://<address>` first |
+| #1206 | -Raspberry Pi | reporter on an Ubuntu VM |
+| #1379 | -troubleshooting, -Raspberry Pi, +question | answered: credentials not in the URL; reporter on Docker amd64 |
+
+Unchanged: #1010, #1025, #1052, #1067, #1089, #1092, #1232, #1236, #1256, #1257, #1268,
+#1269, #1281, #1304, #1352, #1364, #1392, #1393, #1400, #1419, #1443, #1444.
