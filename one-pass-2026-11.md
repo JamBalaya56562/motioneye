@@ -274,15 +274,20 @@ Batch 4 done: 7 kept, 17 closed.
 | #1045 | not planned: page without stylesheet on one phone | legacy motionEye |
 | #1061 | not planned: image built for arm64/armv7 (`.github/workflows/docker.yml:63`) | docker, Raspberry Pi, legacy motionEye |
 
+### Closed 2026-11-09, batch 5 third set (user OK)
+
+| # | Reason | Added |
+|---|---|---|
+| #1029 | not planned: diagnosis not reported | legacy motionEye |
+| #540 | not planned: answered | legacy motionEye |
+| #664 | not planned: forward the streaming port, answered | legacy motionEye |
+| #1075 | not planned: Pi 3B+ load, no log | Raspberry Pi, legacy motionEye |
+| #1113 | not planned: action button files `<action>_<camera_id>` (`config.py:2200`) | legacy motionEye |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #1029 | high CPU / odd fps, diagnosis asked, no report | legacy motionEye |
-| #540 | PC build question, answered | legacy motionEye |
-| #664 | no picture from the internet, answered (8081) | legacy motionEye |
-| #1075 | crash after hours on Pi 3B+, no log | Raspberry Pi, legacy motionEye |
-| #1113 | D-Link action buttons question | legacy motionEye |
 | #1114 | Hikvision not fluid on Pi 1, answered (sub-stream) | Raspberry Pi, legacy motionEye |
 | #1121 | streaming off still shows pictures: `stream_localhost` (`config.py:1126`), motionEye pictures need login | legacy motionEye |
 | #921 | run scripts over HTTP: action buttons `POST /action/<id>/<name>` since 2015 | legacy motionEye |
