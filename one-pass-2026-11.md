@@ -294,3 +294,37 @@ Batch 4 done: 7 kept, 17 closed.
 | #1133 | not planned: DISPLAY/XAUTHORITY for root (answered) | Raspberry Pi, legacy motionEye |
 
 Batch 5 done: 5 kept, 19 closed.
+
+## Pi check 2026-11-09 evening (#944, #1057)
+
+Pi 5 + Camera Module 3, Motion 4.7.1, motionEye dev 71c81138 (0.45.0b1) installed for the
+test; config backed up to `~/meye-backup-20261109b`, then restored and ef1c1440 reinstalled.
+Settings were changed with the same functions as `/config/1/set/` (`motion_camera_ui_to_dict`
++ `set_camera`). Motion logs to syslog (journal) here, not `motion.log`.
+
+### #944: `on_event_start` with motion detection off
+
+Threshold 0.01 %, noise level 1, 45 s run, `on_event_start` command appends to a file:
+
+| motion_detection | `pause` in camera-1.conf | `/1/detection/status` | on_event_start calls |
+|---|---|---|---|
+| on | off | ACTIVE | 2 |
+| off | on | PAUSE | 0 |
+
+Fixed by PR #3372 (0.45.0b1): motion starts with `pause on` instead of a webcontrol request
+at startup that could come before motion was ready. Proposed: completed, link #3372,
+milestone v0.45.0.
+
+### #1057: Captured Before with emulate_motion / eventstart
+
+10 fps, post_capture 0, threshold 50 % (no natural events), 5 s event via webcontrol;
+movie format `mp4` (Pi 5 has no `h264_v4l2m2m` encoder: "ffmpeg_set_codec" error).
+ffprobe frames / seconds of the triggered movie:
+
+| trigger | pre_capture 0 | pre_capture 30 |
+|---|---|---|
+| `/1/action/eventstart` | 51 / 5.0 s | 80 / 7.9 s |
+| `/1/config/set?emulate_motion=1` | 50 / 4.9 s | 81 / 8.1 s |
+
+About 30 more frames with Captured Before in both ways, so Motion 4.7.1 honours it.
+Proposed: completed (works in current Motion), no motionEye PR.
