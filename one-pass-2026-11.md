@@ -233,9 +233,11 @@ Batch 3 close candidates done; #302 kept open as the canonical issue.
 | #933 | not planned: like #946 (client reload), no news | legacy motionEye |
 | #968 | not planned: 16 RTSP cameras on a Pi 3B+ | Raspberry Pi, legacy motionEye |
 
-### To close (proposed, not OKed)
+### Closed 2026-11-09, batch 4 fourth set (user OK)
 
-| # | Reason | Add on close |
+| # | Reason | Added |
 |---|---|---|
-| #967 | completed: eventstart action, PR #2691 (v0.45.0) | PR link, milestone v0.45.0 |
-| #974 | clock without internet (no RTC) | Raspberry Pi, legacy motionEye |
+| #967 | completed: eventstart/eventend action (`handlers/action.py:64`) | PR #2691 linked, milestone v0.45.0 |
+| #974 | not planned: no RTC, system clock | Raspberry Pi, legacy motionEye |
+
+Batch 4 done: 7 kept, 17 closed.
