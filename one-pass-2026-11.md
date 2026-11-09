@@ -451,3 +451,16 @@ Unchanged: #747, #756, #768, #794, #803, #901, #902, #912, #916, #931, #952, #95
 
 Unchanged: #1010, #1025, #1052, #1067, #1089, #1092, #1232, #1236, #1256, #1257, #1268,
 #1269, #1281, #1304, #1352, #1364, #1392, #1393, #1400, #1419, #1443, #1444.
+
+### Review 7 (closes of 2026-11-07 to 2026-11-08, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #2244 | -troubleshooting | success report, no problem |
+| #3527 | -troubleshooting | cause found, fixed by #3496 |
+| #267 | -troubleshooting | log showed Motion exiting on an RTSP 401 |
+| #603 | -troubleshooting, +question | SMTP port / TLS mismatch |
+| #782 | -troubleshooting, +question | solved by settings (slashes, subfolders) |
+
+Unchanged: #1480, #1487, #1503, #1532, #1855, #1859, #2556, #2623, #2630, #2834, #2858,
+#2867, #2875, #3171, #3177, #3198, #3267, #3344, #575, #753.
