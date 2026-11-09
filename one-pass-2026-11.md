@@ -31,7 +31,7 @@ Also adopted: duplicate clusters under one canonical issue, an issue-template PR
 | #439 | stream reconnect: UI re-polls at 1 fps on error, `main.js:5660` (not for simple MJPEG, `main.js:5641`) | motion |
 | #315 | ship ffplay: out of scope | Raspberry Pi, legacy motionEye |
 
-### Keep (label changes proposed, not applied)
+### Keep (label changes applied 2026-11-09, user OK)
 
 - No change: #142, #279, #232, #413, #192
 - #165 feature → enhancement (HEAD exists, `handlers/base.py:295`; Content-Type of HEAD on pictures still missing, unverified at runtime)
