@@ -180,9 +180,11 @@ and the migration check), no PR. Related: #897, #978, #1074, #1981 closed here;
 | #1074 | not planned: duplicate of #302 | duplicate |
 | #1981 | not planned: duplicate of #302 (per-camera) | duplicate |
 
-### To close (proposed, not OKed)
+### Closed 2026-11-09, batch 3 fifth set (user OK)
 
-| # | Reason | Add on close |
+| # | Reason | Added |
 |---|---|---|
-| #1328 | loop recording, duplicate of #302 | duplicate |
-| #1354 | loop recording RFC, duplicate of #302 | duplicate |
+| #1328 | not planned: duplicate of #302 (loop recording) | duplicate |
+| #1354 | not planned: duplicate of #302; UI move left for a new issue | duplicate |
+
+Batch 3 close candidates done; #302 kept open as the canonical issue.
