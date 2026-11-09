@@ -165,8 +165,24 @@ All 25 read in full by me on 2026-11-09.
 | #767 | not planned: internet path, no follow-up | legacy motionEye |
 | #806 | not planned: GDrive at service start, no news | legacy motionEye |
 
+### Closed 2026-11-09, batch 3 fourth set (user OK)
+
+#302 (remove old files before the disk is full) stays open as the canonical issue:
+not on dev (`grep quota|disk_usage|free_space|statvfs` finds only the usage display
+and the migration check), no PR. Related: #897, #978, #1074, #1981 closed here;
+#1328 and #1354 (loop recording) to propose next.
+
+| # | Reason | Added |
+|---|---|---|
+| #808 | not planned: `.nomedia` script workaround, no news | legacy motionEye |
+| #897 | not planned: duplicate of #302 | duplicate |
+| #978 | not planned: duplicate of #302 | duplicate |
+| #1074 | not planned: duplicate of #302 | duplicate |
+| #1981 | not planned: duplicate of #302 (per-camera) | duplicate |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #808 | .nomedia: script workaround given | legacy motionEye |
+| #1328 | loop recording, duplicate of #302 | duplicate |
+| #1354 | loop recording RFC, duplicate of #302 | duplicate |
