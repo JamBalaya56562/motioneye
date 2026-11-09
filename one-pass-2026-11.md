@@ -421,3 +421,22 @@ wrong ones go.
 
 Unchanged: #521, #526, #535, #546, #554, #558, #638, #639, #641, #645, #670, #690, #693,
 #716, #717, #728, #735, #743.
+
+### Review 5 (closes of 2026-11-07, 25 issues; user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #818 | -troubleshooting, +bug | relay used the admin password; fixed by #3332 |
+| #857 | -troubleshooting | fixed by a newer Motion |
+| #866 | -troubleshooting, +question | fixed with the settings from #743 |
+| #867 | -troubleshooting, +question | Pi throttling (overheating) in the log |
+| #872 | -external bug | stale pip cache, not a bug |
+| #888 | -troubleshooting, +question | answered: "Video Streaming" setting |
+| #922 | -troubleshooting, +question | URL was not a stream |
+| #943 | -external bug | no ffmpeg package in that Raspbian |
+| #950 | -motionEyeOS | reporter on Ubuntu Server; answer is a motionEye setting |
+| #951 | -Raspberry Pi | reporter on a Debian 9.5 machine |
+| #960 | -Raspberry Pi | Odroid XU4 |
+| #1003 | -troubleshooting, -Raspberry Pi | cause found (4:4:4 profile); reporter on Lubuntu |
+
+Unchanged: #747, #756, #768, #794, #803, #901, #902, #912, #916, #931, #952, #956, #957.
