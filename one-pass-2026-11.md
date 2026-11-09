@@ -102,7 +102,7 @@ All not planned, `legacy motionEye` added, no PR to link.
     - 0°, mask: left 0 / right 38400 (640x480)
     - Read back for the editor at 90°: `[480, 640]`, 42 rows, all `0xffff0000`
   - Works on dev. Close candidate (completed, no PR known). Pi restored: config from `~/meye-backup-20261109`, motionEye fork `ef1c1440` (0.45.0a1) reinstalled.
-- #319 closed by mistake on 2026-11-09 as completed: README log 2026-11-07 says `rotate 90` at 640x480 still gives a 480x640 stream on Motion 4.7.1, against the reporter's "implemented". Reopen asked to the user.
+- #319 closed by mistake on 2026-11-09 as completed: README log 2026-11-07 says `rotate 90` at 640x480 still gives a 480x640 stream on Motion 4.7.1, against the reporter's "implemented". Reopened 2026-11-09 without a comment (user); the user deletes the wrong close comment.
 
 ### Closed 2026-11-09, seventh set (user OK, read in full by me)
 
@@ -139,7 +139,7 @@ All 25 read in full by me on 2026-11-09.
 
 | # | Reason | Added |
 |---|---|---|
-| #319 | completed: rotated frame takes rotated size (`main.js:1206`) | none |
+| ~~#319~~ | closed by mistake, reopened (see Pi check) | — |
 | #778 | completed (S3 part) | PR #1063 linked, milestone v0.43.1 |
 | #671 | not planned: needs automount | legacy motionEye |
 | #660 | not planned: local first; `smb_shares` for a network share | legacy motionEye |
