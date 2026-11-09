@@ -96,13 +96,15 @@ All not planned, `legacy motionEye` added, no PR to link.
 
 - #443: mask with 90/270 rotation is not applied to detection (follow-up of #437, after 43288b2). Rotate the camera, draw a mask, check that motion ignores the masked part on dev. Kept open until then.
 
-### To close (proposed, not OKed)
+### Closed 2026-11-09, seventh set (user OK, read in full by me)
 
-| # | Reason | Add on close |
-|---|---|---|
-| #400 | answered: hardware encoding through ffmpeg | legacy motionEye |
-| #610 | uploads happen per new file (`relay_event.py:105`) | legacy motionEye |
-| #666 | USB camera in a VM, worked on a Pi | legacy motionEye |
-| #195 | wait for a USB mount at boot: solved with systemd by the reporter | legacy motionEye |
+All not planned, `legacy motionEye` added, no PR to link. Batch 2 close list is done.
 
-Pi needed: none for closing (#609, #640 only to reproduce).
+| # | Reason |
+|---|---|
+| #400 | answered: Motion encodes via ffmpeg libs; UI offers H.264/OMX and V4L2M2M (`templates/main.html:795`) |
+| #610 | each new file is uploaded on save (`handlers/relay_event.py:105`, `:110`); no sync of existing files |
+| #666 | USB camera in a VM, same camera worked on a Pi |
+| #195 | systemd `RequiresMountsFor=<path>`; missing mount only logs an error now (`config.py:1912`, boot behaviour unverified) |
+
+Batch 2 result: 5 kept, 19 closed, #443 waits for the Pi check.
