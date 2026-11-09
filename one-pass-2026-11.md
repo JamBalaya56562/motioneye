@@ -223,14 +223,19 @@ Batch 3 close candidates done; #302 kept open as the canonical issue.
 | #899 | not planned: size from scene / Movie Quality / passthrough | legacy motionEye |
 | #923 | not planned: Pi Zero software encoding; V4L2M2M | Raspberry Pi, legacy motionEye |
 
+### Closed 2026-11-09, batch 4 third set (user OK)
+
+| # | Reason | Added |
+|---|---|---|
+| #917 | not planned: frame from relayed events, not for Simple MJPEG; one cause fixed in #3469 | legacy motionEye |
+| #936 | not planned: network camera, no log | legacy motionEye |
+| #958 | not planned: HEVC in software on Pi 3 | Raspberry Pi, legacy motionEye |
+| #933 | not planned: like #946 (client reload), no news | legacy motionEye |
+| #968 | not planned: 16 RTSP cameras on a Pi 3B+ | Raspberry Pi, legacy motionEye |
+
 ### To close (proposed, not OKed)
 
 | # | Reason | Add on close |
 |---|---|---|
-| #917 | no red frame: "Show Frame Changes" | legacy motionEye |
-| #936 | network camera not added, Ubuntu 16.04 | legacy motionEye |
-| #958 | HEVC slow on Pi 3 (no hardware encoder) | Raspberry Pi, legacy motionEye |
-| #933 | feed lost every 18 h, client side for #946 | legacy motionEye |
-| #968 | 16 RTSP cameras on a Pi 3B+ | Raspberry Pi, legacy motionEye |
 | #967 | completed: eventstart action, PR #2691 (v0.45.0) | PR link, milestone v0.45.0 |
 | #974 | clock without internet (no RTC) | Raspberry Pi, legacy motionEye |
