@@ -99,6 +99,7 @@
 | ファイル | 内容 |
 |---|---|
 | [milestone-v0.45.0.md](milestone-v0.45.0.md) | v0.45.0 未完了 issue の整理 (着手しやすさ・影響度・議論状況) |
+| [one-pass-2026-11.md](one-pass-2026-11.md) | One-pass triage of open issues (labels + close), batches from 2026-11-09 |
 | [clearly-fixed.md](clearly-fixed.md) | Open issues that are clearly already resolved (close candidates) |
 | [close-candidates-pi.md](close-candidates-pi.md) | Close candidates, round 2: Raspberry Pi issues (some need a check on the real Pi) |
 | [labels-2026-11.md](labels-2026-11.md) | Label cleanup of 2026-11-07: removed labels, what replaced them, definitions, open points |
