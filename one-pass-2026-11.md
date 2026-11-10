@@ -765,3 +765,18 @@ Closed 2026-11-10 (user OK):
   description, not tried); labels troubleshooting, +Raspberry Pi, +legacy motionEye.
 
 Batch 9 done: 12 closed, 13 kept (feature requests and bugs).
+
+## Batch 10 (open.json rows 225-249)
+
+Kept: #1887, #1902, #1909, #1924, #1518, #1949, #122, #736, #1987, #1712, #1966, #37, #1816, #1441
+(open feature requests); #1856, #1030, #1938, #2033, #2035, #2036 wait for the next sets.
+
+### Closed 2026-11-10, batch 10 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2027 API Access | not planned, duplicate of #972 | −question, −troubleshooting, +duplicate, +feature |
+| #1911 threshold % vs frame changes px | not planned, duplicate of #1441 | enhancement, −question, +duplicate |
+| #1531 Ezviz C4S grey screen | completed, camera firmware V5.3.1 | question, +Raspberry Pi, +legacy motionEye |
+| #1965 still image every 10 s | completed, answered (`picture_output` modes, hook script) | enhancement, help wanted, question, motion, +legacy motionEye |
+| #2020 balenaCloud write-up | completed, not an issue | −enhancement, −feature, +documentation, +legacy motionEye |
