@@ -757,3 +757,11 @@ feature requests and bugs); #1523, #1255, #1658, #1302, #1414, #1849, #1852 wait
 | #1852 no feed with the Arch instructions | not planned, no reply | troubleshooting, +legacy motionEye |
 
 #1523: the "no advanced settings" part was left out of the comment, its cause was not confirmed.
+
+Closed 2026-11-10 (user OK):
+- #1255 not planned, Motion reads enabled cameras all the time; switch the camera off (`config.py:662`)
+  or stop the service; labels question, +motion, +docker, +legacy motionEye.
+- #1849 not planned, no reply; the Arducam adapter switches one camera at a time (from Arducam's
+  description, not tried); labels troubleshooting, +Raspberry Pi, +legacy motionEye.
+
+Batch 9 done: 12 closed, 13 kept (feature requests and bugs).
