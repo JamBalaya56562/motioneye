@@ -1037,3 +1037,15 @@ Kept #2504 (default movie codec `h264_omx` when ffmpeg lists it, `config.py:2620
 picture while the network share is down).
 
 Batch 15 done: 14 closed, 11 kept.
+
+## Batch 16 (open.json rows 375-399)
+
+### Closed 2026-11-10, batch 16 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2613 Docker build fails inside `docker/` | completed, build from repo root with `-f docker/Dockerfile .` (`docker/README.md:87-100`) | docker, documentation, +legacy motionEye |
+| #2652 cannot write to the recording folder | completed, zagrim answered: motionEye runs as `motion`, give the group write access | question, +legacy motionEye |
+| #2661 record the main stream, detect on the substream | completed, zagrim answered: `netcam_high_url` + Movie Passthrough | question, +motion, +legacy motionEye |
+| #2665 finer frame change threshold | not planned, duplicate of #697 | enhancement, +duplicate |
+| #2670 which Raspberry Pi / OS | completed, answered: 32/64-bit Raspberry Pi OS, Docker armv7/arm64 (`docker.yml:63`) | question, +Raspberry Pi, +legacy motionEye |
