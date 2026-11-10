@@ -916,3 +916,17 @@ Open #883 relabelled: −duplicate, −enhancement (it is the issue the duplicat
 
 Open #2378 (Google shared drives) relabelled −question, −troubleshooting, +enhancement: the parent
 is fixed to `root` (MichaIng).
+
+### Closed 2026-11-10, batch 13 third set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2281 motionEyeOS build for the Pi Zero 2 W | not planned, motionEyeOS | enhancement, motionEyeOS, +Raspberry Pi, +legacy motionEye |
+| #2283 performance on the Pi Zero 2 W | completed, answered | question, +motionEyeOS, +Raspberry Pi, +legacy motionEye |
+| #2296 set date and time from the UI | not planned, OS / motionEyeOS | −duplicate, −enhancement, −question, feature, +motionEyeOS, +Raspberry Pi, +legacy motionEye |
+| #2336 cannot mount network share | not planned, no reply (0.42.1) | troubleshooting, +legacy motionEye |
+| #2394 config restore fails | not planned, no details; restore reworked (#3338, #3341) | troubleshooting, +legacy motionEye |
+
+Kept #2372 (Movie Passthrough starts too early).
+
+Batch 13 done: 15 closed, 9 kept (#1981 in the range was already closed).
