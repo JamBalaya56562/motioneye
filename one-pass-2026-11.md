@@ -709,3 +709,15 @@ Kept: #1317, #766 (continuous recording with motion detection / schedule), #1466
 
 #1418 (change settings by URL) waits: Motion's web control has `webcontrol_parms 0` (`config.py:2500`),
 so settings cannot be changed through it.
+
+### Closed 2026-11-10, batch 8 third set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #1447 momentary action button | completed, the script switches on, waits, off (`handlers/action.py:80`) | question, +legacy motionEye |
+| #1454 PTZ on GPIO | completed, `up_1`/`down_1`/`left_1`/`right_1` scripts (`config.py:51`) | question, +Raspberry Pi, +legacy motionEye |
+| #1476 Google Home on motion | completed, web hook to IFTTT / Home Assistant | question, +legacy motionEye |
+| #1482 nginx `/cams/` shows welcome page | completed, `server_name` does not match the IP | question, +legacy motionEye |
+| #1416 timelapse defaults | not planned, no details | question, +legacy motionEye |
+
+#1482: "needs no base path" rests on motionEye's relative URLs; not tried behind nginx.
