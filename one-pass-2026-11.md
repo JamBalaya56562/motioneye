@@ -863,3 +863,13 @@ Kept: open feature requests (#2141, #2157, #2160, #2130, #2166, #2172, #2169, #2
 | #2203 camera always on | completed, answered (Motion reads every frame) | question, +motion, +docker, +legacy motionEye |
 | #2215 picture browser slow to open | not planned, duplicate of #40 | −question, −troubleshooting, +duplicate, +feature |
 | #1382 OneDrive upload with rclone | completed, write-up | −question, +documentation, +legacy motionEye |
+
+### Closed 2026-11-10, batch 12 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2201 four cameras on port 7999, three in the UI | completed, camera 0 is `motion.conf` (Motion docs, not tried) | question, −troubleshooting, +motion, +legacy motionEye |
+| #2163 Firefox overloads the CPU | not planned, no answer (0.42.1) | −question, troubleshooting, +legacy motionEye |
+| #2063 Eufy 2C goes grey | not planned, no answer | −question, +troubleshooting, +Raspberry Pi, +legacy motionEye |
+| #2236 commands stop after a while (HA add-on) | not planned, no reply | troubleshooting, Home Assistant addon, +legacy motionEye |
+| #2148 HQ camera at 3840x2160 | not planned, 0.42.1 on the legacy camera stack | question, +Raspberry Pi, +legacy motionEye |
