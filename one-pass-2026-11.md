@@ -594,3 +594,14 @@ all 406 closes since 2026-06).
   #1276 camera description, #1290 user type JSON, #788 brightness sensor.
 - Next close candidates (stale troubleshooting/question): #1135, #1154, #1155, #1162, #1239,
   then #1145, #1203, #1229.
+
+## Milestones for older releases (2026-11-10, user OK)
+
+- Due dates of the closed milestones set by the user: v0.43.1 = 2025-12-11, v0.44.0 = 2026-06-20
+  (GitHub Release dates; PyPI got 0.43.1 only on 2025-12-27).
+- Created 42 closed milestones v0.27 (#4) .. v0.42.1 (#45), one per final tag on PyPI, due date =
+  PyPI upload date (equal to the tag commit date except v0.31.5, tag 2016-05-20, and v0.38.1, tag
+  2018-02-06). None for 0.1-0.26 (before issue #1 on 2015-08-30, not on PyPI) or rc tags.
+- API note: `due_on=YYYY-MM-DDT00:00:00Z` is stored as the previous day; `T12:00:00Z` keeps the date.
+- Next: link merged PRs (76 merged before 2020-06-07) by the first final tag containing the merge
+  commit, and issues whose fixing PR or commit is known.
