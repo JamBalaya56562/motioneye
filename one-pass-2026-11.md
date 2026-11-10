@@ -873,3 +873,16 @@ Kept: open feature requests (#2141, #2157, #2160, #2130, #2166, #2172, #2169, #2
 | #2063 Eufy 2C goes grey | not planned, no answer | −question, +troubleshooting, +Raspberry Pi, +legacy motionEye |
 | #2236 commands stop after a while (HA add-on) | not planned, no reply | troubleshooting, Home Assistant addon, +legacy motionEye |
 | #2148 HQ camera at 3840x2160 | not planned, 0.42.1 on the legacy camera stack | question, +Raspberry Pi, +legacy motionEye |
+
+### Closed 2026-11-10, batch 12 third set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2217 working hours past 23:30 on mobile | completed, fixed by #3277 (native time input), linked, milestone v0.44.0 | enhancement, −question |
+| #2154 Chrome lazy images flag gone | completed, duplicate of #1401 (fixed in 0.41), milestone v0.41 | question, motionEyeOS, +duplicate, +legacy motionEye |
+| #2149 hub cameras keep spinning | not planned, no answer | troubleshooting, +Raspberry Pi, +legacy motionEye |
+| #2225 ONVIF zoom buttons | not planned, about the user's script (`config.py:2200`) | question, +legacy motionEye |
+
+Kept #2214 (picture viewer slows down after 50-100 pictures, seen in Firefox and Edge).
+
+Batch 12 done: 14 closed, 11 kept.
