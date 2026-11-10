@@ -903,3 +903,16 @@ Batch 12 done: 14 closed, 11 kept.
 | #2365 motionEye vs motionEyeOS | completed, answered (MichaIng) | question, motionEyeOS, +Raspberry Pi, +legacy motionEye |
 
 Open #883 relabelled: −duplicate, −enhancement (it is the issue the duplicates point to).
+
+### Closed 2026-11-10, batch 13 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2216 hourly DNS lookups on motionEyeOS | not planned, motionEyeOS system | −bug, question, +motionEyeOS, +Raspberry Pi, +legacy motionEye |
+| #2297 pantilthat in Docker | completed, install it in a derived image (`docker/Dockerfile:38`; I2C device assumed) | question, docker, +Raspberry Pi, +legacy motionEye |
+| #823 camera unusable after reconnect | not planned, no reply (2018 motionEyeOS) | troubleshooting, +Raspberry Pi, +legacy motionEye |
+| #2303 docker "failed to register layer" | not planned, command split by line breaks | troubleshooting, +docker, +Raspberry Pi, +legacy motionEye |
+| #2304 Dahua RTSP slow over LTE | not planned, link and Pi Zero 2 W decoding | question, motion, +Raspberry Pi, +legacy motionEye |
+
+Open #2378 (Google shared drives) relabelled −question, −troubleshooting, +enhancement: the parent
+is fixed to `root` (MichaIng).
