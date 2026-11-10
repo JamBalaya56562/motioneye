@@ -745,3 +745,15 @@ feature requests and bugs); #1523, #1255, #1658, #1302, #1414, #1849, #1852 wait
 | #1051 100 % CPU recording RTSP | completed, answered (Motion decoding/encoding) | question, +motion, +docker, +legacy motionEye |
 
 #1520: the steps follow the UI's camera type; not tried with two Pis.
+
+### Closed 2026-11-10, batch 9 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #1523 remote camera: no streaming URL, not on 7999 | completed, by design (`main.js:2371`) | −troubleshooting, +question, +Raspberry Pi, +legacy motionEye |
+| #1658 changing frame rate brings the camera back | not planned, no reply; saving restarts Motion | troubleshooting, +motion, +Raspberry Pi, +legacy motionEye |
+| #1302 motion detection not triggering | not planned, no reply to jasaw | troubleshooting, +motion, +legacy motionEye |
+| #1414 special character in text overlay | not planned, not reproduced | troubleshooting, +motion, +legacy motionEye |
+| #1852 no feed with the Arch instructions | not planned, no reply | troubleshooting, +legacy motionEye |
+
+#1523: the "no advanced settings" part was left out of the comment, its cause was not confirmed.
