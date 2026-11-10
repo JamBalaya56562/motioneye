@@ -605,3 +605,9 @@ all 406 closes since 2026-06).
 - API note: `due_on=YYYY-MM-DDT00:00:00Z` is stored as the previous day; `T12:00:00Z` keeps the date.
 - Next: link merged PRs (76 merged before 2020-06-07) by the first final tag containing the merge
   commit, and issues whose fixing PR or commit is known.
+- Done 2026-11-10 (user OK): milestones set on 73 merged PRs (first final tag containing the merge
+  commit; #58, #64, #127, #137 have no merge commit on GitHub, so their head commit) and on the 19
+  closed issues those PRs reference as closing. Verified by GraphQL: 92 of 92 match.
+- Merged PRs left without a milestone (8): python2-only #2305, #2309, #2356, #2529, #2608, #2654,
+  #2840, and #2838 (merged into master, commit no longer on any branch). #877 is open, so none.
+- Not done: older issues closed by "fixes #N" in commit messages without a PR.
