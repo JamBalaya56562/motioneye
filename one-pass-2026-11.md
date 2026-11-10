@@ -573,3 +573,24 @@ Unchanged: #388, #400, #401, #423, #479, #529, #538, #576, #592, #609, #610, #64
 
 Label review of all 346 closes by JamBalaya56562 done (with the batch 3-5 corrections:
 all 406 closes since 2026-06).
+
+## Batch 6 (open.json rows 125-149, last human comment 2019-01 .. 2019-05, dev `71c81138`)
+
+### Closed 2026-11-10, batch 6 first set (user OK)
+
+| Issue | Reason | Labels | Link / milestone |
+|---|---|---|---|
+| #1242 | completed: webhooks send `User-Agent: motionEye` | feature | #3378, v0.45.0 |
+| #1116 | completed: fast-play button (5×, next video) | feature | #1975, v0.43.1 |
+| #1187 | completed: settings autofill off since 0.40 (8cb4e46e) | −troubleshooting +bug +legacy motionEye | none (0.40) |
+| #1233 | completed: answered, Preserve Movies/Pictures | +legacy motionEye | none |
+| #1152 | not planned: Banana Pi Pro Wi-Fi, motionEyeOS | +legacy motionEye | none |
+
+### Still to decide
+
+- Keep (not implemented on dev): #1158 lastmovie, #1244 robots.txt, #697 pixel threshold
+  (slider is 0-20 %, only the max threshold is in pixels), #1227 netcam modulo 8 check,
+  #1054 activity log, #1189 home mode, #1137 snapshot token, #1254 stream TLS, #1273 font,
+  #1276 camera description, #1290 user type JSON, #788 brightness sensor.
+- Next close candidates (stale troubleshooting/question): #1135, #1154, #1155, #1162, #1239,
+  then #1145, #1203, #1229.
