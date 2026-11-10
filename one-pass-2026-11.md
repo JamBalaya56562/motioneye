@@ -592,7 +592,17 @@ all 406 closes since 2026-06).
   (slider is 0-20 %, only the max threshold is in pixels), #1227 netcam modulo 8 check,
   #1054 activity log, #1189 home mode, #1137 snapshot token, #1254 stream TLS, #1273 font,
   #1276 camera description, #1290 user type JSON, #788 brightness sensor.
-- Next close candidates: #1145, #1203, #1229.
+- Batch 6 done: the other 17 are open feature requests, kept.
+
+### Closed 2026-11-10, batch 6 third set (user OK, completed)
+
+| Issue | Labels after | Note |
+|---|---|---|
+| #1145 USB capture card | question, +Raspberry Pi, +legacy motionEye | answered: UVC card = V4L2 camera |
+| #1203 lighttpd reverse proxy | question, +legacy motionEye | answered: paths are relative since 0.36 (5ec72dc9), so the `/static/` requests come from `/meye` without a trailing slash; my first comment said absolute paths were the cause and was edited in place, the v0.36 milestone I set was removed |
+| #1229 `%f` path on a network share | −troubleshooting, +question, +motion, +legacy motionEye | answered: `/media/motioneye_<server>_<share>_<user>` is motionEye's own SMB mount |
+
+Also #1187 (batch 6 first set) got v0.40, which did not exist when it was closed.
 
 ### Closed 2026-11-10, batch 6 second set (user OK, all not planned)
 
