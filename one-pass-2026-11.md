@@ -1023,3 +1023,17 @@ Kept for now: open feature requests (#2579, #1440, #2592, #2598, #2379); #2543, 
 Open #2543 relabelled −troubleshooting, +bug: `on_event_start` commands run one after another
 (`'; '.join`, `config.py:1545`) and `sendtelegram` sleeps the picture time span
 (`sendtelegram.py:233`), so the web hook and command wait for it; still so on dev.
+
+### Closed 2026-11-10, batch 15 third set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2554 iPad landscape gets one column | completed, fixed by #3502 (was `windowWidth <= 1200`), linked, milestone v0.45.0 | −troubleshooting, +enhancement |
+| #2609 max password length | completed, argon2 hash since 0.44.0; 30/34/40/200-char passwords verified in Docker | question, +legacy motionEye |
+| #2603 third camera stream closed (HA add-on) | not planned, old add-on | troubleshooting, Home Assistant addon, +legacy motionEye |
+| #2605 two Pis share settings | not planned, no replies (cause assumed) | troubleshooting, +Raspberry Pi, +legacy motionEye |
+
+Kept #2504 (default movie codec `h264_omx` when ffmpeg lists it, `config.py:2620`) and #2581 (no
+picture while the network share is down).
+
+Batch 15 done: 14 closed, 11 kept.
