@@ -968,3 +968,16 @@ Kept for now: open feature requests (#2414, #2441, #2442, #2473); #2417, #2419, 
 
 Kept #1630 (recording continues past the schedule, seen on 0.43.0), #1463 (Clean Cloud with a custom
 period), #2525 (watch a movie while recording).
+
+Closed 2026-11-10 (user OK):
+- #2494 completed, record on the hub via a Network Camera with the Pi Zero's stream; #2486 (0.43.1)
+  fixed stream auth; labels question, +Raspberry Pi, +legacy motionEye.
+- #2453 not planned, 0.42.1 on the legacy camera stack; labels troubleshooting, +motion,
+  +Raspberry Pi, +legacy motionEye.
+
+Kept #2532 as a live bug (−troubleshooting, +bug): the frame page of a remote camera is rendered
+without `static_path='../../../static/'` (`handlers/picture.py:328`, `:355`; local cameras pass it at
+`:323`), so the global `static/` (`server.py:468`) makes `/picture/<id>/frame/static/...` 404, as in
+the report's log. Fix not made yet; not reproduced on a device.
+
+Batch 14 done: 17 closed, 8 kept.
