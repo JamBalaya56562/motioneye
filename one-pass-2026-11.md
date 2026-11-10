@@ -780,3 +780,19 @@ Kept: #1887, #1902, #1909, #1924, #1518, #1949, #122, #736, #1987, #1712, #1966,
 | #1531 Ezviz C4S grey screen | completed, camera firmware V5.3.1 | question, +Raspberry Pi, +legacy motionEye |
 | #1965 still image every 10 s | completed, answered (`picture_output` modes, hook script) | enhancement, −help wanted, question, motion, +legacy motionEye |
 | #2020 balenaCloud write-up | completed, not an issue | −enhancement, −feature, +documentation, +legacy motionEye |
+
+## Label audit of our closes (2026-11-10, user OK)
+
+All 463 issues closed by JamBalaya56562 were checked against the label rules (`audit_rules.py`):
+`help wanted` only on #1965 (removed); `legacy motionEye` after 2023-12-24 only on #2957 (0.42.1)
+and #3267 (old Python 2 snap), both correct; old PR fixes with `legacy motionEye` (0.40-0.43.1)
+correct.
+
+Fixed:
+- #1842: −legacy motionEye, −question, +feature (implemented by #3468, v0.45.0).
+- One type label where two were set (mostly by starbasessd in 2020-21), kept the one matching the
+  close: #1965 −enhancement (answered); #1981 −enhancement (feature, dup of #302); #2239 −question
+  (feature, not planned); #2105 −troubleshooting (answered how-to); #2023, #2024, #2025, #2031,
+  #2041, #2080, #2145, #2151, #2194, #2247 −question (cause not established).
+
+Left as is: 13 closes with only `documentation` (12) or `CI/CD` (#1489) and no other type label.
