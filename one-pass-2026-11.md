@@ -617,3 +617,6 @@ all 406 closes since 2026-06).
   and #2257 also linked to #1102, #1384, #1508 and #2346. Verified by GraphQL: 30 of 30. Left out:
   #3178, #3255, #356, and number clashes (#2, #152 from Bitbucket, #5 from Weblate).
   Only one issue (#3066, already v0.45.0) is recorded by GitHub as closed by a commit.
+- Gap found by the user (#1729, closed by hand before PR #1914 merged): swept all 2,250 closed
+  issues for "no milestone + merged closing-reference PR" and gave 20 the PR's milestone (19 ×
+  v0.43.1, #2989 v0.44.0). Only #2230 is left (PR #2777, milestone 2021.11.2, another repo).
