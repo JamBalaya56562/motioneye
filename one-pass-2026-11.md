@@ -994,3 +994,18 @@ motionEye, e.g. on the PC or in Docker) adds it as a Remote motionEye Camera. Op
 URL `http://<hub>:8765/picture/<id>/frame/` with the browser's network tab: on dev the CSS/JS come
 from `/picture/<id>/frame/static/...` and answer 404, with the branch from `/static/...` with 200,
 and the picture shows. Also check a local camera's embed URL is unchanged.
+
+## Batch 15 (open.json rows 350-374)
+
+Kept for now: open feature requests (#2579, #1440, #2592, #2598, #2379); #2543, #2504, #2548, #2554,
+#2549, #2559, #2568, #2581, #2164, #1435, #1895, #2603, #2605, #2609, #2607 wait for the next sets.
+
+### Closed 2026-11-10, batch 15 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2546 RTSP not supported in QNAP Docker | not planned, old `ccrisan` image, ffmpeg lib error | question, docker, +legacy motionEye |
+| #2558 Wi-Fi drops on motionEyeOS, Zero 2 W | not planned, motionEyeOS | question, +motionEyeOS, +Raspberry Pi, +legacy motionEye |
+| #2565 motion_44 branch tools | not planned, #2462 merged in 2022 | CI/CD, +docker, +legacy motionEye |
+| #2571 cannot change port 8765 | not planned, no answer (`port`, sample:33) | troubleshooting, +legacy motionEye |
+| #2599 pillow build error, Zero W Docker | not planned, no answer | docker, troubleshooting, +Raspberry Pi, +legacy motionEye |
