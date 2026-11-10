@@ -955,3 +955,16 @@ Kept for now: open feature requests (#2414, #2441, #2442, #2473); #2417, #2419, 
 | #2448 webcam missing on Bullseye | not planned, went back to Buster (0.42.1) | troubleshooting, Raspberry Pi, +legacy motionEye |
 | #2461 timelapse error | not planned, no answer; #2437 in 0.43.1, libcurl without RTSP | troubleshooting, +legacy motionEye |
 | #1484 high CPU on a Pi 4 | completed, answered (Motion decoding) | −troubleshooting, +question, +motion, +Raspberry Pi, +legacy motionEye |
+
+### Closed 2026-11-10, batch 14 third set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #1829 browser cannot play the movies (Docker) | completed, answered (quality 100%, passthrough) | −motionEyeOS, −troubleshooting, +question, +docker, +legacy motionEye |
+| #2419 slow fps over dataplicity | not planned, bandwidth (MichaIng) | troubleshooting, +Raspberry Pi, +legacy motionEye |
+| #2433 4K camera on a Pi 4 (HA add-on) | completed, answered (Motion decoding) | question, Home Assistant addon, +motion, +Raspberry Pi, +legacy motionEye |
+| #2526 Volumio held broken packages | not planned, 2022 install script | troubleshooting, +Raspberry Pi, +legacy motionEye |
+| #2530 D-Link as Network Camera garbled | not planned, no answer | troubleshooting, +motion, +Raspberry Pi, +legacy motionEye |
+
+Kept #1630 (recording continues past the schedule, seen on 0.43.0), #1463 (Clean Cloud with a custom
+period), #2525 (watch a movie while recording).
