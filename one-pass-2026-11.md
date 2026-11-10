@@ -592,8 +592,17 @@ all 406 closes since 2026-06).
   (slider is 0-20 %, only the max threshold is in pixels), #1227 netcam modulo 8 check,
   #1054 activity log, #1189 home mode, #1137 snapshot token, #1254 stream TLS, #1273 font,
   #1276 camera description, #1290 user type JSON, #788 brightness sensor.
-- Next close candidates (stale troubleshooting/question): #1135, #1154, #1155, #1162, #1239,
-  then #1145, #1203, #1229.
+- Next close candidates: #1145, #1203, #1229.
+
+### Closed 2026-11-10, batch 6 second set (user OK, all not planned)
+
+| Issue | Labels after |
+|---|---|
+| #1135 high CPU with RTSP, Motion 4.2.1 | troubleshooting, +motion, +legacy motionEye |
+| #1154 green frames from IP cams on a Pi 3B+ | troubleshooting, +Raspberry Pi, +motion, +legacy motionEye |
+| #1155 motion detection at night | −troubleshooting, +question, +motion, +legacy motionEye |
+| #1162 webhook stops after a while | troubleshooting, +legacy motionEye |
+| #1239 jumpy stream, Docker on a Pi 3B+ | troubleshooting, +docker, +Raspberry Pi, +legacy motionEye |
 
 ## Milestones for older releases (2026-11-10, user OK)
 
