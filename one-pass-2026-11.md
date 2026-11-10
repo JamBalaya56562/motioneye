@@ -847,4 +847,4 @@ Closed 2026-11-10 (user OK): #2066 not planned, no reply; the stream plus Still 
 upload covers the goal; labels troubleshooting, +legacy motionEye. Kept #2135: the recording mode
 lives only in `emulate_motion`, written only with Movies on (`config.py:1397`), so it resets.
 
-Batch 11 done: 11 closed, 14 kept (#897 in the range was already closed).
+Batch 11 done: 11 closed, 13 kept (#897 in the range was already closed).
