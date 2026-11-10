@@ -1009,3 +1009,17 @@ Kept for now: open feature requests (#2579, #1440, #2592, #2598, #2379); #2543, 
 | #2565 motion_44 branch tools | not planned, #2462 merged in 2022 | CI/CD, +docker, +legacy motionEye |
 | #2571 cannot change port 8765 | not planned, no answer (`port`, sample:33) | troubleshooting, +legacy motionEye |
 | #2599 pillow build error, Zero W Docker | not planned, no answer | docker, troubleshooting, +Raspberry Pi, +legacy motionEye |
+
+### Closed 2026-11-10, batch 15 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2548 USB cameras show nothing (0.42.1) | not planned, no reply to MichaIng | troubleshooting, Raspberry Pi, +legacy motionEye |
+| #2549 fps drop when remote | not planned, 4G bandwidth | troubleshooting, +legacy motionEye |
+| #1435 picture too bright at high resolution | not planned, legacy camera stack | troubleshooting, +motion, +Raspberry Pi, +legacy motionEye |
+| #2607 dropped frames (0.42.1) | not planned, no follow-up | troubleshooting, +legacy motionEye |
+| #2164 one camera falls behind over time | not planned, no reply | −question, troubleshooting, +legacy motionEye |
+
+Open #2543 relabelled −troubleshooting, +bug: `on_event_start` commands run one after another
+(`'; '.join`, `config.py:1545`) and `sendtelegram` sleeps the picture time span
+(`sendtelegram.py:233`), so the web hook and command wait for it; still so on dev.
