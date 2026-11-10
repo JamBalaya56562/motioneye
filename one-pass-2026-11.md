@@ -1080,3 +1080,10 @@ answered 401 without `Authorization: Bearer s3cr3t`.
   `netcam_params headers=Authorization: Bearer s3cr3t,keepalive = off,tolerant_check = on`, the
   server got exactly `Bearer s3cr3t`, and Motion's webcontrol reports "Camera2 Connection OK".
   Test camera removed afterwards.
+
+PR #3542 opened 2026-11-10 for #2532 (user OK after the Pi check): assignee, bug, Python,
+milestone v0.45.0, closes #2532. Pi powered off afterwards (user).
+
+Closed 2026-11-10 (user OK): #1312 completed, how-to with `netcam_params headers=...` under Extra
+Motion Options (`http://` only; `https://` not tried); labels −feature, +question, +motion,
++legacy motionEye.
