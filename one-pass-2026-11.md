@@ -945,3 +945,13 @@ Kept for now: open feature requests (#2414, #2441, #2442, #2473); #2417, #2419, 
 | #2489 frame rate / resolution dimmer | completed, answered, UI only (`main.js:1794`) | question, +legacy motionEye |
 | #2506 PIR sensor on motionEyeOS | not planned, duplicate of #1138 | −question, +duplicate, +feature, +Raspberry Pi |
 | #452 flip the image | not planned, `flip_axis` in Extra Motion Options | motion, feature, +legacy motionEye |
+
+### Closed 2026-11-10, batch 14 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2438 DFRobot low light camera | completed, works with veye's V4L2 driver | −troubleshooting, +question, +Raspberry Pi, +legacy motionEye |
+| #2417 mask adds false positives | not planned, no reply; privacy vs detection mask (zagrim) | troubleshooting, +motion, +legacy motionEye |
+| #2448 webcam missing on Bullseye | not planned, went back to Buster (0.42.1) | troubleshooting, Raspberry Pi, +legacy motionEye |
+| #2461 timelapse error | not planned, no answer; #2437 in 0.43.1, libcurl without RTSP | troubleshooting, +legacy motionEye |
+| #1484 high CPU on a Pi 4 | completed, answered (Motion decoding) | −troubleshooting, +question, +motion, +Raspberry Pi, +legacy motionEye |
