@@ -592,7 +592,7 @@ all 406 closes since 2026-06).
   (slider is 0-20 %, only the max threshold is in pixels), #1227 netcam modulo 8 check,
   #1054 activity log, #1189 home mode, #1137 snapshot token, #1254 stream TLS, #1273 font,
   #1276 camera description, #1290 user type JSON, #788 brightness sensor.
-- Batch 6 done: the other 17 are open feature requests, kept.
+- Batch 6 done: 13 closed, the other 12 are open feature requests, kept.
 
 ### Closed 2026-11-10, batch 6 third set (user OK, completed)
 
@@ -639,3 +639,23 @@ Also #1187 (batch 6 first set) got v0.40, which did not exist when it was closed
 - Gap found by the user (#1729, closed by hand before PR #1914 merged): swept all 2,250 closed
   issues for "no milestone + merged closing-reference PR" and gave 20 the PR's milestone (19 ×
   v0.43.1, #2989 v0.44.0). Only #2230 is left (PR #2777, milestone 2021.11.2, another repo).
+
+## Batch 7 (open.json rows 150-174, last human comment 2019-05 .. 2019-08, dev `71c81138`; #1328, #1354 already closed)
+
+### Keep
+
+Feature requests not on dev: #698, #1287, #1315, #1322, #1339, #1353, #1358, #1375; #1349 (the
+Auto Threshold Tuning switch is still after the two thresholds), #1359 (manual snapshots switch is
+still independent of Capture mode manual).
+
+### Closed 2026-11-10, batch 7 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #1298 Exec format error on a Pi Zero W | not planned, no details | troubleshooting, +Raspberry Pi, +legacy motionEye |
+| #1283 movies saved as .avi and .mp4 | not planned, camera and install gone | troubleshooting, +motion, +legacy motionEye |
+| #477 multiple file storage | not planned, no reply | question, +Raspberry Pi, +legacy motionEye |
+| #1300 grey image while frame rate runs | not planned, no details | troubleshooting, +legacy motionEye |
+| #1336 movie format with least CPU | completed, answered (passthrough, V4L2M2M) | question, +motion, +legacy motionEye |
+
+Next candidates: #1213 (duplicate of #697), #1326, #1330, #1332, #1374; then #1298-like stale #1381, #1312.
