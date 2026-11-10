@@ -828,3 +828,17 @@ and milestone v0.43.1.
 | #2124 webcontrol camera numbers shift | not planned, duplicate of #1887 (`config.py:662`) | −question, +duplicate, +enhancement, motion |
 | #2049 Imou Looc no stream | completed, working RTSP URL | −troubleshooting, question, +legacy motionEye |
 | #2087 where the web UI files are | completed, `templates/main.html`, `static/` | question, +legacy motionEye |
+
+### Closed 2026-11-10, batch 11 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2102 remote camera with the surveillance login | completed, Client Secret gives peer access; use MJPEG URLs | question, +legacy motionEye |
+| #1915 why JPEG frames, not MJPEG | completed, `picture/<id>/current/` through motionEye (`main.js:5607`) | question, +legacy motionEye |
+| #2058 Avacom M1060W | not planned, no reply to suggested URLs | question, −troubleshooting, +legacy motionEye |
+| #2101 remote camera black in QNAP Docker | not planned, worked in an Ubuntu VM | −question, troubleshooting, +docker, +Raspberry Pi, +legacy motionEye |
+| #2137 mail "key too short" | not planned, the server's key (error text assumed) | troubleshooting, +legacy motionEye |
+
+Our comments on #1520, #2105 and #1381 said to add a Remote motionEye Camera with the admin login;
+since 0.44.0 (#3332) the dialog asks for the remote's Client Secret (`main.js:3860`), so the three
+comments were edited in place (user OK).
