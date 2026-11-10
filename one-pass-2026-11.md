@@ -842,3 +842,9 @@ and milestone v0.43.1.
 Our comments on #1520, #2105 and #1381 said to add a Remote motionEye Camera with the admin login;
 since 0.44.0 (#3332) the dialog asks for the remote's Client Secret (`main.js:3860`), so the three
 comments were edited in place (user OK).
+
+Closed 2026-11-10 (user OK): #2066 not planned, no reply; the stream plus Still Images and FTP
+upload covers the goal; labels troubleshooting, +legacy motionEye. Kept #2135: the recording mode
+lives only in `emulate_motion`, written only with Movies on (`config.py:1397`), so it resets.
+
+Batch 11 done: 11 closed, 14 kept (#897 in the range was already closed).
