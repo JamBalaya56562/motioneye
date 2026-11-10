@@ -611,3 +611,9 @@ all 406 closes since 2026-06).
 - Merged PRs left without a milestone (8): python2-only #2305, #2309, #2356, #2529, #2608, #2654,
   #2840, and #2838 (merged into master, commit no longer on any branch). #877 is open, so none.
 - Not done: older issues closed by "fixes #N" in commit messages without a PR.
+- Done 2026-11-10 (user OK): 30 more closed issues fixed without a PR, or by a PR merged after
+  0.42.1, got milestones: from closing references of PRs merged later (8), close comments naming the
+  fix version or commit (15), and commit messages or comments naming the fix (7); #1093, #864, #885
+  and #2257 also linked to #1102, #1384, #1508 and #2346. Verified by GraphQL: 30 of 30. Left out:
+  #3178, #3255, #356, and number clashes (#2, #152 from Bitbucket, #5 from Weblate).
+  Only one issue (#3066, already v0.45.0) is recorded by GitHub as closed by a commit.
