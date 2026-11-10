@@ -886,3 +886,20 @@ Kept: open feature requests (#2141, #2157, #2160, #2130, #2166, #2172, #2169, #2
 Kept #2214 (picture viewer slows down after 50-100 pictures, seen in Firefox and Edge).
 
 Batch 12 done: 14 closed, 11 kept.
+
+## Batch 13 (open.json rows 300-324)
+
+#1981 in the range was already closed. Kept: open feature requests; #2216, #2281, #2283, #2296,
+#2297, #823, #2303, #2336, #2304, #2372, #2378, #2394 wait for the next sets.
+
+### Closed 2026-11-10, batch 13 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2224 pytz not listed as dependency | completed, fixed by #3464 (`zoneinfo`), linked, milestone v0.45.0 | −question, −troubleshooting, +bug, +dependencies |
+| #1024 scheduled still captures | not planned, duplicate of #883 | duplicate, −enhancement, feature |
+| #2277 view another motionEyeOS | completed, answered (remote camera types) | question, +legacy motionEye |
+| #2263 motionEye on a Pi Zero 2 W | completed, answered (README venv) | question, −motionEyeOS, +Raspberry Pi, +legacy motionEye |
+| #2365 motionEye vs motionEyeOS | completed, answered (MichaIng) | question, motionEyeOS, +Raspberry Pi, +legacy motionEye |
+
+Open #883 relabelled: −duplicate, −enhancement (it is the issue the duplicates point to).
