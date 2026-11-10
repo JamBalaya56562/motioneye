@@ -728,3 +728,20 @@ labels −question, +duplicate, +feature.
 
 Batch 8 done: 16 closed, 9 kept (feature requests). #2027 (API Access, question) is close to #972 and
 can be looked at when its batch comes.
+
+## Batch 9 (open.json rows 200-224)
+
+Kept: #1519, #1125, #1527, #40, #850, #251, #773, #790, #941, #1846, #1850, #1864, #1451 (open
+feature requests and bugs); #1523, #1255, #1658, #1302, #1414, #1849, #1852 wait for the next sets.
+
+### Closed 2026-11-10, batch 9 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #1449 Chrome 76 shows no video | completed, duplicate of #1401, milestone v0.41 | bug, +duplicate, +motionEyeOS, +Raspberry Pi |
+| #1845 action button from a gateway | not planned, duplicate of #972; run `/etc/motioneye/preset1_1` directly | −question, +duplicate, +feature, +motionEyeOS, +Raspberry Pi |
+| #1520 Pi Zero camera on the Pi 2 | completed, Remote motionEye Camera (`main.js:3840`) | question, +Raspberry Pi, +legacy motionEye |
+| #843 pictures not saved | completed, answered (Still Images, Root Directory) | −troubleshooting, +question, +legacy motionEye |
+| #1051 100 % CPU recording RTSP | completed, answered (Motion decoding/encoding) | question, +motion, +docker, +legacy motionEye |
+
+#1520: the steps follow the UI's camera type; not tried with two Pis.
