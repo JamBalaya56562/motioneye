@@ -1049,3 +1049,34 @@ Batch 15 done: 14 closed, 11 kept.
 | #2661 record the main stream, detect on the substream | completed, zagrim answered: `netcam_high_url` + Movie Passthrough | question, +motion, +legacy motionEye |
 | #2665 finer frame change threshold | not planned, duplicate of #697 | enhancement, +duplicate |
 | #2670 which Raspberry Pi / OS | completed, answered: 32/64-bit Raspberry Pi OS, Docker armv7/arm64 (`docker.yml:63`) | question, +Raspberry Pi, +legacy motionEye |
+
+## Pi check 2026-11-10 evening (#2532, #1312)
+
+Pi 5 (Camera Module 3, Motion 4.7.1), motionEye at 192.168.0.6:8765.
+
+**#2532** (`fix/remote-frame-static-path`, 55b5eda9). Hub = python:3.12-slim container on the PC with
+the Pi as a Remote motionEye Camera (`@remote_secret` = the Pi's `@client_secret`). Static files
+named in the hub's `/picture/1/frame/`, resolved against that URL:
+
+- dev 71c81138: all 11 (`manifest.json`, `static/css/*`, `static/js/*`, `static/img/*`) under
+  `/picture/1/frame/...`, all 404.
+- branch: all 11 under `/manifest.json`, `/static/...`, all 200. In the browser the branch page has
+  jQuery and the three style sheets loaded (UI and login dialog drawn).
+- After logging in to the test hubs, `/picture/1/current/` returned the Pi's 640x480 JPEG on both.
+- Local camera unchanged: the Pi itself on the branch serves its own frame page's static files
+  from `/static/...` with 200 (line 323 already did this).
+
+Pi back on dev 71c81138 afterwards.
+
+**#1312** (Bearer token for a netcam): works with Motion 4.7.1. A test MJPEG server on the Pi
+answered 401 without `Authorization: Bearer s3cr3t`.
+
+- Motion alone with `netcam_url http://127.0.0.1:9000/s` and
+  `netcam_params headers=Authorization: Bearer s3cr3t`: the server got the header, the snapshot was
+  saved; Motion logs "No trailing CRLF found in HTTP header. Adding it." (harmless).
+- Through motionEye (camera added as a netcam, then `netcam_params` set as an Extra Motion Option,
+  load/save round trip twice via `motion_camera_dict_to_ui`/`motion_camera_ui_to_dict`/`set_camera`):
+  the option stays in Extra Motion Options, `camera-2.conf` gets
+  `netcam_params headers=Authorization: Bearer s3cr3t,keepalive = off,tolerant_check = on`, the
+  server got exactly `Bearer s3cr3t`, and Motion's webcontrol reports "Camera2 Connection OK".
+  Test camera removed afterwards.
