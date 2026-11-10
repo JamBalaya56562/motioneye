@@ -796,3 +796,18 @@ Fixed:
   #2041, #2080, #2145, #2151, #2194, #2247 −question (cause not established).
 
 13 closes with only `documentation` (12) or `CI/CD` (#1489): fine, both count as type labels (user, 2026-11-10).
+
+### Closed 2026-11-10, batch 10 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #1856 Run A Command not called | not planned, no details | troubleshooting, +legacy motionEye |
+| #1030 commands run only on restart | not planned, no reply (2018 Docker) | troubleshooting, +docker, +motion, +legacy motionEye |
+| #1938 Arducam B0176 autofocus | not planned, Motion has no focus control (docs, not tried) | question, +motion, +Raspberry Pi, +legacy motionEye |
+| #2036 4th camera shows the 1st | not planned, same streaming port (zagrim) | troubleshooting, +legacy motionEye |
+
+Kept: #2033 (Google Drive uploads over ~100 MB) relabelled −question, +enhancement: the upload uses
+`uploadType=multipart` with the whole file (`uploadservices.py:369`), which Google documents for
+small files; large ones need a resumable upload. #2035 kept (cause unknown, two type labels to settle).
+
+Batch 10 done: 9 closed, 16 kept.
