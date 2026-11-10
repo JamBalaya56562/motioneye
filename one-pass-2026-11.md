@@ -671,4 +671,11 @@ still independent of Capture mode manual).
 #1332: the first draft suggested fetching `/picture/<id>/current/` from Run A Command; that needs a
 session or HMAC (`handlers/base.py:263`), so the posted answer uses picture upload instead.
 
-Next candidates: #1381, #1312.
+Closed 2026-11-10 (user OK): #1381 completed, answered (8081 is Motion's stream, a remote motionEye
+camera needs port 8765); labels −troubleshooting, +question, +Raspberry Pi, +legacy motionEye.
+
+Kept for a Pi check: #1312 (Bearer token for a netcam). Motion 4.7 documents only `netcam_userpass`
+for camera auth, but for `http://` URLs `netcam_params` goes to FFmpeg, whose http `headers` option
+might carry `Authorization: Bearer`; test with a small token-checking server before closing.
+
+Batch 7 done: 11 closed, 12 kept (feature requests and #1312).
