@@ -811,3 +811,19 @@ Kept: #2033 (Google Drive uploads over ~100 MB) relabelled −question, +enhance
 small files; large ones need a resumable upload. #2035 kept (cause unknown, two type labels to settle).
 
 Batch 10 done: 9 closed, 16 kept.
+
+## Batch 11 (open.json rows 250-274)
+
+#897 in this range was already closed (2026-11-09). Kept for now: open feature requests; #2058,
+#2101, #2102, #2066, #2137, #1915, #2135 wait for the next sets. #1897 (closed, no milestone) may
+have been fixed by #2361 too; not checked.
+
+### Closed 2026-11-10, batch 11 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2140 multi-platform Docker image | completed, fixed by #2361 (buildx), linked, milestone v0.43.1 | −enhancement, feature, docker |
+| #2018 PTZ follows motion | completed, answered (`track_type 9`, `track_generic_move`) | −enhancement, −feature, question, +motion, +legacy motionEye |
+| #2124 webcontrol camera numbers shift | not planned, duplicate of #1887 (`config.py:662`) | −question, +duplicate, +enhancement, motion |
+| #2049 Imou Looc no stream | completed, working RTSP URL | −troubleshooting, question, +legacy motionEye |
+| #2087 where the web UI files are | completed, `templates/main.html`, `static/` | question, +legacy motionEye |
