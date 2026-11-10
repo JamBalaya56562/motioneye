@@ -815,8 +815,9 @@ Batch 10 done: 9 closed, 16 kept.
 ## Batch 11 (open.json rows 250-274)
 
 #897 in this range was already closed (2026-11-09). Kept for now: open feature requests; #2058,
-#2101, #2102, #2066, #2137, #1915, #2135 wait for the next sets. #1897 (closed, no milestone) may
-have been fixed by #2361 too; not checked.
+#2101, #2102, #2066, #2137, #1915, #2135 wait for the next sets. #1897 (closed by MichaIng 2023-09-15:
+the old Docker Hub images are replaced by the multi-platform GHCR images of #2361) got #2361 linked
+and milestone v0.43.1.
 
 ### Closed 2026-11-10, batch 11 first set (user OK)
 
