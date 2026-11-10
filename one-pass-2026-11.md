@@ -981,3 +981,16 @@ without `static_path='../../../static/'` (`handlers/picture.py:328`, `:355`; loc
 the report's log. Fix not made yet; not reproduced on a device.
 
 Batch 14 done: 17 closed, 8 kept.
+
+### #2532 fix waiting for a Pi check (2026-11-10)
+
+Branch `fix/remote-frame-static-path` on the fork (55b5eda9, on dev@upstream 71c81138), no PR yet:
+both remote branches of `PictureHandler.frame()` now pass `static_path='../../../static/'`.
+Tests: two new ones in `tests/test_handlers/test_remote_frame.py` fail without the fix (2 failed,
+1 passed) and pass with it; full suite 527 passed (python:3.12-slim); ruff, codespell clean.
+
+Pi check before the PR (user, on return): the Pi runs motionEye with its camera; a hub (second
+motionEye, e.g. on the PC or in Docker) adds it as a Remote motionEye Camera. Open the hub's embed
+URL `http://<hub>:8765/picture/<id>/frame/` with the browser's network tab: on dev the CSS/JS come
+from `/picture/<id>/frame/static/...` and answer 404, with the branch from `/static/...` with 200,
+and the picture shows. Also check a local camera's embed URL is unchanged.
