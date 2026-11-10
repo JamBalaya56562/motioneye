@@ -848,3 +848,18 @@ upload covers the goal; labels troubleshooting, +legacy motionEye. Kept #2135: t
 lives only in `emulate_motion`, written only with Movies on (`config.py:1397`), so it resets.
 
 Batch 11 done: 11 closed, 13 kept (#897 in the range was already closed).
+
+## Batch 12 (open.json rows 275-299)
+
+Kept: open feature requests (#2141, #2157, #2160, #2130, #2166, #2172, #2169, #2205, #2059, #2210);
+#2148, #2149, #2154, #2063, #2163, #2201, #2214, #2217, #2225, #2236 wait for the next sets.
+
+### Closed 2026-11-10, batch 12 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2162 streaming resizing has no effect on URLs | completed, UI frames only (`mediafiles.py:1166`) | question, +legacy motionEye |
+| #2191 resizing not on port 8081 | completed, Video Streaming off = localhost only (`config.py:1126`, UI not tried) | question, +legacy motionEye |
+| #2203 camera always on | completed, answered (Motion reads every frame) | question, +motion, +docker, +legacy motionEye |
+| #2215 picture browser slow to open | not planned, duplicate of #40 | −question, −troubleshooting, +duplicate, +feature |
+| #1382 OneDrive upload with rclone | completed, write-up | −question, +documentation, +legacy motionEye |
