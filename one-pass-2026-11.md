@@ -930,3 +930,18 @@ is fixed to `root` (MichaIng).
 Kept #2372 (Movie Passthrough starts too early).
 
 Batch 13 done: 15 closed, 9 kept (#1981 in the range was already closed).
+
+## Batch 14 (open.json rows 325-349)
+
+Kept for now: open feature requests (#2414, #2441, #2442, #2473); #2417, #2419, #1484, #2448, #2433,
+#2438, #2453, #2461, #2494, #1630, #2530, #1463, #2525, #2526, #1829, #2532 wait for the next sets.
+
+### Closed 2026-11-10, batch 14 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2514 Python 3.10 breaks it | completed, CI tests 3.9-3.15 (`test_python.yml:17`), venv install | −troubleshooting, +question, +legacy motionEye |
+| #2533 `output_pictures center` | completed, answered (MichaIng) | question, +motion, +legacy motionEye |
+| #2489 frame rate / resolution dimmer | completed, answered, UI only (`main.js:1794`) | question, +legacy motionEye |
+| #2506 PIR sensor on motionEyeOS | not planned, duplicate of #1138 | −question, +duplicate, +feature, +Raspberry Pi |
+| #452 flip the image | not planned, `flip_axis` in Extra Motion Options | motion, feature, +legacy motionEye |
