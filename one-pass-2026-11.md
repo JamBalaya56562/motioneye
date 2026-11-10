@@ -721,3 +721,10 @@ so settings cannot be changed through it.
 | #1416 timelapse defaults | not planned, no details | question, +legacy motionEye |
 
 #1482: "needs no base path" rests on motionEye's relative URLs; not tried behind nginx.
+
+Closed 2026-11-10 (user OK): #1418 not planned, duplicate of #972 (API for changing settings; HMAC
+peer auth since 0.44.0 is for motionEye peers, not a documented API), snapshot answered as in #1460;
+labels −question, +duplicate, +feature.
+
+Batch 8 done: 16 closed, 9 kept (feature requests). #2027 (API Access, question) is close to #972 and
+can be looked at when its batch comes.
