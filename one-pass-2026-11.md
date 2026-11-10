@@ -696,3 +696,16 @@ Kept: #1317, #766 (continuous recording with motion detection / schedule), #1466
 | #1457 UI error after router swap | not planned, no reply; port 7999 bind error = second Motion | troubleshooting, +legacy motionEye |
 
 #1460: the curl path is what motionEye calls itself; not run against a real Motion.
+
+### Closed 2026-11-10, batch 8 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #628 Dahua digest authentication | completed, answered (Motion 4.x digest, RTSP URL works) | question, +motion, +legacy motionEye |
+| #1461 no motion detection at night | completed, answered (needs IR light) | question, +motion, +Raspberry Pi, +legacy motionEye |
+| #1467 changed-pixel count as a value | completed, answered (`text_changes` is drawn by Motion) | question, +motion, +legacy motionEye |
+| #1500 no image, ECONNREFUSED | not planned, no reply; motionEye could not reach Motion | troubleshooting, +legacy motionEye |
+| #1509 segfault on Debian 9 | not planned, crash in Motion's camera thread | troubleshooting, +motion, +legacy motionEye |
+
+#1418 (change settings by URL) waits: Motion's web control has `webcontrol_parms 0` (`config.py:2500`),
+so settings cannot be changed through it.
