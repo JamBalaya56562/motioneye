@@ -658,4 +658,17 @@ still independent of Capture mode manual).
 | #1300 grey image while frame rate runs | not planned, no details | troubleshooting, +legacy motionEye |
 | #1336 movie format with least CPU | completed, answered (passthrough, V4L2M2M) | question, +motion, +legacy motionEye |
 
-Next candidates: #1213 (duplicate of #697), #1326, #1330, #1332, #1374; then #1298-like stale #1381, #1312.
+### Closed 2026-11-10, batch 7 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #1213 threshold below 0.1 % | not planned, duplicate of #697 | −question, +duplicate, +enhancement |
+| #1326 Docker cannot write to /media/username | completed, map the path with `-v` | question, +docker, +legacy motionEye |
+| #1330 cameras gone with Wi-Fi off | completed, open 127.0.0.1 on the Pi | question, +Raspberry Pi, +legacy motionEye |
+| #1332 upload a snapshot when motion starts | completed, Motion Triggered (One Picture) + Upload Pictures (`relay_event.py:108`) | question, +motion, +legacy motionEye |
+| #1374 100 % CPU with 26 RTSP cameras | completed, Motion decoding | −troubleshooting, +question, +motion, +docker, +legacy motionEye |
+
+#1332: the first draft suggested fetching `/picture/<id>/current/` from Run A Command; that needs a
+session or HMAC (`handlers/base.py:263`), so the posted answer uses picture upload instead.
+
+Next candidates: #1381, #1312.
