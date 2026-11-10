@@ -795,4 +795,4 @@ Fixed:
   (feature, not planned); #2105 −troubleshooting (answered how-to); #2023, #2024, #2025, #2031,
   #2041, #2080, #2145, #2151, #2194, #2247 −question (cause not established).
 
-Left as is: 13 closes with only `documentation` (12) or `CI/CD` (#1489) and no other type label.
+13 closes with only `documentation` (12) or `CI/CD` (#1489): fine, both count as type labels (user, 2026-11-10).
