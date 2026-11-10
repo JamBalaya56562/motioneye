@@ -679,3 +679,20 @@ for camera auth, but for `http://` URLs `netcam_params` goes to FFmpeg, whose ht
 might carry `Authorization: Bearer`; test with a small token-checking server before closing.
 
 Batch 7 done: 11 closed, 12 kept (feature requests and #1312).
+
+## Batch 8 (open.json rows 175-199)
+
+Kept: #1317, #766 (continuous recording with motion detection / schedule), #1466, #1475, #1355,
+#1465, #1485, #1107, #1223 (open feature requests); #1418 and the rest wait for the next sets.
+
+### Closed 2026-11-10, batch 8 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #1489 Docker base Ubuntu 18.10 EoL | completed, fixed by #1822 (Debian), linked, milestone v0.43.1 | CI/CD, +docker |
+| #1289 cifs-utils in the Docker image | not planned, mount on the host | feature, +docker, +legacy motionEye |
+| #1460 snapshot from the console | completed, `curl http://127.0.0.1:7999/1/action/snapshot` (`motionctl.py:316`) | question, +legacy motionEye |
+| #1103 Dropbox / Google Drive upload | not planned, reporter used own script | troubleshooting, +legacy motionEye |
+| #1457 UI error after router swap | not planned, no reply; port 7999 bind error = second Motion | troubleshooting, +legacy motionEye |
+
+#1460: the curl path is what motionEye calls itself; not run against a real Motion.
