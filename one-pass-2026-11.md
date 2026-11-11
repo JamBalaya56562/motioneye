@@ -1202,3 +1202,14 @@ without it" and the service stays active (camera then "Lost connection"). Pi res
 
 Also 2026-11-12: #3543 merged (925dcc07); its branch deleted locally and on the fork. Rebased
 fix/senders-last (#3544), chore/ruff-bandit, repro/freebsd*; 551 / 550 passed on the Pi.
+
+### #3544 review, 2026-11-12
+
+MichaIng approved. Marijn0: a custom command before the senders could stop them; free-cup-holder-exe:
+a command ending in `&`/`;` makes the whole line a syntax error, a trailing `# comment` comments the
+senders out. Verified in `sh`. Fixed in c98ece9a (user chose option A): relay, webhook, email,
+Telegram, command (command last as on dev). Pi 5: webhook 0.5 s, Telegram 11.4 s, command 12.4 s
+after `eventstart`, same with `exit 0` in the command. Tests: changed ones fail on the previous order
+(9); 551 passed on 3.9 (Docker) and 3.13 (Pi). Title/body updated, reply issuecomment-6800406017.
+The command still waits for the time span, so #2543 is fixed for the webhook only.
+feat/libcamerify: 3.9 in Docker 555 passed, mypy/ruff clean.
