@@ -1213,3 +1213,18 @@ after `eventstart`, same with `exit 0` in the command. Tests: changed ones fail 
 (9); 551 passed on 3.9 (Docker) and 3.13 (Pi). Title/body updated, reply issuecomment-6800406017.
 The command still waits for the time span, so #2543 is fixed for the webhook only.
 feat/libcamerify: 3.9 in Docker 555 passed, mypy/ruff clean.
+
+### Merges and #2765 takeover PR, 2026-11-12
+
+Merged: #3538, #3540 (free-cup-holder-exe), #3545 (`9cfb176a`), #3544 (`e765d633`). Branches
+`chore/ruff-bandit` and `fix/senders-last` deleted locally and on the fork; dev = `e765d633`.
+#3545 CI: test_install failed once on a runner DNS error (`security.ubuntu.com`), green on rerun.
+MichaIng's #3545 questions answered (issuecomment-6809272754): S402 is preview only, `shell=shell`
+is S603 (ignored) in ruff vs B602 in bandit, `shell=True` calls still S604. #3539 rebased onto #3538
+re-reviewed: only its own 2 files left, 564 passed; nothing posted (user).
+Rebases: `fix/senders-last` conflicted with #3540 (Telegram `values`), resolved keeping #3540's
+values and `senders.append`; `chore/ruff-return` conflicted with #3545 on `extend-select`, now
+`["C901", "E501", "I", "UP", "S", "RET"]`; `feat/libcamerify` got S606 (`os.execv`, noqa) and S103
+(test chmod 0o755 -> 0o700) from the new S rules. 3.9: libcamerify 568, ruff-return 563 passed.
+**#3546 opened** (`feat/libcamerify` `6680de12`): Supersedes #2765, credit strips, Refs #2425 #2812;
+labels feature, Python, Raspberry Pi, motion; milestone v0.45.0; assignee us.
