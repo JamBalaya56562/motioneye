@@ -1087,3 +1087,15 @@ milestone v0.45.0, closes #2532. Pi powered off afterwards (user).
 Closed 2026-11-10 (user OK): #1312 completed, how-to with `netcam_params headers=...` under Extra
 Motion Options (`http://` only; `https://` not tried); labels −feature, +question, +motion,
 +legacy motionEye.
+
+### Closed 2026-11-11, batch 16 second set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2616 UI frame rate vs substream FPS | completed, zagrim answered; Frame Rate is Motion's `framerate` (`config.py:1091`) | question, +motion, +legacy motionEye |
+| #2622 Pi 3 one core at 100%, hardware encoding | completed, zagrim answered; H.264/V4L2M2M offered where available (`main.html:798`) | question, +motion, +Raspberry Pi, +legacy motionEye |
+| #2624 dependency version constraints | not planned, open on purpose; CI installs latest on 3.9-3.15 (`test_python.yml:27`) | CI/CD, +legacy motionEye |
+| #2606 CPU 300% with 3 cameras | not planned, no reply; software H.264 decoding (not measured), substream advice | troubleshooting, +motion, +docker, +Raspberry Pi, +legacy motionEye |
+| #2629 ECONNREFUSED, HA add-on 0.18.0 | not planned, container stopping belongs to the add-on | troubleshooting, Home Assistant addon, +legacy motionEye |
+
+Kept: #2614 (Matter) and #2618 (Pi status log), feature requests.
