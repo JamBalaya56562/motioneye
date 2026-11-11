@@ -1099,3 +1099,20 @@ Motion Options (`http://` only; `https://` not tried); labels −feature, +quest
 | #2629 ECONNREFUSED, HA add-on 0.18.0 | not planned, container stopping belongs to the add-on | troubleshooting, Home Assistant addon, +legacy motionEye |
 
 Kept: #2614 (Matter) and #2618 (Pi status log), feature requests.
+
+## PRs #3543 (#2504) and #3544 (#2543), 2026-11-11
+
+**#3543** default movie codec `mp4`. Debian trixie ffmpeg 7.1.5 lists `h264_v4l2m2m` on x86_64 and on
+the Pi 5; `motionctl.has_h264_v4l2m2m_support()` is True there, dev's default for a new camera is
+`mp4:h264_v4l2m2m`, and the encoder fails ("Could not find a valid device"). Pi 5 event recording:
+with it no movie (`ffmpeg_set_codec`, `event_ffmpeg_newfile` errors), with `mp4` 36 frames H.264.
+The Pi's own camera-1.conf had `mp4:h264_v4l2m2m` from this default.
+
+**#3544** senders last in `on_event_start`. Pi 5, Telegram 10 s, webhook to a local server, `touch`
+command, `eventstart`: dev webhook 12.6 s / command 12.7 s after the trigger, branch 0.5 s / 0.6 s.
+Background (`&`) rejected: `x &; y` is a syntax error with the `'; '` join; a self-detaching sender
+would be a zombie under PID 1 meyectl in Docker (`server.py:239-241` reaps only multiprocessing).
+Pitfalls in the test: Motion expands `%s`/`%N` in commands (so `date +%s.%N` logs the event time),
+and `find_command` outside the server needs `sys.argv`/`settings.config_file` set.
+
+Pi restored from `~/meye-backup-20261111`, dev bd5225b0 reinstalled.
