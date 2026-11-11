@@ -1159,3 +1159,29 @@ Left for a Motion check: #2617 (still JPEGs as a camera), #2628 (C615 zoom).
 | #2673 "Unable to open video device" (HA) | not planned, no replies | troubleshooting, +Home Assistant addon, +legacy motionEye |
 
 To check: #2680 (USB stick missing from Storage Device), whether the disk listing drops exFAT.
+
+## #2765 takeover survey (libcamerify), 2026-11-11/12
+
+Why it is not merged (PR thread read in full): strips stopped in 2023-11 (Pi crashed, gave up); testers
+then failed because Motion before 4.6.0 fails under libcamerify on arm64 (Motion#1644, fix b760d0be,
+in 4.6.0+) and Motion before 4.7.0 leaves zombie shells under libcamerify (#2900, fix 629b3bab
+"Remove signal handling from webu_start", in 4.7.0+). Debian: bookworm 4.5.1 (neither fix), trixie
+4.7.0, Pi OS trixie 4.7.1. MichaIng's open point (2026-10-20): wrap motion only or the whole of
+motionEye (so `v4l2-ctl` sees the shim). His 2024-01 idea: `motioneye_init` asks about a camera
+module, installs `libcamera-tools` and sets the option. PR conflicts with dev now.
+
+Pi 5 check (trixie, Camera Module 3 imx708, motion 4.7.1, libcamera 0.7.2+rpt, dev 0.45.0b1):
+
+| | motion only wrapped (as #2765) | whole motionEye wrapped (wiki / drop-in) | not wrapped |
+|---|---|---|---|
+| camera 1 (`/dev/video0`, 640x480) | Connection OK, MJPEG stream | Connection OK, MJPEG stream | `VIDIOC_STREAMON: Invalid argument`, no picture |
+| `/dev/video0` name in `v4l2ctl.list_devices()` | `rp1-cfe` | the camera's libcamera path | `rp1-cfe` |
+| `/dev/video0` resolutions | 18 `COMMON_RESOLUTIONS` (v4l2-ctl says Stepwise, `v4l2ctl.py:121-126`) | 43 real sensor modes | 18 common |
+| controls (`list_ctrls`) | 0 | 0 | - |
+| devices in the add dialog | 29 | 29 (11 named after the camera) | 29 |
+| zombies after 8 events, 127 pictures | 0 | 0 | - |
+
+motion-only was simulated with `motion_binary` pointing to a script that execs `libcamerify motion`.
+So: both wraps record; only the whole-motionEye wrap gives real resolutions and a camera name; neither
+fixes the 29-node list or gives controls; #2900 does not reproduce on motion 4.7.1. Pi restored
+from `~/meye-backup-2765` (drop-in wrap kept, as before).
