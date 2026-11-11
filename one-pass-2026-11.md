@@ -1185,3 +1185,20 @@ motion-only was simulated with `motion_binary` pointing to a script that execs `
 So: both wraps record; only the whole-motionEye wrap gives real resolutions and a camera name; neither
 fixes the 29-node list or gives controls; #2900 does not reproduce on motion 4.7.1. Pi restored
 from `~/meye-backup-2765` (drop-in wrap kept, as before).
+
+### #2765 takeover implemented, 2026-11-12
+
+Branch `feat/libcamerify` (fork, on dev 925dcc07, no PR yet; user chose the whole-motionEye wrap):
+`libcamerify <path>` in motioneye.conf; `meyectl startserver` re-execs itself once under it
+(`os.execv(libcamerify, [libcamerify, sys.executable, *argv])`, marker env `MOTIONEYE_LIBCAMERIFY`);
+missing path logs an error and starts without it. Co-author Stian Indal Haugseth (strips).
+Tests: 5 new in `tests/test_meyectl.py`; 555 passed, mypy, ruff clean on the Pi (Python 3.13).
+Python 3.9 and Docker not run (Docker engine down).
+
+Pi 5 (plain ExecStart, drop-in removed): server and motion both with `LD_PRELOAD=v4l2-compat.so`,
+camera 1 Connection OK and MJPEG stream; motion killed with SIGKILL came back under libcamerify;
+systemd MainPID is the re-exec'd server; a wrong path logs "libcamerify not found ..., starting
+without it" and the service stays active (camera then "Lost connection"). Pi restored afterwards.
+
+Also 2026-11-12: #3543 merged (925dcc07); its branch deleted locally and on the fork. Rebased
+fix/senders-last (#3544), chore/ruff-bandit, repro/freebsd*; 551 / 550 passed on the Pi.
