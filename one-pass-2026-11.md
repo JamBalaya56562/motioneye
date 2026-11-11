@@ -1228,3 +1228,5 @@ values and `senders.append`; `chore/ruff-return` conflicted with #3545 on `exten
 (test chmod 0o755 -> 0o700) from the new S rules. 3.9: libcamerify 568, ruff-return 563 passed.
 **#3546 opened** (`feat/libcamerify` `6680de12`): Supersedes #2765, credit strips, Refs #2425 #2812;
 labels feature, Python, Raspberry Pi, motion; milestone v0.45.0; assignee us.
+**#3547 opened** (`chore/ruff-return` `b8403379`): RET rules, labels CI/CD, Python; milestone v0.45.0.
+#2543 (closed by #3544): added `docker`, `motion` (had `bug`, v0.45.0).

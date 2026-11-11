@@ -657,7 +657,7 @@ boto3 is the largest dependency: botocore alone is 31 MB in the venv, and import
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
 
-## `chore/ruff-return` — add ruff's flake8-return rules (not submitted)
+## `chore/ruff-return` — add ruff's flake8-return rules → **submitted as [#3547](https://github.com/motioneye-project/motioneye/pull/3547)** (2026-11-12, `b8403379` on dev `e765d633`; +229/−261, +69/−101 with `?w=1`; 3.9: 563 passed; labels CI/CD, Python; milestone v0.45.0)
 
 - Branch: `JamBalaya56562:chore/ruff-return` (`0285dc62`), base `dev` (`925dcc07`). Labels: `CI/CD`, `Python`
 - Origin: before #3519 the flake8 config said "flake8-return rules to add after its next release ...
