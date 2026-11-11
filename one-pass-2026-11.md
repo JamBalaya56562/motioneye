@@ -1130,3 +1130,18 @@ All not planned.
 | #2563 CSI camera on Pi Zero 2 W | MichaIng answered legacy stack; libcamera tracked in #2425 | troubleshooting, Raspberry Pi, +duplicate, +legacy motionEye |
 
 Left for later in batch 16: #2659 (wiki donation link, not checked yet), #2617, #2544, #2626, #2628, #2122, #2668, #2669.
+
+### Closed 2026-11-11, batch 16 fourth set (user OK)
+
+All not planned.
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2122 Reolink grey screen (add-on, 0.42.1) | mixed setups; one cause: Surveillance User named like the admin | troubleshooting, Home Assistant addon, +legacy motionEye |
+| #2668 add-on 0.18.0, no feed | SMB mount errors; kernel default sec mode tried first now (`smbctl.py:244-259`) | troubleshooting, +Home Assistant addon, +legacy motionEye |
+| #2669 strange rendering | screenshots only, no replies | troubleshooting, +legacy motionEye |
+| #2626 refused to connect | no follow-up; `listen 0.0.0.0`, `port 8765` defaults | troubleshooting, +Raspberry Pi, +legacy motionEye |
+| #2544 Annke I51DM RTSP | no reply to Pyanne's manual URL | troubleshooting, +motion, +Raspberry Pi, +legacy motionEye |
+
+Kept: #2659 (the wiki Home.md still has Calin's PayPal donation link, lines 5-6; maintainers' call).
+Left for a Motion check: #2617 (still JPEGs as a camera), #2628 (C615 zoom).
