@@ -1116,3 +1116,17 @@ Pitfalls in the test: Motion expands `%s`/`%N` in commands (so `date +%s.%N` log
 and `find_command` outside the server needs `sys.argv`/`settings.config_file` set.
 
 Pi restored from `~/meye-backup-20261111`, dev bd5225b0 reinstalled.
+
+### Closed 2026-11-11, batch 16 third set (user OK)
+
+All not planned.
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #1251 Xiaofang RTSP black | no logs from a current release; URL goes to Motion as `netcam_url` (`config.py:871`) | troubleshooting, +motion, +legacy motionEye |
+| #2636 RTSP stops after months (0.42.1) | Python 2 release, no further reports | troubleshooting, +legacy motionEye |
+| #2634 Pi 3 at 100% with RTSP | no reply to aaronouthier; software decoding (not measured) | question, +motion, +Raspberry Pi, +legacy motionEye |
+| #2653 snap on KDE Neon | snap not ours; venv install listens on 0.0.0.0, lists `v4l2-ctl --list-devices` | troubleshooting, +legacy motionEye |
+| #2563 CSI camera on Pi Zero 2 W | MichaIng answered legacy stack; libcamera tracked in #2425 | troubleshooting, Raspberry Pi, +duplicate, +legacy motionEye |
+
+Left for later in batch 16: #2659 (wiki donation link, not checked yet), #2617, #2544, #2626, #2628, #2122, #2668, #2669.
