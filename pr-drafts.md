@@ -656,3 +656,16 @@ boto3 is the largest dependency: botocore alone is 31 MB in the venv, and import
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 ````
+
+## `chore/ruff-return` — add ruff's flake8-return rules (not submitted)
+
+- Branch: `JamBalaya56562:chore/ruff-return` (`0285dc62`), base `dev` (`925dcc07`). Labels: `CI/CD`, `Python`
+- Origin: before #3519 the flake8 config said "flake8-return rules to add after its next release ...
+  R501..R508"; #3519 kept it as "RET501 to RET508 to add later". `extend-select` gets `"RET"` (the whole
+  family is RET501 to RET508 in ruff)
+- 46 findings: RET505 40, RET504 3, RET503 1, RET507 1, RET508 1. ruff's safe fixes for the 42
+  (else/elif after return, raise, continue, break), 4 by hand: 3 assignments before return
+  (`config.add_camera`, `get_movie_duration_seconds`, `build_mask_file_name`), `set_camera_config` in
+  `handlers/config.py` returned `on_finish(...)` in one branch only (now call + `return`)
+- 16 files, +235/-267. 3.9: ruff, format, mypy clean, 550 passed
+- Conflicts with #3545 on the `extend-select` line; rebase after it merges, then submit (user)
