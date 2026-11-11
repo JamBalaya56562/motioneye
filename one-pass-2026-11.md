@@ -1145,3 +1145,17 @@ All not planned.
 
 Kept: #2659 (the wiki Home.md still has Calin's PayPal donation link, lines 5-6; maintainers' call).
 Left for a Motion check: #2617 (still JPEGs as a camera), #2628 (C615 zoom).
+
+## Batch 17 (open.json rows 400-424)
+
+### Closed 2026-11-11, batch 17 first set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2601 next release | completed, PyPI releases via #2675 (linked, milestone v0.43.1); 0.44.0 current, 0.45.0b1 pre-release | question |
+| #2645 how to contribute | completed, MichaIng answered | question, +legacy motionEye |
+| #2637 motion-triggered plus 24 h recording | completed, zagrim answered; ffmpeg or a second camera on the stream (clavay, not tried) | question, +motion, +legacy motionEye |
+| #2689 Run a Command with discord_webhook | completed with the answer: commands run as `motion` (`motioneye.systemd:9`), use the venv's python | −troubleshooting, +question, +motion, +legacy motionEye |
+| #2673 "Unable to open video device" (HA) | not planned, no replies | troubleshooting, +Home Assistant addon, +legacy motionEye |
+
+To check: #2680 (USB stick missing from Storage Device), whether the disk listing drops exFAT.
