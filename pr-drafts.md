@@ -714,9 +714,9 @@ boto3 is the largest dependency: botocore alone is 31 MB in the venv, and import
   Probe: `return self.finish({...})` in `-> None` `restore()` -> mypy `No return value expected`;
   `return self.finish_json(...)` still passes (type-correct, review only). 3.9: 564 passed; 3.14: handlers 157 passed
 
-## fix/threshold-min (Fixes #1895), 2026-11-12
+## fix/threshold-min (Fixes #1895), 2026-11-12 → **submitted as [#3548](https://github.com/motioneye-project/motioneye/pull/3548)** (2026-11-13)
 
-Branch `fix/threshold-min` `bde12598` on dev `e765d633`, pushed to the fork, no PR yet.
+Branch `fix/threshold-min` `bde12598` on dev `e765d633`; rebased to `70de6e90` on dev `413b7ce4` and submitted (3.9: ruff, format, mypy clean, 566 passed; labels bug, Python, motion; milestone v0.45.0).
 
 - The Frame Change Threshold slider has `min="0"` (`main.html:871`); 0 % was written as `threshold 0`
   (`config.py`, three places in `motion_camera_ui_to_dict`).
@@ -757,7 +757,9 @@ Branch `fix/json-body` `bceff3ad` on dev `e765d633`, pushed to the fork, no PR y
 - Python 3.9 in Docker: ruff, ruff format, `mypy .` (111 files) clean; 566 passed.
 - Whether any real client (e.g. the Home Assistant integration) sends the header on a GET: not checked.
 
-## fix/webhook-percent (#2818) — prepared 2026-11-12, not submitted
+## fix/webhook-percent (#2818) — prepared 2026-11-12 → **submitted as [#3549](https://github.com/motioneye-project/motioneye/pull/3549)** (2026-11-13)
+
+Rebased to `108d9035` on dev `413b7ce4` (3.9: ruff, format, mypy clean, 564 passed; labels bug, Python, motion; milestone v0.45.0).
 
 Commit 092e4ea3 on dev e765d633. `config.py`: `_webhook_url_to_motion()` writes `%` followed by a digit and a hex digit as `%%` in the three webhook URLs (4 lines: event start, event end, movie end, picture save); `_webhook_url_from_motion()` turns it back when the settings are read. Motion's specifiers (`%t`, `%D`, `%{fps}` in HA's URLs) stay.
 
