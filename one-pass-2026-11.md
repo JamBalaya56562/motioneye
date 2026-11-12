@@ -1308,3 +1308,5 @@ Held from this read:
 - #2803: Home Assistant + Deepstack, likely outside motionEye; propose closing next time.
 - #2804: Pi Zero W camera v2 on libcamera, waits for #3546 like #2706.
 - #1544: "mjpg client timed out" in Docker, not checked on a current version.
+
+- #2794 (2026-11-12): a commenter confirmed no `message_thread_id` in `sendtelegram.py` (checked on dev@upstream e765d633) and gave a text-only curl workaround; −question +feature, kept open with a short reply.
