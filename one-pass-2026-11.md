@@ -1293,3 +1293,18 @@ Held from this read:
 - #2754: composite USB adapter, last question from 2023-06 unanswered; reread.
 - #2776: "dev has a workaround" for libmicrohttpd, but no such code found (`grep -rni microhttpd motioneye/`); check.
 - #2794: Telegram topics, no `message_thread_id` in `sendtelegram.py`; kept as a feature request.
+
+### Batch 17, fifth set (closed 2026-11-12)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2809 | completed | +legacy motionEye | fixed by #3380 (unwritable mounts listed as "[No write access]"); linked, milestone v0.45.0 |
+| #2806 | completed | −troubleshooting +question +legacy motionEye | `/media/<user>` from udisks is closed to `motion` (not tried on a Pi) |
+| #2797 | completed | +legacy motionEye | `smb_shares` needs root (`motioneye.conf.sample:80`), service runs as `motion`; mount with the OS + Custom Path |
+| #2569 | completed | +legacy motionEye | web files are `motioneye/templates/` and `motioneye/static/` |
+| #2825 | completed | +motion +legacy motionEye | `lastsnap.jpg` is Motion's; File Storage "Run a command" gets `%f` (`config.py:1666`) |
+
+Held from this read:
+- #2803: Home Assistant + Deepstack, likely outside motionEye; propose closing next time.
+- #2804: Pi Zero W camera v2 on libcamera, waits for #3546 like #2706.
+- #1544: "mjpg client timed out" in Docker, not checked on a current version.
