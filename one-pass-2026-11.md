@@ -1520,3 +1520,4 @@ Backup `~/meye-backup-2635`; afterwards restored, motionEye back on dev `413b7ce
 
 - #2706 closed 2026-11-13 (completed, +Raspberry Pi +docker): comment with the Dockerfile (Raspberry Pi libcamera + libcamerify entrypoint), devices and the width-128 note, from the Pi check above.
 - #2100 kept for now. Correction (2026-11-13): the dialog does send `keep_alive` (see the Pi check), so there is no fix to make. Likely the older Motion stream answered HTTP/1.0, so keepalive was detected off (not checked); with Motion 4.7.1 the stream is HTTP/1.1 and both keepalive off and on gave pictures. Candidate to close as not reproducible.
+- #2100 closed 2026-11-13 (not planned, labels unchanged): not reproduced on dev + Motion 4.7.1 (Pi check above); workaround given as `keepalive = on` in `netcam_params` of camera-N.conf (kept on save, `config.py:199-205`, `:233-236`), not via Extra Options (not checked).
