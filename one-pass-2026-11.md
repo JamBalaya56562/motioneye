@@ -1493,3 +1493,27 @@ Pi checks to do when the Pi is up (user boots it on request):
 1. fix/video-params-palette (#2635) on Camera Module 3 via libcamerify: `video_params palette=...` in Extra Options survives a save, Motion keeps streaming; decides #2955, #1430.
 2. #2100: the Pi's motionEye stream as an MJPEG network camera, keepalive set automatically?
 3. #2706: libcamerify inside the Docker container on the Pi.
+
+### Pi checks, 2026-11-13 (Pi 5, Camera Module 3, Raspberry Pi OS trixie, motion 4.7.1)
+
+Backup `~/meye-backup-2635`; afterwards restored, motionEye back on dev `413b7ce4`, v4l2loopback unloaded, Docker left installed (no images/containers).
+
+**#2635 (fix/video-params-palette `68883675`)**
+- The Camera Module 3 through libcamerify exposes no V4L2 controls (`camera 1 control listing failed, controls not updated`), so motionEye never rebuilds `video_params` for it: `palette=17` survived a save even on dev. Not the case the bug needs.
+- Used a v4l2loopback device (`/dev/video42`, controls keep_format / sustain_framerate / timeout) fed by ffmpeg testsrc, added as a V4L2 camera:
+
+| | `video_params` before | after a save (framerate 3, timeout 5) |
+|---|---|---|
+| dev `413b7ce4` | `palette=17,ID10025216=0,ID10025217=0,ID10025218=0` | `ID10025216=0,ID10025217=0,ID10025218=0` (palette lost) |
+| fix `68883675` | same | `palette=17,ID10025216=0,ID10025217=0,ID10025218=5`; Extra Options shows `video_params palette=17` |
+
+- Extra Options → `video_params palette=15` on the fix: file `palette=15,...`; Motion (debug log): `v4l2_pixfmt_select: 設定パレットのインデックス15. (YUYV)寸法640x480は機能しません` then `選択したパレット YU12`; current picture 200 image/jpeg.
+
+**#2100 (MJPEG network camera, keepalive)**
+- Not reproduced: camera 1's Motion stream (`http://127.0.0.1:9081/`, HTTP/1.1) added as a network camera the way the dialog does; pictures came with `keepalive = off` and with `on` (1 `motion_init` first-image error each, at start only).
+- Found: `/config/list/` answers `keep_alive: True`, but the Add Camera dialog does not send it (`main.js:4124-4130`), so `add_camera` writes `keepalive = off` always (`config.py:886`). Small fix candidate.
+
+**#2706 (libcamera in the container)**
+- Debian trixie's libcamera 0.4.0 in `debian:trixie-slim` with the devices: `cam -l` lists no camera.
+- With archive.raspberrypi.com added (libcamera 0.8.0+rpt): `rpicam-hello --list-cameras` shows imx708; `libcamerify v4l2-ctl -D` gives `Driver name: libcamera`.
+- `FROM ghcr.io/motioneye-project/motioneye:edge` + raspi.sources + keyring + `libcamera-tools libcamera-v4l2`, `ENTRYPOINT ["/usr/bin/libcamerify", "/entrypoint.sh"]`, run with all /dev/media*, /dev/video*, /dev/v4l-subdev*, /dev/dma_heap/* and /run/udev: V4L2 camera /dev/video0 added, pictures 200 image/jpeg (real image; 320 wide padded to 384, green stripe, the "width a multiple of 128" note).
