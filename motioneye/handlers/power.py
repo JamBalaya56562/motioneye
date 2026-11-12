@@ -25,15 +25,15 @@ __all__ = ('PowerHandler',)
 
 class PowerHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
-    def post(self, op):
+    def post(self, op) -> None:
         if op == 'shutdown':
             self.shut_down()
 
         elif op == 'reboot':
             self.reboot()
 
-    def shut_down(self):
+    def shut_down(self) -> None:
         IOLoop.current().call_later(2, PowerControl.shut_down)
 
-    def reboot(self):
+    def reboot(self) -> None:
         IOLoop.current().call_later(2, PowerControl.reboot)

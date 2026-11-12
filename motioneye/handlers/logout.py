@@ -21,7 +21,7 @@ __all__ = ('LogoutHandler',)
 
 
 class LogoutHandler(BaseHandler):
-    def post(self):
+    def post(self) -> None:
         # Clear the session cookie
         self.clear_cookie('user')
 
