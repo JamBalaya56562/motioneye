@@ -1370,3 +1370,17 @@ Held from this read:
 - #2952: a bug. `meyectl.py:42` calls `locale.setlocale(locale.LC_ALL, '')` unguarded; `LANG=de_DE.UTF-8` without the locale generated gives `locale.Error: unsupported locale setting` (python:3.9-slim). Fix idea: catch `locale.Error`.
 - #2955: the `video_params palette=8` advice is lost on save (#2635, fix/video-params-palette); close after that fix.
 - #2942: two identical C270s, only one listed; maybe `/dev/v4l/by-id` names collide, needs two identical cameras.
+
+### Batch 17, tenth set (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2981 | completed | (unchanged) | one program per camera; motionEye has no composite output; MichaIng's rpicam-vid idea |
+| #3027 | completed | +docker | mount the disk into the container (shaynethiessen) |
+| #2880 | completed | (unchanged) | action buttons are executable `<action>_<camera id>` scripts in the conf dir (`config.py:51`, `:2218`) |
+| #2997 | completed | +motion | Motion 4.6 `mmalcam_params` takes raspivid options (release-4.6.0 `conf.c:474`); no MMAL in 4.7.0 |
+| #2984 | not planned | +external bug | HA Lovelace cards grey while motionEye shows the cameras; Useful URLs to check |
+
+Held from this read:
+- #3022: libcamera camera, MichaIng pointed to libcamerify; waits for #3546.
+- #2986: movie playback error, no details; propose next time with #2953.
