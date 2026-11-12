@@ -1462,3 +1462,21 @@ From here on the list reaches issues opened in 2025-2026; only those without upd
 Held from this read:
 - #3217: Czech UI gives `internal server error` (HA addon 0.23.0), no comments; `cs` locale exists; try to reproduce, maybe a bug.
 - Next: #3209 (hostname cameras, no reply to MichaIng since 2025-11), #2889 (iDrive e2 S3, no reply to MichaIng since 2026-02).
+
+### Batch 17, sixteenth set (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #3015 | completed | +motion | Motion's notice for non-YUV420P frames (`netcam_rtsp_check_pixfmt`); HW frames come back as NV12 (cuda/drm set it, release-4.7.0 `netcam_rtsp.c:408,460`) |
+| #2925 | completed | (unchanged) | backup/restore limited to motion.conf, camera-*.conf, mask_*.pgm since 0.44.0 (#3338); not linked, cause not confirmed |
+| #3209 | not planned | (unchanged) | hostname cameras, no reply to MichaIng since 2025-11 |
+| #2889 | not planned | (unchanged) | boto3 timeout, no reply to MichaIng since 2026-02 |
+| #2754 | not planned | +legacy motionEye | composite USB converter on 0.43.0 dev (2023), unanswered since |
+
+The sorted list is now done up to issues updated in 2026-10/11; those are not proposed.
+
+Held:
+- #2911: fullscreen as the normal user, no comments; check the code or the UI.
+- #3183: OV5647 on libcamera, libcamerify worked for a commenter; waits for #3546.
+- #2887: 3 s freeze at the start of movies, Marijn asked in 2026-04; still open.
+- #3217: Czech UI internal server error; try to reproduce.
