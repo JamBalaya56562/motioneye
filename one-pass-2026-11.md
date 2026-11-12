@@ -1340,3 +1340,17 @@ Not closed from this read:
 - #2911: fullscreen as the normal user, check the code.
 - #2904: Docker on Buster, MichaIng's test pending.
 - #2895: grey screen, no details; look again next time.
+
+### Batch 17, eighth set (closed 2026-11-12)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2923 | completed | (unchanged) | reporter solved it by updating to the beta |
+| #2936 | completed | +motion | zagrim's noise level / Show Frame Changes advice helped |
+| #2935 | completed | +docker | `motioneyeproject/motioneye`; image built for 6 platforms (`docker.yml:63`) |
+| #2926 | not planned | +legacy motionEye | 401 with no username gives "authentication failed" (`utils/rtsp.py:141`) |
+| #2895 | not planned | +legacy motionEye | grey frame, no details since 2023 |
+
+Held from this read:
+- #2917: Camera Module 3 on libcamera, waits for #3546.
+- #2925: "backup makes motionEye unreachable", check the restore code.
