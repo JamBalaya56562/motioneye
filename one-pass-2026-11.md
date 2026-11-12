@@ -1511,7 +1511,7 @@ Backup `~/meye-backup-2635`; afterwards restored, motionEye back on dev `413b7ce
 
 **#2100 (MJPEG network camera, keepalive)**
 - Not reproduced: camera 1's Motion stream (`http://127.0.0.1:9081/`, HTTP/1.1) added as a network camera the way the dialog does; pictures came with `keepalive = off` and with `on` (1 `motion_init` first-image error each, at start only).
-- Found: `/config/list/` answers `keep_alive: True`, but the Add Camera dialog does not send it (`main.js:4124-4130`), so `add_camera` writes `keepalive = off` always (`config.py:886`). Small fix candidate.
+- `/config/list/` answers `keep_alive: True` for Motion 4.7.1's stream (HTTP/1.1). The Add Camera dialog keeps it in the option's `_extra_attrs` (`main.js:4073-4080`) and sends it with the add request (`main.js:4147-4151`), since 7f4ba007 (0.26, 2015); `add_camera` then writes it (`config.py:886`). The test script did not send it, so its `keepalive = off` was the script's doing, not a bug.
 
 **#2706 (libcamera in the container)**
 - Debian trixie's libcamera 0.4.0 in `debian:trixie-slim` with the devices: `cam -l` lists no camera.
@@ -1519,4 +1519,4 @@ Backup `~/meye-backup-2635`; afterwards restored, motionEye back on dev `413b7ce
 - `FROM ghcr.io/motioneye-project/motioneye:edge` + raspi.sources + keyring + `libcamera-tools libcamera-v4l2`, `ENTRYPOINT ["/usr/bin/libcamerify", "/entrypoint.sh"]`, run with all /dev/media*, /dev/video*, /dev/v4l-subdev*, /dev/dma_heap/* and /run/udev: V4L2 camera /dev/video0 added, pictures 200 image/jpeg (real image; 320 wide padded to 384, green stripe, the "width a multiple of 128" note).
 
 - #2706 closed 2026-11-13 (completed, +Raspberry Pi +docker): comment with the Dockerfile (Raspberry Pi libcamera + libcamerify entrypoint), devices and the width-128 note, from the Pi check above.
-- #2100 kept: the dropped `keep_alive` (dialog never sends it) is the likely cause; close it with that fix (`Fixes #2100`), not as not reproducible.
+- #2100 kept for now. Correction (2026-11-13): the dialog does send `keep_alive` (see the Pi check), so there is no fix to make. Likely the older Motion stream answered HTTP/1.0, so keepalive was detected off (not checked); with Motion 4.7.1 the stream is HTTP/1.1 and both keepalive off and on gave pictures. Candidate to close as not reproducible.
