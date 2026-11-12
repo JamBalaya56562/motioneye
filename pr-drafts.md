@@ -756,3 +756,18 @@ Branch `fix/json-body` `bceff3ad` on dev `e765d633`, pushed to the fork, no PR y
   `/login` with broken JSON (400 + `{"error": "invalid json body"}`). All 4 fail on dev.
 - Python 3.9 in Docker: ruff, ruff format, `mypy .` (111 files) clean; 566 passed.
 - Whether any real client (e.g. the Home Assistant integration) sends the header on a GET: not checked.
+
+## fix/webhook-percent (#2818) — prepared 2026-11-12, not submitted
+
+Commit 092e4ea3 on dev e765d633. `config.py`: `_webhook_url_to_motion()` writes `%` followed by a digit and a hex digit as `%%` in the three webhook URLs (4 lines: event start, event end, movie end, picture save); `_webhook_url_from_motion()` turns it back when the settings are read. Motion's specifiers (`%t`, `%D`, `%{fps}` in HA's URLs) stay.
+
+Evidence:
+- Motion 4.7.0 in Docker (debian:trixie-slim, MJPEG test source, `emulate_motion on`), `on_event_start echo '...'`: `power1%20on` → `power1                1500n` (20 read as the width of `%o`, the threshold); `power1%%20on` → `power1%20on`; `cam%t` → `cam0`.
+- New test `test_percent_encoding_in_a_webhook_url_reaches_the_service` fails on dev (URL passed with `%20`), passes on the fix.
+- Python 3.9: ruff, ruff format, `mypy .` (111 files) clean; 564 passed.
+
+Not covered: letter-first encodings like UTF-8 `%C3%A9` stay as Motion specifiers (`%C` is the event text), as before. A webhook URL with a width on a specifier like `%02d` is now sent literally.
+
+Expected review Q&A:
+- Why not escape every `%`? HA and others use Motion's specifiers in the URL on purpose.
+- Old configs with `%20`: shown as `%20`, saved as `%%20` on the next save; a URL typed as `%%20` before stays `%%20` in the file and shows as `%20`.
