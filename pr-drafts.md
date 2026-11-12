@@ -713,3 +713,17 @@ boto3 is the largest dependency: botocore alone is 31 MB in the venv, and import
   done Future instead of None (no caller uses the value; test `test_finish_once_finished_answers_a_done_future`).
   Probe: `return self.finish({...})` in `-> None` `restore()` -> mypy `No return value expected`;
   `return self.finish_json(...)` still passes (type-correct, review only). 3.9: 564 passed; 3.14: handlers 157 passed
+
+## fix/threshold-min (Fixes #1895), 2026-11-12
+
+Branch `fix/threshold-min` `bde12598` on dev `e765d633`, pushed to the fork, no PR yet.
+
+- The Frame Change Threshold slider has `min="0"` (`main.html:871`); 0 % was written as `threshold 0`
+  (`config.py`, three places in `motion_camera_ui_to_dict`).
+- Motion 4.7.0 source (release-4.7.0 `src/motion.c:2046`): `if (cnt->threshold && !cnt->pause)` wraps
+  the diff, so threshold 0 means no motion detection (matches lowlyocean's report in #1895). Motion
+  4.7.0 in a trixie container accepts and prints `threshold 0` without a warning.
+- New `_threshold_pixels(percent, width, height)` = `max(1, int(percent * w * h / 100))`; 3 tests in
+  `TestThresholdPixels`.
+- Python 3.9 in Docker: ruff, ruff format, mypy as in CI (`mypy .`, 111 files) clean; 558 passed.
+- Not tried on a camera.
