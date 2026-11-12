@@ -727,3 +727,17 @@ Branch `fix/threshold-min` `bde12598` on dev `e765d633`, pushed to the fork, no 
   `TestThresholdPixels`.
 - Python 3.9 in Docker: ruff, ruff format, mypy as in CI (`mypy .`, 111 files) clean; 558 passed.
 - Not tried on a camera.
+
+Pi 5 check, 2026-11-12 (Camera Module 3 through libcamerify, motion 4.7.1, 640x480 at 2 fps,
+minimum_motion_frames 20, auto threshold tuning off). 0 % set through the UI API (`POST /config/0/set/`
+after `/login/` as admin, same path as Apply; the UI itself refused Apply with the empty passwords):
+
+| | camera-1.conf | events in 60 s, nothing moving | events in 60 s, hand waved ~20 s |
+|---|---|---|---|
+| dev `e765d633` | `threshold 0` | 0 | 0 |
+| `fix/threshold-min` `bde12598` | `threshold 1` | 0 | 1 (`received relayed event start`) |
+
+Counted from motionEye's debug log (log_level debug for the test). Pi restored from
+`~/meye-backup-1895`; motionEye left on dev `e765d633` (was 0.45.0b1 from an older /tmp/me).
+Seen on the way: a GET with `Content-Type: application/json` and no body gives 500 in
+`BaseHandler.get_json()` (our test script sent it; browsers do not). Not in this PR.
