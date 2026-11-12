@@ -1324,3 +1324,19 @@ Held from this read:
 Not closed from this read:
 - #2818: Tasmota webhook, URL with `%20` (like #1916); check how the webhook URL is handled before deciding.
 - #2824: Docker video devices, a feature request with MichaIng's script idea; kept.
+
+### Batch 17, seventh set (closed 2026-11-12)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #627 | completed | +motion +legacy motionEye | threshold % is of `width × height` (`config.py:1238`), Motion counts after masking |
+| #2814 | completed | +motionEyeOS +legacy motionEye | exposure is the driver's; V4L2 controls listed (`config.py:1867`) |
+| #2907 | completed | (unchanged) | reporter: #2871 and the dev branch fixed it |
+| #2868 | completed | +legacy motionEye | credentials in the fields, not in the URL |
+| #2855 | not planned | +motion +legacy motionEye | passthrough artefacts from the stream, 0.42.1 / Motion 4.3.2 |
+
+Not closed from this read:
+- #2818: a bug. Motion's `mystrftime` reads digits after `%` as a width (`util.c:464`, Motion 4.7.0) and copies an unknown specifier with its `%` (`util.c:578`), so `power1%20on` becomes `power1%on`; motionEye passes the webhook URL without escaping `%` (`config.py:1536-1559`). Fix idea: `%XX` (two hex digits) → `%%XX`. Not run against Motion yet.
+- #2911: fullscreen as the normal user, check the code.
+- #2904: Docker on Buster, MichaIng's test pending.
+- #2895: grey screen, no details; look again next time.
