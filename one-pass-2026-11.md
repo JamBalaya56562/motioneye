@@ -1276,3 +1276,20 @@ Held: #1895 fix candidate (slider `min="0"`, `main.html:871`, gives Motion `thre
 `config.py:1238`; Motion needs >= 1); #1378 (identical USB cameras share a `/dev/v4l/by-id` name,
 `v4l2ctl.py:144`, not tried); #2707 after #3546 merges; #2753 (empty password, "Not a supported
 network camera") to trace.
+
+### Batch 17, fourth set (closed 2026-11-12)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2759 | completed | −troubleshooting +bug +legacy motionEye | fixed by #3543 (new cameras get plain `mp4`); linked, milestone v0.45.0 |
+| #2773 | not planned | −troubleshooting +question +legacy motionEye | action scripts run without a terminal (`handlers/action.py:95`), curses cannot start |
+| #2782 | not planned | +docker +legacy motionEye | old `ccrisan/motioneye:master-amd64` image, no follow-up since 2023 |
+| #2779 | completed | +legacy motionEye | answered by zagrim (CPU decoding, resolution, fps) |
+| #2791 | completed | +legacy motionEye | answered by zagrim (ffmpeg / `netcam_params decoder=`) |
+
+Held from this read:
+- #2706: libcamera in a container, waits for #3546 like #2707.
+- #2100: `netcam_keepalive=1` works for two users; motionEye enables keepalive only on an HTTP/1.1 answer (`utils/mjpeg.py:105`, `config.py:886`). Whether a motionEye stream still gets keepalive off needs a Pi check.
+- #2754: composite USB adapter, last question from 2023-06 unanswered; reread.
+- #2776: "dev has a workaround" for libmicrohttpd, but no such code found (`grep -rni microhttpd motioneye/`); check.
+- #2794: Telegram topics, no `message_thread_id` in `sendtelegram.py`; kept as a feature request.
