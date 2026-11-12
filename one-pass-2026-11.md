@@ -1534,3 +1534,8 @@ Backup `~/meye-backup-2635`; afterwards restored, motionEye back on dev `413b7ce
 Kept:
 - #3128 (Dropbox): after a 401, credentials are refreshed and the retried request's 409 is logged, then "refreshing credentials failed" is logged although the refresh worked (`uploadservices.py:778-793`); the 409 is likely the upload itself. Bug candidate, needs a Dropbox account.
 - #2911: needs a browser check with a camera as the normal user.
+- #2776 closed 2026-11-13 (completed, −external bug +bug, milestone v0.43.1, linked #2432): same chunked-stream preview corruption as #2401/#2871; #2432 (fd59632c) requests Motion's stream with HTTP/1.0, first in 0.43.1b1, final 0.43.1.
+- #1544 closed 2026-11-13 (not planned, +legacy motionEye): 0.42.1 / motionEyeOS 20200606 reports, MJPEG client changed since (#2432, #3266), not checked on current.
+- #2942 closed 2026-11-13 (not planned): two identical C270s; by-id collision not checked (needs two cameras).
+
+Remaining held: waiting for PRs (#2804, #2917, #3022, #3046, #3116, #3183, #3088, #2955, #1430); bugs to fix (#2952, #2541, #779, #3128); active (#2887); browser check (#2911).
