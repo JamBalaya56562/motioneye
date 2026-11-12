@@ -1480,3 +1480,16 @@ Held:
 - #3183: OV5647 on libcamera, libcamerify worked for a commenter; waits for #3546.
 - #2887: 3 s freeze at the start of movies, Marijn asked in 2026-04; still open.
 - #3217: Czech UI internal server error; try to reproduce.
+
+### Held issues revisited (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2927 | not planned | +external bug | `bcm2835-camera.c` (rpi-6.6.y): above `max_video_width`/`height` (default 1280x720) the still capture port is used (lines 40-41, 1176-1182); German URLs fixed by #3020 |
+| #2560 | not planned | +external bug | same driver limit; `duplicate` kept (MichaIng pointed to #2425) |
+| #2904 | completed | +legacy motionEye | image runs as root unless `--user` since 0.45.0b1 (#3484, `docker/entrypoint.sh`); not linked, cause not confirmed |
+
+Pi checks to do when the Pi is up (user boots it on request):
+1. fix/video-params-palette (#2635) on Camera Module 3 via libcamerify: `video_params palette=...` in Extra Options survives a save, Motion keeps streaming; decides #2955, #1430.
+2. #2100: the Pi's motionEye stream as an MJPEG network camera, keepalive set automatically?
+3. #2706: libcamerify inside the Docker container on the Pi.
