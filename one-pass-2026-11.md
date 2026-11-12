@@ -1430,3 +1430,19 @@ Held from this read:
 Held from this read:
 - #3116: HQ camera on libcamera, waits for #3546.
 - Next: #3096 (USB resolution stays 640x480), #3098 (mosquitto command), both without comments.
+
+### Batch 17, fourteenth set (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2476 | completed | +legacy motionEye | a separate `motion` service held the camera (two confirmations) |
+| #2295 | not planned | +legacy motionEye | old `master-amd64` image; camera-specific RTSP URLs worked for others |
+| #3165 | completed | (unchanged) | MichaIng: no media encryption; Run a command with `%f` as a way |
+| #3175 | not planned | (unchanged) | HEVC playback is the browser's; "H.264 (.mp4)" (`main.html:785`), default for new cameras on dev (#3543) |
+| #3161 | not planned | (unchanged) | Edge file dialog freeze, no answer to MichaIng |
+
+Kept from this read:
+- #2541: continuous recording forces still images to All Frames, a real bug (zagrim).
+- #779: IPv6 `listen`, likely a sample config doc change after testing; PR candidate.
+- #3128: Dropbox refresh 409, no comments, check the code.
+- Next: #3137 (HA addon, second RTSP camera grey, no reply).
