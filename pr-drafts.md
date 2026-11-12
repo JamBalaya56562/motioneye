@@ -669,3 +669,22 @@ boto3 is the largest dependency: botocore alone is 31 MB in the venv, and import
   `handlers/config.py` returned `on_finish(...)` in one branch only (now call + `return`)
 - 16 files, +235/-267. 3.9: ruff, format, mypy clean, 550 passed
 - Conflicts with #3545 on the `extend-select` line; rebase after it merges, then submit (user)
+
+## `fix/video-params-palette` — keep motion's own video_params entries (#2635, not submitted)
+
+- Branch: `JamBalaya56562:fix/video-params-palette` (`84f93957`), base `dev` (`e765d633`). Fixes #2635
+  (milestone v0.45.0). Labels: `bug`, `Python`, `motion`
+- Cause: `video_params` is rebuilt from the detected controls on each save (`config.py` v4l2 branch of
+  `motion_camera_ui_to_dict`), and on read the whole line becomes `vid_control_params`, so a
+  `palette=15` set by hand or through Extra Options is gone after the next save. #3458 fixed the
+  `netcam_params` half of the issue; free-cup-holder-exe noted the palette part remained
+- Fix, as #3458: on read (`_MOTION_44_TO_43`), motion's own entries (`palette`, `input`, `norm`,
+  `frequency`; Motion docs: they replaced `v4l2_palette`, `input`, `norm`, `frequency` in 4.4) go to an
+  extra `video_params` option, shown in Extra Options; on write (`_MOTION_43_TO_44`) it is put in front
+  of the controls. Split by commas outside double quotes (Motion allows `"Gain, Automatic"=1`)
+- Tests (`tests/test_config.py`): 5 mapping tests + 2 through the file (V4L2 camera with
+  `palette=15,ID09963776=10`: shows in Extra Options; a save with brightness 20 writes
+  `palette=15,ID09963776=20`). On dev: 4 of the 7 fail (save gave `video_params ID09963776=20`).
+  3.9 in Docker: ruff, format, mypy clean, 570 passed
+- Not checked on a real camera (Pi off). Expected review Q: a palette set in Extra Options while
+  the camera also had one in the file: the extra option replaces it (it is the same entry read back)
