@@ -688,3 +688,23 @@ boto3 is the largest dependency: botocore alone is 31 MB in the venv, and import
   3.9 in Docker: ruff, format, mypy clean, 570 passed
 - Not checked on a real camera (Pi off). Expected review Q: a palette set in Extra Options while
   the camera also had one in the file: the extra option replaces it (it is the same entry read back)
+
+## `refactor/handlers-return-none` — handlers return nothing, `-> None` (not submitted, after #3547)
+
+- Branch: `JamBalaya56562:refactor/handlers-return-none` (`0dde9e57`+), **stacked on `chore/ruff-return`
+  (#3547)**; rebase onto dev once #3547 merges. Idea: MichaIng on #3547 (pullrequestreview-5866966003)
+- 120 `return <finishing call>` (finish, finish_json, finish_json_with_error, render, try_finish, ...)
+  rewritten by an ast script to the call plus `return` where code follows; `-> None` on the handler
+  methods that return nothing; ruff RET501 removed 21 `return None`. Not annotated: methods that return
+  values, Tornado's `finish`/`render` overrides, and BaseHandler's fallback `get`/`post`/`head` (as
+  `-> None` they clash with the async subclasses: mypy override errors, 7)
+- Annotating made mypy check those bodies, which found 4 more (fixed): `Popen.stdout` Optional in
+  `check_command` (now `communicate()[0]`, the process has ended), `resp` reused for two response types in
+  `ConfigHandler.list` (loop var renamed), `_upload_service_test_info` undeclared (class attribute),
+  and RET502 in the auth wrapper (`return None`, it returns `func(...)` elsewhere)
+- 3.9 Docker: ruff, format, mypy clean, 563 passed
+- What enforces it (verified with mypy and ty 0.0.101 on a probe): with `-> None`, returning a Future
+  (Tornado's `finish`/`render`) is an error in both; NOT caught by either: `return self.finish_json()`
+  (it is `-> None`, type-correct) and `return self.finish()` while BaseHandler.finish is unannotated.
+  ruff ANN201/ANN202 could require the annotations in handlers only
+  (`per-file-ignores "!motioneye/handlers/**"` works in ruff 0.17.4)

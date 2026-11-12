@@ -41,3 +41,11 @@ mypy finds nothing, probably because by default it does not check the bodies of 
 1. Before: annotate `settings.py` etc., settle `_`, fix real bugs found in separate PRs
 2. Add `[tool.ty]` with `python-version = "3.9"`, run it in `test_python.yml` next to mypy (pre-commit hooks lack the project's deps); possibly non-blocking until zero
 3. mypy: keep alongside while ty is beta, or replace — maintainers' call
+
+## Update 2026-11-12 (ty 0.0.101, still Beta)
+
+- 171 diagnostics on `chore/ruff-return` (3.9), 170 on `refactor/handlers-return-none` (Popen.stdout fixed)
+- handlers: 11 `incompatible-method-override` (our `get(self, camera_id, op)` vs Tornado's
+  `get(self, *args: str, **kwargs: str)`; mypy does not report these), 2 lost-keyword, 2 no-matching-overload
+- For "no value returned from handlers" ty finds the same as mypy (probe): a Future returned from `-> None`
+  is `invalid-return-type`; `return <None-typed call>` and `return <unannotated method>()` pass in both
