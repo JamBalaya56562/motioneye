@@ -1416,3 +1416,17 @@ Held from this read:
 - #1430: `v4l2_palette=8` workaround, lost on save (#2635); like #2955.
 - #3088: no images on motion; maybe a 0 % threshold (#3548), look again after #3548.
 - #3070 (HA addon fps), #3071 (`netcam_high_url` stops the stream): no comments, check the code.
+
+### Batch 17, thirteenth set (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #3104 | completed | +motion | Motion docs: passthrough movies have no privacy mask; privacy mask applies before detection |
+| #3120 | completed | +external bug | HA 2026.11.0 `media_source.py` proxies motionEye media (`MEDIA_PROXY_URL`), absent in 2026.10.0 |
+| #3103 | completed | (unchanged) | zagrim: `?` before the URL parameters |
+| #3090 | not planned | +external bug | whole machine hangs, kernel/hardware (zagrim, reporter) |
+| #2291 | not planned | +legacy motionEye | motionEyeOS boot; last release 20200606, dev20201026 |
+
+Held from this read:
+- #3116: HQ camera on libcamera, waits for #3546.
+- Next: #3096 (USB resolution stays 640x480), #3098 (mosquitto command), both without comments.
