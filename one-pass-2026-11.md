@@ -1298,7 +1298,7 @@ Held from this read:
 
 | Issue | Reason | Labels | Note |
 |---|---|---|---|
-| #2809 | completed | +legacy motionEye | fixed by #3380 (unwritable mounts listed as "[No write access]"); linked, milestone v0.45.0 |
+| #2809 | completed | −question +bug +legacy motionEye | fixed by #3380 (unwritable mounts listed as "[No write access]"); linked, milestone v0.45.0 |
 | #2806 | completed | −troubleshooting +question +legacy motionEye | `/media/<user>` from udisks is closed to `motion` (not tried on a Pi) |
 | #2797 | completed | +legacy motionEye | `smb_shares` needs root (`motioneye.conf.sample:80`), service runs as `motion`; mount with the OS + Custom Path |
 | #2569 | completed | +legacy motionEye | web files are `motioneye/templates/` and `motioneye/static/` |
