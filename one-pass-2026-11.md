@@ -1522,3 +1522,15 @@ Backup `~/meye-backup-2635`; afterwards restored, motionEye back on dev `413b7ce
 - #2100 kept for now. Correction (2026-11-13): the dialog does send `keep_alive` (see the Pi check), so there is no fix to make. Likely the older Motion stream answered HTTP/1.0, so keepalive was detected off (not checked); with Motion 4.7.1 the stream is HTTP/1.1 and both keepalive off and on gave pictures. Candidate to close as not reproducible.
 - #2100 closed 2026-11-13 (not planned, labels unchanged): not reproduced on dev + Motion 4.7.1 (Pi check above); workaround given as `keepalive = on` in `netcam_params` of camera-N.conf (kept on save, `config.py:199-205`, `:233-236`), not via Extra Options (not checked).
 - #3217 closed 2026-11-13 (completed, −troubleshooting +bug, milestone v0.43.1): Docker, `@lang cs`: `/` gives 500 on 0.43.1b5 (traceback in gettext of `main.html:595`, Czech msgstr had `% m = minuta`), 200 on 0.43.1, 0.44.0 and dev `413b7ce4`; fixed by Weblate Czech commits 2025-12-09/10 (63fdf93a etc., first in 0.43.1). Add-on 0.23.0 pins 0.43.1b5, add-on 0.24.0 pins 0.44.0 (their Dockerfiles).
+
+### Held issues, Docker/code checks (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #3037 | not planned | (unchanged) | `SFTP.test_access()` against OpenSSH in Docker passed on Debian 13 (apt pycurl, libcurl 8.14.1/libssh2 1.11.1), Debian 12 (libcurl 7.88.1/libssh2 1.10.0) and PyPI pycurl 7.49.0 (libcurl 8.23.0/libssh2), with and without known_hosts |
+| #3071 | not planned | +motion | `netcam_high_url` not handled by motionEye (grep), passed as is; same URL twice, maybe one-connection camera (not checked) |
+| #3070 | not planned | +motion | framerate written to Motion; add-on issue #505 closed stale |
+
+Kept:
+- #3128 (Dropbox): after a 401, credentials are refreshed and the retried request's 409 is logged, then "refreshing credentials failed" is logged although the refresh worked (`uploadservices.py:778-793`); the 409 is likely the upload itself. Bug candidate, needs a Dropbox account.
+- #2911: needs a browser check with a camera as the normal user.
