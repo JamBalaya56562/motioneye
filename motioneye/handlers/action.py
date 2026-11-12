@@ -91,7 +91,7 @@ class ActionHandler(BaseHandler):
             )
             self.run_command_bg(command)
 
-    def run_command_bg(self, command):
+    def run_command_bg(self, command) -> None:
         self.p = subprocess.Popen(
             command, stderr=subprocess.STDOUT, stdout=subprocess.PIPE
         )
@@ -100,10 +100,10 @@ class ActionHandler(BaseHandler):
         self.io_loop = IOLoop.current()
         self.io_loop.call_later(0.1, self.check_command)
 
-    def check_command(self):
+    def check_command(self) -> None:
         exit_status = self.p.poll()
         if exit_status is not None:
-            output = self.p.stdout.read()
+            output = self.p.communicate()[0]  # it has ended, this only reads
             lines = output.decode('utf-8').split('\n')
             if not lines[-1]:
                 lines = lines[:-1]
@@ -120,7 +120,8 @@ class ActionHandler(BaseHandler):
                 for line in lines:
                     logging.debug(f'{command}: {line}')
 
-            return self.finish_json({'status': exit_status})
+            self.finish_json({'status': exit_status})
+            return
 
         self.io_loop.call_later(0.1, self.check_command)
-        return None
+        return

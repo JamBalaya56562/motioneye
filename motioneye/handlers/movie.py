@@ -31,7 +31,7 @@ __all__ = ('MovieHandler',)
 
 
 class MovieHandler(BaseHandler):
-    async def get(self, camera_id: str, op, filename: str | None = None):
+    async def get(self, camera_id: str, op, filename: str | None = None) -> None:
         camera_id_int = int(camera_id)  # type: ignore[assignment]
         if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
@@ -72,7 +72,7 @@ class MovieHandler(BaseHandler):
         op,
         filename: str | None = None,
         group: str | None = None,
-    ):
+    ) -> None:
         camera_id_int = int(camera_id)  # type: ignore[assignment]
         if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
@@ -113,7 +113,7 @@ class MovieHandler(BaseHandler):
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def list(self, camera_id: int):
+    async def list(self, camera_id: int) -> None:
         logging.debug(f'listing movies for camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
@@ -129,11 +129,13 @@ class MovieHandler(BaseHandler):
                 with_stat=with_stat,
             )
             if media_list is None:
-                return self.finish_json({'error': 'Failed to get movies list.'})
+                self.finish_json({'error': 'Failed to get movies list.'})
+                return
 
-            return self.finish_json(
+            self.finish_json(
                 {'mediaList': media_list, 'cameraName': camera_config['camera_name']}
             )
+            return
 
         if utils.is_remote_camera(camera_config):
             resp = await remote.list_media(
@@ -142,20 +144,22 @@ class MovieHandler(BaseHandler):
                 prefix=self.get_argument('prefix', None),
             )
             if resp.error:
-                return self.finish_json(
+                self.finish_json(
                     {
                         'error': f'failed to get movie list for {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
+                return
 
-            return self.finish_json(resp.media_list)
+            self.finish_json(resp.media_list)
+            return
 
         # assuming simple mjpeg camera
         raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def preview(self, camera_id, filename):
+    async def preview(self, camera_id, filename) -> None:
         logging.debug(f'previewing movie {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
@@ -191,41 +195,44 @@ class MovieHandler(BaseHandler):
                 Path(join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read_bytes,
             )
 
-        return self.finish(content)
+        self.finish(content)
 
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
-    async def delete(self, camera_id, filename):
+    async def delete(self, camera_id, filename) -> None:
         logging.debug(f'deleting movie {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
             try:
                 mediafiles.del_media_content(camera_config, filename)
-                return self.finish_json()
+                self.finish_json()
+                return
 
             except Exception as e:
-                return self.finish_json({'error': str(e)})
+                self.finish_json({'error': str(e)})
+                return
 
         elif utils.is_remote_camera(camera_config):
             resp = await remote.del_media_content(
                 camera_config, filename=filename, media_type='movie'
             )
             if resp.error:
-                return self.finish_json(
+                self.finish_json(
                     {
                         'error': f'failed to delete movie from {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
+                return
 
-            return self.finish_json()
+            self.finish_json()
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
-    async def delete_all(self, camera_id, group):
+    async def delete_all(self, camera_id, group) -> None:
         logging.debug(
             f'deleting movie group "{group or "ungrouped"}" of camera {camera_id}'
         )
@@ -234,23 +241,26 @@ class MovieHandler(BaseHandler):
         if utils.is_local_motion_camera(camera_config):
             try:
                 mediafiles.del_media_group(camera_config, group, 'movie')
-                return self.finish_json()
+                self.finish_json()
+                return
 
             except Exception as e:
-                return self.finish_json({'error': str(e)})
+                self.finish_json({'error': str(e)})
+                return
 
         elif utils.is_remote_camera(camera_config):
             resp = await remote.del_media_group(
                 camera_config, group=group, media_type='movie'
             )
             if resp.error:
-                return self.finish_json(
+                self.finish_json(
                     {
                         'error': f'failed to delete movie group at {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
+                return
 
-            return self.finish_json()
+            self.finish_json()
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')

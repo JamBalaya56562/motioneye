@@ -35,7 +35,8 @@ class RelayEventHandler(BaseHandler):
                 f'relay event request from non-local address {self.request.remote_ip}'
             )
             self.set_status(403)
-            return self.finish_json({'error': 'unauthorized'})
+            self.finish_json({'error': 'unauthorized'})
+            return
 
         # Validate relay secret from header
         relay_secret = self.request.headers.get('X-Relay-Secret', '')
@@ -46,7 +47,8 @@ class RelayEventHandler(BaseHandler):
                 f'relay event request with invalid secret from {self.request.remote_ip}'
             )
             self.set_status(403)
-            return self.finish_json({'error': 'invalid_secret'})
+            self.finish_json({'error': 'invalid_secret'})
+            return
 
         event = self.get_argument('event')
         motion_camera_id = int(self.get_argument('motion_camera_id'))
@@ -57,7 +59,7 @@ class RelayEventHandler(BaseHandler):
                 f'ignoring event for unknown motion camera id {motion_camera_id}'
             )
             self.finish_json()
-            return None
+            return
 
         logging.debug(
             f'received relayed event {event} for motion camera id {motion_camera_id} (camera id {camera_id})'
@@ -67,7 +69,7 @@ class RelayEventHandler(BaseHandler):
         if not utils.is_local_motion_camera(camera_config):
             logging.warning(f'ignoring event for non-local camera with id {camera_id}')
             self.finish_json()
-            return None
+            return
 
         filename: str | None = self.get_argument('filename')
         if filename is not None:
@@ -83,7 +85,7 @@ class RelayEventHandler(BaseHandler):
                     f'ignoring start event for camera with id {camera_id} and motion detection disabled'
                 )
                 self.finish_json()
-                return None
+                return
 
             motionctl.set_motion_detected(camera_id, True)
 
@@ -114,9 +116,9 @@ class RelayEventHandler(BaseHandler):
 
         self.finish_json()
 
-        return None
+        return
 
-    def _upload_media_file(self, filename, camera_id, camera_config):
+    def _upload_media_file(self, filename, camera_id, camera_config) -> None:
         service_name = camera_config['@upload_service']
 
         tasks.add(

@@ -22,7 +22,7 @@ __all__ = ('MainHandler',)
 
 
 class MainHandler(BaseHandler):
-    def get(self):
+    def get(self) -> None:
         motion_info = motionctl.find_motion()
         os_version = update.get_os_version()
 

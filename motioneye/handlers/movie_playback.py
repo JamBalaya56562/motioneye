@@ -49,7 +49,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def get(self, camera_id: str, filename: str, include_body=True):
+    async def get(self, camera_id: str, filename: str, include_body=True) -> None:
         camera_id_int = int(camera_id)  # type: ignore[assignment]
         if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
@@ -84,7 +84,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 camera_config['camera_name'] + '_' + self.pretty_filename
             )
             await StaticFileHandler.get(self, filename, include_body=include_body)
-            return None
+            return
 
         if utils.is_remote_camera(camera_config):
             # we will cache the movie since it takes a while to fetch from the remote camera
@@ -105,7 +105,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                             'failed to download movie from '
                             f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
                         )
-                        return self.finish_json({'error': msg})
+                        self.finish_json({'error': msg})
+                        return
 
                     await get_running_loop().run_in_executor(
                         None, _write_cache_file, tmpfile, resp.result
@@ -115,12 +116,12 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
             mtime: float = os.stat(tmpfile).st_mtime
             os.utime(tmpfile, (time(), mtime))
             await StaticFileHandler.get(self, tmpfile, include_body=include_body)
-            return None
+            return
 
         # assuming simple mjpeg camera
         raise HTTPError(400, 'unknown operation')
 
-    def on_finish(self):
+    def on_finish(self) -> None:
         # delete any cached file older than an hour
         stale_time: float = time() - (60 * 60)
         try:
@@ -148,7 +149,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
 
 class MovieDownloadHandler(MoviePlaybackHandler):
-    def set_extra_headers(self, filename):
+    def set_extra_headers(self, filename) -> None:
         if self.get_status() in (200, 304):
             self.set_header(
                 'Content-Disposition',

@@ -74,7 +74,7 @@ __all__ = ('PictureHandler',)
 
 
 class PictureHandler(BaseHandler):
-    def compute_etag(self):
+    def compute_etag(self) -> None:
         return None
 
     async def get(
@@ -83,7 +83,7 @@ class PictureHandler(BaseHandler):
         op,
         filename: str | None = None,
         group: str | None = None,
-    ):
+    ) -> None:
         camera_id_int: int = int(camera_id)  # type: ignore[assignment]
         if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
@@ -144,7 +144,7 @@ class PictureHandler(BaseHandler):
         op,
         filename: str | None = None,
         group: str | None = None,
-    ):
+    ) -> None:
         camera_id_int: int = int(camera_id)  # type: ignore[assignment]
         if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
@@ -184,7 +184,7 @@ class PictureHandler(BaseHandler):
 
     @BaseHandler.auth(prompt=False)
     @BaseHandler.peer_allowed()
-    async def current(self, camera_id, retry=0):
+    async def current(self, camera_id, retry=0) -> None:
         self.set_header('Content-Type', 'image/jpeg')
         self.set_header('Cache-Control', 'no-store, must-revalidate')
         self.set_header('Pragma', 'no-cache')
@@ -209,7 +209,8 @@ class PictureHandler(BaseHandler):
             # wait at most 5 seconds and retry every 200 ms.
             if not picture and retry < 25:
                 await gen.sleep(0.2)
-                return await self.current(camera_id=camera_id, retry=retry + 1)
+                await self.current(camera_id=camera_id, retry=retry + 1)
+                return
 
             self.set_cookie(
                 'motion_detected_' + camera_id_str,
@@ -232,14 +233,16 @@ class PictureHandler(BaseHandler):
                         str(response.enabled).lower(),
                     )
 
-            return self.try_finish(picture)
+            self.try_finish(picture)
+            return
 
         if utils.is_remote_camera(camera_config):
             resp: utils.GetCurrentPictureResponse = await remote.get_current_picture(
                 camera_config, width=width, height=height
             )
             if resp.error:
-                return self.try_finish(None)
+                self.try_finish(None)
+                return
 
             self.set_cookie(
                 'motion_detected_' + camera_id_str, str(resp.motion_detected).lower()
@@ -256,14 +259,15 @@ class PictureHandler(BaseHandler):
                     str(resp.motion_detection).lower(),
                 )
 
-            return self.try_finish(resp.picture)
+            self.try_finish(resp.picture)
+            return
 
         # assuming simple mjpeg camera
         raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def list(self, camera_id):
+    async def list(self, camera_id) -> None:
         logging.debug(f'listing pictures for camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
@@ -279,11 +283,13 @@ class PictureHandler(BaseHandler):
                 with_stat=with_stat,
             )
             if media_list is None:
-                return self.finish_json({'error': 'failed to get movies list'})
+                self.finish_json({'error': 'failed to get movies list'})
+                return
 
-            return self.finish_json(
+            self.finish_json(
                 {'mediaList': media_list, 'cameraName': camera_config['camera_name']}
             )
+            return
 
         if utils.is_remote_camera(camera_config):
             resp = await remote.list_media(
@@ -292,18 +298,20 @@ class PictureHandler(BaseHandler):
                 prefix=self.get_argument('prefix', None),
             )
             if resp.error:
-                return self.finish_json(
+                self.finish_json(
                     {
                         'error': f'failed to get picture list for {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
+                return
 
-            return self.finish_json(resp.media_list)
+            self.finish_json(resp.media_list)
+            return
 
         # assuming simple mjpeg camera
         raise HTTPError(400, 'unknown operation')
 
-    async def frame(self, camera_id):
+    async def frame(self, camera_id) -> None:
         self.set_header('Cache-Control', 'private, no-store, must-revalidate')
 
         camera_config = config.get_camera(camera_id)
@@ -313,7 +321,7 @@ class PictureHandler(BaseHandler):
             or utils.is_simple_mjpeg_camera(camera_config)
             or self.get_argument('title', None) is not None
         ):
-            return self.render(
+            self.render(
                 'main.html',
                 frame=True,
                 camera_id=camera_id,
@@ -322,11 +330,12 @@ class PictureHandler(BaseHandler):
                 current_user=self.current_user,
                 static_path='../../../static/',
             )
+            return
 
         if utils.is_remote_camera(camera_config):
             resp = await remote.get_config(camera_config)
             if resp.error:
-                return self.render(
+                self.render(
                     'main.html',
                     frame=True,
                     camera_id=camera_id,
@@ -335,6 +344,7 @@ class PictureHandler(BaseHandler):
                     current_user=self.current_user,
                     static_path='../../../static/',
                 )
+                return
 
             try:
                 stream_maxrate = int(
@@ -353,7 +363,7 @@ class PictureHandler(BaseHandler):
                 '@proto': 'motioneye',
             }
 
-            return self.render(
+            self.render(
                 'main.html',
                 frame=True,
                 camera_id=camera_id,
@@ -362,12 +372,13 @@ class PictureHandler(BaseHandler):
                 current_user=self.current_user,
                 static_path='../../../static/',
             )
+            return
 
-        return None
+        return
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def download(self, camera_id, filename):
+    async def download(self, camera_id, filename) -> None:
         logging.debug(f'downloading picture {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
@@ -380,18 +391,20 @@ class PictureHandler(BaseHandler):
                 'Content-Disposition', 'attachment; filename=' + pretty_filename + ';'
             )
 
-            return self.finish(content)
+            self.finish(content)
+            return
 
         if utils.is_remote_camera(camera_config):
             resp = await remote.get_media_content(
                 camera_config, filename=filename, media_type='picture'
             )
             if resp.error:
-                return self.finish_json(
+                self.finish_json(
                     {
                         'error': f'failed to download picture from {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
+                return
 
             pretty_filename = basename(
                 filename
@@ -401,14 +414,15 @@ class PictureHandler(BaseHandler):
                 'Content-Disposition', 'attachment; filename=' + pretty_filename + ';'
             )
 
-            return self.finish(resp.result)
+            self.finish(resp.result)
+            return
 
         # assuming simple mjpeg camera
         raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def preview(self, camera_id, filename):
+    async def preview(self, camera_id, filename) -> None:
         logging.debug(f'previewing picture {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
@@ -444,41 +458,44 @@ class PictureHandler(BaseHandler):
                 Path(join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read_bytes,
             )
 
-        return self.finish(content)
+        self.finish(content)
 
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
-    async def delete(self, camera_id, filename):
+    async def delete(self, camera_id, filename) -> None:
         logging.debug(f'deleting picture {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
             try:
                 mediafiles.del_media_content(camera_config, filename)
-                return self.finish_json()
+                self.finish_json()
+                return
 
             except Exception as e:
-                return self.finish_json({'error': str(e)})
+                self.finish_json({'error': str(e)})
+                return
 
         elif utils.is_remote_camera(camera_config):
             resp = await remote.del_media_content(
                 camera_config, filename=filename, media_type='picture'
             )
             if resp.error:
-                return self.finish_json(
+                self.finish_json(
                     {
                         'error': f'failed to delete picture from {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
+                return
 
-            return self.finish_json()
+            self.finish_json()
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def zipped(self, camera_id, group):
+    async def zipped(self, camera_id, group) -> None:
         key = self.get_argument('key', None)
         camera_config = config.get_camera(camera_id)
 
@@ -501,7 +518,8 @@ class PictureHandler(BaseHandler):
                     'Content-Disposition',
                     'attachment; filename=' + pretty_filename + '.zip;',
                 )
-                return self.finish(data)
+                self.finish(data)
+                return
 
             if utils.is_remote_camera(camera_config):
                 resp = await remote.get_zipped_content(
@@ -513,14 +531,16 @@ class PictureHandler(BaseHandler):
                         'failed to download zip file from '
                         f'{remote.pretty_camera_url(camera_config)}: {error}'
                     )
-                    return self.finish_json({'error': msg})
+                    self.finish_json({'error': msg})
+                    return
 
                 content_type, content_disposition = _remote_download_headers(
                     resp.result, _ZIP_TYPES, f'Camera{camera_id}_{group}'
                 )
                 self.set_header('Content-Type', content_type)
                 self.set_header('Content-Disposition', content_disposition)
-                return self.finish(resp.result['data'])
+                self.finish(resp.result['data'])
+                return
 
             # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
@@ -535,33 +555,37 @@ class PictureHandler(BaseHandler):
                 camera_config, media_type='picture', group=group
             )
             if data is None:
-                return self.finish_json({'error': 'failed to create zip file'})
+                self.finish_json({'error': 'failed to create zip file'})
+                return
 
             key = mediafiles.set_prepared_cache(data)
             logging.debug(
                 f'prepared zip file for group "{group or "ungrouped"}" of camera {camera_id} with key {key}'
             )
-            return self.finish_json({'key': key})
+            self.finish_json({'key': key})
+            return
 
         if utils.is_remote_camera(camera_config):
             resp = await remote.make_zipped_content(
                 camera_config, media_type='picture', group=group
             )
             if resp.error:
-                return self.finish_json(
+                self.finish_json(
                     {
                         'error': f'failed to make zip file at {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
+                return
 
-            return self.finish_json({'key': resp.result['key']})
+            self.finish_json({'key': resp.result['key']})
+            return
 
         # assuming simple mjpeg camera
         raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def timelapse(self, camera_id, group):
+    async def timelapse(self, camera_id, group) -> None:
         key = self.get_argument('key', None)
         check = self.get_argument('check', False)
         camera_config = config.get_camera(camera_id)
@@ -594,7 +618,8 @@ class PictureHandler(BaseHandler):
                     'Content-Disposition',
                     'attachment; filename=' + pretty_filename + ';',
                 )
-                return self.finish(data)
+                self.finish(data)
+                return
 
             if utils.is_remote_camera(camera_config):
                 resp = await remote.get_timelapse_movie(camera_config, key, group=group)
@@ -604,14 +629,16 @@ class PictureHandler(BaseHandler):
                         'failed to download timelapse movie from '
                         f'{remote.pretty_camera_url(camera_config)}: {error}'
                     )
-                    return self.finish_json({'error': msg})
+                    self.finish_json({'error': msg})
+                    return
 
                 content_type, content_disposition = _remote_download_headers(
                     resp.result, _MOVIE_TYPES, f'Camera{camera_id}_{group}'
                 )
                 self.set_header('Content-Type', content_type)
                 self.set_header('Content-Disposition', content_disposition)
-                return self.finish(resp.result['data'])
+                self.finish(resp.result['data'])
+                return
 
             # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
@@ -628,9 +655,11 @@ class PictureHandler(BaseHandler):
                     logging.debug(
                         f'prepared timelapse movie for group "{group or "ungrouped"}" of camera {camera_id} with key {key}'
                     )
-                    return self.finish_json({'key': key, 'progress': -1})
+                    self.finish_json({'key': key, 'progress': -1})
+                    return
 
-                return self.finish_json(status)
+                self.finish_json(status)
+                return
 
             if utils.is_remote_camera(camera_config):
                 resp = await remote.check_timelapse_movie(camera_config, group=group)
@@ -639,12 +668,15 @@ class PictureHandler(BaseHandler):
                         'failed to check timelapse movie progress at '
                         f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
                     )
-                    return self.finish_json({'error': msg})
+                    self.finish_json({'error': msg})
+                    return
 
                 if resp.result.get('progress') == -1 and resp.result.get('key'):
-                    return self.finish_json({'key': resp.result['key'], 'progress': -1})
+                    self.finish_json({'key': resp.result['key'], 'progress': -1})
+                    return
 
-                return self.finish_json(resp.result)
+                self.finish_json(resp.result)
+                return
 
             # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
@@ -663,14 +695,16 @@ class PictureHandler(BaseHandler):
         if utils.is_local_motion_camera(camera_config):
             status = mediafiles.check_timelapse_movie()
             if status['progress'] != -1:
-                return self.finish_json(
+                self.finish_json(
                     {'progress': status['progress']}
                 )  # timelapse already active
+                return
 
             mediafiles.make_timelapse_movie(
                 camera_config, framerate, interval, group=group
             )
-            return self.finish_json({'progress': -1})
+            self.finish_json({'progress': -1})
+            return
 
         if utils.is_remote_camera(camera_config):
             check_timelapse_resp = await remote.check_timelapse_movie(
@@ -681,13 +715,15 @@ class PictureHandler(BaseHandler):
                     'failed to make timelapse movie at '
                     f'{remote.pretty_camera_url(camera_config)}: {check_timelapse_resp.error}'
                 )
-                return self.finish_json({'error': msg})
+                self.finish_json({'error': msg})
+                return
 
             if check_timelapse_resp.result.get('progress') != -1:
                 # timelapse already active
-                return self.finish_json(
+                self.finish_json(
                     {'progress': check_timelapse_resp.result.get('progress')}
                 )
+                return
 
             make_timelapse_resp = await remote.make_timelapse_movie(
                 camera_config, framerate, interval, group=group
@@ -697,16 +733,18 @@ class PictureHandler(BaseHandler):
                     'failed to make timelapse movie at '
                     f'{remote.pretty_camera_url(camera_config)}: {make_timelapse_resp.error}'
                 )
-                return self.finish_json({'error': msg})
+                self.finish_json({'error': msg})
+                return
 
-            return self.finish_json({'progress': -1})
+            self.finish_json({'progress': -1})
+            return
 
         # assuming simple mjpeg camera
         raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
-    async def delete_all(self, camera_id, group):
+    async def delete_all(self, camera_id, group) -> None:
         logging.debug(
             f'deleting picture group "{group or "ungrouped"}" of camera {camera_id}'
         )
@@ -715,10 +753,12 @@ class PictureHandler(BaseHandler):
         if utils.is_local_motion_camera(camera_config):
             try:
                 mediafiles.del_media_group(camera_config, group, 'picture')
-                return self.finish_json()
+                self.finish_json()
+                return
 
             except Exception as e:
-                return self.finish_json({'error': str(e)})
+                self.finish_json({'error': str(e)})
+                return
 
         elif utils.is_remote_camera(camera_config):
             resp = await remote.del_media_group(
@@ -729,18 +769,20 @@ class PictureHandler(BaseHandler):
                     'failed to delete picture group at '
                     f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
                 )
-                return self.finish_json({'error': msg})
+                self.finish_json({'error': msg})
+                return
 
-            return self.finish_json()
+            self.finish_json()
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
 
-    def try_finish(self, content):
+    def try_finish(self, content) -> None:
         try:
-            return self.finish(content)
+            self.finish(content)
+            return
 
         except OSError as e:
             logging.warning(f'could not write response: {e}')
 
-            return None
+            return
