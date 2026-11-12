@@ -1446,3 +1446,19 @@ Kept from this read:
 - #779: IPv6 `listen`, likely a sample config doc change after testing; PR candidate.
 - #3128: Dropbox refresh 409, no comments, check the code.
 - Next: #3137 (HA addon, second RTSP camera grey, no reply).
+
+### Batch 17, fifteenth set (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #3223 | completed | +motion | `%f` only in File storage → Run a command (ToeKneeFan, MichaIng) |
+| #3244 | completed | (unchanged) | Motion's docs for the options; ToeKneeFan's one-picture + Run a command setup |
+| #3222 | not planned | (unchanged) | maybe password characters; percent-encoded since 0.44.0 (#3296), re-add the camera |
+| #3163 | not planned | (unchanged) | Marijn's password guess, fixed by #3296 (0.44.0); no reply since Feb |
+| #3137 | not planned | (unchanged) | HA addon second camera grey, no reply since June 2025 |
+
+From here on the list reaches issues opened in 2025-2026; only those without updates for months are proposed.
+
+Held from this read:
+- #3217: Czech UI gives `internal server error` (HA addon 0.23.0), no comments; `cs` locale exists; try to reproduce, maybe a bug.
+- Next: #3209 (hostname cameras, no reply to MichaIng since 2025-11), #2889 (iDrive e2 S3, no reply to MichaIng since 2026-02).
