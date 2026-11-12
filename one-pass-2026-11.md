@@ -1230,3 +1230,19 @@ values and `senders.append`; `chore/ruff-return` conflicted with #3545 on `exten
 labels feature, Python, Raspberry Pi, motion; milestone v0.45.0; assignee us.
 **#3547 opened** (`chore/ruff-return` `b8403379`): RET rules, labels CI/CD, Python; milestone v0.45.0.
 #2543 (closed by #3544): added `docker`, `motion` (had `bug`, v0.45.0).
+
+### #3546 review (MichaIng, pullrequestreview-5866808711), 2026-11-12
+
+- Inline (sample conf, "motion version shouldn't matter"): it does. GitHub compare: b760d0be (Motion#1644,
+  "libcamerify fails on arm64") not in 4.5.1, in 4.6.0; 629b3bab (#2900 zombies) not in 4.6.0, in 4.7.0;
+  bookworm ships 4.5.1. Reply drafted (disagrees), waiting for the user's OK
+- linux_init prompt: done in `8b75b566` (user: in this PR). Pi detected via /proc/device-tree/model, asked
+  only with a terminal, `--libcamerify`/`--no-libcamerify`; installs libcamera-tools + libcamera-v4l2 and
+  sets the option. Trixie container: 7 cases OK, shellcheck -o all clean (0.10.0)
+- Packages (Debian trixie 0.4.0-7 and RPi OS 0.8.0+rpt20261104 indexes): libcamera-tools has
+  /usr/bin/libcamerify and Depends on libcamera-v4l2 (= same version) and Qt 6; 140 packages vs 17 for
+  libcamera-v4l2 alone (trixie slim, simulated). libcamerify is a sh script that only sets LD_PRELOAD to
+  v4l2-compat.so, so installing libcamera-v4l2 only would be possible (asked in the reply draft)
+- Auto-enable on any Pi: not done; USB cameras under the shim not checked (module had 0 controls)
+- SyslogIdentifier: not needed with the re-exec; systemd in a trixie container: re-exec keeps
+  `meyectl[pid]`, wrapping ExecStart gives `libcamerify[pid]`
