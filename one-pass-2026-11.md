@@ -1354,3 +1354,19 @@ Not closed from this read:
 Held from this read:
 - #2917: Camera Module 3 on libcamera, waits for #3546.
 - #2925: "backup makes motionEye unreachable", check the restore code.
+
+### Batch 17, ninth set (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2933 | completed | (unchanged) | motionEye pulls streams, it does not take pushed ones; adminy's tunnel advice |
+| #2764 | not planned | +legacy motionEye | MichaIng asked for `journalctl -u motioneye`, no reply since 2023 |
+| #2949 | completed | +motion | harakka's answer; detection is Motion's (Automatic Threshold Tuning / Noise Detection, Show Frame Changes) |
+| #2956 | not planned | +external bug | system pyOpenSSL vs pip cryptography; motionEye imports no OpenSSL; README installs into a venv (#3496) |
+| #2954 | not planned | +legacy motionEye | Python 2.7 paths (0.42.1 or older), no error in the log, no reply |
+
+Held from this read:
+- #2953: no details; `log_to_file false` by default since #3394 (0.45.0b1), not sure it is the same cause; propose next time.
+- #2952: a bug. `meyectl.py:42` calls `locale.setlocale(locale.LC_ALL, '')` unguarded; `LANG=de_DE.UTF-8` without the locale generated gives `locale.Error: unsupported locale setting` (python:3.9-slim). Fix idea: catch `locale.Error`.
+- #2955: the `video_params palette=8` advice is lost on save (#2635, fix/video-params-palette); close after that fix.
+- #2942: two identical C270s, only one listed; maybe `/dev/v4l/by-id` names collide, needs two identical cameras.
