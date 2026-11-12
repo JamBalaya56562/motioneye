@@ -1384,3 +1384,19 @@ Held from this read:
 Held from this read:
 - #3022: libcamera camera, MichaIng pointed to libcamerify; waits for #3546.
 - #2986: movie playback error, no details; propose next time with #2953.
+
+### Batch 17, eleventh set (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #3035 | completed | +motion | Maximum Movie Length → `movie_max_time` (`config.py:1157`), zagrim's answer |
+| #3040 | completed | +motionEyeOS | no rsync upload (7 services in `uploadservices.py`); File storage → Run a command gets `%f` |
+| #2901 | completed | (unchanged) | MichaIng and zagrim: reinstall and restart, no live reload |
+| #2986 | not planned | (unchanged) | playback error in one browser, no details since 2024 |
+| #2953 | not planned | (unchanged) | no answers; `log_to_file false` by default since #3394 (0.45.0b1) |
+
+Held from this read:
+- #3037: SFTP "SSL peer certificate or SSH remote key was not OK" (two reporters). The SFTP connection sets no host key option (`uploadservices.py:1199-1236`); maybe libcurl checks `motion`'s known_hosts. Worth a Docker repro.
+- #2927: Pi camera brightness fixed at high resolutions; its German Useful URLs part was fixed by #3020 (0.43.1). Brightness likely the driver, not checked.
+- #3046: libcamera camera, waits for #3546.
+- Next: #3064 (WebRTC, motionEye streams MJPEG), #3045, #3050 (no details).
