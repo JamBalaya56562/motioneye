@@ -1246,3 +1246,18 @@ labels feature, Python, Raspberry Pi, motion; milestone v0.45.0; assignee us.
 - Auto-enable on any Pi: not done; USB cameras under the shim not checked (module had 0 controls)
 - SyslogIdentifier: not needed with the re-exec; systemd in a trixie container: re-exec keeps
   `meyectl[pid]`, wrapping ExecStart gives `libcamerify[pid]`
+
+### Closed 2026-11-12, batch 17 second set (user OK)
+
+Order rebuilt from a fresh fetch (313 open, by last human comment).
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2559 Pi 4, 6 IP cameras, high load | completed, Pete123123 and wpresident answered; substream advice | question, +motion, +Raspberry Pi, +legacy motionEye |
+| #2677 no config after the Bullseye wiki install | completed, MichaIng pointed to the README; `motioneye_init` creates the config (`README.md:45`) | question, +Raspberry Pi, +legacy motionEye |
+| #2685 RTSP URL with `/1/1/` | not planned, no reply on the version; path kept as is (`utils/http.py:19`, `handlers/config.py:166`), not tried on a camera | troubleshooting, +motion, +legacy motionEye |
+| #2747 CPU 100% in Docker on ESXi | not planned, no reply to MichaIng | question, +docker, +motion, +legacy motionEye |
+| #1824 Media format unsupported | completed: hub cache dir `/tmp/MotionEye` recreated since #3509 (linked, milestone v0.45.0); High 4:4:4 in Firefox not tried | bug, -question |
+
+Next: #2568 (editable mask is a 32-cell grid, `utils/__init__.py:46`), #1895 (0% threshold gives Motion
+`threshold 0`?), #1378 (two identical USB cameras), #2714 (vs #1630), #2715 kept (feature).
