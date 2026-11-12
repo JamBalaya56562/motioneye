@@ -1261,3 +1261,18 @@ Order rebuilt from a fresh fetch (313 open, by last human comment).
 
 Next: #2568 (editable mask is a 32-cell grid, `utils/__init__.py:46`), #1895 (0% threshold gives Motion
 `threshold 0`?), #1378 (two identical USB cameras), #2714 (vs #1630), #2715 kept (feature).
+
+### Closed 2026-11-12, batch 17 third set (user OK)
+
+| Issue | Reason | Labels after |
+|---|---|---|
+| #2751 port 80 does not start | completed, MichaIng's `AmbientCapabilities=CAP_NET_BIND_SERVICE` drop-in; service runs as `motion` | -troubleshooting, +question, +legacy motionEye |
+| #2756 Dropbox key expires (motionEyeOS) | completed, MichaIng answered; fix #2396 in the Python 3 releases | question, motionEyeOS, +legacy motionEye |
+| #2692 Outlook "SMTP AUTH extension not supported" | not planned, no follow-up; STARTTLS then login (`sendmail.py:76-79`); Outlook mailbox setting not checked | troubleshooting, +external bug, +legacy motionEye |
+| #2750 grey frames, 4K H.265 | not planned, no report from a current release; decoding explanation not measured | troubleshooting, +motion, +legacy motionEye |
+| #2568 mask changes after saving, file sizes | completed: editable mask is 32 cells across (`main.js:1223-1236`); Captured Before/After in frames | question, +motion, +docker, +legacy motionEye |
+
+Held: #1895 fix candidate (slider `min="0"`, `main.html:871`, gives Motion `threshold 0`,
+`config.py:1238`; Motion needs >= 1); #1378 (identical USB cameras share a `/dev/v4l/by-id` name,
+`v4l2ctl.py:144`, not tried); #2707 after #3546 merges; #2753 (empty password, "Not a supported
+network camera") to trace.
