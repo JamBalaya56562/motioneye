@@ -1400,3 +1400,19 @@ Held from this read:
 - #2927: Pi camera brightness fixed at high resolutions; its German Useful URLs part was fixed by #3020 (0.43.1). Brightness likely the driver, not checked.
 - #3046: libcamera camera, waits for #3546.
 - Next: #3064 (WebRTC, motionEye streams MJPEG), #3045, #3050 (no details).
+
+### Batch 17, twelfth set (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #1214 | completed | +legacy motionEye | ONVIF cameras via RTSP; "RTSP/UDP Camera" in the Add Camera dialog (`utils/rtsp.py:235`) |
+| #3072 | completed | +docker | reporter fixed it with a full Debian base; image is `debian:trixie-slim` now; `h264_omx` is an OMX hardware encoder |
+| #3074 | completed | +legacy motionEye | `import settings` is 0.42.1-era code from the old wiki steps; README installs into a venv |
+| #2089 | not planned | +legacy motionEye | notification command gets no file; File storage → Run a command gets `%f` |
+| #3086 | not planned | (unchanged) | 0.43.0, no details |
+
+Held from this read:
+- #2560: OV5647 auto exposure above 1280x720, like #2927; likely the driver, not checked.
+- #1430: `v4l2_palette=8` workaround, lost on save (#2635); like #2955.
+- #3088: no images on motion; maybe a 0 % threshold (#3548), look again after #3548.
+- #3070 (HA addon fps), #3071 (`netcam_high_url` stops the stream): no comments, check the code.
