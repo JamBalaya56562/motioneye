@@ -1310,3 +1310,17 @@ Held from this read:
 - #1544: "mjpg client timed out" in Docker, not checked on a current version.
 
 - #2794 (2026-11-12): a commenter confirmed no `message_thread_id` in `sendtelegram.py` (checked on dev@upstream e765d633) and gave a text-only curl workaround; −question +feature, kept open with a short reply.
+
+### Batch 17, sixth set (closed 2026-11-12)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2803 | not planned | −troubleshooting +external bug +legacy motionEye | HA integration + Deepstack; pointed to Video Streaming → Useful URLs → Snapshot URL |
+| #2817 | completed | +motionEyeOS +legacy motionEye | motionEye installs on Raspberry Pi OS per README; motionEyeOS is separate |
+| #2582 | not planned | +motionEyeOS +legacy motionEye | Wi-Fi of the motionEyeOS image, tracked in motioneye-project/motioneyeos#3065 |
+| #2860 | completed | +legacy motionEye | Dahua DVR: one network camera per channel, RTSP URL (format not tried on that model) |
+| #2745 | not planned | +docker +legacy motionEye | old `ccrisan/motioneye:master-amd64` image, as #2782 |
+
+Not closed from this read:
+- #2818: Tasmota webhook, URL with `%20` (like #1916); check how the webhook URL is handled before deciding.
+- #2824: Docker video devices, a feature request with MichaIng's script idea; kept.
