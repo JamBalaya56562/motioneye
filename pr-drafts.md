@@ -773,3 +773,5 @@ Not covered: letter-first encodings like UTF-8 `%C3%A9` stay as Motion specifier
 Expected review Q&A:
 - Why not escape every `%`? HA and others use Motion's specifiers in the URL on purpose.
 - Old configs with `%20`: shown as `%20`, saved as `%%20` on the next save; a URL typed as `%%20` before stays `%%20` in the file and shows as `%20`.
+
+#3548 / #3549 reviews (2026-11-12): both approved by Marijn0 and MichaIng, no changes asked. MichaIng on #3549: users may use specifier widths or escape `%` themselves (checked on the branch: `%%20` stays `%%20` in the file, the UI then shows `%20`; `%02d` is sent literally), and suggested documenting Motion's `%` handling. 2026-11-13: wiki page [Motion Conversion Specifiers](https://github.com/motioneye-project/motioneye/wiki/Motion-Conversion-Specifiers) added (wiki `5b4e81c6`, linked from Configuration and the sidebar; facts from Motion 4.7.0 `util.c:464`, `event.c:86`, `motion.c:2289-2297`, the Docker repro and en.po labels) and a short reply posted on #3549.
