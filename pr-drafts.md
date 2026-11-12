@@ -708,3 +708,8 @@ boto3 is the largest dependency: botocore alone is 31 MB in the venv, and import
   (it is `-> None`, type-correct) and `return self.finish()` while BaseHandler.finish is unannotated.
   ruff ANN201/ANN202 could require the annotations in handlers only
   (`per-file-ignores "!motioneye/handlers/**"` works in ruff 0.17.4)
+- 2026-11-12 (user: type finish): `BaseHandler.finish(chunk: str | bytes | dict | None = None) -> Future[None]`
+  (Tornado's signature; `from __future__ import annotations` added to base.py); once finished it answers a
+  done Future instead of None (no caller uses the value; test `test_finish_once_finished_answers_a_done_future`).
+  Probe: `return self.finish({...})` in `-> None` `restore()` -> mypy `No return value expected`;
+  `return self.finish_json(...)` still passes (type-correct, review only). 3.9: 564 passed; 3.14: handlers 157 passed
