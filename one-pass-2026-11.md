@@ -1517,3 +1517,6 @@ Backup `~/meye-backup-2635`; afterwards restored, motionEye back on dev `413b7ce
 - Debian trixie's libcamera 0.4.0 in `debian:trixie-slim` with the devices: `cam -l` lists no camera.
 - With archive.raspberrypi.com added (libcamera 0.8.0+rpt): `rpicam-hello --list-cameras` shows imx708; `libcamerify v4l2-ctl -D` gives `Driver name: libcamera`.
 - `FROM ghcr.io/motioneye-project/motioneye:edge` + raspi.sources + keyring + `libcamera-tools libcamera-v4l2`, `ENTRYPOINT ["/usr/bin/libcamerify", "/entrypoint.sh"]`, run with all /dev/media*, /dev/video*, /dev/v4l-subdev*, /dev/dma_heap/* and /run/udev: V4L2 camera /dev/video0 added, pictures 200 image/jpeg (real image; 320 wide padded to 384, green stripe, the "width a multiple of 128" note).
+
+- #2706 closed 2026-11-13 (completed, +Raspberry Pi +docker): comment with the Dockerfile (Raspberry Pi libcamera + libcamerify entrypoint), devices and the width-128 note, from the Pi check above.
+- #2100 kept: the dropped `keep_alive` (dialog never sends it) is the likely cause; close it with that fix (`Fixes #2100`), not as not reproducible.
