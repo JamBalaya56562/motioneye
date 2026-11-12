@@ -14,12 +14,14 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import json
 import logging
 from secrets import token_hex
 from time import time
 
+from tornado.concurrent import Future
 from tornado.web import HTTPError, RequestHandler
 
 from motioneye import VERSION, config, template
@@ -147,16 +149,18 @@ class BaseHandler(RequestHandler):
 
         return argument
 
-    def set_default_headers(self):
+    def set_default_headers(self) -> None:
         self.set_header('X-Content-Type-Options', 'nosniff')
 
-    def finish(self, chunk=None):
+    def finish(self, chunk: str | bytes | dict | None = None) -> Future[None]:
         if not self._finished:
             return super().finish(chunk=chunk)
 
         logging.debug('Already finished')
-
-        return None
+        # nothing left to send: done, as the Future of Tornado's finish() would be
+        done: Future[None] = Future()
+        done.set_result(None)
+        return done
 
     def render(self, template_name, content_type='text/html', **context):
         self.set_header('Content-Type', content_type)
@@ -167,7 +171,7 @@ class BaseHandler(RequestHandler):
         content = template.render(template_name, **context)
         self.finish(content)
 
-    def refuse_navigation(self):
+    def refuse_navigation(self) -> None:
         # the session cookie is SameSite=Lax, so it comes along when another site
         # links here: such a navigation asks for text/html, motionEye's own requests
         # do not, and a hub's neither; to HTTPS and localhost, browsers also
@@ -181,11 +185,11 @@ class BaseHandler(RequestHandler):
         ):
             raise HTTPError(403, 'this cannot be started by opening a link')
 
-    def finish_json(self, data=None):
+    def finish_json(self, data=None) -> None:
         if data is None:
             data = {}
         self.set_header('Content-Type', 'application/json')
-        return self.finish(json.dumps(data))
+        self.finish(json.dumps(data))
 
     def get_current_user(self):
         # Check for session-based authentication (via secure cookie)
@@ -236,7 +240,7 @@ class BaseHandler(RequestHandler):
 
         return None
 
-    def _handle_request_exception(self, exception):
+    def _handle_request_exception(self, exception) -> None:
         try:
             if isinstance(exception, HTTPError):
                 logging.error(str(exception))
@@ -277,14 +281,16 @@ class BaseHandler(RequestHandler):
                     if not getattr(func, '_peer_allowed', False):
                         self.set_header('Content-Type', 'application/json')
                         self.set_status(403)
-                        return self.finish_json({'error': 'unauthorized'})
+                        self.finish_json({'error': 'unauthorized'})
+                        return None
                     return func(self, *args, **kwargs)
 
                 if (user is None) or (user != 'admin' and (admin or _admin)):
                     self.set_header('Content-Type', 'application/json')
                     self.set_status(403)
 
-                    return self.finish_json({'error': 'unauthorized', 'prompt': prompt})
+                    self.finish_json({'error': 'unauthorized', 'prompt': prompt})
+                    return None
 
                 return func(self, *args, **kwargs)
 
@@ -303,14 +309,14 @@ class BaseHandler(RequestHandler):
 
 
 class NotFoundHandler(BaseHandler):
-    def get(self, *args, **kwargs):
+    def get(self, *args, **kwargs) -> None:
         raise HTTPError(404, 'not found')
 
     post = head = get
 
 
 class ManifestHandler(BaseHandler):
-    def get(self):
+    def get(self) -> None:
         self.set_header('Content-Type', 'application/manifest+json')
         self.set_header('Cache-Control', 'max-age=2592000')  # 30 days
         self.render('manifest.json')

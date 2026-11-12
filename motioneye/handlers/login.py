@@ -198,9 +198,10 @@ class LoginHandler(BaseHandler):
         if wait:
             self.set_header('Retry-After', str(wait))
             self.set_status(429)
-            return self.finish_json(
+            self.finish_json(
                 {'error': 'too many failed login attempts', 'retry_after': wait}
             )
+            return
 
         body = self.get_json() or {}
         username: str = self.get_argument('username', body.get('username') or '')
@@ -208,7 +209,8 @@ class LoginHandler(BaseHandler):
 
         if username == '':
             self.set_status(400)
-            return self.finish_json({'error': 'username is required'})
+            self.finish_json({'error': 'username is required'})
+            return
 
         main_config: dict = config.get_main()
 
@@ -232,20 +234,23 @@ class LoginHandler(BaseHandler):
 
         else:
             self.set_status(401)
-            return self.finish_json({'error': 'invalid credentials'})
+            self.finish_json({'error': 'invalid credentials'})
+            return
 
         try:
             if hash_type == 'argon2':
                 if not verify_argon2_password(stored_hash, password):
                     self.set_status(401)
-                    return self.finish_json({'error': 'invalid credentials'})
+                    self.finish_json({'error': 'invalid credentials'})
+                    return
 
             elif hash_type == 'legacy':
                 if password != stored_hash and not verify_legacy_sha1_password(
                     stored_hash, password
                 ):
                     self.set_status(401)
-                    return self.finish_json({'error': 'invalid credentials'})
+                    self.finish_json({'error': 'invalid credentials'})
+                    return
 
                 if user_type == 'admin':
                     config.set_admin_password(password)
@@ -257,16 +262,19 @@ class LoginHandler(BaseHandler):
             elif hash_type == 'missing':
                 if password != '':
                     self.set_status(401)
-                    return self.finish_json({'error': 'invalid credentials'})
+                    self.finish_json({'error': 'invalid credentials'})
+                    return
 
             else:
                 self.set_status(401)
-                return self.finish_json({'error': 'invalid credentials'})
+                self.finish_json({'error': 'invalid credentials'})
+                return
 
         except Exception as e:
             logging.error(f'{user_type} authentication error: {e}')
             self.set_status(401)
-            return self.finish_json({'error': 'invalid credentials'})
+            self.finish_json({'error': 'invalid credentials'})
+            return
 
         # Only an admin login clears the counter, so a normal user cannot reset admin guesses.
         if user_type == 'admin':
@@ -298,4 +306,4 @@ class LoginHandler(BaseHandler):
 
         self.finish_json(response)
 
-        return None
+        return

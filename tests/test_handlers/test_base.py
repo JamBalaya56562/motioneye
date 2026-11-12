@@ -57,6 +57,15 @@ class BaseHandlerTest(HandlerTestCase):
         self.assertEqual(400, response.code)
         self.assertEqual({'error': 'invalid json body'}, json.loads(response.body))
 
+    def test_finish_once_finished_answers_a_done_future(self):
+        handler = self.get_handler(MagicMock(body='""'))
+        handler._finished = True
+
+        future = handler.finish()
+
+        self.assertTrue(future.done())
+        self.assertIsNone(future.result())
+
     def test_pages_send_csp(self):
         with patch('motioneye.template.render', return_value=''):
             response = self.fetch('/picture/1/frame/')
