@@ -741,3 +741,18 @@ Counted from motionEye's debug log (log_level debug for the test). Pi restored f
 `~/meye-backup-1895`; motionEye left on dev `e765d633` (was 0.45.0b1 from an older /tmp/me).
 Seen on the way: a GET with `Content-Type: application/json` and no body gives 500 in
 `BaseHandler.get_json()` (our test script sent it; browsers do not). Not in this PR.
+
+## fix/json-body (no issue), 2026-11-12
+
+Branch `fix/json-body` `bceff3ad` on dev `e765d633`, pushed to the fork, no PR yet. Found during the
+#1895 Pi check (our script sent `Content-Type: application/json` on a GET).
+
+- `BaseHandler.get_json()` (`handlers/base.py:120`) ran `json.loads()` on any body with that type:
+  an empty body and broken JSON both gave 500. Now: no body, no JSON; broken JSON is
+  `HTTPError(400, 'invalid json body')` (same text as `set_credentials()`, `handlers/config.py:137`).
+  `_json` is only set after a successful parse.
+- Tests in `tests/test_handlers/test_base.py`: `test_get_argument_invalid_json` now expects 400 (it
+  expected `JSONDecodeError`), plus no-body unit test, GET `/login` with the header (403), POST
+  `/login` with broken JSON (400 + `{"error": "invalid json body"}`). All 4 fail on dev.
+- Python 3.9 in Docker: ruff, ruff format, `mypy .` (111 files) clean; 566 passed.
+- Whether any real client (e.g. the Home Assistant integration) sends the header on a GET: not checked.
