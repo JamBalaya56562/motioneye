@@ -1903,3 +1903,11 @@ Next set: #2617 (answer needs the mjpg-streamer input_file part checked or dropp
 Not closed: waiting for #3546 (#2804, #2812, #2917, #3022, #3046, #3116, #3183), other PRs/branches (#2900, #2952, #2955, #3128), recent replies (#2866, #3096, #3320, #2861, #3288, #3438, #3179, #2969, #2794), #2921 (open PR #3524 adds Bearer API keys; not linked, someone else's PR), #2826 (img+CSS answer untested), genuine requests and open reports.
 
 The close re-check has now gone through all open issues once.
+
+## #3546 review round 2 (2026-11-14)
+
+#3552 and #3551 merged (MichaIng added 9efcd988 to #3551 before the merge; checked: ruff, mypy, 596 tests on 3.9; thanked). Branches rebased onto dev d9ec417d.
+
+MichaIng's inline suggestions done in 2c9f3374: v4l2-ctl stderr kept apart and logged, output of a failed call kept; `list_resolutions` logs `{e}` only (his `e.stderr` would raise on OSError; `shell=True` removal agreed as a follow-up); `stip()` typo fixed; linux_init does not ask when `libcamera_v4l2` is set and rewrites the current path (Pi: a wrong path was put back, conf identical to the original). Marijn0 found USB webcam controls gone through the layer: noted in the prompt, sample config and PR description. Docker 3.9: ruff, mypy, 608 tests, shellcheck 0.10.0 with CI options.
+
+New Pi finding: while motion has the camera module, `v4l2-ctl --list-formats-ext` through the layer prints nothing ("Pipeline handler in use by another process", "Failed to acquire camera", exit 0), so resolutions fall back to the common list; with motionEye stopped they are listed. Asked Marijn0 to check his USB webcam's resolutions under the layer.
