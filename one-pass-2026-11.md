@@ -1704,3 +1704,12 @@ Close candidate: #2090 (duplicate of #883).
 
 No change: #2210, #2378, #2411, #2442.
 Close candidates: #2227 (MichaIng/zagrim: frames already fit horizontally, no reply), #2141 (works as designed: hashed password), #2160 (tip share), #2525 (no answer since 2022-06).
+
+### Closes from the labelling pass, fourth set (closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2227 | completed | enhancement (unchanged) | frames fit the width (two 472 px frames in 1024 px, #679 check); Layout Rows fixed by #3485 (0.45.0b1); not linked, #3485 fixed another issue |
+| #2141 | not planned | enhancement (unchanged) | `*****` placeholder (`main.js:1914`), not sent when unchanged (`main.js:1885`), hash stored (`config.py:975`) |
+| #2160 | not planned | −feature, +documentation, Raspberry Pi | tip share |
+| #2525 | not planned | question, motion, Raspberry Pi, legacy motionEye (unchanged) | format-dependent (MichaIng); Maximum Movie Length = `movie_max_time` (`config.py:1172`). Dropped a draft sentence "motionEye lists only finished files": no such filter in `mediafiles.py` |
