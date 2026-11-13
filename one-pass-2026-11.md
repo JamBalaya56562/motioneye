@@ -1728,3 +1728,11 @@ Close candidates: #2227 (MichaIng/zagrim: frames already fit horizontally, no re
 
 No change: #2579, #2614, #2635, #2710, #2731, #2742, #2794.
 Close candidates: #2680 (#3380), #2592 (detectionpause/start, like #251), #2579 (Telegram sends pictures since 0.43.1).
+
+### Closes from the labelling pass, fifth set (closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2680 | completed | −troubleshooting, +bug, Raspberry Pi | most likely fixed by our #3380 (write-access skip removed, 511ba0f8); same as #3024; not confirmed for this reporter, comment asks to reopen; linked #3380, v0.45.0 |
+| #2592 | completed | feature, motion (unchanged) | detectionpause/start (#3468, curl checked in Docker), schedule keeps it (#3506); v0.45.0; no link (#3468 at the manual reference limit) |
+| #2579 | completed | feature (unchanged) | Telegram notifications with photos since 0.43.1 (affedd86, `sendtelegram.py` `_photo_form`); push on the phone not tried |
