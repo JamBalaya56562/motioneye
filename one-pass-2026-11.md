@@ -1736,3 +1736,20 @@ Close candidates: #2680 (#3380), #2592 (detectionpause/start, like #251), #2579 
 | #2680 | completed | −troubleshooting, +bug, Raspberry Pi | most likely fixed by our #3380 (write-access skip removed, 511ba0f8); same as #3024; not confirmed for this reporter, comment asks to reopen; linked #3380, v0.45.0 |
 | #2592 | completed | feature, motion (unchanged) | detectionpause/start (#3468, curl checked in Docker), schedule keeps it (#3506); v0.45.0; no link (#3468 at the manual reference limit) |
 | #2579 | completed | feature (unchanged) | Telegram notifications with photos since 0.43.1 (affedd86, `sendtelegram.py` `_photo_form`); push on the phone not tried |
+
+### Labelling batch 8 (#2804 .. #3046, applied 2026-11-13, user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #2952 | troubleshooting → bug, +Raspberry Pi, +i18n/l10n | `meyectl.py:42` setlocale without fallback; our branch fix/unsupported-locale; no legacy |
+| #2887 | −bug, +legacy motionEye | cause not found; reported 2023-12-12 on 0.43.0 |
+| #2804, #3046 | +Raspberry Pi, +motion | libcamera (#3546), no legacy |
+| #2812, #2917, #3022 | +motion | libcamera only through wrapping Motion (#3546) |
+| #2900 | +external bug | zombies from Motion's SIGCHLD handling (fixed in Motion); bug kept |
+| #2866 | +legacy motionEye | 2023-10 report |
+| #2826, #2857, #2874, #2914, #2955, #2969, #3001, #3043 | +motion | |
+| #2921 | +security | URL/token login |
+
+No change: #2824, #2854, #2861 (`external bug` as type, user 2026-11-07), #2879, #2911, #2976, #3045.
+Fix PR candidate: #2866, `v4l2ctl.py:44-50` logs `b''` and drops the whole output when `v4l2-ctl --list-devices` exits non-zero (code read by me); whether that hides cameras needs a Pi check.
+Close candidates: #3043 (zagrim: answered in #3041, duplicate), #3045 (screenshot only, no version, idle since 2024-08).
