@@ -1548,3 +1548,5 @@ Remaining held: waiting for PRs (#2804, #2917, #3022, #3046, #3116, #3183, #3088
 | #3251 | completed | −feature +question +Home Assistant integration | HA integration has a "Motion detection" switch per camera (2026.11.0 `switch.py`); Motion webcontrol pause/start (Marijn) |
 
 No unlabelled open issues. Left open: features (#3393, #3323, #3259, #3211, #3187, #3121), recent activity (#3438, #3288, #3179), waiting for #3546 (#3183, #3116).
+
+#2911 check, 2026-11-13 (dev 20bba78f in Docker, MJPEG test camera; in-app browser 1024x768 and the user's Chrome 991x842): the full screen button gives the same layout as admin and as user (frame 988x743 in Chrome, image 978x734; motionEye's fullScreenMode true). Only difference: the configure button for admin. Browser fullscreen (document.fullscreenElement) was entered in neither browser for either user, so with automated clicks the real fullscreen part is not checked; main.js doFullScreenCamera has no admin branch.
