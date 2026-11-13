@@ -1812,3 +1812,15 @@ Criteria: implemented on dev, duplicate of an open issue or of a declined closed
 | #203 | completed | unchanged | detectionpause/start actions (#3468), schedule keeps them (#3506); like #1479/#2592 |
 
 Held: #287 (Motion timelapse via Extra Motion Options, test on the Pi first), #190 (kept per batch 1 user decision). Kept (genuine requests, no duplicate): #37, #40, #142, #144, #165, #179, #192, #232, #279, #302, #413, #446, #455, #541, #562, #565, #675, #676. Partial overlaps left alone: #232/#1020, #455/#2115, #675/#2098.
+
+### Re-check batch 2 (#697 .. #926; closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #869 | completed | unchanged | File Storage Run a command with `%f` (answered in thread; same as #2089); Telegram sends pictures since 0.43.1 |
+| #825 | duplicate of #541 | +duplicate | users + login log |
+| #789 | duplicate of #174 | +duplicate | ccrisan in #174: "The GIF thing won't happen" |
+| #1440 | duplicate of #738 | +duplicate | dynamic overlay values; jasaw's cron script; colours not possible (Motion draws the text) |
+| #2742 | duplicate of #771 | +duplicate | number entry instead of sliders on mobile (`ui.js` has no touch events) |
+
+Kept: #880 (Marijn0 2026-02: `netcam_high_url` field in the add dialog), #790 (CSS rewritten in 0.43.1b2 by 51ac32d0, flicker not checked in Chrome), #850 (closed #684 has only ccrisan's general 2017 UI stance), #2541 vs #736 left alone (newer maintainer talk on #2541), and the genuine requests #697, #698, #704, #708, #715, #736, #738, #766, #771, #773, #779, #788, #814, #833, #852, #877, #883, #884, #926.
