@@ -1824,3 +1824,14 @@ Held: #287 (Motion timelapse via Extra Motion Options, test on the Pi first), #1
 | #2742 | duplicate of #771 | +duplicate | number entry instead of sliders on mobile (`ui.js` has no touch events) |
 
 Kept: #880 (Marijn0 2026-02: `netcam_high_url` field in the add dialog), #790 (CSS rewritten in 0.43.1b2 by 51ac32d0, flicker not checked in Chrome), #850 (closed #684 has only ccrisan's general 2017 UI stance), #2541 vs #736 left alone (newer maintainer talk on #2541), and the genuine requests #697, #698, #704, #708, #715, #736, #738, #766, #771, #773, #779, #788, #814, #833, #852, #877, #883, #884, #926.
+
+### Re-check batch 3 (#941 .. #1349; closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #1138 | completed | unchanged | eventstart/eventend actions (#2691, 0.45.0b1; curl checked in Docker); linked #2691, v0.45.0. Draft sentence "detection can stay paused" dropped: not tested |
+| #1223 | duplicate of #2166 | +duplicate | notifications-only toggle; #2166 has the longer discussion |
+| #1317 | duplicate of #736 | +duplicate | continuous = `emulate_motion` (zagrim reproduced; ccrisan in #736) |
+| #1125 | not planned | unchanged | 1-wire is the OS image's (motionEyeOS); Raspberry Pi OS via raspi-config (docs, not tried); overlay part is #738; like #774 |
+
+Small PR candidates: #1349 (swap rows in `main.html` around `autoThresholdTuningSwitch`), #1290 (add `enable_reboot` to the `GET /login` JSON). Wiki candidate: #1338 (AUR package motioneye 0.44.0-1, updated 2026-08). Kept: #941 (Motion's framerate minimum unverified), #972, #1007, #1054, #1058, #1107, #1129, #1158, #1227, #1244, #1254, #1273, #1276, #1287, #1315, #1322, #1339.
