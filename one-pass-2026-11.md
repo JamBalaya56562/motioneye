@@ -1878,3 +1878,15 @@ Next set: #1519 (`netcam_params decoder = …` kept as Extra Motion Option since
 | #2035 | completed | −troubleshooting, +question | Motion 4.3.2 `src/draw.c` lowers the factor per text when lines exceed width/height; motionEye only passes `text_scale` |
 
 Kept: #2115 vs #455 (stream port vs UI rotation, partial overlap as in batch 1), #2130 (help wanted kept on 2026-11-07), #2077 (Simple MJPEG cause inferred), #1966 (canonical for watching a movie while recording; no maintainer decline), #1987, #2033, #2057, #2114, #2129, #2135, #2157, #2166, #2169, #2172, #2205, #2210, #2241, #2372, #2378, #2379, #2387 (blocked on Motion 5, not declined).
+
+### Re-check batch 6 (#2400 .. #2775, #2425/#2683/#2707/#2635 left for our PRs; closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2715 | duplicate of #2703 | +duplicate | same reporter; Marijn0: `picture_type` jpeg/webp/ppm/grey only |
+| #2678 | duplicate of #2686 | +duplicate | MichaIng in #2686: embed frame needs a session on purpose; Streaming URL works without login |
+| #2714 | completed | −bug, +question | schedule fixed by #2987 (0.43.1, #2815); Light Switch Detection = `lightswitch_percent`; mask |
+| #2628 | completed | −troubleshooting, −legacy motionEye, +bug | most likely fixed by our #3391 (multi-word control names by numeric ID, `config.py:1252-1261`); not checked with a C615; linked, v0.45.0 |
+| #2414 | not planned | unchanged | Motion 4.7.1 `src/ffmpeg.c` has no webm (Motion 5 master has); like #2017 |
+
+Next set: #2617 (answer needs the mjpg-streamer input_file part checked or dropped). Kept: #2753 (0.43 dev report), #2614 vs #1129 (overlap inferred), #2618 (no outright decline), #2659 (donation link is MichaIng's call; #3299), #2708 (commented 2026-11-08), #2400, #2411, #2441, #2442, #2473, #2541, #2581, #2598, #2631, #2710, #2731, #2766, #2775.
