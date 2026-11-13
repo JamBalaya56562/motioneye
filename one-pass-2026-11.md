@@ -1867,3 +1867,14 @@ The Pi still had a systemd drop-in `/etc/systemd/system/motioneye.service.d/libc
 | #1465 | duplicate of #1200 | +duplicate | ccrisan: no person/face recognition planned |
 
 Next set: #1519 (`netcam_params decoder = …` kept as Extra Motion Option since #3458, 0.45.0b1; h264_mmal availability unverified). Kept: #1902 (answer partly inferred), #1451 (motionEye side unchanged), #1355, #1358, #1359, #1375, #1378, #1441, #1463, #1466, #1527, #1630, #1816, #1846, #1850, #1887, #1924, #1949.
+
+### Re-check batch 5 (#1966 .. #2387 plus held #1519; closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #1519 | completed | unchanged | `netcam_params decoder = …` kept as Extra Motion Option since #3458 (`config.py:226-249`, v0.45.0); linked, milestone v0.45.0; h264_mmal availability not checked, left out |
+| #2098 | duplicate of #675 | +duplicate | ccrisan in #675 (2017-09-30) suggested applying settings across cameras |
+| #2059 | not planned | unchanged | Fast Network Camera is motionEyeOS/streamEye (ccrisan in #8, #822; streamEye pointers in #979, #1011) |
+| #2035 | completed | −troubleshooting, +question | Motion 4.3.2 `src/draw.c` lowers the factor per text when lines exceed width/height; motionEye only passes `text_scale` |
+
+Kept: #2115 vs #455 (stream port vs UI rotation, partial overlap as in batch 1), #2130 (help wanted kept on 2026-11-07), #2077 (Simple MJPEG cause inferred), #1966 (canonical for watching a movie while recording; no maintainer decline), #1987, #2033, #2057, #2114, #2129, #2135, #2157, #2166, #2169, #2172, #2205, #2210, #2241, #2372, #2378, #2379, #2387 (blocked on Motion 5, not declined).
