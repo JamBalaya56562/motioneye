@@ -307,6 +307,38 @@ class LoginHandlerTest(HandlerTestCase):
             self.assertIn('user', body2)
             self.assertIn('username', body2)
 
+    def test_get_login_tells_whether_the_power_buttons_are_enabled(self):
+        # clients such as apps read the user type and this from GET /login (#1290)
+        admin_pass = 's3cret'
+        main_config = {
+            '@admin_username': 'admin',
+            '@admin_password': ph.hash(admin_pass),
+            '@normal_username': '',
+            '@normal_password': '',
+        }
+        with patch.object(config, '_main_config_cache', main_config):
+            response = self.fetch(
+                '/login',
+                method='POST',
+                body=f'username=admin&password={admin_pass}',
+                headers={'Content-Type': 'application/x-www-form-urlencoded'},
+            )
+            cookie = response.headers.get('Set-Cookie', '')
+            for enabled in (False, True):
+                with (
+                    self.subTest(enable_reboot=enabled),
+                    patch.object(login.settings, 'ENABLE_REBOOT', enabled),
+                ):
+                    response = self.fetch('/login', headers={'Cookie': cookie})
+                    self.assertEqual(
+                        {
+                            'user': 'admin',
+                            'username': 'admin',
+                            'enable_reboot': enabled,
+                        },
+                        json.loads(response.body),
+                    )
+
     def test_get_login_fail(self):
         response = self.fetch('/login?_admin=true')
         self.assertEqual(403, response.code)
