@@ -1678,3 +1678,5 @@ Agents' file:line citations in this batch were not rechecked by me; every change
 
 No change: #1527, #1816, #1846, #1850, #1909, #1924, #1949, #1966, #2033, #2115.
 Close candidate: #2090 (duplicate of #883).
+
+#2090 closed 2026-11-13 (user OK) as duplicate of #883 (+duplicate; labels feature, motion, duplicate); comment points to #2114 for timelapse of a chosen period.
