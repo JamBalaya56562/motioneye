@@ -1785,3 +1785,14 @@ All 222 open issues of the 2026-11-13 snapshot have been read for labels.
 | #3121 | duplicate of #144 | enhancement, +duplicate | several schedule ranges per day |
 
 Held, recent comments (stale-only rule): #3288 (free-cup-holder-exe 2026-11-08), #3320 (2026-10-11), with #3438 and #3179.
+
+## Answering unanswered issues (from 2026-11-13)
+
+Rule (user, 2026-11-13): a reply that answers on its own is posted with a close (reopen invited), as on #2525/#2141; a reply that needs the reporter's information stays open and waits. Feature-like questions may stay open as `feature` after a duplicate search (open and closed).
+
+| Issue | Action | Labels | Evidence |
+|---|---|---|---|
+| #3064 | answered, closed not planned | question, motion, Raspberry Pi | MJPEG only (no "webrtc" in the code); go2rtc/MediaMTX via Mainsail's webcam services (Mainsail docs); WebRTC declined in #183 (ccrisan 2016, wontfix); no open duplicate (searched webrtc, h264 stream, hls, restream; #2631 RTSP output is related) |
+| #3098 | answered, closed completed | question, motion | 0.43.1 service `User=motion`; command added to `on_event_start` (`config.py:1576`); `%` handling (wiki page); `mosquitto_sub` blocking is mosquitto docs, not tried |
+| #3050 | answered, closed completed | −troubleshooting, +question, motion | attached picture is Motion's grey motion image; *Create Debug Media Files* = `picture_output_motion` (`config.py:1196`); reporter's setting not seen |
+| #3096 | asked for `--list-formats-ext`, left open | troubleshooting, motion, Raspberry Pi (unchanged) | MJPEG-only sizes likely (as #3179); `video_params palette=8` dropped on save until #3551 |
