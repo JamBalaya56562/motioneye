@@ -1713,3 +1713,18 @@ Close candidates: #2227 (MichaIng/zagrim: frames already fit horizontally, no re
 | #2141 | not planned | enhancement (unchanged) | `*****` placeholder (`main.js:1914`), not sent when unchanged (`main.js:1885`), hash stored (`config.py:975`) |
 | #2160 | not planned | −feature, +documentation, Raspberry Pi | tip share |
 | #2525 | not planned | question, motion, Raspberry Pi, legacy motionEye (unchanged) | format-dependent (MichaIng); Maximum Movie Length = `movie_max_time` (`config.py:1172`). Dropped a draft sentence "motionEye lists only finished files": no such filter in `mediafiles.py` |
+
+### Labelling batch 7 (#2579 .. #2794, applied 2026-11-13, user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #2581, #2617 | +legacy motionEye, +Raspberry Pi, +motion | 0.42.1 on a Pi 4 (SMB share down); raspistill instead of Motion |
+| #2628, #2708, #2714, #2715, #2753 | +legacy motionEye, +motion | pre-2023-12-24 reports; zoom controls, still capture timing, light changes, raw pictures, netcam |
+| #2618 | +Raspberry Pi, +motionEyeOS | MichaIng: if at all, for motionEyeOS |
+| #2680 | +Raspberry Pi | no legacy: likely fixed by our #3380 (511ba0f8 removed the `os.W_OK` skip in `_list_mounts`), same as closed #3024; not confirmed for this reporter |
+| #2592, #2598, #2631, #2678, #2683, #2707, #2766 | +motion | detection pause, replay through Motion, no restream in Motion, Motion's stream auth, libcamerify, Motion's errors, pre_capture |
+| #2659 | +documentation | wiki home donation link (still there, per agent) |
+| #2775 | +i18n/l10n | string split around a variable (`main.js:766`) |
+
+No change: #2579, #2614, #2635, #2710, #2731, #2742, #2794.
+Close candidates: #2680 (#3380), #2592 (detectionpause/start, like #251), #2579 (Telegram sends pictures since 0.43.1).
