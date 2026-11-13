@@ -1680,3 +1680,27 @@ No change: #1527, #1816, #1846, #1850, #1909, #1924, #1949, #1966, #2033, #2115.
 Close candidate: #2090 (duplicate of #883).
 
 #2090 closed 2026-11-13 (user OK) as duplicate of #883 (+duplicate; labels feature, motion, duplicate); comment points to #2114 for timelapse of a chosen period.
+
+### Labelling batch 6 (#2135 .. #2541, applied 2026-11-13, user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #2214 | question → bug, +legacy motionEye, +Raspberry Pi | `main.js:3685` adds an `img.on('load')` handler per picture and never removes it (code read by me; not run in a browser). Small fix PR candidate |
+| #2135 | enhancement → bug, +motion, +legacy motionEye | recording mode kept only as `emulate_motion`, written only with movies on (`config.py:1414-1421`); same root as #2541 |
+| #2141 | −feature | fixed `*****` placeholder (`main.js:1914`) |
+| #2157, #2169 | −enhancement | synced multi-camera playback / browser sound do not exist |
+| #2160 | −enhancement, +Raspberry Pi | Pi throttling script share |
+| #2166 | −enhancement, +motion | no notification toggle for scripts |
+| #2172 | −feature, +motion, +Home Assistant addon | keep paused state over restarts; reporter on the add-on |
+| #2205 | −feature, +security | reboot for the normal user |
+| #2227 | −feature | fit frames horizontally |
+| #2241 | −question, −feature, +motion | split Run a command between `on_picture_save`/`on_movie_end`; help wanted kept |
+| #2372 | question → troubleshooting, +motion, +legacy motionEye | passthrough movie starts early, cause unknown |
+| #2414, #2441 | feature → enhancement, +motion | one more movie format; extend the MJPEG client for chunked streams |
+| #2379, #2387, #2400, #2425 | +motion | |
+| #2473 | +security | trusting a proxy auth header |
+| #2541 | +legacy motionEye, +motion | |
+| #2525 | +legacy motionEye, +motion, +Raspberry Pi | |
+
+No change: #2210, #2378, #2411, #2442.
+Close candidates: #2227 (MichaIng/zagrim: frames already fit horizontally, no reply), #2141 (works as designed: hashed password), #2160 (tip share), #2525 (no answer since 2022-06).
