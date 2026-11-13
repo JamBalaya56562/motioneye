@@ -29,7 +29,7 @@ from argon2 import PasswordHasher
 from argon2.exceptions import InvalidHash, VerificationError, VerifyMismatchError
 from tornado.httputil import HTTPServerRequest
 
-from motioneye import config
+from motioneye import config, settings
 from motioneye.handlers.base import BaseHandler, create_session, session_expiry_seconds
 from motioneye.settings import TRUSTED_PROXIES
 from motioneye.utils.authstate import (
@@ -180,7 +180,14 @@ class LoginHandler(BaseHandler):
                 if user == 'admin'
                 else main_config.get('@normal_username')
             )
-            self.finish_json({'user': user, 'username': username or user})
+            # enable_reboot tells clients whether the power buttons are offered (#1290)
+            self.finish_json(
+                {
+                    'user': user,
+                    'username': username or user,
+                    'enable_reboot': settings.ENABLE_REBOOT,
+                }
+            )
         else:
             self.set_status(401)
             self.finish_json({'error': 'not authenticated'})
