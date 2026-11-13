@@ -1890,3 +1890,16 @@ Kept: #2115 vs #455 (stream port vs UI rotation, partial overlap as in batch 1),
 | #2414 | not planned | unchanged | Motion 4.7.1 `src/ffmpeg.c` has no webm (Motion 5 master has); like #2017 |
 
 Next set: #2617 (answer needs the mjpg-streamer input_file part checked or dropped). Kept: #2753 (0.43 dev report), #2614 vs #1129 (overlap inferred), #2618 (no outright decline), #2659 (donation link is MichaIng's call; #3299), #2708 (commented 2026-11-08), #2400, #2411, #2441, #2442, #2473, #2541, #2581, #2598, #2631, #2710, #2731, #2766, #2775.
+
+### Re-check batch 7, the last 40 (#2794 .. #3438, plus held #2617; closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #2617 | completed | unchanged | only a Simple MJPEG Camera bypasses Motion (`utils/__init__.py:244`); no specific streamer named (unverified) |
+| #2911 | not planned | unchanged | not reproduced on dev in two browsers (same layout as admin and user); `doFullScreenCamera` has no admin branch; browser fullscreen not entered |
+| #3047 | duplicate of #37 | +duplicate | interval + motion-triggered pictures together |
+| #2874 | completed | unchanged | i18n via #2313 (0.43.1); dual stream is #880 (`netcam_high_url`) |
+
+Not closed: waiting for #3546 (#2804, #2812, #2917, #3022, #3046, #3116, #3183), other PRs/branches (#2900, #2952, #2955, #3128), recent replies (#2866, #3096, #3320, #2861, #3288, #3438, #3179, #2969, #2794), #2921 (open PR #3524 adds Bearer API keys; not linked, someone else's PR), #2826 (img+CSS answer untested), genuine requests and open reports.
+
+The close re-check has now gone through all open issues once.
