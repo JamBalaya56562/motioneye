@@ -1572,3 +1572,20 @@ Labels of the open issues are rechecked in batches of 25 (user, 2026-11-13). Rea
 
 No change: #40, #122, #142, #165, #179, #190, #232, #277, #287, #338, #413, #446, #455, #541, #562.
 Close candidates for a later set: #235 (eventstart), #251 (detection toggle; no status API), #319 (reporter said implemented, 2017-10-03).
+
+### Labelling batch 2 (#565 .. #869, applied 2026-11-13, user OK)
+
+New rule (user, 2026-11-13): `legacy motionEye` also goes on open bug/troubleshooting/question reports from 0.42.1 or older (before 2023-12-24), not only on close. Not on feature/enhancement requests, nor on issues our PRs fix.
+
+| # | Change | Why |
+|---|---|---|
+| #565, #675, #676, #697, #736, #738, #766, #814, #869 | +motion | Motion options (`mask_file`/`smart_mask_speed`, config inheritance, `stream_motion`, `threshold`, `emulate_motion`, text drawing, `picture_output best`, `%f`) |
+| #704 | +security | current-password check for admin password changes |
+| #715 | +security | login notification |
+| #708 | +Raspberry Pi | reporter's setup |
+| #833 | +Raspberry Pi, +legacy motionEye | reporter's setup, 2018 report |
+| #779 | question → enhancement, +documentation | asks for IPv6 in the sample/defaults; MichaIng 2025-07-23: mainly docs |
+| #790 | +legacy motionEye | 2018 bug |
+
+No change: #679, #698, #742, #771, #773, #788, #789, #825, #850, #852.
+Close candidates: #679 (likely fixed by #3485, `main.js:1105` rows = 1 in full screen; not checked in a browser; no legacy as our PR fixes it), #742 (same request as #302, no maintainer statement).
