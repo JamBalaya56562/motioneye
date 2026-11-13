@@ -670,7 +670,7 @@ boto3 is the largest dependency: botocore alone is 31 MB in the venv, and import
 - 16 files, +235/-267. 3.9: ruff, format, mypy clean, 550 passed
 - Conflicts with #3545 on the `extend-select` line; rebase after it merges, then submit (user)
 
-## `fix/video-params-palette` — keep motion's own video_params entries (#2635, not submitted)
+## `fix/video-params-palette` — keep motion's own video_params entries (#2635) → **submitted as [#3551](https://github.com/motioneye-project/motioneye/pull/3551)** (2026-11-13, `59f1aa31` on dev `20bba78f`; 581 passed; labels bug, motion, Python; v0.45.0; #2635 relabelled −feature −legacy motionEye +bug)
 
 - Branch: `JamBalaya56562:fix/video-params-palette` (`84f93957`), base `dev` (`e765d633`). Fixes #2635
   (milestone v0.45.0). Labels: `bug`, `Python`, `motion`
@@ -742,7 +742,7 @@ Counted from motionEye's debug log (log_level debug for the test). Pi restored f
 Seen on the way: a GET with `Content-Type: application/json` and no body gives 500 in
 `BaseHandler.get_json()` (our test script sent it; browsers do not). Not in this PR.
 
-## fix/json-body (no issue), 2026-11-12
+## fix/json-body (no issue), 2026-11-12 → **submitted as [#3552](https://github.com/motioneye-project/motioneye/pull/3552)** (2026-11-13, `efe0d8b4` on dev `20bba78f`; 577 passed; labels bug, Python; v0.45.0)
 
 Branch `fix/json-body` `bceff3ad` on dev `e765d633`, pushed to the fork, no PR yet. Found during the
 #1895 Pi check (our script sent `Content-Type: application/json` on a GET).
@@ -789,3 +789,5 @@ TODO when the Pi is on: Camera Module 3 with only libcamera-v4l2 (no libcamerify
 - `fix/unsupported-locale` (Fixes #2952): `load_l10n()` catches `locale.Error` from `setlocale(LC_ALL, '')`, warns, keeps C. Docker: `LANG=de_DE.UTF-8 meyectl startserver` dies with `locale.Error` on dev, starts with the warning on the branch. Test in `tests/test_l10n.py`. 571 passed. No Pi needed.
 - `fix/listen-ipv6` (Fixes #779): a text option without a value is empty, so `listen` alone listens on 0.0.0.0 and [::] (Tornado, empty address); sample and settings.py describe 0.0.0.0 / :: / bare `listen` / 127.0.0.1, ::1. Docker `ss -ltn`: dev `listen` → invalid line, `listen ''` → gaierror; `listen ::` → [::] + 127.0.0.1 (relay), IPv6 only (V6ONLY, both bind); branch `listen` → 0.0.0.0 + [::]. 3 tests in `tests/test_meyectl.py`. 573 passed. Optional on the Pi: reach the UI over IPv6 from the LAN.
 - `fix/dropbox-refresh-log` (Fixes #3128): the retry after a refreshed token is outside the refresh's try, so its failure is not "refreshing credentials failed"; Dropbox's body reason (`error_summary`, else `error`) is logged; the not_found check reads that reason (it looked at "HTTP Error 409: Conflict" before). 6 new tests, 3 fail on dev with the issue's exact log sequence. 576 passed. To check with a temporary Dropbox account (user, at home): the real 409 body has `error_summary` (only seen in the SDK reading the JSON body for 403/404/409, not verified), and a missing folder now gives `folder ... not found`.
+
+2026-11-13: #3549 merged (dev 20bba78f), fix/webhook-percent deleted locally and on the fork; #2818 closed with v0.45.0.
