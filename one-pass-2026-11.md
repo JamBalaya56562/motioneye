@@ -1855,3 +1855,15 @@ The Pi still had a systemd drop-in `/etc/systemd/system/motioneye.service.d/libc
 | #941 | answered, closed not planned | Motion clamps `framerate 1` to 2 |
 | #2866 | answered, left open | YunoHost case fixed by YunoHost-Apps/motioneye_ynh#28 (`PrivateDevices=yes` removed; reporter: "Fixed by"); asked for `sudo -u motion v4l2-ctl --list-devices; echo $?`. Under `systemd-run -p PrivateDevices=yes` on the Pi, v4l2-ctl prints nothing and exits 0, so motionEye lists 0 devices without the `b''` line: several causes possible, logging PR low priority. Our motioneye.systemd has no PrivateDevices |
 | #3320 | answered, left open | `rpi.sdn` strength/deviation in a tuning file copy; untested on vc4 |
+
+### Re-check batch 4 (#1353 .. #1949, #1430 left for #3551; closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #1353 | completed | enhancement | streaming rate raised to device + 5 (max 30) on purpose (`main.js:780-791`, 2c617845, 0.37.1) |
+| #1864 | completed | −troubleshooting, +question | Motion's `lastsnap.jpg` is for snapshots only (as #2825); Run a command with an extension filter (`config.py:1644-1645`, `1678-1679`) |
+| #1909 | completed | enhancement | relative paths since 5ec72dc9 (0.36), `static_path 'static/'` (`server.py:460`); not tried behind a proxy |
+| #1518 | not planned | feature | homebridge-camera-ffmpeg with the stream URL (reporter confirmed 2019-10) |
+| #1465 | duplicate of #1200 | +duplicate | ccrisan: no person/face recognition planned |
+
+Next set: #1519 (`netcam_params decoder = …` kept as Extra Motion Option since #3458, 0.45.0b1; h264_mmal availability unverified). Kept: #1902 (answer partly inferred), #1451 (motionEye side unchanged), #1355, #1358, #1359, #1375, #1378, #1441, #1463, #1466, #1527, #1630, #1816, #1846, #1850, #1887, #1924, #1949.
