@@ -1630,3 +1630,21 @@ Second set to propose: #742 (dup of #302), #1712 (dup of #883/#766), #1020 (near
 | #1137 | completed | enhancement (unchanged) | URL token gone since 0.44.0 (#3332, not linked: not a fix for this); cookie login fetch checked in Docker (200 jpg / 403 without) |
 
 Kept by the user: #1020 (adds downloading the selection to #232's multi-select).
+
+### Labelling batch 4 (#1290 .. #1518, applied 2026-11-13, user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #1317 | bug → enhancement, +motion | by design (zagrim 2019-06-20): continuous recording = `emulate_motion` (`config.py:1420`); like #736 |
+| #1430 | troubleshooting → bug, +motion, +Raspberry Pi | palette in `video_params` dropped on save, fixed by our #3551; no legacy |
+| #1378 | +legacy motionEye, +motion | 0.4 report; Motion rejects old options |
+| #1451 | +legacy motionEye, +motion, +Raspberry Pi | 2019, Pi 4, `framerate` ignored |
+| #1463 | +legacy motionEye | 2019, cause not found |
+| #1479 | −enhancement, +motion, +Raspberry Pi | presence script calls Motion's webcontrol; reporter on Pis |
+| #1516 | −feature, +Raspberry Pi | existing update check; Pi 3B |
+| #1475 | +Raspberry Pi | reporter's Pi SD card |
+| #1440 | +motion, +Raspberry Pi | workaround via Motion `text_left`; Pi Zero W |
+| #1315, #1355, #1441, #1465, #1466 | +motion | Motion event hooks (low), `minimum_motion_frames`, `threshold` units, OpenCV instead of Motion's detection, how Motion is run |
+
+No change: #1290, #1322, #1338, #1339, #1349, #1353, #1358, #1359, #1375, #1485, #1518.
+Close candidates: #1516 (update button removed by #3367, 0.45.0b1), #1485 (S3 `endpoint_url`, `uploadservices.py:1245`; not tried with MinIO), #1475 (same as #302), #1479 (script share, improved version published). Later: #1290 (user type via `GET /login`), #1353 (stream fps margin by design, maintainer call).
