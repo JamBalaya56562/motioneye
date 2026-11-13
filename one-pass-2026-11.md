@@ -1589,3 +1589,20 @@ New rule (user, 2026-11-13): `legacy motionEye` also goes on open bug/troublesho
 
 No change: #679, #698, #742, #771, #773, #788, #789, #825, #850, #852.
 Close candidates: #679 (likely fixed by #3485, `main.js:1105` rows = 1 in full screen; not checked in a browser; no legacy as our PR fixes it), #742 (same request as #302, no maintainer statement).
+
+### Labelling batch 3 (#877 .. #1287, applied 2026-11-13, user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #880, #883, #926, #1158, #1189, #1227 | +motion | `netcam_high_url`, schedule for interval snapshots, `mask_file`, `lastsnap`-style link, detection pause via webcontrol (`motionctl.py:263`), Motion's multiple-of-8 error |
+| #941 | +motion, +Raspberry Pi | framerate minimum 2 (`main.html:263`) caps shutter at 0.5 s; reporter on Pi Zero W |
+| #1125 | +motionEyeOS, +Raspberry Pi | 1-wire belongs in the motionEyeOS image; Pi Zero W |
+| #1138 | −enhancement, +motion | PIR trigger is new; GPIO script triggering Motion suggested |
+| #1254 | +motion, +security | Motion's `stream_tls` |
+| #1244 | +security | robots.txt to keep cameras out of search engines |
+| #1007 | −feature, +help wanted | SFTP exists, key auth placeholder at `uploadservices.py:1221`; ccrisan 2018-09-29 "Pull requests are welcomed" |
+| #1129 | −enhancement, +help wanted | new capability; ccrisan 2019-01-23 happy to review a PR |
+| #972 | +help wanted | ccrisan 2019-01-22 will accept PRs |
+
+No change: #877, #884, #1020, #1054, #1058, #1107, #1137, #1223, #1273, #1276, #1287.
+Close candidates: #1189 (detectionpause keeps the config; not run), #1020 (near-duplicate of #232), #1137 (URL token gone since #3332; no-auth snapshot wish remains), #1712 (same request as #883).
