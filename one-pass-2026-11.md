@@ -1845,3 +1845,13 @@ The Pi still had a systemd drop-in `/etc/systemd/system/motioneye.service.d/libc
 - #287: `timelapse_interval 1`, `timelapse_mode manual`, `timelapse_fps 30`, `timelapse_codec mpg` in camera-1.conf (as Extra Motion Options write them) made Motion write `/var/lib/motioneye/Camera1/20261113-timelapse.mpg` (640x480, 30 fps), growing over time. `.mpg` is in `_MOVIE_EXTS`. Reverted.
 - #941: `framerate 1` in camera-1.conf: Motion's webcontrol reports `framerate = 2`, so Motion clamps to 2 (exposure stays at most about 0.5 s). Reverted.
 - #3320: vc4 tuning file `ov5647_noir.json` has `"rpi.sdn": {}` (defaults). `ipa_rpi_vc4.so` reads `deviation` and `strength` for rpi.sdn, so a copy of the tuning file with higher values, set via LIBCAMERA_RPI_TUNING_FILE, is the knob; libcamera's V4L2 layer exposes no controls (see #3546). Not tried on vc4 hardware (Pi 5 uses pisp).
+
+### Replies from the Pi checks (2026-11-13, user OK)
+
+| Issue | Action | Note |
+|---|---|---|
+| #3546 | marked ready | description's pending-check paragraph replaced with the Pi 5 results; controls note says only that libcamerify loads the same layer |
+| #287 | answered, closed completed | `timelapse_*` via Extra Motion Options (tested `manual`; `daily` from Motion's docs); movie browser listing not checked, left out |
+| #941 | answered, closed not planned | Motion clamps `framerate 1` to 2 |
+| #2866 | answered, left open | YunoHost case fixed by YunoHost-Apps/motioneye_ynh#28 (`PrivateDevices=yes` removed; reporter: "Fixed by"); asked for `sudo -u motion v4l2-ctl --list-devices; echo $?`. Under `systemd-run -p PrivateDevices=yes` on the Pi, v4l2-ctl prints nothing and exits 0, so motionEye lists 0 devices without the `b''` line: several causes possible, logging PR low priority. Our motioneye.systemd has no PrivateDevices |
+| #3320 | answered, left open | `rpi.sdn` strength/deviation in a tuning file copy; untested on vc4 |
