@@ -1760,3 +1760,19 @@ Close candidates: #3043 (zagrim: answered in #3041, duplicate), #3045 (screensho
 |---|---|---|---|
 | #3043 | duplicate of #3041 | enhancement, motion, +duplicate | zagrim answered in #3041; dev `add_camera` still does `motionctl.stop()` then `start()` |
 | #3045 | not planned | troubleshooting (unchanged) | screenshot only, no version or log, idle since 2024-08 |
+
+### Labelling batch 9, the last 21 (#3047 .. #3438, applied 2026-11-13, user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #3128 | troubleshooting → bug | retry inside the refresh's try (`uploadservices.py:780-795`) logs its 409 as "refreshing credentials failed"; our branch fix/dropbox-refresh-log; no legacy |
+| #3121 | feature → enhancement | same as #144 (several schedule ranges per day) |
+| #3179 | −troubleshooting, +motion, +Raspberry Pi | answered with Motion's `palette=8` (Marijn0) |
+| #3116, #3096, #3064 | +motion, +Raspberry Pi | Motion adjusts width to 1088 / USB stuck at 640x480 / Motion's MJPEG stream |
+| #3047, #3093, #3050, #3098, #3183, #3288, #3320 | +motion | |
+| #3259 | +help wanted | MichaIng 2026-02-07: start from DaniW42/motioneye-telegram |
+
+No change: #3063, #3187, #3211, #3299, #3323, #3393, #3438.
+Close candidates: #3187 (our #3502, v0.45.0, display prefs per browser; Android app not checked), #3121 (duplicate of #144), #3288 and #3320 (answered, reporters silent since 2026-02/03; libcamera side remains). Too recent: #3438, #3179.
+
+All 222 open issues of the 2026-11-13 snapshot have been read for labels.
