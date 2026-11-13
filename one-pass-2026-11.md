@@ -1620,3 +1620,13 @@ Checked on dev 20bba78f in Docker (debian:trixie, motion 4.7.0, MJPEG test camer
 | #679 | completed | bug (unchanged) | in-app browser 1024x768, 2x2 layout, fit vertically: full screen frame 1014x763. Fixing PR not identified (main.js before #3485 does not run with the current server), so no link, milestone or legacy |
 
 Second set to propose: #742 (dup of #302), #1712 (dup of #883/#766), #1020 (near-dup of #232, adds bulk download), #1137 (token gone since #3332; cookie login works).
+
+### Closes from the labelling pass, second set (closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #742 | duplicate of #302 | enhancement, +duplicate | delete by disk usage |
+| #1712 | duplicate of #883 | enhancement, +duplicate | schedule for snapshots (#883) / movies (#766); over-midnight range via Outside Working Schedule (`wsswitch.py:77` only checks from..to; not run) |
+| #1137 | completed | enhancement (unchanged) | URL token gone since 0.44.0 (#3332, not linked: not a fix for this); cookie login fetch checked in Docker (200 jpg / 403 without) |
+
+Kept by the user: #1020 (adds downloading the selection to #232's multi-select).
