@@ -1648,3 +1648,12 @@ Kept by the user: #1020 (adds downloading the selection to #232's multi-select).
 
 No change: #1290, #1322, #1338, #1339, #1349, #1353, #1358, #1359, #1375, #1485, #1518.
 Close candidates: #1516 (update button removed by #3367, 0.45.0b1), #1485 (S3 `endpoint_url`, `uploadservices.py:1245`; not tried with MinIO), #1475 (same as #302), #1479 (script share, improved version published). Later: #1290 (user type via `GET /login`), #1353 (stream fps margin by design, maintainer call).
+
+### Closes from the labelling pass, third set (closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #1485 | completed | feature (unchanged) | S3 service "S3 (AWS/MinIO/…)" with Endpoint URL ("E.g. http://my.minio:9000"); linked #2376, milestone v0.43.1. User's point: MinIO is gone; checked: `minio/minio` and `minio/mc` archived on GitHub (last push 2026-04-24), commercial AIStor continues, so the comment says "open source edition archived", not "service ended". Upload to MinIO not tried |
+| #1516 | completed | enhancement, Raspberry Pi, +motionEyeOS | update check removed by #3367 (motionEyeOS relic); linked, milestone v0.45.0 |
+| #1475 | duplicate of #302 | enhancement, Raspberry Pi, +duplicate | preserve by size |
+| #1479 | completed | feature, motion, Raspberry Pi (unchanged) | script share; Firesphere's improved version; detectionpause/start actions since 0.45.0b1 |
