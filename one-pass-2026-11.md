@@ -1776,3 +1776,12 @@ No change: #3063, #3187, #3211, #3299, #3323, #3393, #3438.
 Close candidates: #3187 (our #3502, v0.45.0, display prefs per browser; Android app not checked), #3121 (duplicate of #144), #3288 and #3320 (answered, reporters silent since 2026-02/03; libcamera side remains). Too recent: #3438, #3179.
 
 All 222 open issues of the 2026-11-13 snapshot have been read for labels.
+
+### Closes from the labelling pass, seventh set (closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #3187 | completed | feature (unchanged) | display prefs per browser (`main.js:1830-1840`, dimmers client-side only); linked #3502, v0.45.0; Android app not checked, left out of the comment |
+| #3121 | duplicate of #144 | enhancement, +duplicate | several schedule ranges per day |
+
+Held, recent comments (stale-only rule): #3288 (free-cup-holder-exe 2026-11-08), #3320 (2026-10-11), with #3438 and #3179.
