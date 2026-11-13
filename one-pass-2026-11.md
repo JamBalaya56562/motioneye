@@ -1539,3 +1539,12 @@ Kept:
 - #2942 closed 2026-11-13 (not planned): two identical C270s; by-id collision not checked (needs two cameras).
 
 Remaining held: waiting for PRs (#2804, #2917, #3022, #3046, #3116, #3183, #3088, #2955, #1430); bugs to fix (#2952, #2541, #779, #3128); active (#2887); browser check (#2911).
+
+### After the #3548 merge (closed 2026-11-13)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #3088 | not planned | (unchanged) | no motion pictures; threshold 0 % disables detection, fixed by #3548 on dev (not linked, cause not confirmed) |
+| #3251 | completed | −feature +question +Home Assistant integration | HA integration has a "Motion detection" switch per camera (2026.11.0 `switch.py`); Motion webcontrol pause/start (Marijn) |
+
+No unlabelled open issues. Left open: features (#3393, #3323, #3259, #3211, #3187, #3121), recent activity (#3438, #3288, #3179), waiting for #3546 (#3183, #3116).
