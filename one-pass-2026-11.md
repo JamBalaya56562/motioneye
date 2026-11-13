@@ -1550,3 +1550,25 @@ Remaining held: waiting for PRs (#2804, #2917, #3022, #3046, #3116, #3183, #3088
 No unlabelled open issues. Left open: features (#3393, #3323, #3259, #3211, #3187, #3121), recent activity (#3438, #3288, #3179), waiting for #3546 (#3183, #3116).
 
 #2911 check, 2026-11-13 (dev 20bba78f in Docker, MJPEG test camera; in-app browser 1024x768 and the user's Chrome 991x842): the full screen button gives the same layout as admin and as user (frame 988x743 in Chrome, image 978x734; motionEye's fullScreenMode true). Only difference: the configure button for admin. Browser fullscreen (document.fullscreenElement) was entered in neither browser for either user, so with automated clicks the real fullscreen part is not checked; main.js doFullScreenCamera has no admin branch.
+
+## Open issue labelling (from 2026-11-13, 25 at a time, oldest number first)
+
+Labels of the open issues are rechecked in batches of 25 (user, 2026-11-13). Read by 3 read-only agents, code evidence rechecked on dev `20bba78f`; low-confidence feature → enhancement proposals are left as `feature`.
+
+### Labelling batch 1 (#37 .. #562, applied 2026-11-13, user OK)
+
+| # | Change | Why |
+|---|---|---|
+| #37 | feature → enhancement, +motion | both capture modes exist, only one can be chosen (`config.py:1397-1412`) |
+| #144 | feature → enhancement | working schedule exists with one range per day (`config.py:1454`) |
+| #192 | feature → enhancement, +motion | per-camera detection pause/start exists (`action.py:72`, #3468); all-at-once and delay missing |
+| #251 | feature → enhancement, +motion | detection toggle API (`action.py:72`), schedule keeps manual change (#3506) |
+| #279 | feature → enhancement | zipped download exists for pictures (`picture.py:132`), not movies |
+| #302 | feature → enhancement | age-based cleanup exists (`@preserve_*`) |
+| #235 | +motion | `eventstart`/`snapshot` actions (#2691, `action.py:64`) |
+| #319 | +motion | rotation is Motion's `rotate` |
+| #203 | +Raspberry Pi | reporter on a Pi 2 |
+| #258 | +motionEyeOS | reporter on motionEyeOS, DDNS belongs there |
+
+No change: #40, #122, #142, #165, #179, #190, #232, #277, #287, #338, #413, #446, #455, #541, #562.
+Close candidates for a later set: #235 (eventstart), #251 (detection toggle; no status API), #319 (reporter said implemented, 2017-10-03).
