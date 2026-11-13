@@ -1753,3 +1753,10 @@ Close candidates: #2680 (#3380), #2592 (detectionpause/start, like #251), #2579 
 No change: #2824, #2854, #2861 (`external bug` as type, user 2026-11-07), #2879, #2911, #2976, #3045.
 Fix PR candidate: #2866, `v4l2ctl.py:44-50` logs `b''` and drops the whole output when `v4l2-ctl --list-devices` exits non-zero (code read by me); whether that hides cameras needs a Pi check.
 Close candidates: #3043 (zagrim: answered in #3041, duplicate), #3045 (screenshot only, no version, idle since 2024-08).
+
+### Closes from the labelling pass, sixth set (closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #3043 | duplicate of #3041 | enhancement, motion, +duplicate | zagrim answered in #3041; dev `add_camera` still does `motionctl.stop()` then `start()` |
+| #3045 | not planned | troubleshooting (unchanged) | screenshot only, no version or log, idle since 2024-08 |
