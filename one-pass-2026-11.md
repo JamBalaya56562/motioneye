@@ -1657,3 +1657,24 @@ Close candidates: #1516 (update button removed by #3367, 0.45.0b1), #1485 (S3 `e
 | #1516 | completed | enhancement, Raspberry Pi, +motionEyeOS | update check removed by #3367 (motionEyeOS relic); linked, milestone v0.45.0 |
 | #1475 | duplicate of #302 | enhancement, Raspberry Pi, +duplicate | preserve by size |
 | #1479 | completed | feature, motion, Raspberry Pi (unchanged) | script share; Firesphere's improved version; detectionpause/start actions since 0.45.0b1 |
+
+### Labelling batch 5 (#1519 .. #2130, #1712 closed before; applied 2026-11-13, user OK)
+
+Agents' file:line citations in this batch were not rechecked by me; every change rests on the thread and the label rules.
+
+| # | Change | Why |
+|---|---|---|
+| #1987, #2114 | −feature | resizable columns in the existing media browser; timelapse over several days extends the existing one |
+| #2098 | −enhancement | copy settings across cameras does not exist |
+| #2059 | −enhancement, +Raspberry Pi | Fast Network Camera not in motionEye; Pi Zero W |
+| #2129 | −enhancement, +motion | MotionPlus support |
+| #2057 | −enhancement, +security | encrypted storage of camera/share credentials (plain text today) |
+| #2035 | −question, +motion, +legacy motionEye | overlay text shrinks, cause unknown; Motion draws it |
+| #2130 | −troubleshooting, +motion, +Raspberry Pi | milliseconds not in Motion (zagrim); Pi 3B; help wanted kept |
+| #2090 | −enhancement, −motionEyeOS, +motion | same as #883, not motionEyeOS-specific |
+| #1887 | enhancement → troubleshooting, +motion, +legacy motionEye, +Raspberry Pi | defect report on 0.42.1 |
+| #1519, #1902 | +motion, +Raspberry Pi | Motion's decoder option (`h264_mmal`); Motion encodes, Pi 4 |
+| #1630, #1864, #2077 | +motion, +legacy motionEye | schedule end, `lastsnap.jpg`, stream port behind a proxy (2020-21) |
+
+No change: #1527, #1816, #1846, #1850, #1909, #1924, #1949, #1966, #2033, #2115.
+Close candidate: #2090 (duplicate of #883).
