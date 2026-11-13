@@ -793,3 +793,7 @@ TODO when the Pi is on: Camera Module 3 with only libcamera-v4l2 (no libcamerify
 2026-11-13: #3549 merged (dev 20bba78f), fix/webhook-percent deleted locally and on the fork; #2818 closed with v0.45.0.
 
 2026-11-14: `fix/unsupported-locale` → **submitted as [#3553](https://github.com/motioneye-project/motioneye/pull/3553)** (`cc647c32` on dev `d9ec417d`; 3.9: ruff, format, mypy clean, 597 passed, shellcheck clean; labels bug, Python; v0.45.0; Fixes #2952). `fix/listen-ipv6` → **submitted as [#3554](https://github.com/motioneye-project/motioneye/pull/3554)** (`94ff99de`; 599 passed; labels enhancement, Python; v0.45.0; Fixes #779; IPv6 from the LAN not tried on the Pi). Also 2026-11-14: #3552 and #3551 merged, branches deleted; #3546 round 2 in one-pass-2026-11.md.
+
+2026-11-14 Pi check for #3554 (Pi 5 trixie, branch 94ff99de, bare `listen`): `ss -ltn` shows 0.0.0.0:8765 and [::]:8765; from the Windows PC on the same /64, curl to the Pi's global IPv6 and to 192.168.0.6 both HTTP 200, and the in-app browser opened the UI over IPv6 and logged in. Added to the PR description. Pi restored to #3546 (2c9f3374) with its conf.
+
+Dropbox (#3128): the released 0.44.0 wheel still has `CLIENT_ID = 'dropbox_client_id_placeholder'` (and the secret), as on dev since aefb88ff "removed dropbox app keys from git"; no workflow fills them in. So "Obtain Key" cannot work on any current install (cf. closed #1958, #171). A real-account check of #3128 needs a Dropbox app of our own (app key/secret from the App Console) put in locally.
