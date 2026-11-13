@@ -1606,3 +1606,17 @@ Close candidates: #679 (likely fixed by #3485, `main.js:1105` rows = 1 in full s
 
 No change: #877, #884, #1020, #1054, #1058, #1107, #1137, #1223, #1273, #1276, #1287.
 Close candidates: #1189 (detectionpause keeps the config; not run), #1020 (near-duplicate of #232), #1137 (URL token gone since #3332; no-auth snapshot wish remains), #1712 (same request as #883).
+
+### Closes from the labelling pass, first set (closed 2026-11-13, user OK)
+
+Checked on dev 20bba78f in Docker (debian:trixie, motion 4.7.0, MJPEG test camera): without a session `POST /action/1/eventstart` gives 403; after `curl -c` login, `detectionpause` → Motion `Detection status PAUSE` and camera-1.conf unchanged, `detectionstart` → `ACTIVE`, `eventstart`..`eventend` (10 s, still picture source so detection cannot trigger) → one mp4, `snapshot` → one jpg with still images on; `/picture/1/current/` 200 with the cookie, 403 without.
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #235 | completed | feature, motion (unchanged) | eventstart/eventend/snapshot actions; linked #2691, milestone v0.45.0 |
+| #251 | completed | enhancement, motion (unchanged) | detectionpause/start (#3468), schedule keeps manual change (#3506); both linked, v0.45.0 |
+| #1189 | completed | feature, motion (unchanged) | toggle button (#3468), v0.45.0; link failed: #3468 "exceeds manual reference limit" |
+| #319 | completed | enhancement, motion (unchanged) | reporter said implemented; 90/270 swaps size (`main.js:1205`) |
+| #679 | completed | bug (unchanged) | in-app browser 1024x768, 2x2 layout, fit vertically: full screen frame 1014x763. Fixing PR not identified (main.js before #3485 does not run with the current server), so no link, milestone or legacy |
+
+Second set to propose: #742 (dup of #302), #1712 (dup of #883/#766), #1020 (near-dup of #232, adds bulk download), #1137 (token gone since #3332; cookie login works).
