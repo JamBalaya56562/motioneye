@@ -1796,3 +1796,19 @@ Rule (user, 2026-11-13): a reply that answers on its own is posted with a close 
 | #3098 | answered, closed completed | question, motion | 0.43.1 service `User=motion`; command added to `on_event_start` (`config.py:1576`); `%` handling (wiki page); `mosquitto_sub` blocking is mosquitto docs, not tried |
 | #3050 | answered, closed completed | −troubleshooting, +question, motion | attached picture is Motion's grey motion image; *Create Debug Media Files* = `picture_output_motion` (`config.py:1196`); reporter's setting not seen |
 | #3096 | asked for `--list-formats-ext`, left open | troubleshooting, motion, Raspberry Pi (unchanged) | MJPEG-only sizes likely (as #3179); `video_params palette=8` dropped on save until #3551 |
+
+## Close re-check, oldest first (from 2026-11-13)
+
+Criteria: implemented on dev, duplicate of an open issue or of a declined closed one, a complete answer possible in one reply, already declined by a maintainer; recently active issues are not closed.
+
+### Re-check batch 1 (25 oldest, #37 .. #676; closed 2026-11-13, user OK)
+
+| Issue | Reason | Labels | Note |
+|---|---|---|---|
+| #122 | completed | feature | PTZ action buttons up/down/left/right/zoom/preset1-9 (`config.py:58-71`, wiki Action Buttons); ONVIF declined by ccrisan 2016 |
+| #258 | not planned | unchanged | same request as closed #212 (ccrisan: "nothing to do with motionEye"); mail has hostname only (`sendmail.py:168`) |
+| #277 | completed | unchanged | One Picture mode = `picture_output best` (`config.py:1400`, 0.37); `center` gone in Motion 4.1 (#2533) |
+| #338 | duplicate of #2400 | +duplicate | camera-lost notification open in #2400; `on_camera_lost` workaround from #366 |
+| #203 | completed | unchanged | detectionpause/start actions (#3468), schedule keeps them (#3506); like #1479/#2592 |
+
+Held: #287 (Motion timelapse via Extra Motion Options, test on the Pi first), #190 (kept per batch 1 user decision). Kept (genuine requests, no duplicate): #37, #40, #142, #144, #165, #179, #192, #232, #279, #302, #413, #446, #455, #541, #562, #565, #675, #676. Partial overlaps left alone: #232/#1020, #455/#2115, #675/#2098.
