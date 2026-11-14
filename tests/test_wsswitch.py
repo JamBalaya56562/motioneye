@@ -44,6 +44,7 @@ class WorkingScheduleTest(unittest.IsolatedAsyncioTestCase):
             self.enabled = state == 'start'
 
         self.set = AsyncMock(side_effect=set_motion_detection)
+        self.action = AsyncMock(return_value=None)
         self.datetime = Mock()
         for patcher in (
             patch.object(wsswitch, '_ws_state', {}),
@@ -57,6 +58,7 @@ class WorkingScheduleTest(unittest.IsolatedAsyncioTestCase):
                 motionctl, 'get_motion_detection', side_effect=get_motion_detection
             ),
             patch.object(motionctl, 'set_motion_detection', self.set),
+            patch.object(motionctl, 'trigger_action', self.action),
         ):
             patcher.start()
             self.addCleanup(patcher.stop)
@@ -117,6 +119,33 @@ class WorkingScheduleTest(unittest.IsolatedAsyncioTestCase):
         await self._check(DURING)
         await self._check(DURING)
         self.assertEqual(2, self.set.call_count)
+
+    async def test_continuous_recording_keeps_a_user_event_during_the_schedule(self):
+        # motion does not pause emulated motion (#1630)
+        self.camera.update({'@emulate_motion': True, 'emulate_motion': False})
+        await self._check(DURING)
+        await self._check(DURING)
+        self.assertEqual([((1, 'eventstart'),)] * 2, self.action.call_args_list)
+
+        self.action.reset_mock()
+        await self._check(OUTSIDE)
+        await self._check(OUTSIDE)
+        self.set.assert_called_once_with(1, 'pause')
+        self.action.assert_called_once_with(1, 'eventend')
+
+    async def test_a_failed_event_end_is_tried_again(self):
+        self.camera.update({'@emulate_motion': True, 'emulate_motion': False})
+        self.action.return_value = 'failed to trigger eventend'
+        await self._check(OUTSIDE)
+        await self._check(OUTSIDE)
+        self.assertEqual([((1, 'eventend'),)] * 2, self.action.call_args_list)
+
+    async def test_emulated_motion_gets_no_user_event(self):
+        # e.g. a file saved before the working schedule used user events
+        self.camera.update({'emulate_motion': True})
+        await self._check(DURING)
+        await self._check(OUTSIDE)
+        self.action.assert_not_called()
 
 
 if __name__ == '__main__':

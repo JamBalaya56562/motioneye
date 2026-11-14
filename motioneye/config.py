@@ -1518,8 +1518,14 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
 
     # all frames and continuous recording both make motion emulate motion, and
     # continuous recording keeps it on with the other still image modes (#2541)
-    data['emulate_motion'] = all_frames or (
+    emulate_motion = all_frames or (
         ui['movies'] and ui['recording_mode'] == 'continuous'
+    )
+    data['@emulate_motion'] = emulate_motion
+    # motion does not pause emulated motion, so with a working schedule a user
+    # event is kept going during the schedule instead, see wsswitch (#1630)
+    data['emulate_motion'] = emulate_motion and not (
+        ui['working_schedule'] and ui['motion_detection']
     )
 
     data['movie_codec'] = ui['movie_format']
@@ -2117,7 +2123,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
             ui['right_text'] = 'custom-text'
             ui['custom_right_text'] = text_right
 
-    emulate_motion = data['emulate_motion']
+    emulate_motion = data['emulate_motion'] or bool(data.get('@emulate_motion'))
     picture_output = data['picture_output']
     picture_filename = data['picture_filename']
     snapshot_interval = data['snapshot_interval']
