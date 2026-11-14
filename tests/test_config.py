@@ -640,6 +640,61 @@ class TestContinuousRecordingPictures(unittest.TestCase):
         self.assertFalse(camera['emulate_motion'])
 
 
+class TestContinuousRecordingSchedule(unittest.TestCase):
+    # continuous recording with a working schedule (#1630)
+    motion_post43 = True
+    setUp = TestVideoParamsSave.setUp
+    _get = TestVideoParamsSave._get
+    _save = TestVideoParamsSave._save
+
+    def _save_continuous(self, capture_mode='manual', **kwargs):
+        ui = self._get()
+        ui.update(
+            still_images=True,
+            capture_mode=capture_mode,
+            movies=True,
+            recording_mode='continuous',
+            working_schedule=True,
+            working_schedule_type='during',
+            motion_detection=True,
+        )
+        for day in ('monday', 'tuesday', 'wednesday', 'thursday'):
+            ui[f'{day}_from'], ui[f'{day}_to'] = '08:00', '17:00'
+        for day in ('friday', 'saturday', 'sunday'):
+            ui[f'{day}_from'], ui[f'{day}_to'] = '', ''
+        ui.update(kwargs)
+        self._save(ui)
+        return self._get(), config.get_camera(1)
+
+    def test_motion_does_not_emulate_motion_with_a_working_schedule(self):
+        ui, camera = self._save_continuous()
+
+        self.assertFalse(camera['emulate_motion'])
+        self.assertTrue(camera['@emulate_motion'])
+        self.assertEqual('continuous', ui['recording_mode'])
+        self.assertEqual('manual', ui['capture_mode'])
+
+    def test_all_frames_with_a_working_schedule(self):
+        ui, camera = self._save_continuous('all-frames')
+
+        self.assertFalse(camera['emulate_motion'])
+        self.assertEqual('all-frames', ui['capture_mode'])
+        self.assertEqual('continuous', ui['recording_mode'])
+
+    def test_motion_emulates_motion_without_a_working_schedule(self):
+        ui, camera = self._save_continuous(working_schedule=False)
+
+        self.assertTrue(camera['emulate_motion'])
+        self.assertEqual('continuous', ui['recording_mode'])
+
+    def test_motion_emulates_motion_with_motion_detection_off(self):
+        # the working schedule only switches motion detection when it is on
+        ui, camera = self._save_continuous(motion_detection=False)
+
+        self.assertTrue(camera['emulate_motion'])
+        self.assertEqual('continuous', ui['recording_mode'])
+
+
 class TestDefaultMotion(unittest.TestCase):
     def test_control_interface_cannot_change_parameters_by_default(self):
         data = {}

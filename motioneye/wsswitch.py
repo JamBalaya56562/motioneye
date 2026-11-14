@@ -145,12 +145,26 @@ async def _check_ws() -> None:
             not now_during and working_schedule_type == 'outside'
         )
 
-        if _ws_state.get(camera_id) == must_be_enabled:
-            continue  # set already, or changed manually since
-
-        motion_detection_resp = await motionctl.get_motion_detection(camera_id)
-        error = await _switch_motion_detection_status(
-            camera_id, must_be_enabled, working_schedule_type, motion_detection_resp
+        # motion does not pause emulated motion, so continuous recording keeps a
+        # user event going during the schedule instead (#1630)
+        continuous = bool(camera_config.get('@emulate_motion')) and not (
+            camera_config.get('emulate_motion')
         )
-        if not error:  # otherwise tried again next time
+
+        # otherwise set already, or changed manually since
+        if _ws_state.get(camera_id) != must_be_enabled:
+            motion_detection_resp = await motionctl.get_motion_detection(camera_id)
+            error = await _switch_motion_detection_status(
+                camera_id, must_be_enabled, working_schedule_type, motion_detection_resp
+            )
+            if not error and continuous and not must_be_enabled:
+                error = await motionctl.trigger_action(camera_id, 'eventend')
+
+            if error:
+                continue  # tried again next time
+
             _ws_state[camera_id] = must_be_enabled
+
+        if continuous and must_be_enabled:
+            # each time, as motion ends the user event when it restarts the camera
+            await motionctl.trigger_action(camera_id, 'eventstart')
