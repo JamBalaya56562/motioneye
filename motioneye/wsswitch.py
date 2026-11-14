@@ -46,41 +46,52 @@ def start() -> None:
     logging.info(_('wsswitch komenciĝis'))
 
 
+def _day_range(ws_day: str) -> tuple[int, int] | None:
+    """The minutes of the day a working schedule day starts and ends at, or None
+    when the day is disabled or invalid."""
+    parts = ws_day.split('-')
+    if len(parts) != 2:
+        return None  # invalid ws
+
+    if not parts[0] or not parts[1]:
+        return None  # ws disabled for this day
+
+    _from = parts[0].split(':')
+    to = parts[1].split(':')
+    if len(_from) != 2 or len(to) != 2:
+        return None  # invalid ws
+
+    try:
+        return int(_from[0]) * 60 + int(_from[1]), int(to[0]) * 60 + int(to[1])
+
+    except ValueError:
+        return None  # invalid ws
+
+
 def _during_working_schedule(now, working_schedule) -> bool:
     parts = working_schedule.split('|')
     if len(parts) < 7:
         return False  # invalid ws
 
-    ws_day = parts[now.weekday()]
-    parts = ws_day.split('-')
-    if len(parts) != 2:
-        return False  # invalid ws
+    minute = now.hour * 60 + now.minute
+    today = _day_range(parts[now.weekday()])
+    if today:
+        start, end = today
+        if start <= end:
+            if start <= minute <= end:
+                return True
 
-    _from, to = parts
-    if not _from or not to:
-        return False  # ws disabled for this day
+        elif minute >= start:  # e.g. 22:00-06:00, which goes on the next day
+            return True
 
-    _from = _from.split(':')
-    to = to.split(':')
-    if len(_from) != 2 or len(to) != 2:
-        return False  # invalid ws
+    # the part after midnight of a day that goes on the next day
+    yesterday = _day_range(parts[(now.weekday() - 1) % 7])
+    if yesterday:
+        start, end = yesterday
+        if start > end and minute <= end:
+            return True
 
-    try:
-        from_h = int(_from[0])
-        from_m = int(_from[1])
-        to_h = int(to[0])
-        to_m = int(to[1])
-
-    except ValueError:
-        return False  # invalid ws
-
-    if now.hour < from_h or now.hour > to_h:
-        return False
-
-    if now.hour == from_h and now.minute < from_m:
-        return False
-
-    return not (now.hour == to_h and now.minute > to_m)
+    return False
 
 
 async def _switch_motion_detection_status(
