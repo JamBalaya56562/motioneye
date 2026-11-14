@@ -119,5 +119,58 @@ class WorkingScheduleTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(2, self.set.call_count)
 
 
+class DuringWorkingScheduleTest(unittest.TestCase):
+    MONDAY = datetime(2026, 11, 16)
+
+    def _during(self, days, day, time):
+        # days: the ranges from monday on, day: 0 for monday, 1 for tuesday...
+        schedule = '|'.join(days + [''] * (7 - len(days)))
+        hour, minute = time.split(':')
+        now = self.MONDAY.replace(
+            day=self.MONDAY.day + day, hour=int(hour), minute=int(minute), second=30
+        )
+        return wsswitch._during_working_schedule(now, schedule)
+
+    def test_a_range_within_the_day(self):
+        days = ['08:00-17:00']
+        self.assertEqual(
+            [False, True, True, False],
+            [self._during(days, 0, t) for t in ('07:59', '08:00', '17:00', '17:01')],
+        )
+
+    def test_a_range_over_midnight_goes_on_the_next_day(self):
+        days = ['22:00-06:00']
+        self.assertEqual(
+            [False, True, True],
+            [self._during(days, 0, t) for t in ('21:59', '22:00', '23:59')],
+        )
+        self.assertEqual(
+            [True, True, False],
+            [self._during(days, 1, t) for t in ('00:00', '06:00', '06:01')],
+        )
+
+    def test_the_night_before_a_day_belongs_to_the_day_before(self):
+        days = ['22:00-06:00']
+        self.assertFalse(self._during(days, 0, '03:00'))  # sunday is disabled
+
+        days = [''] * 6 + ['22:00-06:00']
+        self.assertTrue(self._during(days, 0, '03:00'))  # from sunday night
+
+    def test_both_ranges_of_a_day(self):
+        days = ['22:00-06:00', '20:00-04:00']
+        self.assertEqual(
+            [True, False, True, True],
+            [self._during(days, 1, t) for t in ('05:00', '12:00', '21:00', '23:00')],
+        )
+
+    def test_disabled_and_invalid_days(self):
+        for days in ([''], ['08:00'], ['8-17'], ['ab:00-17:00'], ['08:00-']):
+            with self.subTest(days=days):
+                self.assertFalse(self._during(days, 0, '12:00'))
+                self.assertFalse(self._during(days, 1, '03:00'))
+
+        self.assertFalse(wsswitch._during_working_schedule(self.MONDAY, '00:00-23:59'))
+
+
 if __name__ == '__main__':
     unittest.main()
