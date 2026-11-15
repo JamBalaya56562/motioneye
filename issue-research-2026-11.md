@@ -163,3 +163,7 @@ Grouped by area. Each needs one decision before code.
 #541 (multi-user), #675 (global defaults), #850 (camera groups), #1054 (activity log), #1058 (counts in the banner), #1287 (time-range browser), #1466 (motion per camera), #1850 (Drive link in the email), #1966 (watch while recording), #2157 (synced playback), #2598 (calibration library), #2631 (RTSP restreaming), #3063 (ONVIF; the eventstart/eventend actions are a workaround).
 
 #3299 is MichaIng's meta topic; nothing for us.
+
+## Questions posted
+
+2026-11-15, first five (user OK; drafts re-read against the issues, unverifiable claims dropped): #2826 (Embed URL scales; can Wallpaper Engine send a #3524 key? iframe credentials in the URL may be blocked, not claimed), #2857 (V4L2 white balance control), #2955 (palette=8 kept from #3551), #2969 (non-capture node; #2972 is a different problem), #2372 (current add-on; keyframe interval, stated as "may"). Waiting; stale close if silent. Next five: #2753, #1902, #2033, #2077, #1463.
