@@ -194,3 +194,7 @@ User asked to reopen closes that only cited a missing motion feature now coming 
 - **#2153 reopened** (user OK): master `text_params` has `method freetype`, `ft_font`, `ft_size`, `ft_color` (`draw.cpp:1225-1258`). Our close comment kept, `Edit:` line appended. Labels −question −legacy motionEye +feature.
 - #1938 left closed (user): master `libcam_params` has `afmode`/`aftrigger`/`lensposition` (`libcam.cpp:234-254`), but the reporter's Arducam B0176 may not use libcamera autofocus (unverified).
 - Stay closed: #941 (framerate still ≥ 2, `conf.cpp:768`), #2130 (no ms specifier in `mystrftime_base`), #1355, #538, #2192, #179, #2115 (`stream_allcam` combines, does not rotate), #1254 (our reason was mjpgclient).
+
+### 2026-11-15: #3559 review by Marijn0 (issuecomment-6893297079)
+- Two more bugs on the Clean Cloud path, both confirmed: `_delete_file` compared the bytes answer with `''` (count always 0); the 401 retry in `GoogleDrive._request` dropped `method` (DELETE retried as GET).
+- Fixed in c7119294 as a second commit; fake now answers bytes; new test `TestExpiredAccessToken`. Docker CI 3.9: 613 passed; with the first commit only, 2 tests fail. Replied issuecomment-6893413241, PR body updated.
