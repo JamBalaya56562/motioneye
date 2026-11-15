@@ -210,3 +210,4 @@ User asked to reopen closes that only cited a missing motion feature now coming 
 - Test app "motionEye test" (app folder, scopes files.metadata.read + files.content.write) on the user's new Dropbox account; app key 5akhh9n1r7l8flz (public by design). Setting "Allow public clients (Implicit Grant & PKCE)" is on by default.
 - On: exchange with client_id+code+code_verifier, refresh with refresh_token+client_id, upload + list_folder all 200. Off: authorize link -> pkce_disallowed; an existing refresh token still refreshed. Switched back on.
 - Replied issuecomment-6897197898. Script: scratchpad dbx/pkce.py.
+- Google token endpoint with motionEye's client and fake code/refresh token: without secret -> 400 invalid_request "client_secret is missing."; with secret -> 400 invalid_grant. Docs say optional, our client needs it. Comment 6897197898 edited in place to say so.
