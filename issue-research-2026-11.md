@@ -201,3 +201,4 @@ User asked to reopen closes that only cited a missing motion feature now coming 
 
 ### 2026-11-15: #2372 closed (not planned)
 - salzrat: doorcam died, cannot check. Closed with issuecomment-6894241225; labels unchanged, no milestone.
+- MichaIng asked about keyframes (issuecomment-6894243158). Replied issuecomment-6896898020: motion 4.7.1 ffmpeg_passthru_put starts the passthrough movie at the oldest keyframe in pktarray, sized about 2x the pre-capture images (netcam_rtsp_pktarray_resize). Read in source, not run.
