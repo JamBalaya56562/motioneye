@@ -202,6 +202,7 @@ User asked to reopen closes that only cited a missing motion feature now coming 
 ### 2026-11-15: #2372 closed (not planned)
 - salzrat: doorcam died, cannot check. Closed with issuecomment-6894241225; labels unchanged, no milestone.
 - MichaIng asked about keyframes (issuecomment-6894243158). Replied issuecomment-6896898020: motion 4.7.1 ffmpeg_passthru_put starts the passthrough movie at the oldest keyframe in pktarray, sized about 2x the pre-capture images (netcam_rtsp_pktarray_resize). Read in source, not run.
+- MichaIng (issuecomment-6899679649) guessed motion cannot map buffer packets to images. Replied issuecomment-6902276960 (user OK): images carry the packet number (img_data->idnbr_norm, netcam_rtsp.c:2292) and ffmpeg_passthru_put writes up to it (ffmpeg.c:1136-1161), but starts at the oldest keyframe at or before it, not the nearest; no reason given in source. Read in source, not run.
 
 ### 2026-11-16: #2887 PR #3560
 - MichaIng (issuecomment-6895167809) agreed to motion defaults for new cameras. PR #3560 (fix/motion-buffer-defaults): minimum_motion_frames 20->1, pre_capture 1->0 in _set_default_motion_camera; TestDefaultMotionBuffer. Docker CI 3.9: 615 passed; old code fails the new-camera test.
