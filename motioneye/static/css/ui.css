@@ -260,6 +260,7 @@ div.slider-bar {
     top: 7px;
     left: -5px;
     width: 100%;
+    touch-action: pan-y; /* a horizontal finger drag moves the slider */
 }
 
 div.slider-bar-inside {

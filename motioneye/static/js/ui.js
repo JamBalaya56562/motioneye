@@ -130,7 +130,8 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             cursorLabel.html('' + val.toFixed(decimals) + unit);
         }
 
-        function bodyMouseMove(e) {
+        /* pointer events, so that a finger drags the slider as the mouse does */
+        function barPointerMove(e) {
             if (bar[0]._mouseDown) {
                 var offset = bar.offset();
                 var pos = e.pageX - offset.left - 5;
@@ -143,11 +144,12 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             }
         }
 
-        function bodyMouseUp(e) {
-            bar[0]._mouseDown = false;
+        function barPointerUp(e) {
+            if (!bar[0]._mouseDown) {
+                return;
+            }
 
-            $('body').off('mousemove', bodyMouseMove);
-            $('body').off('mouseup', bodyMouseUp);
+            bar[0]._mouseDown = false;
 
             cursorLabel.css('display', 'none');
             adjusting = false;
@@ -155,22 +157,41 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             $this.trigger('change');
         }
 
-        bar.mousedown(function (e) {
-            if (e.which > 1) {
+        var valueBefore = null;
+
+        bar[0].addEventListener('pointerdown', function (e) {
+            if (e.button > 0) {
                 return;
             }
 
             this._mouseDown = true;
-            bodyMouseMove(e);
-
-            $('body').mousemove(bodyMouseMove);
-            $('body').mouseup(bodyMouseUp);
+            valueBefore = $this.val();
+            /* the moves outside of the bar come to it until the button or the
+             * finger is released */
+            this.setPointerCapture(e.pointerId);
+            barPointerMove(e);
 
             slider.focus();
             cursorLabel.css('display', 'inline-block');
             adjusting = true;
 
-            return false;
+            e.preventDefault();
+        });
+        bar[0].addEventListener('pointermove', barPointerMove);
+        bar[0].addEventListener('pointerup', barPointerUp);
+        /* the browser took a touch over, e.g. to scroll with a vertical swipe
+         * that started on the slider, which leaves the value as it was */
+        bar[0].addEventListener('pointercancel', function (e) {
+            if (!bar[0]._mouseDown) {
+                return;
+            }
+
+            bar[0]._mouseDown = false;
+            $this.val(valueBefore);
+            input2slider();
+
+            cursorLabel.css('display', 'none');
+            adjusting = false;
         });
 
         /* ticks */
