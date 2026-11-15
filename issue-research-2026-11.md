@@ -205,3 +205,8 @@ User asked to reopen closes that only cited a missing motion feature now coming 
 
 ### 2026-11-16: #2887 PR #3560
 - MichaIng (issuecomment-6895167809) agreed to motion defaults for new cameras. PR #3560 (fix/motion-buffer-defaults): minimum_motion_frames 20->1, pre_capture 1->0 in _set_default_motion_camera; TestDefaultMotionBuffer. Docker CI 3.9: 615 passed; old code fails the new-camera test.
+
+### 2026-11-16: #1958 PKCE check
+- Test app "motionEye test" (app folder, scopes files.metadata.read + files.content.write) on the user's new Dropbox account; app key 5akhh9n1r7l8flz (public by design). Setting "Allow public clients (Implicit Grant & PKCE)" is on by default.
+- On: exchange with client_id+code+code_verifier, refresh with refresh_token+client_id, upload + list_folder all 200. Off: authorize link -> pkce_disallowed; an existing refresh token still refreshed. Switched back on.
+- Replied issuecomment-6897197898. Script: scratchpad dbx/pkce.py.
