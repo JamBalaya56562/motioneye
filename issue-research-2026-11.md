@@ -167,3 +167,11 @@ Grouped by area. Each needs one decision before code.
 ## Questions posted
 
 2026-11-15, first five (user OK; drafts re-read against the issues, unverifiable claims dropped): #2826 (Embed URL scales; can Wallpaper Engine send a #3524 key? iframe credentials in the URL may be blocked, not claimed), #2857 (V4L2 white balance control), #2955 (palette=8 kept from #3551), #2969 (non-capture node; #2972 is a different problem), #2372 (current add-on; keyframe interval, stated as "may"). Waiting; stale close if silent. Next five: #2753, #1902, #2033, #2077, #1463.
+
+2026-11-15, second set (user OK): #2753 (curl headers with and without `-A "JUAN ProductCheck"`; exact Content-Type match in `utils/mjpeg.py`), #1902 (encoding is inside motion; H.264/V4L2M2M since 0.44.0, `main.html:883` on the tag), #2033 ("failed to upload file" + traceback, `uploadservices.py:1438-1442`), #2077 (Simple MJPEG camera is loaded by the browser directly, `main.js:5630-5632`).
+
+#1463 reproduced before posting (user asked to check first): a test against dev 1e039f66 in python:3.9-slim (scratchpad `r1463/tests/test_r1463.py`; only `GoogleDrive._request` faked as a folder tree; the real `uploadservices.clean_cloud` and `GoogleDrive.clean_cloud` run):
+- Upload Location `/motioneye`, Drive `2026-11-10`, `2026-11-14`, local `2026-11-14` → Drive keeps `motioneye/2026-11-14`. Correct.
+- Upload Location `/motioneye/Camera1`, same days → Drive keeps only `motioneye`: `Camera1` with every day, today's included, is deleted. **Bug**: `clean_cloud` takes only the first part of the location (`next(p.strip() for p in cloud_dir_user.split('/') ...)`) and compares its children with the local day folders.
+- Two cameras sharing `/motioneye`: camera 1's cleanup deletes `2026-11-12`, which camera 2 may still keep locally. A second, smaller problem (inferred that a user would share a location; observed that it deletes).
+→ #1463 moves to READY: resolve the whole Upload Location (`_get_folder_id_by_path`, without creating it), then compare its children. The repro test becomes the regression test. Docker only.
