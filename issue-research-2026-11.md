@@ -211,3 +211,11 @@ User asked to reopen closes that only cited a missing motion feature now coming 
 - On: exchange with client_id+code+code_verifier, refresh with refresh_token+client_id, upload + list_folder all 200. Off: authorize link -> pkce_disallowed; an existing refresh token still refreshed. Switched back on.
 - Replied issuecomment-6897197898. Script: scratchpad dbx/pkce.py.
 - Google token endpoint with motionEye's client and fake code/refresh token: without secret -> 400 invalid_request "client_secret is missing."; with secret -> 400 invalid_grant. Docs say optional, our client needs it. Comment 6897197898 edited in place to say so.
+
+### 2026-11-16: #2710 branch enh/smb-without-root (held, no PR yet)
+- MichaIng chose the helper + sudoers way (issuecomment-6895436527). Branch pushed to the fork at 6ede149b; open the PR once open PRs drop.
+- Helper motioneye/extra/motioneye-smb (installed by linux_init to /usr/local/sbin, sudoers.d/motioneye checked with visudo). Allows only <smb_mount_root>/motioneye_* (root must be root-owned, not g/o-writable, no symlink), options guest/username/vers/sec, adds uid/gid of SUDO_UID/GID, password via stdin -> PASSWD.
+- Evidence: Docker CI 3.9 620 passed, shellcheck incl. the helper; helper refusals checked in a container (uid=0, credentials=, /etc, .., subdir, -o, symlink, writable root, non-root caller); real mount in a privileged container (user + guest share, file owned by motion uid, umount removes the mount point).
+- Pi 5 (systemd unit with ProtectSystem=full etc.): mount through sudo inside the service namespace, motion snapshots land on the share, stop unmounts, nobody cannot sudo the helper. Root mode (User=root drop-in) still mounts.
+- Found: in root mode a password with a comma fails (mount error(22)), same code as dev; the helper path takes it via PASSWD, so it works there. Separate issue if wanted.
+- Pi restored (configs, smb.conf), branch build still installed in /opt/motioneye; shut down.
