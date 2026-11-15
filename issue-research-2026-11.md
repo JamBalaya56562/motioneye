@@ -219,3 +219,8 @@ User asked to reopen closes that only cited a missing motion feature now coming 
 - Pi 5 (systemd unit with ProtectSystem=full etc.): mount through sudo inside the service namespace, motion snapshots land on the share, stop unmounts, nobody cannot sudo the helper. Root mode (User=root drop-in) still mounts.
 - Found: in root mode a password with a comma fails (mount error(22)), same code as dev; the helper path takes it via PASSWD, so it works there. Separate issue if wanted.
 - Pi restored (configs, smb.conf), branch build still installed in /opt/motioneye; shut down.
+
+### 2026-11-16: branch fix/smb-password-comma (held, no PR yet, no issue)
+- Root mode put the SMB password into mount.cifs options; a comma ends it -> mount error(22). Now PASSWD env (empty password still password=). f14eef98 on the fork.
+- Evidence: Docker CI 3.9 616 passed; privileged container with samba, password "pa,ss w": branch mounts, wrong password still refused; dev fails with error(22).
+- No existing issue found (searched "smb password", "mount error(22)"). Overlaps enh/smb-without-root (smbctl._mount and new tests/test_smbctl.py): rebase that one after this merges.
