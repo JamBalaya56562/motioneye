@@ -198,3 +198,6 @@ User asked to reopen closes that only cited a missing motion feature now coming 
 ### 2026-11-15: #3559 review by Marijn0 (issuecomment-6893297079)
 - Two more bugs on the Clean Cloud path, both confirmed: `_delete_file` compared the bytes answer with `''` (count always 0); the 401 retry in `GoogleDrive._request` dropped `method` (DELETE retried as GET).
 - Fixed in c7119294 as a second commit; fake now answers bytes; new test `TestExpiredAccessToken`. Docker CI 3.9: 613 passed; with the first commit only, 2 tests fail. Replied issuecomment-6893413241, PR body updated.
+
+### 2026-11-15: #2372 closed (not planned)
+- salzrat: doorcam died, cannot check. Closed with issuecomment-6894241225; labels unchanged, no milestone.
