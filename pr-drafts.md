@@ -839,3 +839,5 @@ Dropbox (#3128): the released 0.44.0 wheel still has `CLIENT_ID = 'dropbox_clien
 2026-11-17: #3560 merged (dev 90d215e7). fix/motion-buffer-defaults deleted locally and on the fork, commit abandoned; dev@origin moved. No rebase at the user's request (open PRs under review).
 
 2026-11-17: user asked to rebase after all: 18 bookmarks rebased onto dev 90d215e7 without conflicts and pushed (--tracked, no tags); incl. open PRs #3558, #3562-#3565. Local CI not re-run (GitHub CI runs on the PRs).
+
+2026-11-17: #3558 merged (dev e375710d). fix/no-controls-warning deleted locally and on the fork, commit abandoned; dev@origin moved; 17 bookmarks rebased onto it without conflicts and pushed (--tracked). Open PRs: #3562-#3565.
