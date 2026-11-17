@@ -841,3 +841,5 @@ Dropbox (#3128): the released 0.44.0 wheel still has `CLIENT_ID = 'dropbox_clien
 2026-11-17: user asked to rebase after all: 18 bookmarks rebased onto dev 90d215e7 without conflicts and pushed (--tracked, no tags); incl. open PRs #3558, #3562-#3565. Local CI not re-run (GitHub CI runs on the PRs).
 
 2026-11-17: #3558 merged (dev e375710d). fix/no-controls-warning deleted locally and on the fork, commit abandoned; dev@origin moved; 17 bookmarks rebased onto it without conflicts and pushed (--tracked). Open PRs: #3562-#3565.
+
+2026-11-17: #3563 review (MichaIng, discussion_r4593343085): drop check=False. Correct: it replaced the grep `|| true` from 0448979a (2014). 655ac33d removes it; test_a_failing_v4l2_ctl_is_logged (fails on f93506ec). 3.9: 631 passed; enh/libcamera-resolutions restacked (bad44764), 638 passed. Replied discussion_r4593479216. Open from the review body: drop/hardcode shell in utils.call_subprocess (no caller passes it now) — waiting for the user.
