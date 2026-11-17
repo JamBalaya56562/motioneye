@@ -847,3 +847,5 @@ Dropbox (#3128): the released 0.44.0 wheel still has `CLIENT_ID = 'dropbox_clien
 2026-11-17: #3563 review body (shut the door on shell): cc00873f drops `shell` from utils.call_subprocess (shell=False fixed); tests/test_utils/test_call_subprocess.py (2; the TypeError one fails on the old utils). 3.9: 633 passed; enh/libcamera-resolutions restacked (1d87dc26), 640 passed. PR body updated; replied issuecomment-6933510899.
 
 2026-11-17: #3565 approved by zagrim (reporter of #3393; RAID partitions shown). Names mix md-name/md-uuid (also ata/wwn): disks_by_dev/partitions_by_dev are keyed by target, the last by-id link in os.listdir order wins (pre-existing; read in source). Replied issuecomment-6940013251: readable names over UUID ones in a separate PR (to do).
+
+2026-11-17: #3565 merged by the user (dev 1f05eef9). fix/raid-storage deleted locally and on the fork, commit abandoned; 16 bookmarks rebased onto dev and pushed. enh/no-fdisk-in-container conflicted in tests/test_diskctl.py as expected: kept DevByIdDisksTest and FdiskFallbackTest; 3.9: ruff/format/mypy/shellcheck clean, 631 passed.
