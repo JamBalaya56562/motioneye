@@ -225,3 +225,5 @@ User asked to reopen closes that only cited a missing motion feature now coming 
 - Root mode put the SMB password into mount.cifs options; a comma ends it -> mount error(22). Now PASSWD env (empty password still password=). f14eef98 on the fork.
 - Evidence: Docker CI 3.9 616 passed; privileged container with samba, password "pa,ss w": branch mounts, wrong password still refused; dev fails with error(22).
 - No existing issue found (searched "smb password", "mount error(22)"). Overlaps enh/smb-without-root (smbctl._mount and new tests/test_smbctl.py): rebase that one after this merges.
+
+2026-11-17: #2745 (closed 2026-11-12): tperich agreed to archive it, not retested. Replied (thanks; new issue with debug log if it hangs with the current image). Done, no further action.
