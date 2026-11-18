@@ -2380,15 +2380,21 @@ function dict2CameraUi(dict) {
         embedUrl = cameraUrl + 'frame/';
     }
 
+    var remoteUiUrl = null;
     if (dict.proto == 'motioneye') {
         /* cannot tell the mjpg streaming url for a remote motionEye camera */
         mjpgUrl = '';
+        /* the remote motionEye itself, from the camera's own URL there (#1358) */
+        if (dict['device_url']) {
+            remoteUiUrl = dict['device_url'].replace(/\/config\/\d+$/, '/');
+        }
     }
 
 
     $('#streamingSnapshotUrlHtml').data('url', snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlHtml');
     $('#streamingMjpgUrlHtml').data('url', mjpgUrl); markHideIfNull(!mjpgUrl, 'streamingMjpgUrlHtml');
     $('#streamingEmbedUrlHtml').data('url', embedUrl); markHideIfNull(!embedUrl, 'streamingEmbedUrlHtml');
+    $('#streamingRemoteUiUrlHtml a').attr('href', remoteUiUrl || '#'); markHideIfNull(!remoteUiUrl, 'streamingRemoteUiUrlHtml');
 
     /* still images */
     $('#stillImagesEnabledSwitch')[0].checked = dict['still_images']; markHideIfNull('still_images', 'stillImagesEnabledSwitch');
