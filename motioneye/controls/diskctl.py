@@ -227,13 +227,26 @@ def _list_mounts_by_target():
     return mounts_by_target
 
 
+def _by_id_name_rank(entry):
+    """How readable a /dev/disk/by-id/ name is: a device often has several, and
+    the one read last names it, so read the readable ones (e.g. "md-name-...",
+    "ata-...") after the opaque ones (e.g. "md-uuid-...", "wwn-...")."""
+    bus, _, name = entry.partition('-')
+    opaque = (
+        bus == 'wwn'
+        or name.startswith(('uuid-', 'eui.', 'nvme.'))
+        or (bus == 'scsi' and name[:1].isdigit())
+    )
+    return (not opaque, entry)
+
+
 def _list_disks_dev_by_id():
     logging.debug('listing disks using /dev/disk/by-id/')
 
     disks_by_dev = {}
     partitions_by_dev = {}
 
-    for entry in os.listdir('/dev/disk/by-id/'):
+    for entry in sorted(os.listdir('/dev/disk/by-id/'), key=_by_id_name_rank):
         parts = entry.split('-', 1)
         if len(parts) < 2:
             continue
