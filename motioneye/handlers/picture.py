@@ -182,6 +182,21 @@ class PictureHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
 
+    async def head(
+        self,
+        camera_id: str,
+        op,
+        filename: str | None = None,
+        group: str | None = None,
+    ):
+        # answer as GET does, without the body, so that e.g. an app checking a
+        # picture URL gets its status and content type (#165); Tornado leaves the
+        # body out of a HEAD response
+        if op in ('current', 'download', 'preview'):
+            return await self.get(camera_id, op, filename=filename, group=group)
+
+        return super().head(camera_id, op, filename=filename, group=group)
+
     @BaseHandler.auth(prompt=False)
     @BaseHandler.peer_allowed()
     async def current(self, camera_id, retry=0):
