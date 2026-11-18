@@ -54,17 +54,23 @@ def main(parser, args):
     parts = urllib.parse.urlparse(options.url)
     url = options.url
     data = None
+    method = None  # GET, or POST when there is data
+    variant = options.method
+    if variant.startswith('PUT'):
+        # the PUT variants send what the POST ones do (#852)
+        method = 'PUT'
+        variant = 'POST' + variant[3:]
 
-    if options.method == 'POST':
+    if variant == 'POST':
         headers['Content-Type'] = 'text/plain'
         data = b''
 
-    elif options.method == 'POSTf':  # form url-encoded
+    elif variant == 'POSTf':  # form url-encoded
         headers['Content-Type'] = 'application/x-www-form-urlencoded'
         data = parts.query.encode()
         url = options.url.split('?')[0]
 
-    elif options.method == 'POSTj':  # json
+    elif variant == 'POSTj':  # json
         headers['Content-Type'] = 'application/json'
         data = urllib.parse.parse_qs(parts.query)
         data = {k: v[0] for (k, v) in list(data.items())}
@@ -74,7 +80,7 @@ def main(parser, args):
     else:  # GET
         pass
 
-    request = urllib.request.Request(url, data, headers=headers)
+    request = urllib.request.Request(url, data, headers=headers, method=method)
     try:
         utils.urlopen(
             request, timeout=settings.REMOTE_REQUEST_TIMEOUT, verify=options.verify
