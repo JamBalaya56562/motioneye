@@ -20,11 +20,12 @@ import functools
 import logging
 import re
 import socket
+import ssl
 from contextlib import suppress
 
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
-from tornado.iostream import IOStream
+from tornado.iostream import IOStream, SSLIOStream
 
 from motioneye import settings
 from motioneye.utils import (
@@ -33,13 +34,23 @@ from motioneye.utils import (
     cast_future,
     pretty_error_message,
 )
-from motioneye.utils.http import RtspUrl
+from motioneye.utils.http import RtspsUrl, RtspUrl
 
 __all__ = ('test_rtsp_url',)
 
 
+def _tls_context() -> ssl.SSLContext:
+    # like motion, which leaves certificates unchecked, as cameras mostly come with a
+    # self-signed one
+    context = ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+    return context
+
+
 def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
-    url_obj = RtspUrl.from_dict(data)
+    tls = data.get('scheme') == 'rtsps'
+    url_obj = (RtspsUrl if tls else RtspUrl).from_dict(data)
     url = str(url_obj)
 
     called = [False]
@@ -66,9 +77,11 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
-        stream = IOStream(s)
+        stream = SSLIOStream(s, ssl_options=_tls_context()) if tls else IOStream(s)
         stream.set_close_callback(on_close)
-        f = stream.connect((url_obj.host, int(url_obj.port)))
+        f = stream.connect(
+            (url_obj.host, int(url_obj.port)), server_hostname=url_obj.host
+        )
         f.add_done_callback(on_connect)
 
         timeout[0] = io_loop.call_later(
@@ -231,8 +244,13 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
         else:
             identifier = ''
 
-        cameras.append({'id': 'tcp', 'name': f'{identifier}RTSP/TCP Camera'})
-        cameras.append({'id': 'udp', 'name': f'{identifier}RTSP/UDP Camera'})
+        if tls:
+            # FFmpeg, which motion uses, takes RTSPS over TCP only
+            cameras.append({'id': 'tcp', 'name': f'{identifier}RTSPS Camera'})
+
+        else:
+            cameras.append({'id': 'tcp', 'name': f'{identifier}RTSP/TCP Camera'})
+            cameras.append({'id': 'udp', 'name': f'{identifier}RTSP/UDP Camera'})
 
         future.set_result(GetCamerasResponse(cameras, None))
 

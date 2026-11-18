@@ -521,7 +521,7 @@ class ConfigHandler(BaseHandler):
                 )
                 return self._handle_list_cameras_response(resp)
 
-            if scheme == 'rtsp':
+            if scheme in ['rtsp', 'rtsps']:
                 resp = await test_rtsp_url(self.get_all_arguments())
                 return self._handle_list_cameras_response(resp)
 

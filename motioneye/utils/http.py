@@ -4,7 +4,7 @@ import inspect
 from dataclasses import dataclass
 from typing import Any
 
-__all__ = ('MjpegUrl', 'RtmpUrl', 'RtspUrl')
+__all__ = ('MjpegUrl', 'RtmpUrl', 'RtspUrl', 'RtspsUrl')
 
 
 @dataclass
@@ -56,6 +56,12 @@ class RtmpUrl(StreamUrl):
 class RtspUrl(StreamUrl):
     scheme: str = 'rtsp'
     port: str = '554'
+
+
+@dataclass
+class RtspsUrl(StreamUrl):
+    scheme: str = 'rtsps'
+    port: str = '322'
 
 
 @dataclass
