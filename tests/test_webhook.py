@@ -74,6 +74,32 @@ class WebhookTest(unittest.TestCase):
         error = f'ERROR:root:failed to call webhook: <urlopen error {reason}>'
         self.assertEqual([error], logs.output)
 
+    def test_put_sends_what_post_does(self):
+        # e.g. openHAB's REST API takes a state change as PUT (#852)
+        for method, url, data, content_type in (
+            ('PUT', _URL, b'', 'text/plain'),
+            (
+                'PUTf',
+                'https://hooks.example/notify',
+                b'a=1',
+                'application/x-www-form-urlencoded',
+            ),
+            ('PUTj', 'https://hooks.example/notify', b'{"a": "1"}', 'application/json'),
+        ):
+            with self.subTest(method):
+                self.urlopen.reset_mock()
+                request = self._call(method, _URL).args[0]
+
+                self.assertEqual('PUT', request.get_method())
+                self.assertEqual(url, request.full_url)
+                self.assertEqual(data, request.data)
+                self.assertEqual(content_type, request.get_header('Content-type'))
+
+    def test_post_is_still_post(self):
+        request = self._call('POSTf', _URL).args[0]
+
+        self.assertEqual('POST', request.get_method())
+
 
 if __name__ == '__main__':
     unittest.main()
