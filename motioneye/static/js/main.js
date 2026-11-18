@@ -985,6 +985,14 @@ function initUI() {
 
         clearMask(cameraId);
     });
+    $('div#motionMaskInvertButton, div#privacyMaskInvertButton').on('click', function () {
+        var cameraId = $('#cameraSelect').val();
+        if (!cameraId) {
+            return;
+        }
+
+        invertMask(cameraId);
+    });
 }
 
 function addVideoControl(name, min, max, step) {
@@ -1422,7 +1430,7 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
 
     var selectedCameraId = $('#cameraSelect').val();
     if (selectedCameraId && (!cameraId || cameraId == selectedCameraId)) {
-        $('#'+maskClass+'MaskSaveButton, #'+maskClass+'MaskClearButton').css('display', 'inline-block');
+        $('#'+maskClass+'MaskSaveButton, #'+maskClass+'MaskClearButton, #'+maskClass+'MaskInvertButton').css('display', 'inline-block');
         $('#'+maskClass+'MaskEditButton').css('display', 'none');
     }
 
@@ -1443,7 +1451,7 @@ function disableMaskEdit(maskClass) {
             disableMaskOverlay();
         }
         $('#'+maskClass+'MaskEditButton').css('display', 'inline-block');
-        $('#'+maskClass+'MaskSaveButton, #'+maskClass+'MaskClearButton').css('display', 'none');
+        $('#'+maskClass+'MaskSaveButton, #'+maskClass+'MaskClearButton, #'+maskClass+'MaskInvertButton').css('display', 'none');
     }
 }
 
@@ -1466,6 +1474,15 @@ function clearMask(cameraId) {
     var maskDiv = cameraFrame.find('div.camera-overlay-mask');
 
     maskDiv.find('div.mask-element').removeClass('on');
+    maskDiv[0]._matrixToMaskLines();
+}
+
+function invertMask(cameraId) {
+    /* masked areas become free and the other way round (#926) */
+    var cameraFrame = getCameraFrame(cameraId);
+    var maskDiv = cameraFrame.find('div.camera-overlay-mask');
+
+    maskDiv.find('div.mask-element').toggleClass('on');
     maskDiv[0]._matrixToMaskLines();
 }
 
