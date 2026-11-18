@@ -44,6 +44,42 @@ docker run \
 
 Use `docker volume ls` to view existing volumes.
 
+## Camera devices
+
+A container sees no camera devices of the host unless they are passed to it.
+To pass every `/dev/video*` node there is now, add one `--device` for each:
+
+```bash
+docker run \
+  $(for d in /dev/video*; do printf -- '--device %s ' "$d"; done) \
+  ...
+```
+
+To also see cameras plugged in later, without listing them, allow all video
+devices (character devices with the major number 81) and bind the host's
+`/dev` instead. This gives the container the host's other device nodes as well,
+though it may only open the video ones:
+
+```bash
+docker run \
+  --device-cgroup-rule='c 81:* rmw' \
+  -v /dev:/dev \
+  ...
+```
+
+With Docker Compose, `docker compose` reads `docker-compose.override.yml` next
+to `docker-compose.yml` by itself. List the devices under `devices:` there, as
+in the example override file, or allow them all:
+
+```yaml
+services:
+  motioneye:
+    device_cgroup_rules:
+      - "c 81:* rmw"
+    volumes:
+      - /dev:/dev
+```
+
 ## Running as a non-root user
 
 By default, motionEye and motion run as root inside the container, hence their
