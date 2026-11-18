@@ -292,5 +292,73 @@ class FdiskFallbackTest(unittest.TestCase):
         self.call.assert_called_once_with(['fdisk', '-l'])
 
 
+class DevByIdNamesTest(unittest.TestCase):
+    """A device with several /dev/disk/by-id/ names is named by a readable one,
+    whatever the order of the listing (#3565)."""
+
+    _BY_ID: ClassVar[dict[str, str]] = {
+        'wwn-0x50025388500e6fda': 'sdd',
+        'wwn-0x50025388500e6fda-part1': 'sdd1',
+        'ata-Samsung_SSD_860_S3Z9NB0K': 'sdd',
+        'ata-Samsung_SSD_860_S3Z9NB0K-part1': 'sdd1',
+        'md-uuid-89d92cf3:bcf1561e:99e2d1a6:d33176c1': 'md124',
+        'md-name-host:project': 'md124',
+        'nvme-eui.0025385b71b01234': 'nvme0n1',
+        'nvme-Samsung_SSD_980_1TB_S64ANS0T': 'nvme0n1',
+    }
+
+    def _names(self, entries):
+        with (
+            patch('motioneye.controls.diskctl.os.listdir', return_value=entries),
+            patch(
+                'motioneye.controls.diskctl.os.path.realpath',
+                side_effect=lambda p: '/dev/' + self._BY_ID[p.split('/')[-1]],
+            ),
+        ):
+            disks = diskctl._list_disks_dev_by_id()
+
+        return {
+            d['target']: (d['vendor'], [p['vendor'] for p in d['partitions']])
+            for d in disks
+        }
+
+    def test_readable_names_in_either_order(self):
+        expected = {
+            '/dev/sdd': ('Samsung', ['Samsung']),
+            '/dev/md124': ('name-host:project', ['name-host:project']),
+            '/dev/nvme0n1': ('Samsung', ['Samsung']),
+        }
+        entries = list(self._BY_ID)
+
+        self.assertEqual(expected, self._names(entries))
+        self.assertEqual(expected, self._names(entries[::-1]))
+
+    def test_the_devices_of_the_report_all_get_readable_names(self):
+        # the list of #3565's review: partitions 9 and 10 of the same SSD showed
+        # its WWN, and two RAID arrays their UUID
+        by_id = {}
+        for part in (5, 8, 9, 10):
+            by_id[f'ata-Samsung_SSD_870_S5Y1NJ0R-part{part}'] = f'sdd{part}'
+            by_id[f'wwn-0x50025388500e6fda-part{part}'] = f'sdd{part}'
+        for md in (123, 124, 125, 126, 127):
+            by_id[f'md-name-hostname:{md - 123}'] = f'md{md}'
+            by_id[f'md-uuid-{md:08x}:521b811c:0572a3a5:13bff8ea'] = f'md{md}'
+
+        with patch.dict(self._BY_ID, by_id, clear=True):
+            for entries in (list(by_id), list(by_id)[::-1], sorted(by_id)):
+                names = self._names(entries)
+
+                self.assertEqual(
+                    {'Samsung'}
+                    | {f'name-hostname:{md - 123}' for md in range(123, 128)},
+                    {vendor for _, vendors in names.values() for vendor in vendors},
+                )
+
+    def test_an_opaque_name_is_used_when_there_is_no_other(self):
+        uuid = 'uuid-89d92cf3:bcf1561e:99e2d1a6:d33176c1'
+
+        self.assertEqual({'/dev/md124': (uuid, [uuid])}, self._names([f'md-{uuid}']))
+
+
 if __name__ == '__main__':
     unittest.main()
