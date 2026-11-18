@@ -3,6 +3,7 @@ import subprocess
 import unittest
 from shutil import rmtree
 from tempfile import mkdtemp
+from typing import ClassVar
 from unittest.mock import patch
 
 from motioneye import settings, utils
@@ -246,6 +247,67 @@ class V4l2CtlResolutionsTest(unittest.TestCase):
         )
         v4l2ctl._resolutions_cache.clear()
         self.assertEqual(self._list('')[0], resolutions)
+
+
+def _info(*caps):
+    # what v4l2-ctl --info prints, with the device node's own capabilities last
+    return (
+        'Driver Info:\n\tDriver name      : uvcvideo\n'
+        '\tCapabilities     : 0x84a00001\n\t\tVideo Capture\n\t\tMetadata Capture\n'
+        '\tDevice Caps      : 0x04200001\n' + ''.join(f'\t\t{c}\n' for c in caps)
+    )
+
+
+class V4l2CtlCaptureDevicesTest(unittest.TestCase):
+    """Only the device nodes that capture video are offered (#2969)."""
+
+    LIST = (
+        'USB Camera: USB Camera (usb-0000:01:00.0-1.2):\n'
+        '\t/dev/video0\n\t/dev/video1\n\t/dev/media0\n\n'
+        'pispbe (platform:1000880000.pisp_be):\n'
+        '\t/dev/video20\n\t/dev/video31\n\n'
+    )
+    INFO: ClassVar[dict[str, str]] = {
+        '/dev/video0': _info('Video Capture', 'Streaming', 'Extended Pix Format'),
+        '/dev/video1': _info('Metadata Capture', 'Streaming'),
+        '/dev/video20': _info('Video Output Multiplanar', 'Streaming'),
+        '/dev/video31': _info('Video Capture Multiplanar', 'Streaming'),
+    }
+
+    def _devices(self, info):
+        def call(cmd, **kwargs):
+            if cmd == ['v4l2-ctl', '--list-devices']:
+                return self.LIST
+
+            return info(cmd[2])
+
+        with (
+            patch.object(utils, 'call_subprocess', side_effect=call) as calls,
+            patch.object(v4l2ctl, 'find_persistent_device', side_effect=lambda d: d),
+        ):
+            devices = v4l2ctl.list_devices()
+
+        return devices, [c.args[0] for c in calls.call_args_list]
+
+    def test_only_capture_nodes_are_listed(self):
+        devices, commands = self._devices(self.INFO.get)
+
+        self.assertEqual(
+            [('/dev/video0', '/dev/video0', 'USB Camera: USB Camera')], devices
+        )
+        # a media controller is not asked
+        self.assertNotIn(['v4l2-ctl', '-d', '/dev/media0', '--info'], commands)
+
+    def test_a_node_that_cannot_be_asked_is_offered(self):
+        def info(device):
+            raise subprocess.CalledProcessError(1, 'v4l2-ctl')
+
+        devices, _ = self._devices(info)
+
+        self.assertEqual(
+            ['/dev/video0', '/dev/video1', '/dev/video20', '/dev/video31'],
+            [d[0] for d in devices],
+        )
 
 
 if __name__ == '__main__':

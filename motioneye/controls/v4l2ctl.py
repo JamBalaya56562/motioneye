@@ -62,6 +62,10 @@ def list_devices():
     for line in output.split('\n'):
         if line.startswith('\t'):
             device = line.strip()
+            if not _is_capture_device(device):
+                logging.debug(f'skipping {name}: {device}, which captures no video')
+                continue
+
             persistent_device = find_persistent_device(device)
             devices.append((device, persistent_device, name))
 
@@ -75,6 +79,28 @@ def list_devices():
     _ctrls_cache = {}
 
     return devices
+
+
+def _is_capture_device(device):
+    # e.g. a webcam's metadata node, a codec or an ISP node, or a media
+    # controller, none of which motion can capture from (#2969)
+    if not device.startswith('/dev/video'):
+        return False
+
+    try:
+        output = utils.call_subprocess(
+            ['v4l2-ctl', '-d', device, '--info'],
+            stderr=subprocess.PIPE,
+            env=utils.libcamera_v4l2_env(),
+        )
+
+    except Exception as e:
+        logging.debug(f'could not tell what {device} can do: {e}')
+        return True  # offered as before
+
+    # the capabilities of the device node, below "Device Caps"
+    caps = utils.make_str(output).split('Device Caps', 1)[-1]
+    return any(line.strip() == 'Video Capture' for line in caps.split('\n'))
 
 
 def list_resolutions(device):
